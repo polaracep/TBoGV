@@ -20,11 +20,11 @@ public class Level
         this.Size = (int)size;
         this.RoomCount = roomCount;
         this.Player = player;
-        List<Room> rL = new List<Room> {
-            new RoomEmpty(new Vector2(10, 10), player),
-            new RoomEmpty(new Vector2(5, 10), player),
-            new RoomEmpty(new Vector2(10, 5), player),
-            new RoomEmpty(new Vector2(5, 5), player),
+        List<Func<Room>> rL = new List<Func<Room>> {
+            () => new RoomEmpty(new Vector2(10, 10), player),
+            () => new RoomEmpty(new Vector2(5, 10), player),
+            () => new RoomEmpty(new Vector2(10, 5), player),
+            () => new RoomEmpty(new Vector2(5, 5), player)
         };
         this.RoomMap = new LevelCreator(rL, 7, StartPos, Player).GenerateLevel();
 
@@ -38,7 +38,7 @@ public class LevelCreator
 {
 
     private List<RoomCandidate> Candidates = new List<RoomCandidate>();
-    private List<Room> RoomList;
+    private List<Func<Room>> RoomFactories;
     private int Size;
     private int RoomCount;
     private Vector2 StartPos;
@@ -46,16 +46,16 @@ public class LevelCreator
     private Player Player;
 
 
-    public LevelCreator(List<Room> roomList, int size, Vector2 startPos, Player player)
+    public LevelCreator(List<Func<Room>> roomFactories, int size, Vector2 startPos, Player player)
     {
         this.Size = size;
-        this.RoomList = roomList;
-        this.RoomCount = roomList.Count;
+        this.RoomFactories = roomFactories;
+        this.RoomCount = roomFactories.Count();
         this.StartPos = startPos;
         this.Player = player;
     }
 
-    private (Vector2 o, Vector2 b) GetOffsetAndSize(RoomCandidate[,] rooms)
+    private (Vector2 offset, Vector2 bounds) GetOffsetAndSize(RoomCandidate[,] rooms)
     {
         int x = 0, y = 0;
         int _x = int.MaxValue, _y = int.MaxValue;
@@ -79,17 +79,20 @@ public class LevelCreator
     public Room[,] GenerateLevel()
     {
         RoomCandidate[,] candidateMap = PopulateCandidates();
-        (Vector2, Vector2) trucSize = GetOffsetAndSize(candidateMap);
+        (Vector2 offset, Vector2 bounds) trucSize = GetOffsetAndSize(candidateMap);
 
-        Room[,] finalMap = new Room[(int)trucSize.Item2.Y, (int)trucSize.Item2.X];
+        Room[,] finalMap = new Room[(int)trucSize.bounds.Y, (int)trucSize.bounds.X];
 
         Random rand = new Random();
-        foreach (RoomCandidate c in candidateMap)
+        foreach (var factory in RoomFactories)
         {
-            if (c == null)
+            Room r = factory();
+            if (r == null)
                 continue;
 
-            Room placing = RoomList[rand.Next(RoomList.Count)];
+
+            // placing.DoorDirections = c.DoorDirections;
+            // placing.Position = c.Position - trucSize.bounds;
 
         }
         return null;
