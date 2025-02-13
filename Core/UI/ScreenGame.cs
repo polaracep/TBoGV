@@ -41,7 +41,7 @@ internal class ScreenGame : Screen
 
         // Play the selected song reference.
         MediaPlayer.Play(Song);
-        MediaPlayer.Volume = 1.0f;
+        MediaPlayer.Volume = 0.01f;
 
         Level one = new Level(player, 7, 10);
     }
@@ -86,15 +86,15 @@ internal class ScreenGame : Screen
             r.Update();
             UI.Update(player, graphics);
             _camera.Update(player.Position + player.Size / 2);
+            if (MediaPlayer.State == MediaState.Paused)
+                MediaPlayer.Resume();
+            else if (MediaPlayer.State == MediaState.Stopped)
+                MediaPlayer.Play(Song);
         }
         else
         {
             inGameMenu.Update(graphics.GraphicsDevice.Viewport, player, mouseState);
-            if (MediaPlayer.State == MediaState.Paused)
-            {
-                MediaPlayer.Resume();
-            }
-            else if (MediaPlayer.State == MediaState.Playing)
+            if (MediaPlayer.State == MediaState.Playing)
             {
                 MediaPlayer.Pause();
             }

@@ -51,6 +51,7 @@ public abstract class Room : IDraw
     }
     public Room(Vector2 dimensions, Vector2 pos, Player p) : this(dimensions, pos, null, p) { }
 
+    public Room(Vector2 dimensions, Player p) : this(dimensions, Vector2.One, p) { }
     /// <summary>
     /// Returns the left-top world position for any tile position
     /// </summary>
