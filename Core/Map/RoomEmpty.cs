@@ -13,8 +13,7 @@ public class RoomEmpty : Room, IDraw
     public override void GenerateRoom()
     {
         base.GenerateRoomBase();
-        this.AddDecorationTile(new TileHeal(), new Vector2(5, 5));
-        this.AddFloorTile(new TileDoor(DoorTypes.BASIC, Directions.LEFT), new Vector2(0, 4));
+        // this.AddDecorationTile(new TileHeal(), new Vector2(5, 5));
         this.GenerateEnemies();
 
         player.Position = this.GetTilePos(Vector2.One);

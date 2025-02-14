@@ -12,7 +12,9 @@ public static class TextureManager
         List<string> names = new List<string>
         {
             "tile",
+            "floor1",
             "wall",
+            "wall1",
             "door",
             "vitek-nobg",
             "vitekElegan",
@@ -25,7 +27,7 @@ public static class TextureManager
             "korenovy_vezen",
             "gymvod",
             "platina",
-			"coin",
+            "coin",
             "whiteSquare",
             "containerBorder",
             "containerWeapon",
@@ -69,26 +71,26 @@ public static class SongManager
 
 public static class FontManager
 {
-	private static Dictionary<string, SpriteFont> fonts = new Dictionary<string, SpriteFont>();
+    private static Dictionary<string, SpriteFont> fonts = new Dictionary<string, SpriteFont>();
 
-	public static void Load(ContentManager content)
-	{
-		List<string> names = new List<string>
-		{
-			"font",
-			"Arial8",
-			"Arial12",
-			"Arial16",
-			"Arial24",
-		};
+    public static void Load(ContentManager content)
+    {
+        List<string> names = new List<string>
+        {
+            "font",
+            "Arial8",
+            "Arial12",
+            "Arial16",
+            "Arial24",
+        };
 
-		foreach (string name in names)
-		{
-			fonts.Add(name, content.Load<SpriteFont>("Fonts/" + name));
-		}
-	}
-	public static SpriteFont GetFont(string name)
-	{
-		return fonts.GetValueOrDefault(name);
-	}
+        foreach (string name in names)
+        {
+            fonts.Add(name, content.Load<SpriteFont>("Fonts/" + name));
+        }
+    }
+    public static SpriteFont GetFont(string name)
+    {
+        return fonts.GetValueOrDefault(name);
+    }
 }

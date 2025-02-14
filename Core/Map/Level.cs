@@ -17,16 +17,18 @@ public class Level
     {
         if (roomStartPos.X > maxSize || roomStartPos.Y > maxSize)
             throw new ArgumentOutOfRangeException("The startPos is not in the level");
-        this.ActiveRoomCoords = roomStartPos;
         this.Size = (int)maxSize;
         this.RoomCount = roomList.Count;
         this.Player = player;
+        roomStartPos = new Vector2((int)(maxSize / 2), (int)(maxSize / 2));
 
-        Room start = new RoomStart(new Vector2(7, 7), roomStartPos, player);
-        roomList.Prepend(start);
-        LevelCreator lC = new LevelCreator(roomList, 7, ActiveRoomCoords, Player);
+        RoomStart start = new RoomStart(new Vector2(7, 7), roomStartPos, player);
+        roomList = roomList.Prepend(start).ToList();
+
+        LevelCreator lC = new LevelCreator(roomList, 7, roomStartPos, Player);
         this.RoomMap = lC.GenerateLevel(out roomStartPos);
         this.ActiveRoom = this.RoomMap[(int)roomStartPos.X, (int)roomStartPos.Y];
+        this.ActiveRoomCoords = roomStartPos;
 
         TileDoor.TileInteract += OnRoomChanged;
         LevelCreator.PrintMap(this.RoomMap);
@@ -74,6 +76,7 @@ public class LevelCreator
         this.Size = size;
         this.Rooms = rooms;
         this.RoomCount = rooms.Count();
+        // this.StartPos = startPos;
         this.StartPos = startPos;
         this.Player = player;
     }
@@ -119,8 +122,9 @@ public class LevelCreator
             Room chosen = Rooms[rand.Next(Rooms.Count())];
             chosen.DoorDirections = c.DoorDirections;
             chosen.Position = c.Position - trucSize.offset;
+            Vector2 newPos = new Vector2((int)c.Position.X - (int)trucSize.offset.X, (int)c.Position.Y - (int)trucSize.offset.Y);
 
-            finalMap[(int)(c.Position.X - trucSize.offset.X), (int)(c.Position.Y - trucSize.offset.Y)] = chosen;
+            finalMap[(int)newPos.X, (int)newPos.Y] = chosen;
             PrintMap(finalMap);
 
         }

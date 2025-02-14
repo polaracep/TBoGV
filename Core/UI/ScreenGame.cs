@@ -29,9 +29,9 @@ internal class ScreenGame : Screen
 
         List<Room> rL = new List<Room> {
             new RoomEmpty(new Vector2(10, 10), player),
-            new RoomEmpty(new Vector2(5, 10), player),
-            new RoomEmpty(new Vector2(10, 5), player),
-            new RoomEmpty(new Vector2(5, 5), player)
+            new RoomEmpty(new Vector2(7, 10), player),
+            new RoomEmpty(new Vector2(10, 7), player),
+            new RoomEmpty(new Vector2(7, 7), player)
         };
 
         CurrentLevel = new Level(player, rL, 6);
