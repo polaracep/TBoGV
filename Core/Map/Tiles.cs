@@ -42,7 +42,7 @@ public class TileFloor : Tile, IDraw
         switch (floor)
         {
             case FloorTypes.BASIC:
-                Sprite = TextureManager.GetTexture("tile");
+                Sprite = TextureManager.GetTexture("floor1");
                 break;
             default:
                 throw new Exception();
@@ -57,7 +57,7 @@ public class TileWall : Tile, IDraw
         switch (wall)
         {
             case WallTypes.BASIC:
-                Sprite = TextureManager.GetTexture("wall");
+                Sprite = TextureManager.GetTexture("wall1");
                 break;
             default:
                 throw new Exception();
