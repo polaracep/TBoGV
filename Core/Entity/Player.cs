@@ -38,7 +38,7 @@ public class Player : Entity, IRecieveDmg, IDealDmg, IDraw
 		Position = position;
 		Size = new Vector2(50, 50);
 		Projectiles = new List<Projectile>();		
-		Sprite = TextureManager.GetTexture("vitek-nobg");
+		Sprite = TextureManager.GetTexture("vitekElegan");
 		Coins = 1;
 		ItemCapacity = 3;
 		Inventory = new();

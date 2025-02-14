@@ -15,6 +15,7 @@ public static class TextureManager
             "wall",
             "door",
             "vitek-nobg",
+            "vitekElegan",
             "projectile",
             "taunt",
             "admiration",

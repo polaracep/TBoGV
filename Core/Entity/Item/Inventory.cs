@@ -131,7 +131,7 @@ public class Inventory
 		Rectangle backgroundRect = new Rectangle(tooltipPosition.ToPoint(), new Point((int)tooltipWidth, (int)tooltipHeight));
 
 		// Draw background
-		spriteBatch.Draw(SpriteForeground, backgroundRect, new Color(141, 122, 38));
+		spriteBatch.Draw(SpriteForeground, backgroundRect, new Color(60,60,60));
 
 		// Draw text
 		Vector2 textPosition = tooltipPosition + new Vector2(10, 5);
