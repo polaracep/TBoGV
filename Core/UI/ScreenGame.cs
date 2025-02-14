@@ -106,7 +106,6 @@ internal class ScreenGame : Screen
             {
                 MediaPlayer.Pause();
             }
-
         }
         Frame++;
 

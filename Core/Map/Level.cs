@@ -56,7 +56,7 @@ public class Level
         Console.WriteLine("DIR:" + e.Directions);
     }
 }
-
+    
 public class LevelCreator
 {
 

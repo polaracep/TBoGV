@@ -27,7 +27,10 @@ public static class TextureManager
 			"coin",
             "whiteSquare",
             "containerBorder",
-            "container"
+            "containerWeapon",
+            "containerEffect",
+            "containerBoots",
+            "containerBasic"
         };
 
         foreach (string name in names)

@@ -6,21 +6,47 @@ namespace TBoGV;
 
 public class ItemContainer : Entity, IDraw
 {
-    static Texture2D SpriteContainer;
+    static Texture2D SpriteContainerBasic;
+    static Texture2D SpriteContainerEffect;
+    static Texture2D SpriteContainerArmor;
+    static Texture2D SpriteContainerWeapon;
     static Texture2D SpriteContainerBorder;
 	public ItemTypes ContainerType { get; set; }
 	public bool Selected;
     public ItemContainerable Item { get; set; }
     public ItemContainer()
     {
-        SpriteContainer = TextureManager.GetTexture("container");
+        SpriteContainerBasic = TextureManager.GetTexture("containerBasic");
+        SpriteContainerArmor = TextureManager.GetTexture("containerBoots");
+        SpriteContainerEffect = TextureManager.GetTexture("containerEffect");
+        SpriteContainerWeapon = TextureManager.GetTexture("containerWeapon");
         SpriteContainerBorder = TextureManager.GetTexture("containerBorder");
         Size = new Vector2(50, 50);
         Selected = false;
+        ContainerType = ItemTypes.BASIC;
     }
     public void Draw(SpriteBatch spriteBatch)
     {
-        spriteBatch.Draw(SpriteContainer, new Rectangle(Convert.ToInt32(Position.X), Convert.ToInt32(Position.Y), Convert.ToInt32(Size.X), Convert.ToInt32(Size.Y)), Color.Beige);
+        Texture2D Sprite;
+        switch(ContainerType)
+        {
+            case ItemTypes.BASIC:
+                Sprite = SpriteContainerBasic;
+                break;
+            case ItemTypes.WEAPON:
+                Sprite = SpriteContainerWeapon;
+                break;
+            case ItemTypes.ARMOR:
+                Sprite = SpriteContainerArmor;
+                break;
+            case ItemTypes.EFFECT:
+                Sprite = SpriteContainerEffect;
+                break;
+                default: Sprite = SpriteContainerBasic; break;
+        }
+        if (!IsEmpty())
+            Sprite = SpriteContainerBasic;
+        spriteBatch.Draw(Sprite, new Rectangle(Convert.ToInt32(Position.X), Convert.ToInt32(Position.Y), Convert.ToInt32(Size.X), Convert.ToInt32(Size.Y)), Color.Gray);
         if (!IsEmpty())
             Item.Draw(spriteBatch);
         if (Selected)

@@ -93,13 +93,16 @@ public class Player : Entity, IRecieveDmg, IDealDmg, IDraw
 			}
 		}
 		Inventory.Update(viewport, this, mouseState);
-        /* === */
-
+		/* === */
+		int tolerance = 1;
         Vector2 newPosition = Position;
 		if (dx != 0)
 		{
 			newPosition.X += dx;
-			if (!room.ShouldCollideAt(newPosition) && !room.ShouldCollideAt(newPosition + Size) && !room.ShouldCollideAt(new Vector2(newPosition.X + Size.X, newPosition.Y)) && !room.ShouldCollideAt(new Vector2(newPosition.X, newPosition.Y + Size.Y)))
+			if (!room.ShouldCollideAt(new Vector2(newPosition.X+ tolerance, newPosition.Y+tolerance)) && 
+				!room.ShouldCollideAt(new Vector2(newPosition.X- tolerance + Size.X, newPosition.Y - tolerance + Size.Y)) && 
+				!room.ShouldCollideAt(new Vector2(newPosition.X- tolerance + Size.X, newPosition.Y+ tolerance)) && 
+				!room.ShouldCollideAt(new Vector2(newPosition.X+ tolerance, newPosition.Y- tolerance + Size.Y)))
 				Position.X = newPosition.X;
 		}
 		newPosition = Position;
@@ -107,7 +110,10 @@ public class Player : Entity, IRecieveDmg, IDealDmg, IDraw
 		if (dy != 0)
 		{
 			newPosition.Y += dy;
-			if (!room.ShouldCollideAt(newPosition) && !room.ShouldCollideAt(newPosition + Size) && !room.ShouldCollideAt(new Vector2(newPosition.X + Size.X, newPosition.Y)) && !room.ShouldCollideAt(new Vector2(newPosition.X, newPosition.Y + Size.Y)))
+            if (!room.ShouldCollideAt(new Vector2(newPosition.X + tolerance, newPosition.Y + tolerance)) &&
+				!room.ShouldCollideAt(new Vector2(newPosition.X - tolerance + Size.X, newPosition.Y - tolerance + Size.Y)) &&
+				!room.ShouldCollideAt(new Vector2(newPosition.X - tolerance + Size.X, newPosition.Y + tolerance)) &&
+				!room.ShouldCollideAt(new Vector2(newPosition.X + tolerance, newPosition.Y - tolerance + Size.Y))) 
 				Position.Y = newPosition.Y;
 		}
 		Vector2 screenMousePos = new Vector2(mouseState.X, mouseState.Y);

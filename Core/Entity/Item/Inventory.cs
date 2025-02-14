@@ -32,7 +32,7 @@ public class Inventory
 		weapon.Item = new ItemDoping(Vector2.Zero);
 		ItemContainers = new List<ItemContainer>() { weapon, armor, effect, new ItemContainer(), new ItemContainer(), new ItemContainer()};
 		SpriteForeground = TextureManager.GetTexture("whiteSquare");
-		SpriteToolTip = TextureManager.GetTexture("container");
+		SpriteToolTip = TextureManager.GetTexture("containerBorder");
 		Font = FontManager.GetFont("Arial8");
 		MiddleFont = FontManager.GetFont("Arial12");
 		LargerFont = FontManager.GetFont("Arial24");
