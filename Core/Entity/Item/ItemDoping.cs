@@ -14,7 +14,7 @@ internal class ItemDoping : ItemContainerable
         Size = new Vector2(50, 50);
         Name = "Problem solver";
         Description = "Don't do drugs";
-        Stats = new Dictionary<StatTypes, int>() { { StatTypes.DAMAGE, 2 }, { StatTypes.MAX_HP, -3}, { StatTypes.MOVEMENT_SPEED, 1 } };
+        Stats = new Dictionary<StatTypes, int>() { { StatTypes.DAMAGE, 2 }, { StatTypes.MAX_HP, -3}, { StatTypes.MOVEMENT_SPEED, 3 } };
         Effects = new List<EffectTypes>() { EffectTypes.MAP_REVEAL };
         Sprite = TextureManager.GetTexture("heal");
 		ItemType = ItemTypes.BASIC;

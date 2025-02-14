@@ -17,7 +17,7 @@
 //	static Texture2D SpriteForeground;
 //	static Texture2D SpriteToolTip;
 //	Inventory Inventory;
-//	ItemContainer? hoveredItem; 
+//	ItemContainer? hoveredItem;
 
 //	public InGameMenuInventory(Viewport viewport)
 //	{

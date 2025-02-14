@@ -149,16 +149,28 @@ public class Inventory
 		spriteBatch.DrawString(Font, stats, statsPosition, Color.White);
 	}
 
-	private string FormatStats(Dictionary<StatTypes, int> stats)
-	{
-		if (stats == null || stats.Count == 0) return "No stats available";
+    private string FormatStats(Dictionary<StatTypes, int> stats)
+    {
+        if (stats == null || stats.Count == 0) return "No stats available";
 
-		StringBuilder sb = new StringBuilder();
-		foreach (var stat in stats)
-		{
-			sb.AppendLine($"{stat.Key}: {stat.Value}");
-		}
-		return sb.ToString();
-	}
+        StringBuilder sb = new StringBuilder();
+        foreach (var stat in stats)
+        {
+            string displayName = stat.Key switch
+            {
+                StatTypes.MAX_HP => "Biologie",
+                StatTypes.DAMAGE => "Matematika",
+                StatTypes.PROJECTILE_COUNT => "Fyzika",
+                StatTypes.XP_GAIN => "Zsv",
+                StatTypes.ATTACK_SPEED => "Cestina",
+                StatTypes.MOVEMENT_SPEED => "Telocvik",
+                _ => stat.Key.ToString()
+            };
+
+            sb.AppendLine($"{displayName}: {stat.Value}");
+        }
+        return sb.ToString();
+    }
+
 }
 

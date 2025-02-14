@@ -38,7 +38,7 @@ internal class ScreenGame : Screen
 
         UI = new UI();
         _camera = new Camera(graphics.GraphicsDevice.Viewport, (int)(CurrentLevel.ActiveRoom.Dimensions.X * Tile.GetSize().X), (int)(CurrentLevel.ActiveRoom.Dimensions.Y * Tile.GetSize().Y));
-        inGameMenu = new InGameMenuEffect();
+        inGameMenu = new InGameMenuEffect(graphics.GraphicsDevice.Viewport);
 
         // check the current state of the MediaPlayer.
         Song = SongManager.GetSong("soundtrack");
@@ -54,11 +54,11 @@ internal class ScreenGame : Screen
 
     public override void Draw(SpriteBatch _spriteBatch, GraphicsDeviceManager graphics)
     {
-        _spriteBatch.Begin(blendState: BlendState.Opaque);
-        // _spriteBatch.Draw(TextureManager.GetTexture("gymvod"), Vector2.Zero, Color.White);
-        _spriteBatch.Draw(TextureManager.GetTexture("gymvod"),
-            new Rectangle(0, 0, graphics.GraphicsDevice.Viewport.Width, graphics.GraphicsDevice.Viewport.Height), Color.White);
-        _spriteBatch.End();
+        //_spriteBatch.Begin(blendState: BlendState.Opaque);
+        //// _spriteBatch.Draw(TextureManager.GetTexture("gymvod"), Vector2.Zero, Color.White);
+        //_spriteBatch.Draw(TextureManager.GetTexture("gymvod"),
+        //    new Rectangle(0, 0, graphics.GraphicsDevice.Viewport.Width, graphics.GraphicsDevice.Viewport.Height), Color.White);
+        //_spriteBatch.End();
 
         _spriteBatch.Begin(transformMatrix: _camera.Transform);
         CurrentLevel.ActiveRoom.Draw(_spriteBatch);
@@ -85,8 +85,8 @@ internal class ScreenGame : Screen
         previousKeyboardState = keyboardState;
         mouseState = Mouse.GetState();
         keyboardState = Keyboard.GetState();
-        //if (KeyReleased(Keys.Escape))
-        //    inGameMenu.Active = !inGameMenu.Active;
+        if (KeyReleased(Keys.Escape))
+            inGameMenu.Active = !inGameMenu.Active;
         if (!inGameMenu.Active)
         {
             player.Update(keyboardState, mouseState, _camera.Transform, CurrentLevel.ActiveRoom, graphics.GraphicsDevice.Viewport);

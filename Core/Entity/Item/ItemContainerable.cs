@@ -17,12 +17,12 @@ public abstract class ItemContainerable : Item, IInteractable
 
 public enum StatTypes : int
 {
-    MAX_HP = 0,				// Telocvik
+    MAX_HP = 0,				// Biologie
     DAMAGE = 1,				// Matematika
     PROJECTILE_COUNT = 2,	// Fyzika
     XP_GAIN = 3,			// Zsv
     ATTACK_SPEED = 5,		// Cestina
-    MOVEMENT_SPEED = 6,		// 
+    MOVEMENT_SPEED = 6,		// Telocvik
 }
 public enum EffectTypes : int
 { 

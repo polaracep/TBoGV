@@ -17,7 +17,7 @@ public class Player : Entity, IRecieveDmg, IDealDmg, IDraw
 	public int Hp { get; set; }
 	public int MaxHp { get; set; }
 	public int Coins { get; set; }
-	private Dictionary<StatTypes, int> BaseStats { get; set; }
+	public Dictionary<StatTypes, int> BaseStats { get; set; }
 	public DateTime LastAttackTime { get; set; }
 	public DateTime LastRecievedDmgTime { get; set; }
 	public int InvulnerabilityFrame = 1000;
@@ -34,7 +34,7 @@ public class Player : Entity, IRecieveDmg, IDealDmg, IDraw
 			{ StatTypes.ATTACK_SPEED, 100 },   
 			{ StatTypes.MOVEMENT_SPEED, 4 }    
 		};
-
+		Hp = 9;
 		Position = position;
 		Size = new Vector2(50, 50);
 		Projectiles = new List<Projectile>();		
