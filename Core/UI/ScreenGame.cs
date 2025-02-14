@@ -38,7 +38,7 @@ internal class ScreenGame : Screen
 
         UI = new UI();
         _camera = new Camera(graphics.GraphicsDevice.Viewport, (int)(CurrentLevel.ActiveRoom.Dimensions.X * Tile.GetSize().X), (int)(CurrentLevel.ActiveRoom.Dimensions.Y * Tile.GetSize().Y));
-        inGameMenu = new InGameMenuInventory(graphics.GraphicsDevice.Viewport);
+        inGameMenu = new InGameMenuEffect();
 
         // check the current state of the MediaPlayer.
         Song = SongManager.GetSong("soundtrack");
@@ -89,14 +89,15 @@ internal class ScreenGame : Screen
         //    inGameMenu.Active = !inGameMenu.Active;
         if (!inGameMenu.Active)
         {
-            player.Update(keyboardState, mouseState, _camera.Transform, r);
-            r.Update();
+            player.Update(keyboardState, mouseState, _camera.Transform, CurrentLevel.ActiveRoom, graphics.GraphicsDevice.Viewport);
+            CurrentLevel.ActiveRoom.Update();
             UI.Update(player, graphics);
             _camera.Update(player.Position + player.Size / 2);
             if (MediaPlayer.State == MediaState.Paused)
                 MediaPlayer.Resume();
             else if (MediaPlayer.State == MediaState.Stopped)
                 MediaPlayer.Play(Song);
+
         }
         else
         {
