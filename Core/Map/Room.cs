@@ -21,8 +21,9 @@ public abstract class Room : IDraw
     /// <summary>
     /// Map position used in level generation
     /// </summary>
-    public Vector2 Position { get; protected set; }
+    public Vector2 Position;
     public List<Directions> DoorDirections = new List<Directions>();
+    public bool IsGenerated { get; protected set; } = false;
     /// <summary>
     /// Use for room layout
     /// </summary>
@@ -32,24 +33,16 @@ public abstract class Room : IDraw
     /// </summary>
     protected Tile[,] roomDecorations;
 
-    protected List<Room> adjacentRooms = new List<Room>();
-    protected List<Projectile> projectiles;
-    protected List<Enemy> enemies;
+    protected List<Projectile> projectiles = new List<Projectile>();
+    protected List<Enemy> enemies = new List<Enemy>();
     protected Player player;
 
-    public Room(Vector2 dimensions, Vector2 pos, Directions? entryDir, Player p)
+    public Room(Vector2 dimensions, Vector2 pos, Player p)
     {
-        this.projectiles = new List<Projectile>();
-        this.enemies = new List<Enemy>();
         this.player = p;
         this.Dimensions = dimensions;
         this.Position = pos;
-        if (entryDir != null)
-            this.DoorDirections.Add((Directions)entryDir);
-        else
-            this.DoorDirections.Add(Directions.ENTRY);
     }
-    public Room(Vector2 dimensions, Vector2 pos, Player p) : this(dimensions, pos, null, p) { }
 
     public Room(Vector2 dimensions, Player p) : this(dimensions, Vector2.One, p) { }
     /// <summary>
@@ -174,6 +167,9 @@ public abstract class Room : IDraw
     protected abstract void GenerateEnemies();
     protected virtual void GenerateRoomBase()
     {
+        if (this.DoorDirections == null)
+            throw new ArgumentNullException("This room does not have any doors!");
+
         this.ClearRoom();
         this.roomFloor = new Tile[(int)Dimensions.X, (int)Dimensions.Y];
         this.roomDecorations = new Tile[(int)Dimensions.X, (int)Dimensions.Y];
@@ -193,17 +189,52 @@ public abstract class Room : IDraw
             roomFloor[0, i] = new TileWall(WallTypes.BASIC);
             roomFloor[(int)Dimensions.X - 1, i] = new TileWall(WallTypes.BASIC);
         }
+
+        foreach (Directions door in this.DoorDirections)
+        {
+            switch (door)
+            {
+                case Directions.LEFT:
+                    roomFloor[0, (int)Dimensions.Y / 2] = new TileDoor(DoorTypes.BASIC, Directions.LEFT);
+                    break;
+                case Directions.RIGHT:
+                    roomFloor[(int)Dimensions.X - 1, (int)Dimensions.Y / 2] = new TileDoor(DoorTypes.BASIC, Directions.RIGHT);
+                    break;
+                case Directions.UP:
+                    roomFloor[(int)Dimensions.X / 2, 0] = new TileDoor(DoorTypes.BASIC, Directions.UP);
+                    break;
+                case Directions.DOWN:
+                    roomFloor[(int)Dimensions.X / 2, (int)Dimensions.Y - 1] = new TileDoor(DoorTypes.BASIC, Directions.DOWN);
+                    break;
+                case Directions.ENTRY:
+                    roomFloor[(int)Dimensions.X / 2, (int)Dimensions.Y / 2] = new TileDoor(DoorTypes.BASIC, Directions.ENTRY);
+                    break;
+            }
+        }
+        IsGenerated = true;
     }
     protected virtual void ClearRoom()
     {
         this.projectiles.Clear();
         this.enemies.Clear();
     }
-    public virtual bool AddTile(Tile tile, Vector2 position)
+    public virtual bool AddFloorTile(Tile tile, Vector2 position)
     {
         try
         {
             roomFloor[(int)position.X, (int)position.Y] = tile;
+            return true;
+        }
+        catch (Exception)
+        {
+            return false;
+        }
+    }
+    public virtual bool AddDecorationTile(Tile tile, Vector2 position)
+    {
+        try
+        {
+            roomDecorations[(int)position.X, (int)position.Y] = tile;
             return true;
         }
         catch (Exception)
@@ -220,8 +251,14 @@ public abstract class Room : IDraw
         for (int i = 0; i < Dimensions.X; i++)
             for (var j = 0; j < Dimensions.Y; j++)
             {
+                if (!this.IsGenerated)
+                    this.GenerateRoom();
                 Tile t = roomFloor[i, j];
-                spriteBatch.Draw(t.Sprite, new Vector2(i * Tile.GetSize().X, j * Tile.GetSize().Y), Color.White);
+                if (t != null)
+                    spriteBatch.Draw(t.Sprite, new Vector2(i * Tile.GetSize().X, j * Tile.GetSize().Y), Color.White);
+                t = roomDecorations[i, j];
+                if (t != null)
+                    spriteBatch.Draw(t.Sprite, new Vector2(i * Tile.GetSize().X, j * Tile.GetSize().Y), Color.White);
             }
 
         foreach (Enemy enemy in enemies)

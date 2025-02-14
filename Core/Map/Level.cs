@@ -9,48 +9,71 @@ public class Level
     protected int Size;
     protected int RoomCount;
     protected Room[,] RoomMap;
-    protected Vector2 StartPos;
+    public Room ActiveRoom { get; private set; }
+    protected Vector2 ActiveRoomCoords;
     protected Player Player;
 
-    public Level(Player player, uint size, int roomCount, Vector2 startPos)
+    public Level(Player player, List<Room> roomList, uint maxSize, Vector2 roomStartPos)
     {
-        if (startPos.X > size || startPos.Y > size)
+        if (roomStartPos.X > maxSize || roomStartPos.Y > maxSize)
             throw new ArgumentOutOfRangeException("The startPos is not in the level");
-        this.StartPos = startPos;
-        this.Size = (int)size;
-        this.RoomCount = roomCount;
+        this.ActiveRoomCoords = roomStartPos;
+        this.Size = (int)maxSize;
+        this.RoomCount = roomList.Count;
         this.Player = player;
-        List<Func<Room>> rL = new List<Func<Room>> {
-            () => new RoomEmpty(new Vector2(10, 10), player),
-            () => new RoomEmpty(new Vector2(5, 10), player),
-            () => new RoomEmpty(new Vector2(10, 5), player),
-            () => new RoomEmpty(new Vector2(5, 5), player)
-        };
-        this.RoomMap = new LevelCreator(rL, 7, StartPos, Player).GenerateLevel();
+
+        Room start = new RoomStart(new Vector2(7, 7), roomStartPos, player);
+        roomList.Prepend(start);
+        LevelCreator lC = new LevelCreator(roomList, 7, ActiveRoomCoords, Player);
+        this.RoomMap = lC.GenerateLevel(out roomStartPos);
+        this.ActiveRoom = this.RoomMap[(int)roomStartPos.X, (int)roomStartPos.Y];
+
+        TileDoor.TileInteract += OnRoomChanged;
+        LevelCreator.PrintMap(this.RoomMap);
 
     }
 
-    public Level(Player player, uint size, int roomCounts) : this(player, size, roomCounts, new Vector2(size / 2, 0)) { }
+    public Level(Player player, List<Room> roomList, uint maxSize) : this(player, roomList, maxSize, new Vector2(maxSize / 2, 0)) { }
 
+    private void OnRoomChanged(object sender, TileInteractEventArgs e)
+    {
+        switch (e.Directions)
+        {
+            case Directions.LEFT:
+                ActiveRoomCoords.X -= 1;
+                break;
+            case Directions.RIGHT:
+                ActiveRoomCoords.X += 1;
+                break;
+            case Directions.UP:
+                ActiveRoomCoords.Y -= 1;
+                break;
+            case Directions.DOWN:
+                ActiveRoomCoords.Y += 1;
+                break;
+        }
+        ActiveRoom = RoomMap[(int)ActiveRoomCoords.X, (int)ActiveRoomCoords.Y];
+        Console.WriteLine("DIR:" + e.Directions);
+    }
 }
 
 public class LevelCreator
 {
 
+    // Pro tvorbu candidateMap
     private List<RoomCandidate> Candidates = new List<RoomCandidate>();
-    private List<Func<Room>> RoomFactories;
+    private List<Room> Rooms;
     private int Size;
     private int RoomCount;
     private Vector2 StartPos;
-    private Room[,] RoomMap;
     private Player Player;
 
 
-    public LevelCreator(List<Func<Room>> roomFactories, int size, Vector2 startPos, Player player)
+    public LevelCreator(List<Room> rooms, int size, Vector2 startPos, Player player)
     {
         this.Size = size;
-        this.RoomFactories = roomFactories;
-        this.RoomCount = roomFactories.Count();
+        this.Rooms = rooms;
+        this.RoomCount = rooms.Count();
         this.StartPos = startPos;
         this.Player = player;
     }
@@ -76,26 +99,33 @@ public class LevelCreator
         return (new Vector2(_x, _y), new Vector2(x - _x + 1, y - _y + 1));
     }
 
-    public Room[,] GenerateLevel()
+    public Room[,] GenerateLevel(out Vector2 startRoomPos)
     {
+        // Candidate map je mapa levelu, ktera nema mistnosti, ale jen kandidaty na mistnosti
         RoomCandidate[,] candidateMap = PopulateCandidates();
+
+        // Velikosti 
         (Vector2 offset, Vector2 bounds) trucSize = GetOffsetAndSize(candidateMap);
 
-        Room[,] finalMap = new Room[(int)trucSize.bounds.Y, (int)trucSize.bounds.X];
+        Room[,] finalMap = new Room[(int)trucSize.bounds.X, (int)trucSize.bounds.Y];
 
         Random rand = new Random();
-        foreach (var factory in RoomFactories)
+        // kazdy kandidat
+        foreach (var c in candidateMap)
         {
-            Room r = factory();
-            if (r == null)
+            if (c == null)
                 continue;
 
+            Room chosen = Rooms[rand.Next(Rooms.Count())];
+            chosen.DoorDirections = c.DoorDirections;
+            chosen.Position = c.Position - trucSize.offset;
 
-            // placing.DoorDirections = c.DoorDirections;
-            // placing.Position = c.Position - trucSize.bounds;
+            finalMap[(int)(c.Position.X - trucSize.offset.X), (int)(c.Position.Y - trucSize.offset.Y)] = chosen;
+            PrintMap(finalMap);
 
         }
-        return null;
+        startRoomPos = new Vector2(StartPos.X - trucSize.offset.X, StartPos.Y - trucSize.offset.Y);
+        return finalMap;
     }
 
     private RoomCandidate[,] PopulateCandidates()
@@ -164,6 +194,7 @@ public class LevelCreator
             PrintMap(candidateMap);
         }
 
+        Candidates.Clear();
         return candidateMap;
     }
 
@@ -177,6 +208,22 @@ public class LevelCreator
         return (r.Position.X < Size && r.Position.Y < Size && r.Position.X >= 0 && r.Position.Y >= 0) == true;
     }
 
+    public static void PrintMap(Room[,] map)
+    {
+        for (int y = 0; y < map.GetLength(1); y++)
+        {
+            for (int x = 0; x < map.GetLength(0); x++)
+            {
+                if (map[x, y] != null)
+                    Console.Write((int)map[x, y].DoorDirections.Count + " ");
+                else
+                    Console.Write(". ");
+            }
+            Console.WriteLine();
+        }
+        Console.WriteLine();
+    }
+
     private void PrintMap(RoomCandidate[,] map)
     {
         for (int y = 0; y < Size; y++)
@@ -184,7 +231,7 @@ public class LevelCreator
             for (int x = 0; x < Size; x++)
             {
                 if (map[x, y] != null)
-                    Console.Write((int)map[x, y].DoorDirections[0] + " ");
+                    Console.Write((int)map[x, y].DoorDirections.Count + " ");
                 else
                     Console.Write(". ");
             }

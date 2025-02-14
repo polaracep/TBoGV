@@ -66,10 +66,21 @@ public class TileWall : Tile, IDraw
 
 }
 
+public class TileInteractEventArgs : EventArgs
+{
+    public Directions Directions;
+    public TileInteractEventArgs(Directions dir)
+    {
+        Directions = dir;
+    }
+}
 public class TileDoor : Tile, IDraw, IInteractable
 {
-    public TileDoor(DoorTypes door) : base(true)
+    private Directions dir;
+    public static event EventHandler<TileInteractEventArgs> TileInteract;
+    public TileDoor(DoorTypes door, Directions direction) : base(true)
     {
+        this.dir = direction;
         switch (door)
         {
             case DoorTypes.BASIC:
@@ -80,8 +91,13 @@ public class TileDoor : Tile, IDraw, IInteractable
     public void Interact(Entity e, Room r)
     {
         // put player in the left-top corne
-        e.Position = tileSize;
+
         r.ResetRoom();
+        OnTileInteract(new TileInteractEventArgs(this.dir));
+    }
+    protected virtual void OnTileInteract(TileInteractEventArgs e)
+    {
+        TileInteract?.Invoke(this, e);
     }
 }
 

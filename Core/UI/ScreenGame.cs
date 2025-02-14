@@ -4,13 +4,14 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using TBoGV.Core;
 using Microsoft.Xna.Framework.Media;
+using System.Collections.Generic;
 namespace TBoGV;
 
 internal class ScreenGame : Screen
 {
     private Player player;
-    private RoomEmpty r;
     private Camera _camera;
+    private Level CurrentLevel;
     private InGameMenu inGameMenu;
     private UI UI;
     private MouseState mouseState;
@@ -26,10 +27,18 @@ internal class ScreenGame : Screen
     public override void BeginRun(GraphicsDeviceManager graphics)
     {
         player = new Player();
-        r = new RoomEmpty(new Vector2(10, 10), player);
-        r.GenerateRoom();
+
+        List<Room> rL = new List<Room> {
+            new RoomEmpty(new Vector2(10, 10), player),
+            new RoomEmpty(new Vector2(5, 10), player),
+            new RoomEmpty(new Vector2(10, 5), player),
+            new RoomEmpty(new Vector2(5, 5), player)
+        };
+
+        CurrentLevel = new Level(player, rL, 6);
+
         UI = new UI();
-        _camera = new Camera(graphics.GraphicsDevice.Viewport, (int)(r.Dimensions.X * Tile.GetSize().X), (int)(r.Dimensions.Y * Tile.GetSize().Y));
+        _camera = new Camera(graphics.GraphicsDevice.Viewport, (int)(CurrentLevel.ActiveRoom.Dimensions.X * Tile.GetSize().X), (int)(CurrentLevel.ActiveRoom.Dimensions.Y * Tile.GetSize().Y));
         inGameMenu = new InGameMenuInventory(graphics.GraphicsDevice.Viewport);
 
         // check the current state of the MediaPlayer.
@@ -42,8 +51,6 @@ internal class ScreenGame : Screen
         // Play the selected song reference.
         MediaPlayer.Play(Song);
         MediaPlayer.Volume = 0.01f;
-
-        Level one = new Level(player, 7, 10);
     }
 
     public override void Draw(SpriteBatch _spriteBatch, GraphicsDeviceManager graphics)
@@ -55,7 +62,7 @@ internal class ScreenGame : Screen
         _spriteBatch.End();
 
         _spriteBatch.Begin(transformMatrix: _camera.Transform);
-        r.Draw(_spriteBatch);
+        CurrentLevel.ActiveRoom.Draw(_spriteBatch);
         player.Draw(_spriteBatch);
         _spriteBatch.End();
 
@@ -82,8 +89,8 @@ internal class ScreenGame : Screen
             inGameMenu.Active = !inGameMenu.Active;
         if (!inGameMenu.Active)
         {
-            player.Update(keyboardState, mouseState, _camera.Transform, r);
-            r.Update();
+            player.Update(keyboardState, mouseState, _camera.Transform, CurrentLevel.ActiveRoom);
+            CurrentLevel.ActiveRoom.Update();
             UI.Update(player, graphics);
             _camera.Update(player.Position + player.Size / 2);
             if (MediaPlayer.State == MediaState.Paused)
