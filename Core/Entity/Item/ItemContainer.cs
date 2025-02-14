@@ -8,8 +8,8 @@ public class ItemContainer : Entity, IDraw
 {
     static Texture2D SpriteContainer;
     static Texture2D SpriteContainerBorder;
-
-    public bool Selected;
+	public ItemTypes ContainerType { get; set; }
+	public bool Selected;
     public ItemContainerable Item { get; set; }
     public ItemContainer()
     {

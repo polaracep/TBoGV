@@ -12,7 +12,6 @@ abstract class InGameMenu : IDraw
     public virtual void Update(Viewport viewport, Player player, MouseState mouseState)
     {
         Viewport = viewport;
-        player.UpdateContainers(mouseState);
     }
     public virtual void Draw(SpriteBatch spriteBatch)
     {

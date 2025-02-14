@@ -2,7 +2,6 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using TBoGV.Core;
 using Microsoft.Xna.Framework.Media;
 namespace TBoGV;
 
@@ -30,7 +29,7 @@ internal class ScreenGame : Screen
         r.GenerateRoom();
         UI = new UI();
         _camera = new Camera(graphics.GraphicsDevice.Viewport, (int)(r.Dimensions.X * Tile.GetSize().X), (int)(r.Dimensions.Y * Tile.GetSize().Y));
-        inGameMenu = new InGameMenuInventory(graphics.GraphicsDevice.Viewport);
+        inGameMenu = new InGameMenuEffect();
 
         // check the current state of the MediaPlayer.
         Song = SongManager.GetSong("soundtrack");
@@ -61,6 +60,7 @@ internal class ScreenGame : Screen
 
         _spriteBatch.Begin();
         UI.Draw(_spriteBatch);
+		player.Inventory.Draw(_spriteBatch);
         if (inGameMenu.Active)
         {
             inGameMenu.Draw(_spriteBatch);
@@ -78,11 +78,11 @@ internal class ScreenGame : Screen
         previousKeyboardState = keyboardState;
         mouseState = Mouse.GetState();
         keyboardState = Keyboard.GetState();
-        if (KeyReleased(Keys.Escape))
-            inGameMenu.Active = !inGameMenu.Active;
+        //if (KeyReleased(Keys.Escape))
+        //    inGameMenu.Active = !inGameMenu.Active;
         if (!inGameMenu.Active)
         {
-            player.Update(keyboardState, mouseState, _camera.Transform, r);
+            player.Update(keyboardState, mouseState, _camera.Transform, r, graphics.GraphicsDevice.Viewport);
             r.Update();
             UI.Update(player, graphics);
             _camera.Update(player.Position + player.Size / 2);
