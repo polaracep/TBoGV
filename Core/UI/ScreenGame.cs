@@ -2,7 +2,6 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using TBoGV.Core;
 using Microsoft.Xna.Framework.Media;
 using System.Collections.Generic;
 namespace TBoGV;
@@ -39,7 +38,7 @@ internal class ScreenGame : Screen
 
         UI = new UI();
         _camera = new Camera(graphics.GraphicsDevice.Viewport, (int)(CurrentLevel.ActiveRoom.Dimensions.X * Tile.GetSize().X), (int)(CurrentLevel.ActiveRoom.Dimensions.Y * Tile.GetSize().Y));
-        inGameMenu = new InGameMenuInventory(graphics.GraphicsDevice.Viewport);
+        inGameMenu = new InGameMenuEffect();
 
         // check the current state of the MediaPlayer.
         Song = SongManager.GetSong("soundtrack");
@@ -68,6 +67,7 @@ internal class ScreenGame : Screen
 
         _spriteBatch.Begin();
         UI.Draw(_spriteBatch);
+		player.Inventory.Draw(_spriteBatch);
         if (inGameMenu.Active)
         {
             inGameMenu.Draw(_spriteBatch);
@@ -85,11 +85,11 @@ internal class ScreenGame : Screen
         previousKeyboardState = keyboardState;
         mouseState = Mouse.GetState();
         keyboardState = Keyboard.GetState();
-        if (KeyReleased(Keys.Escape))
-            inGameMenu.Active = !inGameMenu.Active;
+        //if (KeyReleased(Keys.Escape))
+        //    inGameMenu.Active = !inGameMenu.Active;
         if (!inGameMenu.Active)
         {
-            player.Update(keyboardState, mouseState, _camera.Transform, CurrentLevel.ActiveRoom);
+            player.Update(keyboardState, mouseState, _camera.Transform, CurrentLevel.ActiveRoom, graphics.GraphicsDevice.Viewport);
             CurrentLevel.ActiveRoom.Update();
             UI.Update(player, graphics);
             _camera.Update(player.Position + player.Size / 2);
@@ -97,6 +97,7 @@ internal class ScreenGame : Screen
                 MediaPlayer.Resume();
             else if (MediaPlayer.State == MediaState.Stopped)
                 MediaPlayer.Play(Song);
+
         }
         else
         {
@@ -105,7 +106,6 @@ internal class ScreenGame : Screen
             {
                 MediaPlayer.Pause();
             }
-
         }
         Frame++;
 

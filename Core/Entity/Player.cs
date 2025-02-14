@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using TBoGV.Core.Entity.Item;
 
 namespace TBoGV;
 
@@ -23,9 +22,7 @@ public class Player : Entity, IRecieveDmg, IDealDmg, IDraw
 	public DateTime LastRecievedDmgTime { get; set; }
 	public int InvulnerabilityFrame = 1000;
 	public List<Projectile> Projectiles { get; set; }
-	public List<ItemContainer> ItemContainers;
-    public int selectedItemIndex = 0;
-	private int PrevScrollWheelValue;
+	public Inventory Inventory { get; set; }
 	public Player(Vector2 position)
 	{
 		BaseStats = new Dictionary<StatTypes, int>()
@@ -40,14 +37,11 @@ public class Player : Entity, IRecieveDmg, IDealDmg, IDraw
 
 		Position = position;
 		Size = new Vector2(50, 50);
-		Projectiles = new List<Projectile>();
-		ItemContainer kontak = new();
-        kontak.Item = new ItemDoping(position);
-        ItemContainers = new List<ItemContainer>() {new ItemContainer(), new ItemContainer() , new ItemContainer(), kontak};
-		
-		Sprite = TextureManager.GetTexture("vitek-nobg");
+		Projectiles = new List<Projectile>();		
+		Sprite = TextureManager.GetTexture("vitekElegan");
 		Coins = 1;
 		ItemCapacity = 3;
+		Inventory = new();
 		SetStats();
 	}
 
@@ -56,25 +50,8 @@ public class Player : Entity, IRecieveDmg, IDealDmg, IDraw
 	Vector2 InteractionPoint = Vector2.Zero;
 	public void SetStats()
 	{
-		Dictionary<StatTypes, int> finalStats = new Dictionary<StatTypes, int>(BaseStats);
+		Dictionary<StatTypes, int> finalStats = Inventory.SetStats(BaseStats);
 
-		foreach (var container in ItemContainers)
-		{
-			if (container.Item != null)
-			{
-				foreach (var stat in container.Item.Stats)
-				{
-					if (finalStats.ContainsKey(stat.Key))
-					{
-						finalStats[stat.Key] += stat.Value;
-					}
-					else
-					{
-						finalStats[stat.Key] = stat.Value; 
-					}
-				}
-			}
-		}
 
 		// Aktualizace hráčských atributů podle finalStats
 		MaxHp = finalStats[StatTypes.MAX_HP];
@@ -84,7 +61,7 @@ public class Player : Entity, IRecieveDmg, IDealDmg, IDraw
 		MovementSpeed = finalStats[StatTypes.MOVEMENT_SPEED];
 	}
 
-	public void Update(KeyboardState keyboardState, MouseState mouseState, Matrix transform, Room room)
+	public void Update(KeyboardState keyboardState, MouseState mouseState, Matrix transform, Room room, Viewport viewport)
 	{
 		int dx = 0, dy = 0;
 
@@ -115,14 +92,17 @@ public class Player : Entity, IRecieveDmg, IDealDmg, IDraw
 				tile.Interact(this, room);
 			}
 		}
-		UpdateContainers(mouseState);
-        /* === */
-
+		Inventory.Update(viewport, this, mouseState);
+		/* === */
+		int tolerance = 1;
         Vector2 newPosition = Position;
 		if (dx != 0)
 		{
 			newPosition.X += dx;
-			if (!room.ShouldCollideAt(newPosition) && !room.ShouldCollideAt(newPosition + Size) && !room.ShouldCollideAt(new Vector2(newPosition.X + Size.X, newPosition.Y)) && !room.ShouldCollideAt(new Vector2(newPosition.X, newPosition.Y + Size.Y)))
+			if (!room.ShouldCollideAt(new Vector2(newPosition.X+ tolerance, newPosition.Y+tolerance)) && 
+				!room.ShouldCollideAt(new Vector2(newPosition.X- tolerance + Size.X, newPosition.Y - tolerance + Size.Y)) && 
+				!room.ShouldCollideAt(new Vector2(newPosition.X- tolerance + Size.X, newPosition.Y+ tolerance)) && 
+				!room.ShouldCollideAt(new Vector2(newPosition.X+ tolerance, newPosition.Y- tolerance + Size.Y)))
 				Position.X = newPosition.X;
 		}
 		newPosition = Position;
@@ -130,7 +110,10 @@ public class Player : Entity, IRecieveDmg, IDealDmg, IDraw
 		if (dy != 0)
 		{
 			newPosition.Y += dy;
-			if (!room.ShouldCollideAt(newPosition) && !room.ShouldCollideAt(newPosition + Size) && !room.ShouldCollideAt(new Vector2(newPosition.X + Size.X, newPosition.Y)) && !room.ShouldCollideAt(new Vector2(newPosition.X, newPosition.Y + Size.Y)))
+            if (!room.ShouldCollideAt(new Vector2(newPosition.X + tolerance, newPosition.Y + tolerance)) &&
+				!room.ShouldCollideAt(new Vector2(newPosition.X - tolerance + Size.X, newPosition.Y - tolerance + Size.Y)) &&
+				!room.ShouldCollideAt(new Vector2(newPosition.X - tolerance + Size.X, newPosition.Y + tolerance)) &&
+				!room.ShouldCollideAt(new Vector2(newPosition.X + tolerance, newPosition.Y - tolerance + Size.Y))) 
 				Position.Y = newPosition.Y;
 		}
 		Vector2 screenMousePos = new Vector2(mouseState.X, mouseState.Y);
@@ -146,29 +129,6 @@ public class Player : Entity, IRecieveDmg, IDealDmg, IDraw
 		if (ReadyToAttack() && mouseState.LeftButton == ButtonState.Pressed)
 			Projectiles.Add(Attack());
 	}
-
-	public void UpdateContainers(MouseState mouseState)
-	{
-        int scrollDelta = PrevScrollWheelValue - mouseState.ScrollWheelValue;
-        if (scrollDelta > 0)
-        {
-            selectedItemIndex = (selectedItemIndex + 1) % ItemContainers.Count;
-            SetActiveItemContainer();
-        }
-        else if (scrollDelta < 0)
-        {
-            selectedItemIndex = (selectedItemIndex - 1 + ItemContainers.Count) % ItemContainers.Count;
-            SetActiveItemContainer();
-        }
-		PrevScrollWheelValue = mouseState.ScrollWheelValue;
-    }
-    private void SetActiveItemContainer()
-    {
-        for (int i = 0; i < ItemContainers.Count; i++)
-        {
-            ItemContainers[i].Selected = (i == selectedItemIndex);
-        }
-    }
 
     public void Draw(SpriteBatch spriteBatch)
 	{

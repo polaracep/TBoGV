@@ -17,6 +17,7 @@ public static class TextureManager
             "wall1",
             "door",
             "vitek-nobg",
+            "vitekElegan",
             "projectile",
             "taunt",
             "admiration",
@@ -29,7 +30,10 @@ public static class TextureManager
             "coin",
             "whiteSquare",
             "containerBorder",
-            "container"
+            "containerWeapon",
+            "containerEffect",
+            "containerBoots",
+            "containerBasic"
         };
 
         foreach (string name in names)
