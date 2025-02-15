@@ -16,7 +16,9 @@ public class Player : Entity, IRecieveDmg, IDealDmg, IDraw
 	public int ItemCapacity { get; set; }
 	public float Hp { get; set; }
 	public int MaxHp { get; set; }
-	public int Coins { get; set; }
+	public float XpGain { get; set; }
+
+    public int Coins { get; set; }
 	public Dictionary<StatTypes, float> BaseStats { get; set; }
 	public Dictionary<StatTypes, int> LevelUpStats { get; set; }
     public DateTime LastAttackTime { get; set; }
@@ -45,6 +47,7 @@ public class Player : Entity, IRecieveDmg, IDealDmg, IDraw
             { StatTypes.MOVEMENT_SPEED, 0 }
         };
         Hp = 9;
+		XpGain = 1;
 		Position = position;
 		Size = new Vector2(50, 50);
 		Projectiles = new List<Projectile>();		
@@ -91,7 +94,7 @@ public class Player : Entity, IRecieveDmg, IDealDmg, IDraw
 					subjectValue = 0;
 					break;
 			}
-			finalStats[item.Key] = (int)subjectValue;
+			finalStats[item.Key] = subjectValue;
 		}
 
 		// Aktualizace hráčských atributů podle finalStats
@@ -100,7 +103,9 @@ public class Player : Entity, IRecieveDmg, IDealDmg, IDraw
 		AttackDmg = finalStats[StatTypes.DAMAGE];
 		AttackSpeed = finalStats[StatTypes.ATTACK_SPEED];
 		MovementSpeed = (int)finalStats[StatTypes.MOVEMENT_SPEED];
-	}
+        XpGain = finalStats[StatTypes.XP_GAIN];
+
+    }
 
 	public void Update(KeyboardState keyboardState, MouseState mouseState, Matrix transform, Room room, Viewport viewport)
 	{
@@ -203,7 +208,7 @@ public class Player : Entity, IRecieveDmg, IDealDmg, IDraw
 	}
 	public void Kill(int xpGain)
 	{
-		Xp += xpGain;
+		Xp += xpGain * XpGain;
 		if(Xp >= XpForLevel())
 		{
 			LevelUp();
