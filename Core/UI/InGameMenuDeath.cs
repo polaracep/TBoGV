@@ -5,7 +5,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
 namespace TBoGV;
-
+// chatgpt generated - 2 lazy
 internal class InGameMenuDeath : InGameMenu
 {
     private static Viewport Viewport;

@@ -18,7 +18,7 @@ public abstract class Enemy : Entity, IRecieveDmg, IDealDmg
     public abstract void Update(Vector2 playerPosition);
     public abstract bool IsDead();
     public abstract List<Projectile> Attack();
-
+    public abstract List<Item> Drop(int looting);
     public virtual void RecieveDmg(float damage)
     {
         Hp -= damage;

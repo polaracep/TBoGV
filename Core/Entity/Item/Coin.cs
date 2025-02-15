@@ -7,10 +7,11 @@ namespace TBoGV;
 internal class Coin : Item, IDraw
 {
 	static Texture2D Sprite;
-	public Coin()
+	public Coin(Vector2 position)
 	{
 		Sprite = TextureManager.GetTexture("coin");
 		Size = new Vector2(30, 30);
+		Position = position - Size/2;
 		Small = true;
 	}
 	public override void Draw(SpriteBatch spriteBatch)

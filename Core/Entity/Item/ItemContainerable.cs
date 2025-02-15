@@ -2,16 +2,17 @@
 using System.Collections.Generic;
 namespace TBoGV;
 
-public abstract class ItemContainerable : Item, IInteractable
+public abstract class ItemContainerable : Item
 {
 	public string Name { get; set; }
 	public string Description { get; set; }
 	public ItemTypes ItemType { get; set; }
 	public Dictionary<StatTypes, int> Stats { get; set; }
 	public List<EffectTypes> Effects { get; set; }
-	public virtual void Interact(Entity e, Room r)
+	public override void Interact(Entity e, Room r)
 	{
-        throw new NotImplementedException();
+        if(!r.player.Inventory.PickUpItem(this))
+			r.drops.Add(r.player.Inventory.SwapItem(this));
 	}
 }
 

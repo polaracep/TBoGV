@@ -26,13 +26,14 @@ public class Player : Entity, IRecieveDmg, IDealDmg, IDraw
 	public int InvulnerabilityFrame = 1000;
 	public List<Projectile> Projectiles { get; set; }
 	public Inventory Inventory { get; set; }
-	public Player(Vector2 position)
+    private MouseState previousMouseState; 
+    public Player(Vector2 position)
 	{
 		BaseStats = new Dictionary<StatTypes, float>()
 		{
-			{ StatTypes.MAX_HP, 6 },         
+			{ StatTypes.MAX_HP, 18 },         
 			{ StatTypes.DAMAGE, 1 },          
-			{ StatTypes.PROJECTILE_COUNT, 20 }, 
+			{ StatTypes.PROJECTILE_COUNT, 5 }, 
 			{ StatTypes.XP_GAIN, 1 },        
 			{ StatTypes.ATTACK_SPEED, 1500 },   
 			{ StatTypes.MOVEMENT_SPEED, 2 }    
@@ -129,15 +130,23 @@ public class Player : Entity, IRecieveDmg, IDealDmg, IDraw
 		{
 			dy += MovementSpeed;
 		}
-		if (mouseState.RightButton == ButtonState.Pressed)
-		{
+		if (previousMouseState.RightButton == ButtonState.Pressed &&
+                                    mouseState.RightButton == ButtonState.Released)
+        {
 			Tile t = room.GetTileInteractable(InteractionPoint);
 			if (t != null)
 			{
 				IInteractable tile = (IInteractable)t;
 				tile.Interact(this, room);
 			}
-		}
+            Item item = room.GetItemInteractable(InteractionPoint);
+            if (item != null)
+            {
+                item.Interact(this, room);
+                if (item is not ItemContainerable)
+                    room.RemoveItem(item);
+            }
+        }
 		Inventory.Update(viewport, this, mouseState);
 		/* === */
 		int tolerance = 1;
@@ -181,6 +190,7 @@ public class Player : Entity, IRecieveDmg, IDealDmg, IDraw
 		}
 
 		SetStats();
+        previousMouseState = mouseState;
     }
 
     public void Draw(SpriteBatch spriteBatch)

@@ -34,7 +34,8 @@ public abstract class Room : IDraw
 
     protected List<Projectile> projectiles = new List<Projectile>();
     protected List<Enemy> enemies = new List<Enemy>();
-    protected Player player;
+    public List<Item> drops = new List<Item>() { new ItemDoping(new Vector2(200,200)), new ItemTeeth(new Vector2(100, 200)), new ItemCalculator(new Vector2(150, 200)), new ItemPencil(new Vector2(100, 100)) };
+    public Player player;
 
     public Room(Vector2 dimensions, Vector2 pos, Player p)
     {
@@ -80,6 +81,19 @@ public abstract class Room : IDraw
             return t.Item1;
 
         return null;
+    }
+    public Item GetItemInteractable(Vector2 coords)
+    {
+        foreach (var item in drops)
+        {
+            if(ObjectCollision.RectCircleCollision(item.GetRectangle(), coords, 5))
+                return item;
+        }
+        return null;
+    }
+    public void RemoveItem(Item item)
+    {
+        drops.Remove(item);
     }
     public (Tile floor, Tile decor) GetTile(Vector2 coords)
     {
@@ -142,11 +156,12 @@ public abstract class Room : IDraw
                     if (enemies[j].IsDead())
                     {
                         player.Kill(enemies[j].XpValue);
+                        foreach (Item item in enemies[j].Drop(1))
+                            drops.Add(item);
                         enemies.RemoveAt(j);
                     }
                     break;
                 }
-
         }
     }
     protected virtual void UpdateEnemies()
@@ -222,6 +237,7 @@ public abstract class Room : IDraw
     {
         this.projectiles.Clear();
         this.enemies.Clear();
+        //this.drops.Clear();
     }
     public virtual bool AddFloorTile(Tile tile, Vector2 position)
     {
@@ -265,12 +281,14 @@ public abstract class Room : IDraw
                 if (t != null)
                     spriteBatch.Draw(t.Sprite, new Vector2(i * Tile.GetSize().X, j * Tile.GetSize().Y), Color.White);
             }
-
+        foreach (Item item in drops)
+            item.Draw(spriteBatch);
         foreach (Enemy enemy in enemies)
             enemy.Draw(spriteBatch);
         foreach (Projectile projectile in player.Projectiles)
             projectile.Draw(spriteBatch);
         foreach (Projectile projectile in projectiles)
             projectile.Draw(spriteBatch);
+
     }
 }

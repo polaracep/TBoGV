@@ -34,7 +34,8 @@ public static class TextureManager
             "containerEffect",
             "containerBoots",
             "containerBasic",
-            "wheat4"
+            "wheat4",
+            "teeth"
         };
 
         foreach (string name in names)

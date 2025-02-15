@@ -18,12 +18,11 @@ internal class ScreenGame : Screen
     private UI UI;
     private MouseState mouseState;
     private KeyboardState keyboardState;
-    private int Frame;
+
     private Song Song;
 
     public ScreenGame()
     {
-        Frame = 0;
     }
 
     public override void BeginRun(GraphicsDeviceManager graphics)

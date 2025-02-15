@@ -28,9 +28,11 @@ public class Inventory
 		armor.ContainerType = ItemTypes.ARMOR;
 		ItemContainer effect = new();
 		effect.ContainerType = ItemTypes.EFFECT;
-
-		weapon.Item = new ItemDagger(Vector2.Zero);
-		ItemContainers = new List<ItemContainer>() { weapon, armor, effect, new ItemContainer(), new ItemContainer(), new ItemContainer()};
+		ItemContainer kalkulacka = new();
+		kalkulacka.Item = new ItemCalculator(Vector2.Zero);
+		kalkulacka.Selected = true;
+        weapon.Item = new ItemDagger(Vector2.Zero);
+		ItemContainers = new List<ItemContainer>() { weapon, armor, effect, kalkulacka, new ItemContainer(), new ItemContainer()};
 		SpriteForeground = TextureManager.GetTexture("whiteSquare");
 		SpriteToolTip = TextureManager.GetTexture("containerBorder");
 		Font = FontManager.GetFont("Arial8");
@@ -118,12 +120,12 @@ public class Inventory
 		int scrollDelta = PrevScrollWheelValue - mouseState.ScrollWheelValue;
 		if (scrollDelta > 0)
 		{
-			selectedItemIndex = (selectedItemIndex + 1) % ItemContainers.Count;
+			selectedItemIndex = 3 + ((selectedItemIndex + 1) % (ItemContainers.Count-3));
 			SetActiveItemContainer();
 		}
 		else if (scrollDelta < 0)
 		{
-			selectedItemIndex = (selectedItemIndex - 1 + ItemContainers.Count) % ItemContainers.Count;
+			selectedItemIndex = 3 + ((selectedItemIndex - 1 + ItemContainers.Count) %( ItemContainers.Count - 3));
 			SetActiveItemContainer();
 		}
 		PrevScrollWheelValue = mouseState.ScrollWheelValue;
@@ -135,6 +137,13 @@ public class Inventory
 			ItemContainers[i].Selected = (i == selectedItemIndex);
 		}
 	}
+	private ItemContainer GetSelectedItemContainer()
+	{
+        for (int i = 0; i < ItemContainers.Count; i++)
+			if (ItemContainers[i].Selected)
+				return ItemContainers[i];
+		return null;
+    }
 	private void DrawTooltip(SpriteBatch spriteBatch, ItemContainer item)
 	{
 		// Get formatted text
@@ -171,6 +180,63 @@ public class Inventory
 		);
 		spriteBatch.DrawString(Font, stats, statsPosition, Color.White);
 	}
+	public bool PickUpItem(ItemContainerable item)
+	{
+		switch (item.ItemType)
+		{
+			case ItemTypes.EFFECT:
+				if (ItemContainers[2].IsEmpty())
+					ItemContainers[2].Item = item;
+				return ItemContainers[2].IsEmpty();
+			case ItemTypes.WEAPON:
+                if (ItemContainers[0].IsEmpty())
+                    ItemContainers[0].Item = item;
+                return ItemContainers[0].IsEmpty();
+            case ItemTypes.ARMOR:
+                if (ItemContainers[1].IsEmpty())
+                    ItemContainers[1].Item = item;
+                return ItemContainers[1].IsEmpty();
+            case ItemTypes.BASIC:
+				for (int i = 3; i < ItemContainers.Count; i++)
+				{
+					if (ItemContainers[i].IsEmpty())
+					{
+						ItemContainers[i].Item = item;
+						return true;
+					}
+                }
+				return false;
+			default:
+				return false;
+		}
+	}
+    public ItemContainerable SwapItem(ItemContainerable item)
+    {
+		ItemContainerable itemToDrop;
+        switch (item.ItemType)
+        {
+            case ItemTypes.EFFECT:
+				itemToDrop = ItemContainers[2].Item;
+                ItemContainers[2].Item = item;
+				break;
+            case ItemTypes.WEAPON:
+                itemToDrop = ItemContainers[0].Item;
+                ItemContainers[0].Item = item;
+                break;
+            case ItemTypes.ARMOR:
+                itemToDrop = ItemContainers[1].Item;
+                ItemContainers[1].Item = item;
+                break;
+            case ItemTypes.BASIC:
+				itemToDrop = GetSelectedItemContainer().Item;
+                GetSelectedItemContainer().Item = item;
+				break;
+            default:
+                return item;
+        }
+        itemToDrop.Position = item.Position;
+		return itemToDrop;
+    }
 
     private string FormatStats(Dictionary<StatTypes, int> stats, bool weapon)
     {
