@@ -13,10 +13,10 @@ internal class ItemCalculator : ItemContainerable
         Position = position;
         Size = new Vector2(50, 50);
         Name = "Kalkulacka";
-        Description = "Rychla schovankovo opravovani testu";
+        Description = "Rychla jako schovankovo opravovani testu";
         Stats = new Dictionary<StatTypes, int>() { { StatTypes.DAMAGE, 4 }};
         Effects = new List<EffectTypes>();
-        Sprite = TextureManager.GetTexture("koren");
+        Sprite = TextureManager.GetTexture("tile");
         ItemType = ItemTypes.BASIC;
     }
     public override void Draw(SpriteBatch spriteBatch)

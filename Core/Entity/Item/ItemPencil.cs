@@ -16,7 +16,7 @@ namespace TBoGV;
         Description = "cerstve naostrena";
         Stats = new Dictionary<StatTypes, int>() { { StatTypes.DAMAGE, 1 }, { StatTypes.ATTACK_SPEED, 500 } };
         Effects = new List<EffectTypes>();
-        Sprite = TextureManager.GetTexture("koren");
+        Sprite = TextureManager.GetTexture("tile");
         ItemType = ItemTypes.WEAPON;
     }
 

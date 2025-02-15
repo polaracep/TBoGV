@@ -16,7 +16,7 @@ internal class ItemDagger : ItemContainerable
 		Description = "stabs";
 		Stats = new Dictionary<StatTypes, int>() { { StatTypes.DAMAGE, 3 }, { StatTypes.ATTACK_SPEED, 100 } };
 		Effects = new List<EffectTypes>();
-		Sprite = TextureManager.GetTexture("koren");
+		Sprite = TextureManager.GetTexture("tile");
 		ItemType = ItemTypes.WEAPON;
 	}
 
