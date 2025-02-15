@@ -27,7 +27,8 @@ internal class InGameMenuLevelUp : InGameMenu
         "dneska ti nikdo neposlal reel",
         "prinesl jsi si veci do skoly",
         "dneska se ti nezdaly sny o neexistujicich lego dilcich",
-        "schovanek byl cooked vic nez ty na TFY"
+        "schovanek byl cooked vic nez ty na TFY",
+        "dostal jsi pridano na obede"
     };
 
     // Extra text to implicitly indicate that the option improves understanding
