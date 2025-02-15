@@ -29,7 +29,7 @@ internal class InGameMenuDeath : InGameMenu
         "Mikes te videl s telefonem",
         "Potkal jsi Prochazkovou",
         "Neprisel jsi na hodinu Predescu",
-
+        "O prestavce jsi poslal pivko a nabils",
     };
 
     public InGameMenuDeath(Viewport viewport)
