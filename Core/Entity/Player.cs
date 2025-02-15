@@ -30,7 +30,7 @@ public class Player : Entity, IRecieveDmg, IDealDmg, IDraw
 	{
 		BaseStats = new Dictionary<StatTypes, float>()
 		{
-			{ StatTypes.MAX_HP, 9 },         
+			{ StatTypes.MAX_HP, 6 },         
 			{ StatTypes.DAMAGE, 1 },          
 			{ StatTypes.PROJECTILE_COUNT, 20 }, 
 			{ StatTypes.XP_GAIN, 1 },        

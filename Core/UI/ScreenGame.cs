@@ -108,7 +108,7 @@ internal class ScreenGame : Screen
         if (KeyReleased(Keys.Tab))
         {
             effectMenu.Active = !effectMenu.Active;
-            if (!levelUpMenu.Active)
+            if (!levelUpMenu.Active && !deathMenu.Active)
                 inGameMenu = effectMenu;
         }
 
