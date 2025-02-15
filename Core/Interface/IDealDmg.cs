@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace TBoGV;
 internal interface IDealDmg
@@ -7,5 +8,5 @@ internal interface IDealDmg
     float AttackSpeed { get; set; }
 	float AttackDmg { get; set; }
 	bool ReadyToAttack();
-	Projectile Attack();
+    List<Projectile> Attack();
 }

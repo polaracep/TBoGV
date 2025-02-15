@@ -156,7 +156,13 @@ public abstract class Room : IDraw
             enemy.Update(player.Position + player.Size / 2);
 
             if (enemy.ReadyToAttack())
-                projectiles.Add(enemy.Attack());
+            {
+                foreach (var projectile in enemy.Attack())
+                {
+                    projectiles.Add(projectile);
+                }
+            }
+
         }
 
     }

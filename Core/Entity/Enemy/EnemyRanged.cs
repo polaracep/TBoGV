@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -10,10 +11,10 @@ abstract class EnemyRanged : Enemy, IDraw
         Direction = new Vector2(playerPosition.X, playerPosition.Y) - Position - Size / 2;
         Direction.Normalize();
     }
-    public override Projectile Attack()
+    public override List<Projectile> Attack()
     {
         LastAttackTime = DateTime.UtcNow;
-        return new ProjectilePee(Position + Size / 2, Direction, AttackDmg);
+        return new List<Projectile>() {new ProjectilePee(Position + Size / 2, Direction, AttackDmg)};
     }
     public override bool ReadyToAttack()
     {

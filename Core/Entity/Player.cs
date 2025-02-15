@@ -17,7 +17,7 @@ public class Player : Entity, IRecieveDmg, IDealDmg, IDraw
 	public float Hp { get; set; }
 	public int MaxHp { get; set; }
 	public float XpGain { get; set; }
-
+    public int ProjectileCount { get; set; }
     public int Coins { get; set; }
 	public Dictionary<StatTypes, float> BaseStats { get; set; }
 	public Dictionary<StatTypes, int> LevelUpStats { get; set; }
@@ -32,7 +32,7 @@ public class Player : Entity, IRecieveDmg, IDealDmg, IDraw
 		{
 			{ StatTypes.MAX_HP, 9 },         
 			{ StatTypes.DAMAGE, 1 },          
-			{ StatTypes.PROJECTILE_COUNT, 1 }, 
+			{ StatTypes.PROJECTILE_COUNT, 2 }, 
 			{ StatTypes.XP_GAIN, 1 },        // Získávání XP v %  
 			{ StatTypes.ATTACK_SPEED, 1500 },   
 			{ StatTypes.MOVEMENT_SPEED, 2 }    
@@ -104,7 +104,7 @@ public class Player : Entity, IRecieveDmg, IDealDmg, IDraw
 		AttackSpeed = finalStats[StatTypes.ATTACK_SPEED];
 		MovementSpeed = (int)finalStats[StatTypes.MOVEMENT_SPEED];
         XpGain = finalStats[StatTypes.XP_GAIN];
-
+        ProjectileCount = (int)finalStats[StatTypes.PROJECTILE_COUNT];
     }
 
 	public void Update(KeyboardState keyboardState, MouseState mouseState, Matrix transform, Room room, Viewport viewport)
@@ -173,7 +173,13 @@ public class Player : Entity, IRecieveDmg, IDealDmg, IDraw
 			Direction = direction;
 		}
 		if (ReadyToAttack() && mouseState.LeftButton == ButtonState.Pressed)
-			Projectiles.Add(Attack());
+		{
+			foreach (var projectile in Attack())
+			{
+                Projectiles.Add(projectile);
+            }
+		}
+
 		SetStats();
     }
 
@@ -188,15 +194,32 @@ public class Player : Entity, IRecieveDmg, IDealDmg, IDraw
 	{
 		return (DateTime.UtcNow - LastAttackTime).TotalMilliseconds >= AttackSpeed;
 	}
-	public Projectile Attack()
-	{
-		LastAttackTime = DateTime.UtcNow;
-		Projectile projectile = new ProjectilePee(Position + Size / 2, Direction, AttackDmg);
-		projectile.ShotByPlayer = true;
+    public List<Projectile> Attack()
+    {
+        LastAttackTime = DateTime.UtcNow;
+        List<Projectile> firedProjectiles = new List<Projectile>();
 
-		return projectile;
-	}
-	public void RecieveDmg(float damage)
+        float spreadAngle = 10f; // Angle between projectiles in degrees
+        float startAngle = -((ProjectileCount - 1) * spreadAngle) / 2; // Centering the spread
+
+        for (int i = 0; i < ProjectileCount; i++)
+        {
+            float angle = MathHelper.ToRadians(startAngle + i * spreadAngle);
+            Vector2 rotatedDirection = new Vector2(
+                Direction.X * (float)Math.Cos(angle) - Direction.Y * (float)Math.Sin(angle),
+                Direction.X * (float)Math.Sin(angle) + Direction.Y * (float)Math.Cos(angle)
+            );
+            rotatedDirection.Normalize();
+
+            Projectile projectile = new ProjectilePee(Position + Size / 2, rotatedDirection, AttackDmg);
+            projectile.ShotByPlayer = true;
+            firedProjectiles.Add(projectile);
+        }
+
+        return firedProjectiles;
+    }
+
+    public void RecieveDmg(float damage)
 	{
 		if ((DateTime.UtcNow - LastRecievedDmgTime).TotalMilliseconds >= InvulnerabilityFrame)
 		{

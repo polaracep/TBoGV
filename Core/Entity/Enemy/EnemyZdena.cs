@@ -26,9 +26,9 @@ internal class EnemyZdena : EnemyRanged
 	{
 		spriteBatch.Draw(Sprite, new Rectangle(Convert.ToInt32(Position.X), Convert.ToInt32(Position.Y), Convert.ToInt32(Size.X), Convert.ToInt32(Size.Y)), Color.White);
 	}
-	public override Projectile Attack()
+	public override List<Projectile> Attack()
 	{
 		LastAttackTime = DateTime.UtcNow;
-		return new ProjectileRoot(Position + Size / 2, Direction, AttackDmg);
-	}
+        return new List<Projectile>() { new ProjectilePee(Position + Size / 2, Direction, AttackDmg) };
+    }
 }

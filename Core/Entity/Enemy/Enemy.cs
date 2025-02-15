@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 using System;
+using System.Collections.Generic;
 
 namespace TBoGV;
 public abstract class Enemy : Entity, IRecieveDmg, IDealDmg
@@ -16,7 +17,7 @@ public abstract class Enemy : Entity, IRecieveDmg, IDealDmg
     public abstract bool ReadyToAttack();
     public abstract void Update(Vector2 playerPosition);
     public abstract bool IsDead();
-    public abstract Projectile Attack();
+    public abstract List<Projectile> Attack();
 
     public virtual void RecieveDmg(float damage)
     {
