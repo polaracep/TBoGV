@@ -58,7 +58,7 @@ public class Level
         Console.WriteLine("DIR:" + e.Directions);
     }
 }
-    
+
 public class LevelCreator
 {
 
@@ -81,27 +81,6 @@ public class LevelCreator
         this.Player = player;
     }
 
-    private (Vector2 offset, Vector2 bounds) GetOffsetAndSize(RoomCandidate[,] rooms)
-    {
-        int x = 0, y = 0;
-        int _x = int.MaxValue, _y = int.MaxValue;
-        foreach (RoomCandidate r in rooms)
-        {
-            if (r == null)
-                continue;
-
-            if (r.Position.X > x)
-                x = (int)r.Position.X;
-            if (r.Position.Y > y)
-                y = (int)r.Position.Y;
-            if (r.Position.X < _x)
-                _x = (int)r.Position.X;
-            if (r.Position.Y < _y)
-                _y = (int)r.Position.Y;
-        }
-        return (new Vector2(_x, _y), new Vector2(x - _x + 1, y - _y + 1));
-    }
-
     public Room[,] GenerateLevel(out Vector2 startRoomPos)
     {
         // Candidate map je mapa levelu, ktera nema mistnosti, ale jen kandidaty na mistnosti
@@ -120,9 +99,11 @@ public class LevelCreator
                 continue;
 
             Room chosen = Rooms[rand.Next(Rooms.Count())];
+            Rooms.Remove(chosen);
             chosen.DoorDirections = c.DoorDirections;
             chosen.Position = c.Position - trucSize.offset;
             Vector2 newPos = new Vector2((int)c.Position.X - (int)trucSize.offset.X, (int)c.Position.Y - (int)trucSize.offset.Y);
+            Console.WriteLine(chosen.DoorDirections + ", " + newPos);
 
             finalMap[(int)newPos.X, (int)newPos.Y] = chosen;
             PrintMap(finalMap);
@@ -242,6 +223,26 @@ public class LevelCreator
             Console.WriteLine();
         }
         Console.WriteLine();
+    }
+    private (Vector2 offset, Vector2 bounds) GetOffsetAndSize(RoomCandidate[,] rooms)
+    {
+        int x = 0, y = 0;
+        int _x = int.MaxValue, _y = int.MaxValue;
+        foreach (RoomCandidate r in rooms)
+        {
+            if (r == null)
+                continue;
+
+            if (r.Position.X > x)
+                x = (int)r.Position.X;
+            if (r.Position.Y > y)
+                y = (int)r.Position.Y;
+            if (r.Position.X < _x)
+                _x = (int)r.Position.X;
+            if (r.Position.Y < _y)
+                _y = (int)r.Position.Y;
+        }
+        return (new Vector2(_x, _y), new Vector2(x - _x + 1, y - _y + 1));
     }
 
     private class RoomCandidate

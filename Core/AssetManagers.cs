@@ -62,7 +62,7 @@ public static class SongManager
 
         foreach (string name in names)
         {
-            songs.Add(name, content.Load<Song>("Sounds/" + name));
+            //songs.Add(name, content.Load<Song>("Sounds/" + name));
         }
     }
     public static Song GetSong(string name)

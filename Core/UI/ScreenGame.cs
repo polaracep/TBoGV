@@ -45,14 +45,14 @@ internal class ScreenGame : Screen
         deathMenu = new InGameMenuDeath(graphics.GraphicsDevice.Viewport);
 
         // check the current state of the MediaPlayer.
-        Song = SongManager.GetSong("soundtrack");
+        // Song = SongManager.GetSong("soundtrack");
         if (MediaPlayer.State != MediaState.Stopped)
         {
             MediaPlayer.Stop(); // stop current audio playback if playing or paused.
         }
 
         // Play the selected song reference.
-        MediaPlayer.Play(Song);
+        // MediaPlayer.Play(Song);
         MediaPlayer.Volume = 0.01f;
     }
 
@@ -71,7 +71,7 @@ internal class ScreenGame : Screen
 
         _spriteBatch.Begin();
         UI.Draw(_spriteBatch);
-		player.Inventory.Draw(_spriteBatch);
+        player.Inventory.Draw(_spriteBatch);
         if (inGameMenu.Active)
         {
             inGameMenu.Draw(_spriteBatch);
@@ -120,7 +120,9 @@ internal class ScreenGame : Screen
             if (MediaPlayer.State == MediaState.Paused)
                 MediaPlayer.Resume();
             else if (MediaPlayer.State == MediaState.Stopped)
-                MediaPlayer.Play(Song);
+            {
+                //    MediaPlayer.Play(Song);
+            }
         }
         else
         {
