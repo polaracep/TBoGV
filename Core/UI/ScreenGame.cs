@@ -14,6 +14,7 @@ internal class ScreenGame : Screen
     private InGameMenu inGameMenu;
     private InGameMenuEffect effectMenu;
     private InGameMenuLevelUp levelUpMenu;
+    private InGameMenuDeath deathMenu;
     private UI UI;
     private MouseState mouseState;
     private KeyboardState keyboardState;
@@ -42,6 +43,7 @@ internal class ScreenGame : Screen
         _camera = new Camera(graphics.GraphicsDevice.Viewport, (int)(CurrentLevel.ActiveRoom.Dimensions.X * Tile.GetSize().X), (int)(CurrentLevel.ActiveRoom.Dimensions.Y * Tile.GetSize().Y));
         inGameMenu = effectMenu = new InGameMenuEffect(graphics.GraphicsDevice.Viewport);
         levelUpMenu = new InGameMenuLevelUp(graphics.GraphicsDevice.Viewport);
+        deathMenu = new InGameMenuDeath(graphics.GraphicsDevice.Viewport);
 
         // check the current state of the MediaPlayer.
         Song = SongManager.GetSong("soundtrack");
@@ -98,8 +100,12 @@ internal class ScreenGame : Screen
             inGameMenu = levelUpMenu;
             levelUpMenu.OpenMenu();
         }
-
-        if (KeyReleased(Keys.Escape))
+        if (player.Hp < 1 && !deathMenu.Active)
+        {
+            inGameMenu = deathMenu;
+            deathMenu.OpenMenu();
+        }
+        if (KeyReleased(Keys.Tab))
         {
             effectMenu.Active = !effectMenu.Active;
             if (!levelUpMenu.Active)
@@ -120,6 +126,9 @@ internal class ScreenGame : Screen
         else
         {
             inGameMenu.Update(graphics.GraphicsDevice.Viewport, player, mouseState);
+            // revive
+            if (!deathMenu.Active && player.Hp < 1)
+                Reset();
             if (MediaPlayer.State == MediaState.Playing)
             {
                 MediaPlayer.Pause();
@@ -131,5 +140,9 @@ internal class ScreenGame : Screen
     public bool KeyReleased(Keys key)
     {
         return previousKeyboardState.IsKeyDown(key) && keyboardState.IsKeyUp(key);
+    }
+    void Reset()
+    {
+        player.Heal((uint)player.MaxHp);
     }
 }

@@ -33,7 +33,8 @@ public static class TextureManager
             "containerWeapon",
             "containerEffect",
             "containerBoots",
-            "containerBasic"
+            "containerBasic",
+            "wheat4"
         };
 
         foreach (string name in names)
