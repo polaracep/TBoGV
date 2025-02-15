@@ -29,7 +29,7 @@ public class Inventory
 		ItemContainer effect = new();
 		effect.ContainerType = ItemTypes.EFFECT;
 
-		weapon.Item = new ItemDoping(Vector2.Zero);
+		weapon.Item = new ItemDagger(Vector2.Zero);
 		ItemContainers = new List<ItemContainer>() { weapon, armor, effect, new ItemContainer(), new ItemContainer(), new ItemContainer()};
 		SpriteForeground = TextureManager.GetTexture("whiteSquare");
 		SpriteToolTip = TextureManager.GetTexture("containerBorder");
