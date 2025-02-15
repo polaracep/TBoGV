@@ -77,12 +77,14 @@ public class Inventory
 	public void Update(Viewport viewport, Player player, MouseState mouseState)
 	{
 		hoveredItem = null; // Reset hovered item
-
-		Position = new Vector2(viewport.Width/2 - ItemContainers.Count * (ItemContainers[0].Size.X)/2 , viewport.Height - ItemContainers[0].Size.Y);
+		int separatorWidth = 10;
+		Position = new Vector2(viewport.Width/2 - ItemContainers.Count * (ItemContainers[0].Size.X)/2 -separatorWidth/2, viewport.Height - ItemContainers[0].Size.Y);
 		for (int i = 0; i < ItemContainers.Count; i++)
 		{
 			Vector2 containerPosition = Position + new Vector2(i * ItemContainers[i].Size.X, 0);
-			ItemContainers[i].SetPosition(containerPosition);
+            containerPosition.X += (i > 2) ? separatorWidth : 0;
+
+            ItemContainers[i].SetPosition(containerPosition);
 			// Check if mouse is over an item
 			if (ItemContainers[i].GetRectangle().Contains(mouseState.Position) && !ItemContainers[i].IsEmpty())
 			{

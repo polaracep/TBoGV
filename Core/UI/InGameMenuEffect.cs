@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework;
@@ -11,30 +9,29 @@ namespace TBoGV;
 internal class InGameMenuEffect : InGameMenu
 {
     static Viewport Viewport;
-    List<ItemContainer> ItemContainers;
-    static SpriteFont SmallFont;
     static SpriteFont MiddleFont;
-    static SpriteFont LargerFont;
-    static Texture2D SpriteForeground;
-    static Texture2D SpriteToolTip;
-    Inventory Inventory;
-    ItemContainer? hoveredItem;
     public Dictionary<StatTypes, int> Stats { get; set; }
     public InGameMenuEffect(Viewport viewport)
     {
         Viewport = viewport;
         SpriteBackground = TextureManager.GetTexture("blackSquare");
-        SpriteForeground = TextureManager.GetTexture("whiteSquare");
-        SpriteToolTip = TextureManager.GetTexture("container");
-        SmallFont = FontManager.GetFont("Arial8");
         MiddleFont = FontManager.GetFont("Arial12");
-        LargerFont = FontManager.GetFont("Arial24");
+
         Active = false;
     }
     public override void Update(Viewport viewport, Player player, MouseState mouseState)
     {
         base.Update(viewport, player, mouseState);
-        Stats = player.Inventory.SetStats(player.BaseStats);
+        Stats = new Dictionary<StatTypes, int>()
+        {
+            { StatTypes.MAX_HP, 0 },
+            { StatTypes.DAMAGE, 0 },
+            { StatTypes.PROJECTILE_COUNT, 0 },
+            { StatTypes.XP_GAIN, 0 },        // Získávání XP v %  
+			{ StatTypes.ATTACK_SPEED, 0 },
+            { StatTypes.MOVEMENT_SPEED, 0 }
+        };
+        Stats = player.Inventory.SetStats(Stats);
     }
     public override void Draw(SpriteBatch spriteBatch)
     {
@@ -67,13 +64,11 @@ internal class InGameMenuEffect : InGameMenu
             string value = statEntries[i].value;
 
             Vector2 labelPosition = new Vector2(startX, startY + i * MiddleFont.LineSpacing);
-            Vector2 valuePosition = new Vector2(startX + maxLabelWidth + spacing, startY + i * MiddleFont.LineSpacing);
+            Vector2 valuePosition = new Vector2(startX + maxLabelWidth + spacing + maxValueWidth - MiddleFont.MeasureString(value).X, startY + i * MiddleFont.LineSpacing);
 
             spriteBatch.DrawString(MiddleFont, label, labelPosition, Color.White);
             spriteBatch.DrawString(MiddleFont, value, valuePosition, Color.White);
         }
-
-
     }
 
     // Helper method to map StatTypes to display names
