@@ -147,6 +147,15 @@ public class Player : Entity, IRecieveDmg, IDealDmg, IDraw
                     room.RemoveItem(item);
             }
         }
+		for (int i = 0; i < room.drops.Count; i++)
+		{
+			if (room.drops[i] is not ItemContainerable && ObjectCollision.CircleCircleCollision(room.drops[i],this))
+			{
+                room.drops[i].Interact(this, room);
+                room.RemoveItem(room.drops[i]);
+            }
+		}
+
 		Inventory.Update(viewport, this, mouseState);
 		/* === */
 		int tolerance = 1;
