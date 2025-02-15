@@ -25,6 +25,11 @@ internal class InGameMenuDeath : InGameMenu
         "Zoned out - mozna zkus spat vic nez 2h",
         "Nepozdravil jsi vratnou",
         "Nezavrel jsi dvere pred skolnikem",
+        "Nepipl jsi si u vydeje",
+        "Mikes te videl s telefonem",
+        "Potkal jsi Prochazkovou",
+        "Neprisel jsi na hodinu Predescu",
+
     };
 
     public InGameMenuDeath(Viewport viewport)
