@@ -25,7 +25,7 @@ internal class UI : IDraw
         SpriteXpBar = TextureManager.GetTexture("whiteSquare");
         Coins = 0;
         Xp = 0;
-        MaxXp = 100;
+        MaxXp = 10;
     }
 
     public void Update(Player player, GraphicsDeviceManager graphics)

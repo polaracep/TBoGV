@@ -10,7 +10,7 @@ internal class InGameMenuEffect : InGameMenu
 {
     static Viewport Viewport;
     static SpriteFont MiddleFont;
-    public Dictionary<StatTypes, float> Stats { get; set; }
+    public Dictionary<StatTypes, int> Stats { get; set; }
     public InGameMenuEffect(Viewport viewport)
     {
         Viewport = viewport;
@@ -22,16 +22,8 @@ internal class InGameMenuEffect : InGameMenu
     public override void Update(Viewport viewport, Player player, MouseState mouseState)
     {
         base.Update(viewport, player, mouseState);
-        Stats = new Dictionary<StatTypes, float>()
-        {
-            { StatTypes.MAX_HP, 0 },
-            { StatTypes.DAMAGE, 0 },
-            { StatTypes.PROJECTILE_COUNT, 0 },
-            { StatTypes.XP_GAIN, 0 },        // Získávání XP v %  
-            { StatTypes.ATTACK_SPEED, 0 },
-            { StatTypes.MOVEMENT_SPEED, 0 }
-        };
-        Stats = player.Inventory.SetStats(Stats);
+
+        Stats = player.Inventory.SetStats(player.LevelUpStats);
     }
     public override void Draw(SpriteBatch spriteBatch)
     {

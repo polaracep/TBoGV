@@ -12,6 +12,8 @@ internal class ScreenGame : Screen
     private Camera _camera;
     private Level CurrentLevel;
     private InGameMenu inGameMenu;
+    private InGameMenuEffect effectMenu;
+    private InGameMenuLevelUp levelUpMenu;
     private UI UI;
     private MouseState mouseState;
     private KeyboardState keyboardState;
@@ -38,7 +40,8 @@ internal class ScreenGame : Screen
 
         UI = new UI();
         _camera = new Camera(graphics.GraphicsDevice.Viewport, (int)(CurrentLevel.ActiveRoom.Dimensions.X * Tile.GetSize().X), (int)(CurrentLevel.ActiveRoom.Dimensions.Y * Tile.GetSize().Y));
-        inGameMenu = new InGameMenuEffect(graphics.GraphicsDevice.Viewport);
+        inGameMenu = effectMenu = new InGameMenuEffect(graphics.GraphicsDevice.Viewport);
+        levelUpMenu = new InGameMenuLevelUp(graphics.GraphicsDevice.Viewport);
 
         // check the current state of the MediaPlayer.
         Song = SongManager.GetSong("soundtrack");
@@ -85,8 +88,24 @@ internal class ScreenGame : Screen
         previousKeyboardState = keyboardState;
         mouseState = Mouse.GetState();
         keyboardState = Keyboard.GetState();
+        int levelStatsCount = 0;
+        foreach (var item in player.LevelUpStats)
+        {
+            levelStatsCount += (int)player.LevelUpStats[item.Key];
+        }
+        if (player.Level != levelStatsCount && !levelUpMenu.Active)
+        {
+            inGameMenu = levelUpMenu;
+            levelUpMenu.OpenMenu();
+        }
+
         if (KeyReleased(Keys.Escape))
-            inGameMenu.Active = !inGameMenu.Active;
+        {
+            effectMenu.Active = !effectMenu.Active;
+            if (!levelUpMenu.Active)
+                inGameMenu = effectMenu;
+        }
+
         if (!inGameMenu.Active)
         {
             player.Update(keyboardState, mouseState, _camera.Transform, CurrentLevel.ActiveRoom, graphics.GraphicsDevice.Viewport);
@@ -97,7 +116,6 @@ internal class ScreenGame : Screen
                 MediaPlayer.Resume();
             else if (MediaPlayer.State == MediaState.Stopped)
                 MediaPlayer.Play(Song);
-
         }
         else
         {
@@ -107,10 +125,6 @@ internal class ScreenGame : Screen
                 MediaPlayer.Pause();
             }
         }
-        Frame++;
-
-        // Loop
-
     }
     KeyboardState previousKeyboardState;
 

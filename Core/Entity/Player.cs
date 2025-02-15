@@ -18,7 +18,7 @@ public class Player : Entity, IRecieveDmg, IDealDmg, IDraw
 	public int MaxHp { get; set; }
 	public int Coins { get; set; }
 	public Dictionary<StatTypes, float> BaseStats { get; set; }
-	public Dictionary<StatTypes, float> LevelUpStats { get; set; }
+	public Dictionary<StatTypes, int> LevelUpStats { get; set; }
     public DateTime LastAttackTime { get; set; }
 	public DateTime LastRecievedDmgTime { get; set; }
 	public int InvulnerabilityFrame = 1000;
@@ -35,7 +35,7 @@ public class Player : Entity, IRecieveDmg, IDealDmg, IDraw
 			{ StatTypes.ATTACK_SPEED, 1500 },   
 			{ StatTypes.MOVEMENT_SPEED, 2 }    
 		};
-        LevelUpStats = new Dictionary<StatTypes, float>()
+        LevelUpStats = new Dictionary<StatTypes, int>()
         {
             { StatTypes.MAX_HP, 0 },
             { StatTypes.DAMAGE, 0 },
@@ -63,7 +63,7 @@ public class Player : Entity, IRecieveDmg, IDealDmg, IDraw
 		BaseStats[StatTypes.DAMAGE] = Inventory.GetWeaponDmg();
         BaseStats[StatTypes.ATTACK_SPEED] = Inventory.GetWeaponAttackSpeed();
         Dictionary<StatTypes, float> finalStats = new Dictionary<StatTypes, float>();
-        Dictionary<StatTypes, float> subjectStats = Inventory.SetStats(LevelUpStats);
+        Dictionary<StatTypes, int> subjectStats = Inventory.SetStats(LevelUpStats);
 		foreach (var item in subjectStats)
 		{
 			float subjectValue; 
@@ -169,7 +169,8 @@ public class Player : Entity, IRecieveDmg, IDealDmg, IDraw
 		}
 		if (ReadyToAttack() && mouseState.LeftButton == ButtonState.Pressed)
 			Projectiles.Add(Attack());
-	}
+		SetStats();
+    }
 
     public void Draw(SpriteBatch spriteBatch)
 	{
