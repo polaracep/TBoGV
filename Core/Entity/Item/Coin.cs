@@ -10,7 +10,7 @@ internal class Coin : Item, IDraw
 	public Coin(Vector2 position)
 	{
 		Sprite = TextureManager.GetTexture("coin");
-		Size = new Vector2(30, 30);
+		Size = new Vector2(15, 15);
 		Position = position - Size/2;
 		Small = true;
 	}
