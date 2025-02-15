@@ -6,9 +6,9 @@ namespace TBoGV;
 public abstract class Enemy : Entity, IRecieveDmg, IDealDmg
 {
     public DateTime LastAttackTime { get; set; }
-    public int AttackSpeed { get; set; }
-    public int AttackDmg { get; set; }
-    public int Hp { get; set; }
+    public float AttackSpeed { get; set; }
+    public float AttackDmg { get; set; }
+    public float Hp { get; set; }
     public int MaxHp { get; set; }
     public int XpValue { get; set; }
 
@@ -18,7 +18,7 @@ public abstract class Enemy : Entity, IRecieveDmg, IDealDmg
     public abstract bool IsDead();
     public abstract Projectile Attack();
 
-    public virtual void RecieveDmg(int damage)
+    public virtual void RecieveDmg(float damage)
     {
         Hp -= damage;
     }

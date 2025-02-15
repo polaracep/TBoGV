@@ -4,8 +4,8 @@ namespace TBoGV;
 internal interface IDealDmg
 {
 	DateTime LastAttackTime { get; set; }
-	int AttackSpeed { get; set; }
-	int AttackDmg { get; set; }
+    float AttackSpeed { get; set; }
+	float AttackDmg { get; set; }
 	bool ReadyToAttack();
 	Projectile Attack();
 }

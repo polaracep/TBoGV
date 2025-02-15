@@ -8,7 +8,7 @@ namespace TBoGV;
 public abstract class Projectile : Entity, IDraw
 {
 	public bool ShotByPlayer;
-	public int Damage { get; set; }
+	public float Damage { get; set; }
 	public virtual void Update()
 	{
 		Position += Direction * MovementSpeed;

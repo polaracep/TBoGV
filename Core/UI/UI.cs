@@ -47,7 +47,7 @@ internal class UI : IDraw
         }
 
         Coins = player.Coins;
-        Xp = player.Xp;
+        Xp = (int)player.Xp;
         MaxXp = player.XpForLevel();
 
         Vector2 screenSize = new Vector2(GraphicsDeviceManager.DefaultBackBufferWidth, GraphicsDeviceManager.DefaultBackBufferHeight);

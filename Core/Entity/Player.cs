@@ -10,31 +10,41 @@ public class Player : Entity, IRecieveDmg, IDealDmg, IDraw
 {
 	static Texture2D Sprite;
 	public int Level { get; set; }
-	public int Xp { get; set; }
-	public int AttackSpeed { get; set; }
-	public int AttackDmg { get; set; }
+	public float Xp { get; set; }
+	public float AttackSpeed { get; set; }
+	public float AttackDmg { get; set; }
 	public int ItemCapacity { get; set; }
-	public int Hp { get; set; }
+	public float Hp { get; set; }
 	public int MaxHp { get; set; }
 	public int Coins { get; set; }
-	public Dictionary<StatTypes, int> BaseStats { get; set; }
-	public DateTime LastAttackTime { get; set; }
+	public Dictionary<StatTypes, float> BaseStats { get; set; }
+	public Dictionary<StatTypes, float> LevelUpStats { get; set; }
+    public DateTime LastAttackTime { get; set; }
 	public DateTime LastRecievedDmgTime { get; set; }
 	public int InvulnerabilityFrame = 1000;
 	public List<Projectile> Projectiles { get; set; }
 	public Inventory Inventory { get; set; }
 	public Player(Vector2 position)
 	{
-		BaseStats = new Dictionary<StatTypes, int>()
+		BaseStats = new Dictionary<StatTypes, float>()
 		{
 			{ StatTypes.MAX_HP, 9 },         
 			{ StatTypes.DAMAGE, 1 },          
 			{ StatTypes.PROJECTILE_COUNT, 1 }, 
-			{ StatTypes.XP_GAIN, 100 },        // Získávání XP v %  
-			{ StatTypes.ATTACK_SPEED, 100 },   
-			{ StatTypes.MOVEMENT_SPEED, 4 }    
+			{ StatTypes.XP_GAIN, 1 },        // Získávání XP v %  
+			{ StatTypes.ATTACK_SPEED, 1500 },   
+			{ StatTypes.MOVEMENT_SPEED, 2 }    
 		};
-		Hp = 9;
+        LevelUpStats = new Dictionary<StatTypes, float>()
+        {
+            { StatTypes.MAX_HP, 0 },
+            { StatTypes.DAMAGE, 0 },
+            { StatTypes.PROJECTILE_COUNT, 0 },
+            { StatTypes.XP_GAIN, 0 },        // Získávání XP v %  
+			{ StatTypes.ATTACK_SPEED, 0 },
+            { StatTypes.MOVEMENT_SPEED, 0 }
+        };
+        Hp = 9;
 		Position = position;
 		Size = new Vector2(50, 50);
 		Projectiles = new List<Projectile>();		
@@ -50,15 +60,45 @@ public class Player : Entity, IRecieveDmg, IDealDmg, IDraw
 	Vector2 InteractionPoint = Vector2.Zero;
 	public void SetStats()
 	{
-		Dictionary<StatTypes, int> finalStats = Inventory.SetStats(BaseStats);
-
+		BaseStats[StatTypes.DAMAGE] = Inventory.GetWeaponDmg();
+		Dictionary<StatTypes, float> finalStats = new Dictionary<StatTypes, float>();
+        Dictionary<StatTypes, float> subjectStats = Inventory.SetStats(LevelUpStats);
+		foreach (var item in subjectStats)
+		{
+			float subjectValue; 
+			switch (item.Key)
+			{
+				case StatTypes.MAX_HP:
+					subjectValue = (int)item.Value * 0.5f + BaseStats[item.Key];
+					break;
+				case StatTypes.DAMAGE:
+                    subjectValue = ((item.Value * 0.5f) + 1) * BaseStats[item.Key];
+                    break;
+				case StatTypes.PROJECTILE_COUNT:
+                    subjectValue = (int)item.Value * 1/3 + BaseStats[item.Key];
+                    break;
+				case StatTypes.XP_GAIN:
+                    subjectValue = ((item.Value * 0.1f) + 1) * BaseStats[item.Key];
+                    break;
+				case StatTypes.ATTACK_SPEED:
+                    subjectValue = ((item.Value * 0.1f) + 1) * BaseStats[item.Key];
+                    break;
+				case StatTypes.MOVEMENT_SPEED:
+                    subjectValue = ((item.Value * 0.1f) + 1) * BaseStats[item.Key];
+                    break;
+				default:
+					subjectValue = 0;
+					break;
+			}
+			finalStats[item.Key] = (int)subjectValue;
+		}
 
 		// Aktualizace hráčských atributů podle finalStats
-		MaxHp = finalStats[StatTypes.MAX_HP];
+		MaxHp = (int)finalStats[StatTypes.MAX_HP];
 		Hp = Math.Min(Hp, MaxHp); // Zajistíme, že HP nepřesáhne MaxHp
 		AttackDmg = finalStats[StatTypes.DAMAGE];
 		AttackSpeed = finalStats[StatTypes.ATTACK_SPEED];
-		MovementSpeed = finalStats[StatTypes.MOVEMENT_SPEED];
+		MovementSpeed = (int)finalStats[StatTypes.MOVEMENT_SPEED];
 	}
 
 	public void Update(KeyboardState keyboardState, MouseState mouseState, Matrix transform, Room room, Viewport viewport)
@@ -149,7 +189,7 @@ public class Player : Entity, IRecieveDmg, IDealDmg, IDraw
 
 		return projectile;
 	}
-	public void RecieveDmg(int damage)
+	public void RecieveDmg(float damage)
 	{
 		if ((DateTime.UtcNow - LastRecievedDmgTime).TotalMilliseconds >= InvulnerabilityFrame)
 		{

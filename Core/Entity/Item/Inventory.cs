@@ -50,10 +50,22 @@ public class Inventory
 			DrawTooltip(spriteBatch, hoveredItem);
 		}
 	}
+    public Dictionary<StatTypes, float> SetStats()
+	{ 
+		return SetStats(new Dictionary<StatTypes, float>()
+        {
+            { StatTypes.MAX_HP, 0 },
+            { StatTypes.DAMAGE, 0 },
+            { StatTypes.PROJECTILE_COUNT, 0 },
+            { StatTypes.XP_GAIN, 0 },        // Získávání XP v %  
+			{ StatTypes.ATTACK_SPEED, 0 },
+            { StatTypes.MOVEMENT_SPEED, 0 }
+        });
+    }
 
-	public Dictionary<StatTypes, int> SetStats(Dictionary<StatTypes, int> BaseStats)
+    public Dictionary<StatTypes, float> SetStats(Dictionary<StatTypes, float> BaseStats)
 	{
-		Dictionary<StatTypes, int> finalStats = new Dictionary<StatTypes, int>(BaseStats);
+		Dictionary<StatTypes, float> finalStats = new Dictionary<StatTypes, float>(BaseStats);
 
 		foreach (var container in ItemContainers)
 		{
@@ -74,7 +86,12 @@ public class Inventory
 		}
 	return finalStats;
 	}
-	public void Update(Viewport viewport, Player player, MouseState mouseState)
+	public float GetWeaponDmg()
+	{
+		return ItemContainers[0].IsEmpty() ? 1 : ItemContainers[0].Item.Stats[StatTypes.DAMAGE];
+    }
+
+    public void Update(Viewport viewport, Player player, MouseState mouseState)
 	{
 		hoveredItem = null; // Reset hovered item
 		int separatorWidth = 10;
@@ -114,12 +131,10 @@ public class Inventory
 	}
 	private void DrawTooltip(SpriteBatch spriteBatch, ItemContainer item)
 	{
-
-
 		// Get formatted text
 		string name = item.Item.Name;
 		string description = item.Item.Description;
-		string stats = FormatStats(item.Item.Stats);
+		string stats = FormatStats(item.Item.Stats, item.ContainerType == ItemTypes.WEAPON);
 
 		// Measure text sizes
 		Vector2 nameSize = LargerFont.MeasureString(name);
@@ -151,7 +166,7 @@ public class Inventory
 		spriteBatch.DrawString(Font, stats, statsPosition, Color.White);
 	}
 
-    private string FormatStats(Dictionary<StatTypes, int> stats)
+    private string FormatStats(Dictionary<StatTypes, int> stats, bool weapon)
     {
         if (stats == null || stats.Count == 0) return "No stats available";
 
@@ -161,10 +176,10 @@ public class Inventory
             string displayName = stat.Key switch
             {
                 StatTypes.MAX_HP => "Biologie",
-                StatTypes.DAMAGE => "Matematika",
+                StatTypes.DAMAGE => weapon ? "Sila zbrane" :"Matematika",
                 StatTypes.PROJECTILE_COUNT => "Fyzika",
                 StatTypes.XP_GAIN => "Zsv",
-                StatTypes.ATTACK_SPEED => "Cestina",
+                StatTypes.ATTACK_SPEED => weapon ? "Rychlost utoku" : "Cestina",
                 StatTypes.MOVEMENT_SPEED => "Telocvik",
                 _ => stat.Key.ToString()
             };

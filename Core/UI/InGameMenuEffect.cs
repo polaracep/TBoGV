@@ -10,7 +10,7 @@ internal class InGameMenuEffect : InGameMenu
 {
     static Viewport Viewport;
     static SpriteFont MiddleFont;
-    public Dictionary<StatTypes, int> Stats { get; set; }
+    public Dictionary<StatTypes, float> Stats { get; set; }
     public InGameMenuEffect(Viewport viewport)
     {
         Viewport = viewport;
@@ -22,13 +22,13 @@ internal class InGameMenuEffect : InGameMenu
     public override void Update(Viewport viewport, Player player, MouseState mouseState)
     {
         base.Update(viewport, player, mouseState);
-        Stats = new Dictionary<StatTypes, int>()
+        Stats = new Dictionary<StatTypes, float>()
         {
             { StatTypes.MAX_HP, 0 },
             { StatTypes.DAMAGE, 0 },
             { StatTypes.PROJECTILE_COUNT, 0 },
             { StatTypes.XP_GAIN, 0 },        // Získávání XP v %  
-			{ StatTypes.ATTACK_SPEED, 0 },
+            { StatTypes.ATTACK_SPEED, 0 },
             { StatTypes.MOVEMENT_SPEED, 0 }
         };
         Stats = player.Inventory.SetStats(Stats);
@@ -39,36 +39,56 @@ internal class InGameMenuEffect : InGameMenu
 
         if (Stats == null || Stats.Count == 0) return;
 
-        // Convert stats to a formatted list of (label, value)
-        List<(string label, string value)> statEntries = Stats.Select(stat =>
-            (GetStatName(stat.Key), stat.Value.ToString())
+        // Convert stats to a formatted list of (label, value, effect)
+        List<(string label, string value, string effect)> statEntries = Stats.Select(stat =>
+            (GetStatName(stat.Key), stat.Value.ToString(), GetEffectString(stat.Key, stat.Value))
         ).ToList();
 
-        // Measure the widest label and widest value separately
+        // Measure the widest label, value, and effect separately
         float maxLabelWidth = statEntries.Max(entry => MiddleFont.MeasureString(entry.label).X);
         float maxValueWidth = statEntries.Max(entry => MiddleFont.MeasureString(entry.value).X);
-        float spacing = 10f; // Space between label and value
+        float maxEffectWidth = statEntries.Max(entry => MiddleFont.MeasureString(entry.effect).X);
+        float spacing = 10f; // Space between columns
 
         // Total width of text block
-        float totalWidth = maxLabelWidth + spacing + maxValueWidth;
+        float totalWidth = maxLabelWidth + spacing + maxValueWidth + spacing + maxEffectWidth;
+        float totalHeight = statEntries.Count * MiddleFont.LineSpacing;
 
         // Start position centered horizontally
         float startX = (Viewport.Width - totalWidth) / 2;
         float startY = (Viewport.Height - (statEntries.Count * MiddleFont.LineSpacing)) / 2;
 
-
+        Rectangle backgroundRect = new Rectangle((int)startX - 10, (int)startY - 10, (int)totalWidth + 20, (int)totalHeight + 20);
+        spriteBatch.Draw(SpriteBackground, backgroundRect, Color.Black * 0.5f);
 
         for (int i = 0; i < statEntries.Count; i++)
         {
             string label = statEntries[i].label;
             string value = statEntries[i].value;
+            string effect = statEntries[i].effect;
 
             Vector2 labelPosition = new Vector2(startX, startY + i * MiddleFont.LineSpacing);
             Vector2 valuePosition = new Vector2(startX + maxLabelWidth + spacing + maxValueWidth - MiddleFont.MeasureString(value).X, startY + i * MiddleFont.LineSpacing);
+            Vector2 effectPosition = new Vector2(startX + maxLabelWidth + spacing + maxValueWidth + spacing, startY + i * MiddleFont.LineSpacing);
 
             spriteBatch.DrawString(MiddleFont, label, labelPosition, Color.White);
             spriteBatch.DrawString(MiddleFont, value, valuePosition, Color.White);
+            spriteBatch.DrawString(MiddleFont, effect, effectPosition, Color.LightCyan);
         }
+    }
+
+    private string GetEffectString(StatTypes statType, float value)
+    {
+        return statType switch
+        {
+            StatTypes.MAX_HP => value > 0 ? $"(+{(int)(value * 0.5)} Hp)" : $"({(int)(value * 0.5)} Hp)",
+            StatTypes.DAMAGE => $"(+{(value * 20)}% dmg)",
+            StatTypes.PROJECTILE_COUNT => $"(+{(int)(value / 3)} projektilu)",
+            StatTypes.XP_GAIN => $"(+{value * 10}% xp gain)",
+            StatTypes.ATTACK_SPEED => $"(+{value * 10}% rychlost utoku)",
+            StatTypes.MOVEMENT_SPEED => $"(+{value * 10}% rychlost pohybu)",
+            _ => "(N/A)"
+        };
     }
 
     // Helper method to map StatTypes to display names
