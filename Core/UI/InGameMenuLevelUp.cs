@@ -34,6 +34,8 @@ internal class InGameMenuLevelUp : InGameMenu
     private readonly string understandingHint = "volbou se ti zlepsi pochopeni predmetu";
 
     private const int Padding = 10;
+    private MouseState previousMouseState; // Stores the previous mouse state
+
 
     public InGameMenuLevelUp(Viewport viewport)
     {
@@ -73,7 +75,8 @@ internal class InGameMenuLevelUp : InGameMenu
             {
                 hoveredOption = i; // Mark hovered option
 
-                if (mouseState.LeftButton == ButtonState.Pressed)
+                if (previousMouseState.LeftButton == ButtonState.Pressed &&
+                                    mouseState.LeftButton == ButtonState.Released)
                 {
                     StatTypes selectedStat = statOptions[i];
                     if (player.LevelUpStats.ContainsKey(selectedStat))
@@ -86,6 +89,7 @@ internal class InGameMenuLevelUp : InGameMenu
                 }
             }
         }
+        previousMouseState = mouseState;
     }
 
     public override void Draw(SpriteBatch spriteBatch)

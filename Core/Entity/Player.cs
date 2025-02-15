@@ -32,8 +32,8 @@ public class Player : Entity, IRecieveDmg, IDealDmg, IDraw
 		{
 			{ StatTypes.MAX_HP, 9 },         
 			{ StatTypes.DAMAGE, 1 },          
-			{ StatTypes.PROJECTILE_COUNT, 2 }, 
-			{ StatTypes.XP_GAIN, 1 },        // Získávání XP v %  
+			{ StatTypes.PROJECTILE_COUNT, 20 }, 
+			{ StatTypes.XP_GAIN, 1 },        
 			{ StatTypes.ATTACK_SPEED, 1500 },   
 			{ StatTypes.MOVEMENT_SPEED, 2 }    
 		};
@@ -42,7 +42,7 @@ public class Player : Entity, IRecieveDmg, IDealDmg, IDraw
             { StatTypes.MAX_HP, 0 },
             { StatTypes.DAMAGE, 0 },
             { StatTypes.PROJECTILE_COUNT, 0 },
-            { StatTypes.XP_GAIN, 0 },        // Získávání XP v %  
+            { StatTypes.XP_GAIN, 0 },        
 			{ StatTypes.ATTACK_SPEED, 0 },
             { StatTypes.MOVEMENT_SPEED, 0 }
         };
