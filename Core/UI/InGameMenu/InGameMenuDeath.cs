@@ -24,6 +24,7 @@ internal class InGameMenuDeath : InGameMenu
         "Nemel jsi se divat na posledni skibidi toilet episodu",
         "Zoned out - mozna zkus spat vic nez 2h",
         "Nepozdravil jsi vratnou",
+        "Nezavrel jsi dvere pred skolnikem",
     };
 
     public InGameMenuDeath(Viewport viewport)
