@@ -73,6 +73,8 @@ public class Inventory
 			{
 				foreach (var stat in container.Item.Stats)
 				{
+					if (container.Item.ItemType == ItemTypes.WEAPON && (stat.Key == StatTypes.ATTACK_SPEED || stat.Key == StatTypes.DAMAGE))
+						continue;
 					if (finalStats.ContainsKey(stat.Key))
 					{
 						finalStats[stat.Key] += stat.Value;
@@ -89,6 +91,10 @@ public class Inventory
 	public float GetWeaponDmg()
 	{
 		return ItemContainers[0].IsEmpty() ? 1 : ItemContainers[0].Item.Stats[StatTypes.DAMAGE];
+    }
+    public float GetWeaponAttackSpeed()
+    {
+        return ItemContainers[0].IsEmpty() ? 1500 : ItemContainers[0].Item.Stats[StatTypes.ATTACK_SPEED];
     }
 
     public void Update(Viewport viewport, Player player, MouseState mouseState)
@@ -184,7 +190,11 @@ public class Inventory
                 _ => stat.Key.ToString()
             };
 
-            sb.AppendLine($"{displayName}: {stat.Value}");
+            string valueString = stat.Key == StatTypes.ATTACK_SPEED
+                ? $"{stat.Value / 1000.0} s"
+                : stat.Value.ToString();
+
+            sb.AppendLine($"{displayName}: {valueString}");
         }
         return sb.ToString();
     }

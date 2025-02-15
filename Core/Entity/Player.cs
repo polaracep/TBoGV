@@ -61,7 +61,8 @@ public class Player : Entity, IRecieveDmg, IDealDmg, IDraw
 	public void SetStats()
 	{
 		BaseStats[StatTypes.DAMAGE] = Inventory.GetWeaponDmg();
-		Dictionary<StatTypes, float> finalStats = new Dictionary<StatTypes, float>();
+        BaseStats[StatTypes.ATTACK_SPEED] = Inventory.GetWeaponAttackSpeed();
+        Dictionary<StatTypes, float> finalStats = new Dictionary<StatTypes, float>();
         Dictionary<StatTypes, float> subjectStats = Inventory.SetStats(LevelUpStats);
 		foreach (var item in subjectStats)
 		{
