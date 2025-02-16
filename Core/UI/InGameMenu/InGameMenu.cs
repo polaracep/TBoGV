@@ -1,6 +1,5 @@
 ﻿using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
-using System.Collections.Generic;
 using Microsoft.Xna.Framework.Input;
 namespace TBoGV;
 
@@ -17,7 +16,7 @@ abstract class InGameMenu : IDraw
     {
         spriteBatch.Draw(SpriteBackground,
             new Rectangle(0, 0, Viewport.Width, Viewport.Height),
-            new Color(0, 0, 0, (int)(255 * 0.25))); 
+            new Color(0, 0, 0, (int)(255 * 0.25)));
     }
 
 }

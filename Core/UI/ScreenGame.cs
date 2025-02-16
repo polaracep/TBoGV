@@ -15,7 +15,7 @@ internal class ScreenGame : Screen
     private InGameMenuEffect effectMenu;
     private InGameMenuLevelUp levelUpMenu;
     private InGameMenuDeath deathMenu;
-	private InGameMenuItemJournal itemJournalMenu;
+    private InGameMenuItemJournal itemJournalMenu;
     private UI UI;
     private MouseState mouseState;
     private KeyboardState keyboardState;
@@ -31,10 +31,7 @@ internal class ScreenGame : Screen
         player = new Player();
 
         List<Room> rL = new List<Room> {
-            new RoomEmpty(new Vector2(10, 10), player),
-            new RoomEmpty(new Vector2(7, 10), player),
-            new RoomEmpty(new Vector2(10, 7), player),
-            new RoomEmpty(new Vector2(7, 7), player)
+            new RoomClassroom(new Vector2(9, 9), player)
         };
 
         CurrentLevel = new Level(player, rL, 6);
@@ -44,17 +41,17 @@ internal class ScreenGame : Screen
         inGameMenu = effectMenu = new InGameMenuEffect(graphics.GraphicsDevice.Viewport);
         levelUpMenu = new InGameMenuLevelUp(graphics.GraphicsDevice.Viewport);
         deathMenu = new InGameMenuDeath(graphics.GraphicsDevice.Viewport);
-		itemJournalMenu = new InGameMenuItemJournal(graphics.GraphicsDevice.Viewport);
+        itemJournalMenu = new InGameMenuItemJournal(graphics.GraphicsDevice.Viewport);
 
         // check the current state of the MediaPlayer.
-        // Song = SongManager.GetSong("soundtrack");
+        Song = SongManager.GetSong("soundtrack");
         if (MediaPlayer.State != MediaState.Stopped)
         {
             MediaPlayer.Stop(); // stop current audio playback if playing or paused.
         }
 
         // Play the selected song reference.
-        // MediaPlayer.Play(Song);
+        MediaPlayer.Play(Song);
         MediaPlayer.Volume = 0.01f;
     }
 
@@ -92,8 +89,8 @@ internal class ScreenGame : Screen
         mouseState = Mouse.GetState();
         keyboardState = Keyboard.GetState();
         int levelStatsCount = 0;
-		itemJournalMenu.Update(graphics.GraphicsDevice.Viewport, player, mouseState);
-		foreach (var item in player.LevelUpStats)
+        itemJournalMenu.Update(graphics.GraphicsDevice.Viewport, player, mouseState);
+        foreach (var item in player.LevelUpStats)
         {
             levelStatsCount += (int)player.LevelUpStats[item.Key];
         }
@@ -110,21 +107,21 @@ internal class ScreenGame : Screen
         if (KeyReleased(Keys.Tab))
         {
             if (!levelUpMenu.Active && !deathMenu.Active)
-			{
-				inGameMenu = effectMenu;
-				effectMenu.Active = !effectMenu.Active;
-			}
-		}
-		if (KeyReleased(Keys.J))
-		{
-			if (!levelUpMenu.Active && !deathMenu.Active)
-			{
-				itemJournalMenu.ShowAll();
-				inGameMenu = itemJournalMenu;
-				itemJournalMenu.Active = !itemJournalMenu.Active;
-			}
-		}
-		if (!inGameMenu.Active)
+            {
+                inGameMenu = effectMenu;
+                effectMenu.Active = !effectMenu.Active;
+            }
+        }
+        if (KeyReleased(Keys.J))
+        {
+            if (!levelUpMenu.Active && !deathMenu.Active)
+            {
+                itemJournalMenu.ShowAll();
+                inGameMenu = itemJournalMenu;
+                itemJournalMenu.Active = !itemJournalMenu.Active;
+            }
+        }
+        if (!inGameMenu.Active)
         {
             player.Update(keyboardState, mouseState, _camera.Transform, CurrentLevel.ActiveRoom, graphics.GraphicsDevice.Viewport);
             CurrentLevel.ActiveRoom.Update();
@@ -134,7 +131,7 @@ internal class ScreenGame : Screen
                 MediaPlayer.Resume();
             else if (MediaPlayer.State == MediaState.Stopped)
             {
-                //    MediaPlayer.Play(Song);
+                MediaPlayer.Play(Song);
             }
         }
         else

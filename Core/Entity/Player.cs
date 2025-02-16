@@ -17,44 +17,44 @@ public class Player : Entity, IRecieveDmg, IDealDmg, IDraw
 	public float Hp { get; set; }
 	public int MaxHp { get; set; }
 	public float XpGain { get; set; }
-    public int ProjectileCount { get; set; }
-    public int Coins { get; set; }
+	public int ProjectileCount { get; set; }
+	public int Coins { get; set; }
 	public Dictionary<StatTypes, float> BaseStats { get; set; }
 	public Dictionary<StatTypes, int> LevelUpStats { get; set; }
-    public DateTime LastAttackTime { get; set; }
+	public DateTime LastAttackTime { get; set; }
 	public DateTime LastRecievedDmgTime { get; set; }
 	public int InvulnerabilityFrame = 1000;
 	public List<Projectile> Projectiles { get; set; }
 	List<Projectile> projectilesRecieved = new List<Projectile>();
 	public Inventory Inventory { get; set; }
-    private MouseState previousMouseState;
+	private MouseState previousMouseState;
 	private KeyboardState prevKeyboardState;
 
 	public Player(Vector2 position)
 	{
 		BaseStats = new Dictionary<StatTypes, float>()
 		{
-			{ StatTypes.MAX_HP, 18 },         
-			{ StatTypes.DAMAGE, 1 },          
-			{ StatTypes.PROJECTILE_COUNT, 1 }, 
-			{ StatTypes.XP_GAIN, 1 },        
-			{ StatTypes.ATTACK_SPEED, 1500 },   
-			{ StatTypes.MOVEMENT_SPEED, 2 }    
+			{ StatTypes.MAX_HP, 18 },
+			{ StatTypes.DAMAGE, 1 },
+			{ StatTypes.PROJECTILE_COUNT, 1 },
+			{ StatTypes.XP_GAIN, 1 },
+			{ StatTypes.ATTACK_SPEED, 1500 },
+			{ StatTypes.MOVEMENT_SPEED, 2 }
 		};
-        LevelUpStats = new Dictionary<StatTypes, int>()
-        {
-            { StatTypes.MAX_HP, 0 },
-            { StatTypes.DAMAGE, 0 },
-            { StatTypes.PROJECTILE_COUNT, 0 },
-            { StatTypes.XP_GAIN, 0 },        
+		LevelUpStats = new Dictionary<StatTypes, int>()
+		{
+			{ StatTypes.MAX_HP, 0 },
+			{ StatTypes.DAMAGE, 0 },
+			{ StatTypes.PROJECTILE_COUNT, 0 },
+			{ StatTypes.XP_GAIN, 0 },
 			{ StatTypes.ATTACK_SPEED, 0 },
-            { StatTypes.MOVEMENT_SPEED, 0 }
-        };
-        Hp = 9;
+			{ StatTypes.MOVEMENT_SPEED, 0 }
+		};
+		Hp = 9;
 		XpGain = 1;
 		Position = position;
 		Size = new Vector2(50, 50);
-		Projectiles = new List<Projectile>();		
+		Projectiles = new List<Projectile>();
 		Sprite = TextureManager.GetTexture("vitekElegan");
 		Coins = 1;
 		ItemCapacity = 3;
@@ -68,32 +68,32 @@ public class Player : Entity, IRecieveDmg, IDealDmg, IDraw
 	public void SetStats()
 	{
 		BaseStats[StatTypes.DAMAGE] = Inventory.GetWeaponDmg();
-        BaseStats[StatTypes.ATTACK_SPEED] = Inventory.GetWeaponAttackSpeed();
-        Dictionary<StatTypes, float> finalStats = new Dictionary<StatTypes, float>();
-        Dictionary<StatTypes, int> subjectStats = Inventory.SetStats(LevelUpStats);
+		BaseStats[StatTypes.ATTACK_SPEED] = Inventory.GetWeaponAttackSpeed();
+		Dictionary<StatTypes, float> finalStats = new Dictionary<StatTypes, float>();
+		Dictionary<StatTypes, int> subjectStats = Inventory.SetStats(LevelUpStats);
 		foreach (var item in subjectStats)
 		{
-			float subjectValue; 
+			float subjectValue;
 			switch (item.Key)
 			{
 				case StatTypes.MAX_HP:
 					subjectValue = (int)item.Value * 0.5f + BaseStats[item.Key];
 					break;
 				case StatTypes.DAMAGE:
-                    subjectValue = ((item.Value * 0.1f) + 1) * BaseStats[item.Key];
-                    break;
+					subjectValue = ((item.Value * 0.1f) + 1) * BaseStats[item.Key];
+					break;
 				case StatTypes.PROJECTILE_COUNT:
-                    subjectValue = (int)item.Value * 1/3 + BaseStats[item.Key];
-                    break;
+					subjectValue = (int)item.Value * 1 / 3 + BaseStats[item.Key];
+					break;
 				case StatTypes.XP_GAIN:
-                    subjectValue = ((item.Value * 0.1f) + 1) * BaseStats[item.Key];
-                    break;
+					subjectValue = ((item.Value * 0.1f) + 1) * BaseStats[item.Key];
+					break;
 				case StatTypes.ATTACK_SPEED:
-                    subjectValue = BaseStats[item.Key] * (1 - item.Value * 0.025f);
-                    break;
+					subjectValue = BaseStats[item.Key] * (1 - item.Value * 0.025f);
+					break;
 				case StatTypes.MOVEMENT_SPEED:
-                    subjectValue = ((item.Value * 0.1f) + 1) * BaseStats[item.Key];
-                    break;
+					subjectValue = ((item.Value * 0.1f) + 1) * BaseStats[item.Key];
+					break;
 				default:
 					subjectValue = 0;
 					break;
@@ -106,10 +106,10 @@ public class Player : Entity, IRecieveDmg, IDealDmg, IDraw
 		Hp = Math.Min(Hp, MaxHp); // Zajistíme, že HP nepřesáhne MaxHp
 		AttackDmg = finalStats[StatTypes.DAMAGE];
 		AttackSpeed = finalStats[StatTypes.ATTACK_SPEED];
-		MovementSpeed = (int)Math.Max(finalStats[StatTypes.MOVEMENT_SPEED],1);
-        XpGain = finalStats[StatTypes.XP_GAIN];
-        ProjectileCount = (int)Math.Max(finalStats[StatTypes.PROJECTILE_COUNT], 1);
-    }
+		MovementSpeed = (int)Math.Max(finalStats[StatTypes.MOVEMENT_SPEED], 1);
+		XpGain = finalStats[StatTypes.XP_GAIN];
+		ProjectileCount = (int)Math.Max(finalStats[StatTypes.PROJECTILE_COUNT], 1);
+	}
 
 	public void Update(KeyboardState keyboardState, MouseState mouseState, Matrix transform, Room room, Viewport viewport)
 	{
@@ -134,8 +134,8 @@ public class Player : Entity, IRecieveDmg, IDealDmg, IDraw
 			dy += MovementSpeed;
 		}
 		if ((previousMouseState.RightButton == ButtonState.Pressed &&
-                                    mouseState.RightButton == ButtonState.Released ) || (keyboardState.IsKeyDown(Keys.E) && prevKeyboardState.IsKeyUp(Keys.E)))
-        {
+									mouseState.RightButton == ButtonState.Released) || (keyboardState.IsKeyDown(Keys.E) && prevKeyboardState.IsKeyUp(Keys.E)))
+		{
 			Tile t = room.GetTileInteractable(InteractionPoint);
 			if (t != null)
 			{
@@ -151,24 +151,24 @@ public class Player : Entity, IRecieveDmg, IDealDmg, IDraw
         }
 		for (int i = 0; i < room.drops.Count; i++)
 		{
-			if (room.drops[i] is not ItemContainerable && ObjectCollision.CircleCircleCollision(room.drops[i],this))
+			if (room.drops[i] is not ItemContainerable && ObjectCollision.CircleCircleCollision(room.drops[i], this))
 			{
-                room.drops[i].Interact(this, room);
-                room.RemoveItem(room.drops[i]);
-            }
+				room.drops[i].Interact(this, room);
+				room.RemoveItem(room.drops[i]);
+			}
 		}
 
 		Inventory.Update(viewport, this, mouseState);
 		/* === */
 		int tolerance = 1;
-        Vector2 newPosition = Position;
+		Vector2 newPosition = Position;
 		if (dx != 0)
 		{
 			newPosition.X += dx;
-			if (!room.ShouldCollideAt(new Vector2(newPosition.X+ tolerance, newPosition.Y+tolerance)) && 
-				!room.ShouldCollideAt(new Vector2(newPosition.X- tolerance + Size.X, newPosition.Y - tolerance + Size.Y)) && 
-				!room.ShouldCollideAt(new Vector2(newPosition.X- tolerance + Size.X, newPosition.Y+ tolerance)) && 
-				!room.ShouldCollideAt(new Vector2(newPosition.X+ tolerance, newPosition.Y- tolerance + Size.Y)))
+			if (!room.ShouldCollideAt(new Vector2(newPosition.X + tolerance, newPosition.Y + tolerance)) &&
+				!room.ShouldCollideAt(new Vector2(newPosition.X - tolerance + Size.X, newPosition.Y - tolerance + Size.Y)) &&
+				!room.ShouldCollideAt(new Vector2(newPosition.X - tolerance + Size.X, newPosition.Y + tolerance)) &&
+				!room.ShouldCollideAt(new Vector2(newPosition.X + tolerance, newPosition.Y - tolerance + Size.Y)))
 				Position.X = newPosition.X;
 		}
 		newPosition = Position;
@@ -176,10 +176,10 @@ public class Player : Entity, IRecieveDmg, IDealDmg, IDraw
 		if (dy != 0)
 		{
 			newPosition.Y += dy;
-            if (!room.ShouldCollideAt(new Vector2(newPosition.X + tolerance, newPosition.Y + tolerance)) &&
+			if (!room.ShouldCollideAt(new Vector2(newPosition.X + tolerance, newPosition.Y + tolerance)) &&
 				!room.ShouldCollideAt(new Vector2(newPosition.X - tolerance + Size.X, newPosition.Y - tolerance + Size.Y)) &&
 				!room.ShouldCollideAt(new Vector2(newPosition.X - tolerance + Size.X, newPosition.Y + tolerance)) &&
-				!room.ShouldCollideAt(new Vector2(newPosition.X + tolerance, newPosition.Y - tolerance + Size.Y))) 
+				!room.ShouldCollideAt(new Vector2(newPosition.X + tolerance, newPosition.Y - tolerance + Size.Y)))
 				Position.Y = newPosition.Y;
 		}
 		Vector2 screenMousePos = new Vector2(mouseState.X, mouseState.Y);
@@ -196,42 +196,43 @@ public class Player : Entity, IRecieveDmg, IDealDmg, IDraw
 		{
 			foreach (var projectile in Attack())
 			{
-                Projectiles.Add(projectile);
-            }
+				Projectiles.Add(projectile);
+			}
 		}
 
 		SetStats();
-        previousMouseState = mouseState;
+		previousMouseState = mouseState;
 		prevKeyboardState = keyboardState;
 	}
 
-    public void Draw(SpriteBatch spriteBatch)
+	public void Draw(SpriteBatch spriteBatch)
 	{
 		spriteBatch.Draw(Sprite,
 			new Rectangle(Convert.ToInt32(Position.X), Convert.ToInt32(Position.Y), Convert.ToInt32(Size.X), Convert.ToInt32(Size.Y)),
 			(DateTime.UtcNow - LastRecievedDmgTime).TotalMilliseconds >= InvulnerabilityFrame ? Color.White : Color.DarkRed);
 		spriteBatch.Draw(TextureManager.GetTexture("projectile"), InteractionPoint, Color.White);
+		// Console.WriteLine(InteractionPoint);
 	}
 	public bool ReadyToAttack()
 	{
 		return (DateTime.UtcNow - LastAttackTime).TotalMilliseconds >= AttackSpeed;
 	}
-    public List<Projectile> Attack()
-    {
-        LastAttackTime = DateTime.UtcNow;
-        List<Projectile> firedProjectiles = new List<Projectile>();
+	public List<Projectile> Attack()
+	{
+		LastAttackTime = DateTime.UtcNow;
+		List<Projectile> firedProjectiles = new List<Projectile>();
 
-        float spreadAngle = 10f; // Angle between projectiles in degrees
-        float startAngle = -((ProjectileCount - 1) * spreadAngle) / 2; // Centering the spread
+		float spreadAngle = 10f; // Angle between projectiles in degrees
+		float startAngle = -((ProjectileCount - 1) * spreadAngle) / 2; // Centering the spread
 
-        for (int i = 0; i < ProjectileCount; i++)
-        {
-            float angle = MathHelper.ToRadians(startAngle + i * spreadAngle);
-            Vector2 rotatedDirection = new Vector2(
-                Direction.X * (float)Math.Cos(angle) - Direction.Y * (float)Math.Sin(angle),
-                Direction.X * (float)Math.Sin(angle) + Direction.Y * (float)Math.Cos(angle)
-            );
-            rotatedDirection.Normalize();
+		for (int i = 0; i < ProjectileCount; i++)
+		{
+			float angle = MathHelper.ToRadians(startAngle + i * spreadAngle);
+			Vector2 rotatedDirection = new Vector2(
+				Direction.X * (float)Math.Cos(angle) - Direction.Y * (float)Math.Sin(angle),
+				Direction.X * (float)Math.Sin(angle) + Direction.Y * (float)Math.Cos(angle)
+			);
+			rotatedDirection.Normalize();
 
 			ProjectileMissile projectile = new ProjectileMissile(Position + Size / 2, rotatedDirection, AttackDmg);
             projectile.ShotByPlayer = true;
@@ -239,16 +240,16 @@ public class Player : Entity, IRecieveDmg, IDealDmg, IDraw
 			firedProjectiles.Add(projectile);
         }
 
-        return firedProjectiles;
-    }
+		return firedProjectiles;
+	}
 
-    public float RecieveDmg(Projectile projectile)
+	public float RecieveDmg(Projectile projectile)
 	{
 		if (!projectilesRecieved.Contains(projectile))
 		{
 			if ((DateTime.UtcNow - LastRecievedDmgTime).TotalMilliseconds >= InvulnerabilityFrame)
 			{
-				if(Inventory.GetEffect().Contains(EffectTypes.DODGE) && GetSuccess(50))
+				if (Inventory.GetEffect().Contains(EffectTypes.DODGE) && GetSuccess(50))
 				{
 					projectilesRecieved.Add(projectile);
 					return projectile.Damage;
@@ -267,7 +268,7 @@ public class Player : Entity, IRecieveDmg, IDealDmg, IDraw
 	public void Kill(int xpGain)
 	{
 		Xp += xpGain * XpGain;
-		if(Xp >= XpForLevel())
+		if (Xp >= XpForLevel())
 		{
 			LevelUp();
 		}
@@ -276,7 +277,7 @@ public class Player : Entity, IRecieveDmg, IDealDmg, IDraw
 	}
 	public int XpForLevel()
 	{
-		return 5 + Level*2;
+		return 5 + Level * 2;
 	}
 	private void LevelUp()
 	{

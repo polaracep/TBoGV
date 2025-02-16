@@ -8,11 +8,11 @@ public class RoomStart : Room, IDraw
 
     public override void GenerateRoom()
     {
-        base.GenerateRoomBase();
+        base.GenerateRoomBase(FloorTypes.BASIC, WallTypes.BASIC, DoorTypes.BASIC);
         this.AddDecorationTile(new TileHeal(), this.Dimensions / 2);
         this.GenerateEnemies();
 
-        player.Position = this.GetTilePos(Vector2.One);
+        player.Position = this.GetTileWorldPos(Vector2.One);
     }
 
     protected override void GenerateEnemies() { }

@@ -6,38 +6,26 @@ namespace TBoGV;
 
 public abstract class Tile
 {
-    protected Vector2 screenPos;
-    protected string SpriteName;
     public Texture2D Sprite { get; protected set; }
     public bool DoCollision { get; protected set; } = false;
+    public float Rotation = 0f;
 
     // Vsechny tiles50x50.
     protected static Vector2 tileSize = new Vector2(50, 50);
 
-    public static readonly TileVoid NoTile = new TileVoid();
-
-    protected Tile(bool collide)
+    protected Tile(bool collide, float rotation)
     {
+        this.Rotation = rotation;
         DoCollision = collide;
     }
-
     public static Vector2 GetSize()
     {
         return tileSize;
     }
-    public virtual void Draw(SpriteBatch spriteBatch)
-    {
-        spriteBatch.Draw(Sprite, this.screenPos, Color.White);
-    }
 }
-
-public class TileVoid : Tile
+public class TileFloor : Tile
 {
-    public TileVoid() : base(false) { }
-}
-public class TileFloor : Tile, IDraw
-{
-    public TileFloor(FloorTypes floor) : base(false)
+    public TileFloor(FloorTypes floor, float rotation) : base(false, rotation)
     {
         switch (floor)
         {
@@ -48,65 +36,104 @@ public class TileFloor : Tile, IDraw
                 throw new Exception();
         }
     }
+
+    public TileFloor(FloorTypes floor) : this(floor, 0f) { }
 }
 
-public class TileWall : Tile, IDraw
+public class TileWall : Tile
 {
-    public TileWall(WallTypes wall) : base(true)
+    public TileWall(WallTypes wall, float rotation) : base(true, rotation)
     {
         switch (wall)
         {
             case WallTypes.BASIC:
-                Sprite = TextureManager.GetTexture("wall1");
+                Sprite = TextureManager.GetTexture("wallBrick");
+                break;
+            case WallTypes.WHITE:
+                Sprite = TextureManager.GetTexture("wallWhite");
                 break;
             default:
                 throw new Exception();
         }
     }
+    public TileWall(WallTypes wall) : this(wall, 0f) { }
 
 }
 
 public class TileInteractEventArgs : EventArgs
 {
     public Directions Directions;
-    public TileInteractEventArgs(Directions dir)
+    public TileDoor OppositeDoor;
+    public TileInteractEventArgs(Directions dir, TileDoor oppositeDoor)
     {
+        OppositeDoor = oppositeDoor;
         Directions = dir;
     }
 }
-public class TileDoor : Tile, IDraw, IInteractable
+public class TileDoor : Tile, IInteractable
 {
-    private Directions dir;
+    public Directions Direction { get; private set; }
+    public TileDoor OppositeDoor;
+    public Vector2 DoorTpPosition;
+    public bool IsBossDoor = false;
     public static event EventHandler<TileInteractEventArgs> TileInteract;
-    public TileDoor(DoorTypes door, Directions direction) : base(true)
+    public TileDoor(DoorTypes type, Directions direction, Vector2 doorPos, TileDoor oppositeDoor) : base(true, ComputeRotation(direction))
     {
-        this.dir = direction;
-        switch (door)
-        {
-            case DoorTypes.BASIC:
-                Sprite = TextureManager.GetTexture("door");
-                break;
-        }
+        this.DoorTpPosition = doorPos;
+        this.OppositeDoor = oppositeDoor;
+        this.Direction = direction;
+        SetDoorType(type);
     }
+    public TileDoor(DoorTypes door, Directions direction, Vector2 doorPos) : this(door, direction, doorPos, null) { }
+    public TileDoor(DoorTypes door, Directions direction) : this(door, direction, Vector2.Zero, null) { }
     public void Interact(Entity e, Room r)
     {
         // put player in the left-top corne
-
-        r.ResetRoom();
-        OnTileInteract(new TileInteractEventArgs(this.dir));
+        if (OppositeDoor == null)
+        {
+            Console.WriteLine("No destinaiton door provided");
+            return;
+        }
+        OnTileInteract(new TileInteractEventArgs(this.Direction, this.OppositeDoor));
     }
     protected virtual void OnTileInteract(TileInteractEventArgs e)
     {
         TileInteract?.Invoke(this, e);
     }
+
+    public void SetDoorType(DoorTypes newType)
+    {
+        switch (newType)
+        {
+            case DoorTypes.BASIC:
+                Sprite = TextureManager.GetTexture("door");
+                break;
+            default:
+                Sprite = TextureManager.GetTexture("door");
+                break;
+        }
+    }
+    private static float ComputeRotation(Directions direction)
+    {
+        switch (direction)
+        {
+            case Directions.UP: return 0.0f;
+            case Directions.DOWN: return MathHelper.Pi; // 180 degrees
+            case Directions.RIGHT: return MathHelper.PiOver2; // 90 degrees
+            case Directions.LEFT: return -MathHelper.PiOver2; // -90 degrees
+            default: return 0.0f;
+        }
+    }
 }
 
-public class TileHeal : Tile, IDraw, IInteractable
+public class TileHeal : Tile, IInteractable
 {
-    public TileHeal() : base(true)
+    public TileHeal(float rotation) : base(true, rotation)
     {
         this.Sprite = TextureManager.GetTexture("heal");
     }
+
+    public TileHeal() : this(0f) { }
     public void Interact(Entity e, Room r)
     {
         if (e is Player)
