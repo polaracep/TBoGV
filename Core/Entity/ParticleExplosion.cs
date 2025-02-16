@@ -15,11 +15,10 @@ internal class ParticleExplosion : Particle, IDraw
 
 	// Time tracking for animation progress (0 to 1)
 	private float elapsedTime;
-
+	private Random rnd = new Random();
 	public ParticleExplosion(Vector2 position)
 	{
-		Random rnd = new Random();
-		Size = new Vector2(150, 150);
+		Size = new Vector2(75, 75);
 		Position = position - Size / 2;
 		Sprite = TextureManager.GetTexture("boom");
 
@@ -27,11 +26,12 @@ internal class ParticleExplosion : Particle, IDraw
 		rotation = 0f;
 		scale = 1f;
 		alpha = 1f;
-		rotationSpeed = MathHelper.ToRadians(180); // 180 degrees per second rotation
 		velocity = new Vector2(
-			(float)(rnd.NextDouble() - 0.5) * 200f, // random X velocity
-			(float)(rnd.NextDouble() - 0.5) * 200f  // random Y velocity
+			(float)(rnd.Next(0, 100) - 50) * 2f, // random X velocity
+			(float)(rnd.Next(0, 100) - 50) * 2f  // random Y velocity
 		);
+
+		rotationSpeed = MathHelper.ToRadians(180 * velocity.X/Math.Abs(velocity.X)); // 180 degrees per second rotation
 
 		Visible = true;
 		initTime = DateTime.UtcNow;
@@ -49,7 +49,7 @@ internal class ParticleExplosion : Particle, IDraw
 
 		// Update rotation and scale over time
 		rotation += rotationSpeed * delta;
-		scale = 1f + progress/10; // explosion grows over time
+		scale = Size.X / Sprite.Width + progress/10; // explosion grows over time
 		alpha = 1f - progress; // fades out
 
 		// Update position (simulate slight dispersion)
