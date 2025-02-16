@@ -62,5 +62,10 @@ public class ItemContainer : Entity, IDraw
     {
         return Item == null;
     }
+	public override Texture2D GetSprite()
+	{
+		return null;
+	}
+
 }
 

@@ -4,19 +4,23 @@ using System;
 
 namespace TBoGV;
 
-internal class ProjectileRoot : Projectile
+internal class ProjectileMissile : Projectile
 {
-	public static Texture2D Sprite { get; protected set; }
-	public ProjectileRoot(Vector2 position, Vector2 direction, float damage) 
+	public Texture2D Sprite { get; protected set; }
+	public ProjectileMissile(Vector2 position, Vector2 direction, float damage)
 	{
-		Sprite = TextureManager.GetTexture("koren");
+		Sprite = TextureManager.GetTexture("projectile");
 		// Size = new Vector2(7, 7);
-		Size = new Vector2(Sprite.Width, Sprite.Height);
+		Size = new Vector2(25,25);
 		Position = position - Size / 2;
 		Direction = direction;
-		MovementSpeed = 5;
+		MovementSpeed = 6;
 		Damage = damage;
-	
+
+	}
+	public void ChangeSprite(Texture2D sprite)
+	{
+		Sprite = sprite;
 	}
 	public override void Draw(SpriteBatch spriteBatch)
 	{
@@ -26,5 +30,5 @@ internal class ProjectileRoot : Projectile
 	{
 		return Sprite;
 	}
-
 }
+

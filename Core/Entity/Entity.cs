@@ -23,4 +23,5 @@ public abstract class Entity
 	{
 		return Math.Min(Size.X, Size.Y) / 2;
 	}
+	public abstract Texture2D GetSprite();
 }

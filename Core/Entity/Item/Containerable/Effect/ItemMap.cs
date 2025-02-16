@@ -14,7 +14,7 @@ internal class ItemMap : ItemContainerable
 		Position = position;
 		Size = new Vector2(50, 50);
 		Name = "Gymvod planek";
-		Description = "S nim se neztratis. (minimapu otevres M)";
+		Description = "S nim se neztratis. \n(minimapu otevres M)";
 		Stats = new Dictionary<StatTypes, int>() { };
 		Effects = new List<EffectTypes>() { EffectTypes.MAP_REVEAL };
 		Sprite = TextureManager.GetTexture("gymvodMap");
@@ -24,5 +24,10 @@ internal class ItemMap : ItemContainerable
 	{
 		spriteBatch.Draw(Sprite, new Rectangle(Convert.ToInt32(Position.X), Convert.ToInt32(Position.Y), Convert.ToInt32(Size.X), Convert.ToInt32(Size.Y)), IsKnown ? Color.White : Color.Black);
 	}
+	public override Texture2D GetSprite()
+	{
+		return Sprite;
+	}
+
 }
 

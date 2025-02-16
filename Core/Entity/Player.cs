@@ -146,8 +146,7 @@ public class Player : Entity, IRecieveDmg, IDealDmg, IDraw
             if (item != null)
             {
                 item.Interact(this, room);
-                if (item is not ItemContainerable)
-                    room.RemoveItem(item);
+                room.RemoveItem(item);
             }
         }
 		for (int i = 0; i < room.drops.Count; i++)
@@ -234,9 +233,10 @@ public class Player : Entity, IRecieveDmg, IDealDmg, IDraw
             );
             rotatedDirection.Normalize();
 
-            Projectile projectile = new ProjectilePee(Position + Size / 2, rotatedDirection, AttackDmg);
+			ProjectileMissile projectile = new ProjectileMissile(Position + Size / 2, rotatedDirection, AttackDmg);
             projectile.ShotByPlayer = true;
-            firedProjectiles.Add(projectile);
+			projectile.ChangeSprite(Inventory.GetWeaponSprite());
+			firedProjectiles.Add(projectile);
         }
 
         return firedProjectiles;
@@ -289,6 +289,10 @@ public class Player : Entity, IRecieveDmg, IDealDmg, IDraw
 		{
 			Hp += healAmount;
 		}
+	}
+	public override Texture2D GetSprite()
+	{
+		return Sprite;
 	}
 
 }

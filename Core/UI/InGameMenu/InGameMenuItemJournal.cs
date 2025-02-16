@@ -255,7 +255,7 @@ internal class InGameMenuItemJournal : InGameMenu
 	// A simple helper to format stats text; adjust as needed.
 	private string FormatStats(Dictionary<StatTypes, int> stats, bool weapon)
 	{
-		if (stats == null || stats.Count == 0) return "No stats available";
+		if (stats == null || stats.Count == 0) return "";
 
 		StringBuilder sb = new StringBuilder();
 		foreach (var stat in stats)

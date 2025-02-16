@@ -107,7 +107,10 @@ public class Inventory
     {
         return ItemContainers[0].IsEmpty() ? 1500 : ItemContainers[0].Item.Stats[StatTypes.ATTACK_SPEED];
     }
-
+	public Texture2D GetWeaponSprite()
+	{
+		return ItemContainers[0].IsEmpty() ? TextureManager.GetTexture("projectile") : ItemContainers[0].Item.GetSprite();
+	}
 	public void Update(Viewport viewport, Player player, MouseState mouseState)
 	{
 		hoveredItem = null; // Reset hovered item
@@ -216,16 +219,25 @@ public class Inventory
 		{
 			case ItemTypes.EFFECT:
 				if (ItemContainers[2].IsEmpty())
+				{
 					ItemContainers[2].Item = item;
-				return ItemContainers[2].IsEmpty();
+					return true;
+				}
+				return false;
 			case ItemTypes.WEAPON:
                 if (ItemContainers[0].IsEmpty())
-                    ItemContainers[0].Item = item;
-                return ItemContainers[0].IsEmpty();
-            case ItemTypes.ARMOR:
+				{
+					ItemContainers[0].Item = item;
+					return true;
+				}
+				return false;
+			case ItemTypes.ARMOR:
                 if (ItemContainers[1].IsEmpty())
-                    ItemContainers[1].Item = item;
-                return ItemContainers[1].IsEmpty();
+				{
+					ItemContainers[1].Item = item;
+					return true;
+				}
+				return false;
             case ItemTypes.BASIC:
 				for (int i = 3; i < ItemContainers.Count; i++)
 				{

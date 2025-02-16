@@ -22,6 +22,11 @@ internal class ItemExplosive : ItemContainerable
 	{
 		spriteBatch.Draw(Sprite, new Rectangle(Convert.ToInt32(Position.X), Convert.ToInt32(Position.Y), Convert.ToInt32(Size.X), Convert.ToInt32(Size.Y)), IsKnown ? Color.White : Color.Black);
 	}
+	public override Texture2D GetSprite()
+	{
+		return Sprite;
+	}
+
 }
 
 
