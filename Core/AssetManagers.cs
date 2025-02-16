@@ -14,7 +14,8 @@ public static class TextureManager
             "tile",
             "floor1",
             "wall",
-            "wall1",
+            "wallBrick",
+            "wallWhite",
             "door",
             "vitek-nobg",
             "vitekElegan",
@@ -36,16 +37,16 @@ public static class TextureManager
             "containerBasic",
             "wheat4",
             "teeth",
-			"gymvodMap",
-			"adBlock",
-			"calculator",
-			"fancyShoes",
-			"crocs",
-			"lorentzovaTransformace",
-			"mathProblem",
-			"pencil",
-			"trackShoes",
-			"dagger"
+            "gymvodMap",
+            "adBlock",
+            "calculator",
+            "fancyShoes",
+            "crocs",
+            "lorentzovaTransformace",
+            "mathProblem",
+            "pencil",
+            "trackShoes",
+            "dagger"
 
         };
 

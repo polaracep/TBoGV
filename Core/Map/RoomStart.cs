@@ -8,7 +8,7 @@ public class RoomStart : Room, IDraw
 
     public override void GenerateRoom()
     {
-        base.GenerateRoomBase();
+        base.GenerateRoomBase(FloorTypes.BASIC, WallTypes.BASIC, DoorTypes.BASIC);
         this.AddDecorationTile(new TileHeal(), this.Dimensions / 2);
         this.GenerateEnemies();
 

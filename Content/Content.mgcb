@@ -378,6 +378,18 @@
 /processorParam:TextureFormat=Color
 /build:Textures/dagger.png
 
+#begin Textures/dagger.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Textures/dagger.png
+
 #begin Textures/door.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -858,7 +870,7 @@
 /processorParam:TextureFormat=Color
 /build:Textures/wall.png
 
-#begin Textures/wall1.png
+#begin Textures/wallBrick.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -868,9 +880,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Textures/wall1.png
+/build:Textures/wallBrick.png
 
-#begin Textures/wall1.png
+#begin Textures/wallWhite.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -880,7 +892,7 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Textures/wall1.png
+/build:Textures/wallWhite.png
 
 #begin Textures/wheat4.png
 /importer:TextureImporter

@@ -34,7 +34,15 @@ public abstract class Room : IDraw
 
     protected List<Projectile> projectiles = new List<Projectile>();
     protected List<Enemy> enemies = new List<Enemy>();
-    public List<Item> drops = new List<Item>() { new ItemDoping(new Vector2(200, 200)), new ItemTeeth(new Vector2(100, 200)), new ItemCalculator(new Vector2(150, 200)), new ItemPencil(new Vector2(100, 100)), new ItemAdBlock(new Vector2(50, 50)), new ItemMathProblem(new Vector2(50, 100)), new ItemExplosive(new Vector2(50, 150)) };
+    public List<Item> drops = new List<Item>() {
+        new ItemDoping(new Vector2(200, 200)),
+        new ItemTeeth(new Vector2(100, 200)),
+        new ItemCalculator(new Vector2(150, 200)),
+        new ItemPencil(new Vector2(100, 100)),
+        new ItemAdBlock(new Vector2(50, 50)),
+        new ItemMathProblem(new Vector2(50, 100)),
+        new ItemExplosive(new Vector2(50, 150))
+    };
     protected List<Particle> particles = new List<Particle>();
     public Player player;
 
@@ -99,9 +107,9 @@ public abstract class Room : IDraw
     public (Tile floor, Tile decor) GetTile(Vector2 coords)
     {
         if (float.IsNaN(coords.X) || float.IsNaN(coords.Y))
-            return new(Tile.NoTile, Tile.NoTile);
+            throw new ArgumentOutOfRangeException();
         if (coords.X >= Dimensions.X * Tile.GetSize().X || coords.Y >= Dimensions.Y * Tile.GetSize().Y || coords.X < 0 || coords.Y < 0)
-            return new(Tile.NoTile, Tile.NoTile);
+            throw new ArgumentOutOfRangeException();
 
         return (roomFloor[(int)(coords.X / Tile.GetSize().X), (int)(coords.Y / Tile.GetSize().Y)],
                 roomDecorations[(int)(coords.X / Tile.GetSize().X), (int)(coords.Y / Tile.GetSize().Y)]);
@@ -225,7 +233,7 @@ public abstract class Room : IDraw
     /* === Generation methods === */
     public abstract void GenerateRoom();
     protected abstract void GenerateEnemies();
-    protected virtual void GenerateRoomBase()
+    protected virtual void GenerateRoomBase(FloorTypes floors, WallTypes walls, DoorTypes doors)
     {
         if (this.Doors == null)
             throw new ArgumentNullException("This room does not have any doors!");
@@ -234,42 +242,43 @@ public abstract class Room : IDraw
         this.roomFloor = new Tile[(int)Dimensions.X, (int)Dimensions.Y];
         this.roomDecorations = new Tile[(int)Dimensions.X, (int)Dimensions.Y];
 
-        for (int i = 1; i < Dimensions.X - 1; i++)
-            for (var j = 1; j < Dimensions.Y - 1; j++)
-                roomFloor[i, j] = new TileFloor(FloorTypes.BASIC);
+        for (int i = 0; i < Dimensions.X; i++)
+            for (var j = 0; j < Dimensions.Y; j++)
+                roomFloor[i, j] = new TileFloor(floors);
 
         for (int i = 0; i < Dimensions.X; i++)
         {
-            roomFloor[i, 0] = new TileWall(WallTypes.BASIC);
-            roomFloor[i, (int)Dimensions.Y - 1] = new TileWall(WallTypes.BASIC);
+            roomFloor[i, 0] = new TileWall(walls);
+            roomFloor[i, (int)Dimensions.Y - 1] = new TileWall(walls);
         }
 
         for (int i = 0; i < Dimensions.Y; i++)
         {
-            roomFloor[0, i] = new TileWall(WallTypes.BASIC);
-            roomFloor[(int)Dimensions.X - 1, i] = new TileWall(WallTypes.BASIC);
+            roomFloor[0, i] = new TileWall(walls);
+            roomFloor[(int)Dimensions.X - 1, i] = new TileWall(walls);
         }
 
         // Generace dveri
         foreach (TileDoor door in this.Doors)
         {
+            door.SetDoorType(doors);
             switch (door.Direction)
             {
                 case Directions.LEFT:
                     door.DoorTpPosition = new Vector2(1, (int)Dimensions.Y / 2);
-                    roomFloor[0, (int)Dimensions.Y / 2] = door;
+                    roomDecorations[0, (int)Dimensions.Y / 2] = door;
                     break;
                 case Directions.RIGHT:
                     door.DoorTpPosition = new Vector2((int)Dimensions.X - 2, (int)Dimensions.Y / 2);
-                    roomFloor[(int)Dimensions.X - 1, (int)Dimensions.Y / 2] = door;
+                    roomDecorations[(int)Dimensions.X - 1, (int)Dimensions.Y / 2] = door;
                     break;
                 case Directions.UP:
                     door.DoorTpPosition = new Vector2((int)Dimensions.X / 2, 1);
-                    roomFloor[(int)Dimensions.X / 2, 0] = door;
+                    roomDecorations[(int)Dimensions.X / 2, 0] = door;
                     break;
                 case Directions.DOWN:
                     door.DoorTpPosition = new Vector2((int)Dimensions.X / 2, (int)Dimensions.Y - 2);
-                    roomFloor[(int)Dimensions.X / 2, (int)Dimensions.Y - 1] = door;
+                    roomDecorations[(int)Dimensions.X / 2, (int)Dimensions.Y - 1] = door;
                     break;
             }
         }
@@ -311,17 +320,23 @@ public abstract class Room : IDraw
     }
     public virtual void Draw(SpriteBatch spriteBatch)
     {
+        if (!this.IsGenerated)
+            this.GenerateRoom();
         for (int i = 0; i < Dimensions.X; i++)
             for (var j = 0; j < Dimensions.Y; j++)
             {
-                if (!this.IsGenerated)
-                    this.GenerateRoom();
                 Tile t = roomFloor[i, j];
                 if (t != null)
-                    spriteBatch.Draw(t.Sprite, new Vector2(i * Tile.GetSize().X, j * Tile.GetSize().Y), Color.White);
+                {
+                    Vector2 origin = new Vector2(25, 25);
+                    spriteBatch.Draw(t.Sprite, new Vector2(i * Tile.GetSize().X, j * Tile.GetSize().Y) + origin, null, Color.White, t.Rotation, origin, 1f, SpriteEffects.None, 0f);
+                }
                 t = roomDecorations[i, j];
                 if (t != null)
-                    spriteBatch.Draw(t.Sprite, new Vector2(i * Tile.GetSize().X, j * Tile.GetSize().Y), Color.White);
+                {
+                    Vector2 origin = new Vector2(25, 25);
+                    spriteBatch.Draw(t.Sprite, new Vector2(i * Tile.GetSize().X, j * Tile.GetSize().Y) + origin, null, Color.White, t.Rotation, origin, 1f, SpriteEffects.None, 0f);
+                }
             }
         foreach (Item item in drops)
             item.Draw(spriteBatch);
