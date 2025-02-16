@@ -286,7 +286,7 @@ public class Inventory
                 _ => stat.Key.ToString()
             };
 
-            string valueString = stat.Key == StatTypes.ATTACK_SPEED
+            string valueString = stat.Key == StatTypes.ATTACK_SPEED && weapon
                 ? $"{stat.Value / 1000.0} s"
                 : stat.Value.ToString();
 

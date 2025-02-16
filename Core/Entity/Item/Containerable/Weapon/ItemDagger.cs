@@ -12,8 +12,8 @@ internal class ItemDagger : ItemContainerable
 	{
 		Position = position;
 		Size = new Vector2(50, 50);
-		Name = "Dagger";
-		Description = "stabs";
+		Name = "Nuz";
+		Description = "skolni pomucka Londynskych studentu";
 		Stats = new Dictionary<StatTypes, int>() { { StatTypes.DAMAGE, 3 }, { StatTypes.ATTACK_SPEED, 100 } };
 		Effects = new List<EffectTypes>();
 		Sprite = TextureManager.GetTexture("tile");

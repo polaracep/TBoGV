@@ -10,9 +10,9 @@ internal class ItemTeeth : ItemContainerable
 	{
 		Position = position;
 		Size = new Vector2(50, 50);
-		Name = "Teeth of vampirism";
-		Description = "Heal using your foes, at a cost..";
-		Stats = new Dictionary<StatTypes, int>() { { StatTypes.DAMAGE, 1 }, { StatTypes.MAX_HP, -6 } };
+		Name = "Masochismus";
+		Description = "Co te nezabije to te posili. \nBrainrot ti vlezl do mozku a tobe se to libilo.\nZabijeni nepratel ti bude navracet zdravi.";
+		Stats = new Dictionary<StatTypes, int>() { { StatTypes.DAMAGE, 1 }, { StatTypes.MAX_HP, -6 }, { StatTypes.ATTACK_SPEED, -4 }, { StatTypes.XP_GAIN, -4 }, { StatTypes.PROJECTILE_COUNT, -2 }, { StatTypes.MOVEMENT_SPEED, -8 } };
 		Effects = new List<EffectTypes>() { EffectTypes.LIFE_STEAL};
 		Sprite = TextureManager.GetTexture("teeth");
 		ItemType = ItemTypes.EFFECT;
