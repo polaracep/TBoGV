@@ -73,17 +73,23 @@ public class LevelCreator
     private int RoomCount;
     private Vector2 StartPos;
     private Player Player;
+    private RoomStart StartRoom;
 
-
-    public LevelCreator(List<Room> rooms, int size, Vector2 startPos, Player player)
+    public LevelCreator(List<Room> rooms, RoomStart startRoom, int size, Vector2 startPos, Player player)
     {
         this.Size = size;
         this.Rooms = rooms;
         this.RoomCount = rooms.Count();
+        if (startRoom != null)
+        {
+            this.RoomCount++;
+            this.StartRoom = startRoom;
+        }
         // this.StartPos = startPos;
         this.StartPos = startPos;
         this.Player = player;
     }
+    public LevelCreator(List<Room> rooms, int size, Vector2 startPos, Player player) : this(rooms, null, size, startPos, player) { }
 
     public Room[,] GenerateLevel(out Vector2 startRoomPos)
     {
@@ -94,6 +100,12 @@ public class LevelCreator
         (Vector2 offset, Vector2 bounds) trucSize = GetOffsetAndSize(candidateMap);
 
         Room[,] finalMap = new Room[(int)trucSize.bounds.X, (int)trucSize.bounds.Y];
+        // startRoomPos = new Vector2(StartPos.X - trucSize.offset.X, StartPos.Y - trucSize.offset.Y);
+
+        RoomCandidate startRoomC = candidateMap.Cast<RoomCandidate>().FirstOrDefault(c => c != null && c.DoorDirections.Contains(Directions.ENTRY));
+        startRoomPos = new Vector2((int)startRoomC.Position.X - (int)trucSize.offset.X,
+                                    (int)startRoomC.Position.Y - (int)trucSize.offset.Y);
+
 
         Random rand = new Random();
         // kazdy kandidat
@@ -101,9 +113,21 @@ public class LevelCreator
         {
             if (c == null)
                 continue;
+            Room chosen;
+            bool isEntry = c.DoorDirections.Contains(Directions.ENTRY);
+            if (isEntry)
+                startRoomPos = c.Position - trucSize.offset;
 
-            Room chosen = Rooms[rand.Next(Rooms.Count())];
-            Rooms.Remove(chosen);
+            if (isEntry && StartRoom != null)
+            {
+                chosen = StartRoom;
+            }
+            else
+            {
+                chosen = Rooms[rand.Next(Rooms.Count())];
+                Rooms.Remove(chosen);
+            }
+
             foreach (Directions dir in c.DoorDirections)
             {
                 chosen.Doors.Add(new TileDoor(DoorTypes.BASIC, dir, Vector2.Zero));
@@ -117,7 +141,6 @@ public class LevelCreator
 
         }
         finalMap = LinkDoors(finalMap);
-        startRoomPos = new Vector2(StartPos.X - trucSize.offset.X, StartPos.Y - trucSize.offset.Y);
         return finalMap;
     }
     private Room[,] LinkDoors(Room[,] roomMap)
