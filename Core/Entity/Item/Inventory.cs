@@ -37,7 +37,7 @@ public class Inventory
 		SpriteToolTip = TextureManager.GetTexture("containerBorder");
 		Font = FontManager.GetFont("Arial8");
 		MiddleFont = FontManager.GetFont("Arial12");
-		LargerFont = FontManager.GetFont("Arial24");
+		LargerFont = FontManager.GetFont("Arial16");
 
 	}
 
@@ -90,6 +90,15 @@ public class Inventory
 		}
 	return finalStats;
 	}
+	public List<EffectTypes> GetEffect()
+	{
+		List<EffectTypes> effects = new List<EffectTypes>();
+		foreach (var container in ItemContainers)
+			if (!container.IsEmpty())
+				foreach (var effect in container.Item.Effects)			
+					effects.Add(effect);
+		return effects;	
+	}
 	public float GetWeaponDmg()
 	{
 		return ItemContainers[0].IsEmpty() ? 1 : ItemContainers[0].Item.Stats[StatTypes.DAMAGE];
@@ -99,17 +108,20 @@ public class Inventory
         return ItemContainers[0].IsEmpty() ? 1500 : ItemContainers[0].Item.Stats[StatTypes.ATTACK_SPEED];
     }
 
-    public void Update(Viewport viewport, Player player, MouseState mouseState)
+	public void Update(Viewport viewport, Player player, MouseState mouseState)
 	{
 		hoveredItem = null; // Reset hovered item
 		int separatorWidth = 10;
-		Position = new Vector2(viewport.Width/2 - ItemContainers.Count * (ItemContainers[0].Size.X)/2 -separatorWidth/2, viewport.Height - ItemContainers[0].Size.Y);
+		Position = new Vector2(
+			viewport.Width / 2 - ItemContainers.Count * (ItemContainers[0].Size.X) / 2 - separatorWidth / 2,
+			viewport.Height - ItemContainers[0].Size.Y);
+
 		for (int i = 0; i < ItemContainers.Count; i++)
 		{
 			Vector2 containerPosition = Position + new Vector2(i * ItemContainers[i].Size.X, 0);
-            containerPosition.X += (i > 2) ? separatorWidth : 0;
+			containerPosition.X += (i > 2) ? separatorWidth : 0;
+			ItemContainers[i].SetPosition(containerPosition);
 
-            ItemContainers[i].SetPosition(containerPosition);
 			// Check if mouse is over an item
 			if (ItemContainers[i].GetRectangle().Contains(mouseState.Position) && !ItemContainers[i].IsEmpty())
 			{
@@ -117,18 +129,36 @@ public class Inventory
 			}
 		}
 
+		// Handle scroll wheel selection (for basic items only)
 		int scrollDelta = PrevScrollWheelValue - mouseState.ScrollWheelValue;
 		if (scrollDelta > 0)
 		{
-			selectedItemIndex = 3 + ((selectedItemIndex + 1) % (ItemContainers.Count-3));
+			selectedItemIndex = 3 + ((selectedItemIndex + 1 - 3) % (ItemContainers.Count - 3));
 			SetActiveItemContainer();
 		}
 		else if (scrollDelta < 0)
 		{
-			selectedItemIndex = 3 + ((selectedItemIndex - 1 + ItemContainers.Count) %( ItemContainers.Count - 3));
+			selectedItemIndex = 3 + ((selectedItemIndex - 1 - 3 + (ItemContainers.Count - 3)) % (ItemContainers.Count - 3));
 			SetActiveItemContainer();
 		}
 		PrevScrollWheelValue = mouseState.ScrollWheelValue;
+
+		// Handle number key selection for basic items (starting at index 3)
+		KeyboardState keyboardState = Keyboard.GetState();
+		// Check for number keys D1 through D9.
+		for (int i = 1; i <= 9; i++)
+		{
+			Keys key = Keys.D1 + (i - 1);
+			if (keyboardState.IsKeyDown(key))
+			{
+				int containerIndex = 3 + (i - 1);
+				if (containerIndex < ItemContainers.Count)
+				{
+					selectedItemIndex = containerIndex;
+					SetActiveItemContainer();
+				}
+			}
+		}
 	}
 	private void SetActiveItemContainer()
 	{
@@ -159,7 +189,7 @@ public class Inventory
 		// Determine tooltip width & height
 		float tooltipWidth = Math.Max(Math.Max(nameSize.X, descriptionSize.X), statsSize.X) + 20;
 		float tooltipHeight = nameSize.Y + descriptionSize.Y + 10 + statsSize.Y + 20; // Extra 10px space after description
-		Vector2 tooltipPosition = new Vector2(Mouse.GetState().X + 10 - tooltipWidth, Mouse.GetState().Y + 10 - tooltipHeight);
+		Vector2 tooltipPosition = new Vector2(Math.Max(Mouse.GetState().X + 10 - tooltipWidth, 0), Math.Max(Mouse.GetState().Y + 10 - tooltipHeight, 0));
 		Rectangle backgroundRect = new Rectangle(tooltipPosition.ToPoint(), new Point((int)tooltipWidth, (int)tooltipHeight));
 
 		// Draw background

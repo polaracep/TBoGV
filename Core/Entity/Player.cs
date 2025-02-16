@@ -26,8 +26,10 @@ public class Player : Entity, IRecieveDmg, IDealDmg, IDraw
 	public int InvulnerabilityFrame = 1000;
 	public List<Projectile> Projectiles { get; set; }
 	public Inventory Inventory { get; set; }
-    private MouseState previousMouseState; 
-    public Player(Vector2 position)
+    private MouseState previousMouseState;
+	private KeyboardState prevKeyboardState;
+
+	public Player(Vector2 position)
 	{
 		BaseStats = new Dictionary<StatTypes, float>()
 		{
@@ -130,8 +132,8 @@ public class Player : Entity, IRecieveDmg, IDealDmg, IDraw
 		{
 			dy += MovementSpeed;
 		}
-		if (previousMouseState.RightButton == ButtonState.Pressed &&
-                                    mouseState.RightButton == ButtonState.Released)
+		if ((previousMouseState.RightButton == ButtonState.Pressed &&
+                                    mouseState.RightButton == ButtonState.Released ) || (keyboardState.IsKeyDown(Keys.E) && prevKeyboardState.IsKeyUp(Keys.E)))
         {
 			Tile t = room.GetTileInteractable(InteractionPoint);
 			if (t != null)
@@ -200,7 +202,8 @@ public class Player : Entity, IRecieveDmg, IDealDmg, IDraw
 
 		SetStats();
         previousMouseState = mouseState;
-    }
+		prevKeyboardState = keyboardState;
+	}
 
     public void Draw(SpriteBatch spriteBatch)
 	{
@@ -255,6 +258,8 @@ public class Player : Entity, IRecieveDmg, IDealDmg, IDraw
 		{
 			LevelUp();
 		}
+		if (Inventory.GetEffect().Contains(EffectTypes.LIFE_STEAL))
+			Heal(0.5f);
 	}
 	public int XpForLevel()
 	{
@@ -265,11 +270,11 @@ public class Player : Entity, IRecieveDmg, IDealDmg, IDraw
 		Level += 1;
 		Xp = 0;
 	}
-	public void Heal(uint healAmount)
+	public void Heal(float healAmount)
 	{
 		if (Hp < MaxHp)
 		{
-			Hp += (int)healAmount;
+			Hp += healAmount;
 		}
 	}
 

@@ -9,6 +9,7 @@ public abstract class ItemContainerable : Item
 	public ItemTypes ItemType { get; set; }
 	public Dictionary<StatTypes, int> Stats { get; set; }
 	public List<EffectTypes> Effects { get; set; }
+	public bool IsKnown = true;
 	public override void Interact(Entity e, Room r)
 	{
         if(!r.player.Inventory.PickUpItem(this))
@@ -28,8 +29,12 @@ public enum StatTypes : int
 public enum EffectTypes : int
 { 
     MAP_REVEAL = 0,
-    ARMOR = 1,
+    BOOTS = 1,
 	LIFE_STEAL = 2,
+	PIERCING = 3,
+	EXPLOSIVE = 4,
+	DODGE = 5,
+	AIM = 6,
 }
 public enum ItemTypes : int
 {
