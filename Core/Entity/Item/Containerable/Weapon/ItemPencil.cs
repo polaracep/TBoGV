@@ -14,9 +14,9 @@ namespace TBoGV;
         Size = new Vector2(50, 50);
         Name = "Tuzka";
         Description = "cerstve naostrena";
-        Stats = new Dictionary<StatTypes, int>() { { StatTypes.DAMAGE, 1 }, { StatTypes.ATTACK_SPEED, 500 } };
+        Stats = new Dictionary<StatTypes, int>() { { StatTypes.DAMAGE, 2 }, { StatTypes.ATTACK_SPEED, 750 } };
         Effects = new List<EffectTypes>();
-        Sprite = TextureManager.GetTexture("tile");
+        Sprite = TextureManager.GetTexture("pencil");
         ItemType = ItemTypes.WEAPON;
     }
 

@@ -17,7 +17,7 @@ internal class ItemTrackShoes : ItemContainerable
 		Description = "Tohle asi nebudou prezuvky...";
 		Stats = new Dictionary<StatTypes, int>() { { StatTypes.MOVEMENT_SPEED, 5 }};
 		Effects = new List<EffectTypes>() { };
-		Sprite = TextureManager.GetTexture("tile");
+		Sprite = TextureManager.GetTexture("trackShoes");
 		ItemType = ItemTypes.ARMOR;
 	}
 	public override void Draw(SpriteBatch spriteBatch)

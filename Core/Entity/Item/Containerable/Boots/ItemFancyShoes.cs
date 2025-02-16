@@ -17,7 +17,7 @@ internal class ItemFancyShoes : ItemContainerable
 		Description = "Florian style. Dej si pozor, at to nevidi Fiserova";
 		Stats = new Dictionary<StatTypes, int>() { { StatTypes.MOVEMENT_SPEED, 1 }, { StatTypes.XP_GAIN, 3} };
 		Effects = new List<EffectTypes>();
-		Sprite = TextureManager.GetTexture("tile");
+		Sprite = TextureManager.GetTexture("fancyShoes");
 		ItemType = ItemTypes.ARMOR;
 	}
 	public override void Draw(SpriteBatch spriteBatch)

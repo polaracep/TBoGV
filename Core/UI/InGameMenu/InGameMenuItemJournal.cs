@@ -64,6 +64,8 @@ internal class InGameMenuItemJournal : InGameMenu
 		Items.Add(new ItemMathProblem(Vector2.Zero));
 		Items.Add(new ItemTeeth(Vector2.Zero));
 		Items.Add(new ItemAdBlock(Vector2.Zero));
+		Items.Add(new ItemExplosive(Vector2.Zero));
+
 
 		Items.Add(new ItemDagger(Vector2.Zero));
 		Items.Add(new ItemPencil(Vector2.Zero));

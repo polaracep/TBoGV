@@ -14,7 +14,7 @@ internal class ItemMathProblem : ItemContainerable
 		Description = "Vyzaduje prilisne soustredeni, sance ignorace brainrotu.";
 		Stats = new Dictionary<StatTypes, int>() { { StatTypes.DAMAGE, 4 }};
 		Effects = new List<EffectTypes>() { EffectTypes.DODGE };
-		Sprite = TextureManager.GetTexture("tile");
+		Sprite = TextureManager.GetTexture("mathProblem");
 		ItemType = ItemTypes.EFFECT;
 	}
 

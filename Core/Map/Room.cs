@@ -168,7 +168,7 @@ public abstract class Room : IDraw
 							drops.Add(item);
 						enemies.RemoveAt(j);
 					}
-					if (!player.Inventory.GetEffect().Contains(EffectTypes.PIERCING) || !player.Inventory.GetEffect().Contains(EffectTypes.EXPLOSIVE))
+					if (!player.Inventory.GetEffect().Contains(EffectTypes.PIERCING) && !player.Inventory.GetEffect().Contains(EffectTypes.EXPLOSIVE))
 					{
 						player.Projectiles[i].Damage = excessDmg;
 					}

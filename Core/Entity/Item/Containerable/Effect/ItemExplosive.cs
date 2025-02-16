@@ -10,11 +10,11 @@ internal class ItemExplosive : ItemContainerable
 	{
 		Position = position;
 		Size = new Vector2(50, 50);
-		Name = "Lorencova transformace";
+		Name = "Lorentzova transformace";
 		Description = "O tomhle nam Schovanek nerekl";
 		Stats = new Dictionary<StatTypes, int>() { { StatTypes.DAMAGE, -6 }};
 		Effects = new List<EffectTypes>() { EffectTypes.EXPLOSIVE };
-		Sprite = TextureManager.GetTexture("tile");
+		Sprite = TextureManager.GetTexture("lorentzovaTransformace");
 		ItemType = ItemTypes.EFFECT;
 	}
 

@@ -14,7 +14,7 @@ internal class ItemAdBlock : ItemContainerable
 		Description = "Ted te uz nic nezastavi. \nTvoje strely jsou prurazne";
 		Stats = new Dictionary<StatTypes, int>() { { StatTypes.DAMAGE, -2}, { StatTypes.ATTACK_SPEED, -4 } };
 		Effects = new List<EffectTypes>() { EffectTypes.PIERCING };
-		Sprite = TextureManager.GetTexture("tile");
+		Sprite = TextureManager.GetTexture("adBlock");
 		ItemType = ItemTypes.EFFECT;
 	}
 

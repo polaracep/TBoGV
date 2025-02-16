@@ -17,7 +17,7 @@ internal class ItemFlipFlop: ItemContainerable
 		Description = "Legendary tier prezuvky";
 		Stats = new Dictionary<StatTypes, int>() { { StatTypes.MOVEMENT_SPEED, 3 }};
 		Effects = new List<EffectTypes>() { EffectTypes.BOOTS };
-		Sprite = TextureManager.GetTexture("tile");
+		Sprite = TextureManager.GetTexture("crocs");
 		ItemType = ItemTypes.ARMOR;
 	}
 	public override void Draw(SpriteBatch spriteBatch)

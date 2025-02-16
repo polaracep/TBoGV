@@ -17,7 +17,7 @@ internal class ItemMap : ItemContainerable
 		Description = "S nim se neztratis. (minimapu otevres M)";
 		Stats = new Dictionary<StatTypes, int>() { };
 		Effects = new List<EffectTypes>() { EffectTypes.MAP_REVEAL };
-		Sprite = TextureManager.GetTexture("tile");
+		Sprite = TextureManager.GetTexture("gymvodMap");
 		ItemType = ItemTypes.EFFECT;
 	}
 	public override void Draw(SpriteBatch spriteBatch)

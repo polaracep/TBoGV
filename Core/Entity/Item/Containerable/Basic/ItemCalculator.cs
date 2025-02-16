@@ -16,7 +16,7 @@ internal class ItemCalculator : ItemContainerable
         Description = "Rychla jako schovankovo opravovani testu";
         Stats = new Dictionary<StatTypes, int>() { { StatTypes.DAMAGE, 4 }};
         Effects = new List<EffectTypes>();
-        Sprite = TextureManager.GetTexture("tile");
+        Sprite = TextureManager.GetTexture("calculator");
         ItemType = ItemTypes.BASIC;
     }
     public override void Draw(SpriteBatch spriteBatch)
