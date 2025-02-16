@@ -25,6 +25,7 @@ public class Player : Entity, IRecieveDmg, IDealDmg, IDraw
 	public DateTime LastRecievedDmgTime { get; set; }
 	public int InvulnerabilityFrame = 1000;
 	public List<Projectile> Projectiles { get; set; }
+	List<Projectile> projectilesRecieved = new List<Projectile>();
 	public Inventory Inventory { get; set; }
     private MouseState previousMouseState;
 	private KeyboardState prevKeyboardState;
@@ -243,13 +244,25 @@ public class Player : Entity, IRecieveDmg, IDealDmg, IDraw
 
     public float RecieveDmg(Projectile projectile)
 	{
-		if ((DateTime.UtcNow - LastRecievedDmgTime).TotalMilliseconds >= InvulnerabilityFrame)
+		if (!projectilesRecieved.Contains(projectile))
 		{
-			Hp -= projectile.Damage;
-
-			LastRecievedDmgTime = DateTime.UtcNow;
+			if ((DateTime.UtcNow - LastRecievedDmgTime).TotalMilliseconds >= InvulnerabilityFrame)
+			{
+				if(Inventory.GetEffect().Contains(EffectTypes.DODGE) && GetSuccess(50))
+				{
+					projectilesRecieved.Add(projectile);
+					return projectile.Damage;
+				}
+				Hp -= projectile.Damage;
+				LastRecievedDmgTime = DateTime.UtcNow;
+			}
+			return 0;
 		}
-		return 0;
+		return projectile.Damage;
+	}
+	public bool GetSuccess(int percent)
+	{
+		return new Random().Next(0, 100) < percent;
 	}
 	public void Kill(int xpGain)
 	{

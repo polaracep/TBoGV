@@ -34,7 +34,7 @@ public abstract class Room : IDraw
 
     protected List<Projectile> projectiles = new List<Projectile>();
     protected List<Enemy> enemies = new List<Enemy>();
-    public List<Item> drops = new List<Item>() { new ItemDoping(new Vector2(200,200)), new ItemTeeth(new Vector2(100, 200)), new ItemCalculator(new Vector2(150, 200)), new ItemPencil(new Vector2(100, 100)), new ItemAdBlock(new Vector2(50, 50)) };
+    public List<Item> drops = new List<Item>() { new ItemDoping(new Vector2(200,200)), new ItemTeeth(new Vector2(100, 200)), new ItemCalculator(new Vector2(150, 200)), new ItemPencil(new Vector2(100, 100)), new ItemAdBlock(new Vector2(50, 50)), new ItemMathProblem(new Vector2(50, 100)) };
     public Player player;
 
     public Room(Vector2 dimensions, Vector2 pos, Player p)
@@ -130,8 +130,10 @@ public abstract class Room : IDraw
 
             if (ObjectCollision.CircleCircleCollision(projectiles[i], player))
             {
-                player.RecieveDmg(projectiles[i]);
-                projectiles.RemoveAt(i);
+				float excessDmg = player.RecieveDmg(projectiles[i]);
+				projectiles[i].Damage = excessDmg;
+				if (projectiles[i].Damage <= 0)
+					projectiles.RemoveAt(i);
                 continue;
             }
             if (this.ShouldCollideAt(projectiles[i].GetCircleCenter()))
