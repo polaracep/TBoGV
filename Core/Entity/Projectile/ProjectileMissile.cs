@@ -24,7 +24,21 @@ internal class ProjectileMissile : Projectile
 	}
 	public override void Draw(SpriteBatch spriteBatch)
 	{
-		spriteBatch.Draw(Sprite, new Rectangle(Convert.ToInt32(Position.X), Convert.ToInt32(Position.Y), Convert.ToInt32(Size.X), Convert.ToInt32(Size.Y)), Color.White);
+		// Calculate rotation based on the direction vector
+		float rotation = MathF.Atan2(Direction.Y, Direction.X);
+
+		// Draw the sprite with rotation
+		spriteBatch.Draw(
+			Sprite,
+			Position + Size / 2, // Draw position (centered)
+			null,                 // Source rectangle (null means entire texture)
+			Color.White,          // Color
+			rotation,             // Rotation angle
+			Size / 2,             // Origin (center of sprite)
+			1.0f,                 // Scale
+			SpriteEffects.None,   // No flipping
+			0f                    // Layer depth
+		);
 	}
 	public override Texture2D GetSprite()
 	{
