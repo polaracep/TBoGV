@@ -90,6 +90,18 @@
 /processorParam:TextureFormat=Color
 /build:Textures/blackSquare.png
 
+#begin Textures/boom.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Textures/boom.png
+
 #begin Textures/calculator.png
 /importer:TextureImporter
 /processor:TextureProcessor

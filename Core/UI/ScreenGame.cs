@@ -124,7 +124,7 @@ internal class ScreenGame : Screen
         if (!inGameMenu.Active)
         {
             player.Update(keyboardState, mouseState, _camera.Transform, CurrentLevel.ActiveRoom, graphics.GraphicsDevice.Viewport);
-            CurrentLevel.ActiveRoom.Update();
+            CurrentLevel.ActiveRoom.Update(gameTime);
             UI.Update(player, graphics);
             _camera.Update(player.Position + player.Size / 2);
             if (MediaPlayer.State == MediaState.Paused)

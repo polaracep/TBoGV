@@ -126,13 +126,13 @@ public abstract class Room : IDraw
     }
 
     /* === Update methods === */
-    public virtual void Update()
+    public virtual void Update(GameTime gameTime)
     {
         this.UpdateProjectiles();
         this.UpdateEnemies();
         for (int i = 0; i < particles.Count; i++)
         {
-            particles[i].Update();
+            particles[i].Update(gameTime);
             if (!particles[i].Visible)
                 particles.Remove(particles[i]);
         }
