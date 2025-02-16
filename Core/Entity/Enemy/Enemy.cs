@@ -12,6 +12,7 @@ public abstract class Enemy : Entity, IRecieveDmg, IDealDmg
     public float Hp { get; set; }
     public int MaxHp { get; set; }
     public int XpValue { get; set; }
+	public List<Projectile> projectilesRecieved = new List<Projectile>();
 
     public abstract void Draw(SpriteBatch spriteBatch);
     public abstract bool ReadyToAttack();
@@ -19,8 +20,13 @@ public abstract class Enemy : Entity, IRecieveDmg, IDealDmg
     public abstract bool IsDead();
     public abstract List<Projectile> Attack();
     public abstract List<Item> Drop(int looting);
-    public virtual void RecieveDmg(float damage)
+    public virtual float RecieveDmg(Projectile projectile)
     {
-        Hp -= damage;
+		if(!projectilesRecieved.Contains(projectile))
+		{
+			Hp -= projectile.Damage;
+			projectilesRecieved.Add(projectile);
+		}
+		return Hp < 0 ? -Hp : 0;
     }
 }

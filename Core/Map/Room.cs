@@ -34,7 +34,7 @@ public abstract class Room : IDraw
 
     protected List<Projectile> projectiles = new List<Projectile>();
     protected List<Enemy> enemies = new List<Enemy>();
-    public List<Item> drops = new List<Item>() { new ItemDoping(new Vector2(200,200)), new ItemTeeth(new Vector2(100, 200)), new ItemCalculator(new Vector2(150, 200)), new ItemPencil(new Vector2(100, 100)) };
+    public List<Item> drops = new List<Item>() { new ItemDoping(new Vector2(200,200)), new ItemTeeth(new Vector2(100, 200)), new ItemCalculator(new Vector2(150, 200)), new ItemPencil(new Vector2(100, 100)), new ItemAdBlock(new Vector2(50, 50)) };
     public Player player;
 
     public Room(Vector2 dimensions, Vector2 pos, Player p)
@@ -130,7 +130,7 @@ public abstract class Room : IDraw
 
             if (ObjectCollision.CircleCircleCollision(projectiles[i], player))
             {
-                player.RecieveDmg(projectiles[i].Damage);
+                player.RecieveDmg(projectiles[i]);
                 projectiles.RemoveAt(i);
                 continue;
             }
@@ -150,9 +150,14 @@ public abstract class Room : IDraw
             for (int j = 0; j < enemies.Count; j++)
                 if (ObjectCollision.CircleCircleCollision(player.Projectiles[i], enemies[j]))
                 {
-                    // HOnim HOdne HOdin - SANTA REFERENCE
-                    enemies[j].RecieveDmg(player.Projectiles[i].Damage);
-                    player.Projectiles.RemoveAt(i);
+					// HOnim HOdne HOdin - SANTA REFERENCE
+					float excessDmg = enemies[j].RecieveDmg(player.Projectiles[i]);
+					if(!player.Inventory.GetEffect().Contains(EffectTypes.PIERCING))
+					{
+						player.Projectiles[i].Damage = excessDmg;
+					}
+					if (player.Projectiles[i].Damage <= 0)
+						player.Projectiles.RemoveAt(i);
                     if (enemies[j].IsDead())
                     {
                         player.Kill(enemies[j].XpValue);

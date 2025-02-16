@@ -184,11 +184,11 @@ public class Inventory
 		// Measure text sizes
 		Vector2 nameSize = LargerFont.MeasureString(name);
 		Vector2 descriptionSize = MiddleFont.MeasureString(description);
-		Vector2 statsSize = Font.MeasureString(stats);
+		Vector2 statsSize = MiddleFont.MeasureString(stats);
 
 		// Determine tooltip width & height
 		float tooltipWidth = Math.Max(Math.Max(nameSize.X, descriptionSize.X), statsSize.X) + 20;
-		float tooltipHeight = nameSize.Y + descriptionSize.Y + 10 + statsSize.Y + 20; // Extra 10px space after description
+		float tooltipHeight = nameSize.Y + descriptionSize.Y + 10 + statsSize.Y ; // Extra 10px space after description
 		Vector2 tooltipPosition = new Vector2(Math.Max(Mouse.GetState().X + 10 - tooltipWidth, 0), Math.Max(Mouse.GetState().Y + 10 - tooltipHeight, 0));
 		Rectangle backgroundRect = new Rectangle(tooltipPosition.ToPoint(), new Point((int)tooltipWidth, (int)tooltipHeight));
 
@@ -208,7 +208,7 @@ public class Inventory
 			tooltipPosition.X + (tooltipWidth - statsSize.X) / 2, // Center horizontally
 			textPosition.Y
 		);
-		spriteBatch.DrawString(Font, stats, statsPosition, Color.White);
+		spriteBatch.DrawString(MiddleFont, stats, statsPosition, Color.LightCyan);
 	}
 	public bool PickUpItem(ItemContainerable item)
 	{

@@ -63,6 +63,7 @@ internal class InGameMenuItemJournal : InGameMenu
 		Items.Add(new ItemMap(Vector2.Zero));
 		Items.Add(new ItemMathProblem(Vector2.Zero));
 		Items.Add(new ItemTeeth(Vector2.Zero));
+		Items.Add(new ItemAdBlock(Vector2.Zero));
 
 		Items.Add(new ItemDagger(Vector2.Zero));
 		Items.Add(new ItemPencil(Vector2.Zero));
@@ -229,7 +230,7 @@ internal class InGameMenuItemJournal : InGameMenu
 		Vector2 descriptionSize = MiddleFont.MeasureString(description);
 		Vector2 statsSize = MiddleFont.MeasureString(stats);
 		float tooltipWidth = Math.Max(Math.Max(nameSize.X, descriptionSize.X), statsSize.X) + 20;
-		float tooltipHeight = nameSize.Y + descriptionSize.Y + 10 + statsSize.Y + 20;
+		float tooltipHeight = nameSize.Y + descriptionSize.Y + 10 + statsSize.Y ;
 		Vector2 tooltipPosition = new Vector2(Math.Max(Mouse.GetState().X + 10 - tooltipWidth, 0), Math.Max(Mouse.GetState().Y + 10 - tooltipHeight, 0));
 		Rectangle backgroundRect = new Rectangle(tooltipPosition.ToPoint(), new Point((int)tooltipWidth, (int)tooltipHeight));
 
@@ -246,7 +247,7 @@ internal class InGameMenuItemJournal : InGameMenu
 			tooltipPosition.X + (tooltipWidth - statsSize.X) / 2,
 			textPosition.Y
 		);
-		spriteBatch.DrawString(MiddleFont, stats, statsPosition, Color.White);
+		spriteBatch.DrawString(MiddleFont, stats, statsPosition, Color.LightCyan);
 	}
 
 	// A simple helper to format stats text; adjust as needed.

@@ -35,7 +35,7 @@ public class Player : Entity, IRecieveDmg, IDealDmg, IDraw
 		{
 			{ StatTypes.MAX_HP, 18 },         
 			{ StatTypes.DAMAGE, 1 },          
-			{ StatTypes.PROJECTILE_COUNT, 5 }, 
+			{ StatTypes.PROJECTILE_COUNT, 1 }, 
 			{ StatTypes.XP_GAIN, 1 },        
 			{ StatTypes.ATTACK_SPEED, 1500 },   
 			{ StatTypes.MOVEMENT_SPEED, 2 }    
@@ -79,7 +79,7 @@ public class Player : Entity, IRecieveDmg, IDealDmg, IDraw
 					subjectValue = (int)item.Value * 0.5f + BaseStats[item.Key];
 					break;
 				case StatTypes.DAMAGE:
-                    subjectValue = ((item.Value * 0.5f) + 1) * BaseStats[item.Key];
+                    subjectValue = ((item.Value * 0.1f) + 1) * BaseStats[item.Key];
                     break;
 				case StatTypes.PROJECTILE_COUNT:
                     subjectValue = (int)item.Value * 1/3 + BaseStats[item.Key];
@@ -105,9 +105,9 @@ public class Player : Entity, IRecieveDmg, IDealDmg, IDraw
 		Hp = Math.Min(Hp, MaxHp); // Zajistíme, že HP nepřesáhne MaxHp
 		AttackDmg = finalStats[StatTypes.DAMAGE];
 		AttackSpeed = finalStats[StatTypes.ATTACK_SPEED];
-		MovementSpeed = (int)finalStats[StatTypes.MOVEMENT_SPEED];
+		MovementSpeed = (int)Math.Max(finalStats[StatTypes.MOVEMENT_SPEED],1);
         XpGain = finalStats[StatTypes.XP_GAIN];
-        ProjectileCount = (int)finalStats[StatTypes.PROJECTILE_COUNT];
+        ProjectileCount = (int)Math.Max(finalStats[StatTypes.PROJECTILE_COUNT], 1);
     }
 
 	public void Update(KeyboardState keyboardState, MouseState mouseState, Matrix transform, Room room, Viewport viewport)
@@ -241,15 +241,15 @@ public class Player : Entity, IRecieveDmg, IDealDmg, IDraw
         return firedProjectiles;
     }
 
-    public void RecieveDmg(float damage)
+    public float RecieveDmg(Projectile projectile)
 	{
 		if ((DateTime.UtcNow - LastRecievedDmgTime).TotalMilliseconds >= InvulnerabilityFrame)
 		{
-			Hp -= damage;
+			Hp -= projectile.Damage;
 
 			LastRecievedDmgTime = DateTime.UtcNow;
 		}
-
+		return 0;
 	}
 	public void Kill(int xpGain)
 	{
