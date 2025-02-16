@@ -52,6 +52,9 @@ public class TileWall : Tile
             case WallTypes.WHITE:
                 Sprite = TextureManager.GetTexture("wallWhite");
                 break;
+            case WallTypes.WHITE_CORNER:
+                Sprite = TextureManager.GetTexture("wallWhiteCorner");
+                break;
             default:
                 throw new Exception();
         }

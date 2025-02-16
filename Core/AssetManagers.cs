@@ -16,6 +16,7 @@ public static class TextureManager
             "wall",
             "wallBrick",
             "wallWhite",
+            "wallWhiteCorner",
             "door",
             "vitek-nobg",
             "vitekElegan",
@@ -47,11 +48,11 @@ public static class TextureManager
             "pencil",
             "trackShoes",
             "dagger",
-			"maso",
-			"boom",
-			"vitekEleganBolderCut"
+            "maso",
+            "boom",
+            "vitekEleganBolderCut"
 
-		};
+        };
 
         foreach (string name in names)
         {

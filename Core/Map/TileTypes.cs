@@ -6,8 +6,9 @@ public enum FloorTypes : int
 }
 public enum WallTypes : int
 {
-    BASIC = 0,
-    WHITE = 1,
+    BASIC,
+    WHITE,
+    WHITE_CORNER,
 }
 public enum DoorTypes : int
 {

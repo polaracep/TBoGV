@@ -38,6 +38,10 @@ public class RoomClassroom : Room
             roomFloor[0, i] = new TileWall(walls, -MathHelper.PiOver2);
             roomFloor[(int)Dimensions.X - 1, i] = new TileWall(walls, MathHelper.PiOver2);
         }
+        roomFloor[0, 0] = new TileWall(WallTypes.WHITE_CORNER, -MathHelper.PiOver2);
+        roomFloor[(int)Dimensions.X - 1, 0] = new TileWall(WallTypes.WHITE_CORNER, 0f);
+        roomFloor[0, (int)Dimensions.Y - 1] = new TileWall(WallTypes.WHITE_CORNER, MathHelper.Pi);
+        roomFloor[(int)Dimensions.X - 1, (int)Dimensions.Y - 1] = new TileWall(WallTypes.WHITE_CORNER, MathHelper.PiOver2);
 
         // Generace dveri
         foreach (TileDoor door in this.Doors)
