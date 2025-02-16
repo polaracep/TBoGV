@@ -2,16 +2,13 @@
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace TBoGV;
 
 internal class EnemyZdena : EnemyRanged
 {
 	static Texture2D Sprite;
-	public EnemyZdena(Vector2 position) 
+	public EnemyZdena(Vector2 position)
 	{
 		Position = position;
 		Hp = 3;
@@ -29,6 +26,6 @@ internal class EnemyZdena : EnemyRanged
 	public override List<Projectile> Attack()
 	{
 		LastAttackTime = DateTime.UtcNow;
-        return new List<Projectile>() { new ProjectilePee(Position + Size / 2, Direction, AttackDmg) };
-    }
+		return new List<Projectile>() { new ProjectilePee(Position + Size / 2, Direction, AttackDmg) };
+	}
 }
