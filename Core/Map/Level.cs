@@ -13,29 +13,28 @@ public class Level
     protected Vector2 ActiveRoomCoords;
     protected Player Player;
 
-    public Level(Player player, List<Room> roomList, uint maxSize, Vector2 roomStartPos)
+    public Level(Player player, List<Room> roomList, RoomStart startRoom, uint maxSize, Vector2 startRoomPos)
     {
-        if (roomStartPos.X > maxSize || roomStartPos.Y > maxSize)
+        if (startRoomPos.X > maxSize || startRoomPos.Y > maxSize)
             throw new ArgumentOutOfRangeException("The startPos is not in the level");
         this.Size = (int)maxSize;
         this.RoomCount = roomList.Count;
+        if (startRoom != null)
+            this.RoomCount++;
         this.Player = player;
-        roomStartPos = new Vector2((int)(maxSize / 2), (int)(maxSize / 2));
 
-        RoomStart start = new RoomStart(new Vector2(7, 7), roomStartPos, player);
-        roomList = roomList.Prepend(start).ToList();
-
-        LevelCreator lC = new LevelCreator(roomList, 7, roomStartPos, Player);
-        this.RoomMap = lC.GenerateLevel(out roomStartPos);
-        this.ActiveRoom = this.RoomMap[(int)roomStartPos.X, (int)roomStartPos.Y];
-        this.ActiveRoomCoords = roomStartPos;
+        LevelCreator lC = new LevelCreator(roomList, startRoom, 7, startRoomPos, Player);
+        this.RoomMap = lC.GenerateLevel(out startRoomPos);
+        this.ActiveRoom = this.RoomMap[(int)startRoomPos.X, (int)startRoomPos.Y];
+        this.ActiveRoomCoords = startRoomPos;
 
         TileDoor.TileInteract += OnRoomChanged;
         LevelCreator.PrintMap(this.RoomMap);
 
     }
 
-    public Level(Player player, List<Room> roomList, uint maxSize) : this(player, roomList, maxSize, new Vector2(maxSize / 2, 0)) { }
+    public Level(Player player, List<Room> roomList, uint maxSize) : this(player, roomList, null, maxSize, new Vector2(maxSize) / 2) { }
+    public Level(Player player, List<Room> roomList, RoomStart roomStart, uint maxSize) : this(player, roomList, roomStart, maxSize, new Vector2(maxSize) / 2) { }
 
     private void OnRoomChanged(object sender, TileInteractEventArgs e)
     {
@@ -73,17 +72,23 @@ public class LevelCreator
     private int RoomCount;
     private Vector2 StartPos;
     private Player Player;
+    private RoomStart StartRoom;
 
-
-    public LevelCreator(List<Room> rooms, int size, Vector2 startPos, Player player)
+    public LevelCreator(List<Room> rooms, RoomStart startRoom, int size, Vector2 startPos, Player player)
     {
         this.Size = size;
         this.Rooms = rooms;
         this.RoomCount = rooms.Count();
+        if (startRoom != null)
+        {
+            this.RoomCount++;
+            this.StartRoom = startRoom;
+        }
         // this.StartPos = startPos;
         this.StartPos = startPos;
         this.Player = player;
     }
+    public LevelCreator(List<Room> rooms, int size, Vector2 startPos, Player player) : this(rooms, null, size, startPos, player) { }
 
     public Room[,] GenerateLevel(out Vector2 startRoomPos)
     {
@@ -96,14 +101,27 @@ public class LevelCreator
         Room[,] finalMap = new Room[(int)trucSize.bounds.X, (int)trucSize.bounds.Y];
 
         Random rand = new Random();
+        startRoomPos = StartPos - trucSize.offset;
         // kazdy kandidat
         foreach (var c in candidateMap)
         {
             if (c == null)
                 continue;
+            Room chosen;
+            bool isEntry = c.DoorDirections.Contains(Directions.ENTRY);
+            if (isEntry)
+                startRoomPos = c.Position - trucSize.offset;
 
-            Room chosen = Rooms[rand.Next(Rooms.Count())];
-            Rooms.Remove(chosen);
+            if (isEntry && StartRoom != null)
+            {
+                chosen = StartRoom;
+            }
+            else
+            {
+                chosen = Rooms[rand.Next(Rooms.Count())];
+                Rooms.Remove(chosen);
+            }
+
             foreach (Directions dir in c.DoorDirections)
             {
                 chosen.Doors.Add(new TileDoor(DoorTypes.BASIC, dir, Vector2.Zero));
@@ -117,7 +135,6 @@ public class LevelCreator
 
         }
         finalMap = LinkDoors(finalMap);
-        startRoomPos = new Vector2(StartPos.X - trucSize.offset.X, StartPos.Y - trucSize.offset.Y);
         return finalMap;
     }
     private Room[,] LinkDoors(Room[,] roomMap)

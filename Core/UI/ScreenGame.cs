@@ -31,10 +31,13 @@ internal class ScreenGame : Screen
         player = new Player();
 
         List<Room> rL = new List<Room> {
-            new RoomClassroom(new Vector2(9, 9), player)
+            new RoomClassroom(new Vector2(9, 9), player),
+            new RoomEmpty(new Vector2(9, 9), player),
+            new RoomEmpty(new Vector2(9, 9), player),
         };
+        RoomStart start = new RoomStart(new Vector2(5, 5), player);
 
-        CurrentLevel = new Level(player, rL, 6);
+        CurrentLevel = new Level(player, rL, start, 6);
 
         UI = new UI();
         _camera = new Camera(graphics.GraphicsDevice.Viewport, (int)(CurrentLevel.ActiveRoom.Dimensions.X * Tile.GetSize().X), (int)(CurrentLevel.ActiveRoom.Dimensions.Y * Tile.GetSize().Y));

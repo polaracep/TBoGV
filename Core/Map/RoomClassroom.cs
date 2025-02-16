@@ -35,8 +35,8 @@ public class RoomClassroom : Room
 
         for (int i = 0; i < Dimensions.Y; i++)
         {
-            roomFloor[0, i] = new TileWall(walls);
-            roomFloor[(int)Dimensions.X - 1, i] = new TileWall(walls);
+            roomFloor[0, i] = new TileWall(walls, -MathHelper.PiOver2);
+            roomFloor[(int)Dimensions.X - 1, i] = new TileWall(walls, MathHelper.PiOver2);
         }
 
         // Generace dveri
@@ -68,5 +68,9 @@ public class RoomClassroom : Room
 
     protected override void GenerateEnemies()
     {
+        for (int i = 1; i <= 5; i++)
+        {
+            this.AddEnemy(new EnemyZdena(new Vector2(Tile.GetSize().X * i, Tile.GetSize().Y)));
+        }
     }
 }
