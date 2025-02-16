@@ -12,10 +12,10 @@ internal class Heart : IDraw
     public static Vector2 Size;
     public Heart()
     {
-        SpriteFull = TextureManager.GetTexture("admiration");
-        SpriteBroken = TextureManager.GetTexture("taunt");
+        SpriteFull = TextureManager.GetTexture("vitekElegan");
+        SpriteBroken = TextureManager.GetTexture("vitekEleganBolderCut");
         Broken = false;
-        Size = new Vector2(15, 28);
+        Size = new Vector2(30, 30);
     }
     public void Draw(SpriteBatch spriteBatch)
     {

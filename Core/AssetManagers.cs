@@ -48,9 +48,10 @@ public static class TextureManager
             "trackShoes",
             "dagger",
 			"maso",
-			"boom"
+			"boom",
+			"vitekEleganBolderCut"
 
-        };
+		};
 
         foreach (string name in names)
         {
