@@ -34,7 +34,8 @@ public abstract class Room : IDraw
 
     protected List<Projectile> projectiles = new List<Projectile>();
     protected List<Enemy> enemies = new List<Enemy>();
-    public List<Item> drops = new List<Item>() { new ItemDoping(new Vector2(200, 200)), new ItemTeeth(new Vector2(100, 200)), new ItemCalculator(new Vector2(150, 200)), new ItemPencil(new Vector2(100, 100)) };
+    public List<Item> drops = new List<Item>() { new ItemDoping(new Vector2(200, 200)), new ItemTeeth(new Vector2(100, 200)), new ItemCalculator(new Vector2(150, 200)), new ItemPencil(new Vector2(100, 100)), new ItemAdBlock(new Vector2(50, 50)), new ItemMathProblem(new Vector2(50, 100)), new ItemExplosive(new Vector2(50, 150)) };
+    protected List<Particle> particles = new List<Particle>();
     public Player player;
 
     public Room(Vector2 dimensions, Vector2 pos, Player p)
@@ -121,6 +122,12 @@ public abstract class Room : IDraw
     {
         this.UpdateProjectiles();
         this.UpdateEnemies();
+        for (int i = 0; i < particles.Count; i++)
+        {
+            particles[i].Update();
+            if (!particles[i].Visible)
+                particles.Remove(particles[i]);
+        }
     }
     protected virtual void UpdateProjectiles()
     {
@@ -130,8 +137,10 @@ public abstract class Room : IDraw
 
             if (ObjectCollision.CircleCircleCollision(projectiles[i], player))
             {
-                player.RecieveDmg(projectiles[i].Damage);
-                projectiles.RemoveAt(i);
+                float excessDmg = player.RecieveDmg(projectiles[i]);
+                projectiles[i].Damage = excessDmg;
+                if (projectiles[i].Damage <= 0)
+                    projectiles.RemoveAt(i);
                 continue;
             }
             if (this.ShouldCollideAt(projectiles[i].GetCircleCenter()))
@@ -144,15 +153,14 @@ public abstract class Room : IDraw
             player.Projectiles[i].Update();
             if (this.ShouldCollideAt(player.Projectiles[i].GetCircleCenter()))
             {
-                player.Projectiles.RemoveAt(i);
+                DestroyPlayerProjectile(i);
                 continue;
             }
             for (int j = 0; j < enemies.Count; j++)
                 if (ObjectCollision.CircleCircleCollision(player.Projectiles[i], enemies[j]))
                 {
                     // HOnim HOdne HOdin - SANTA REFERENCE
-                    enemies[j].RecieveDmg(player.Projectiles[i].Damage);
-                    player.Projectiles.RemoveAt(i);
+                    float excessDmg = enemies[j].RecieveDmg(player.Projectiles[i]);
                     if (enemies[j].IsDead())
                     {
                         player.Kill(enemies[j].XpValue);
@@ -160,9 +168,41 @@ public abstract class Room : IDraw
                             drops.Add(item);
                         enemies.RemoveAt(j);
                     }
-                    break;
+                    if (!player.Inventory.GetEffect().Contains(EffectTypes.PIERCING) && !player.Inventory.GetEffect().Contains(EffectTypes.EXPLOSIVE))
+                    {
+                        player.Projectiles[i].Damage = excessDmg;
+                    }
+                    if (player.Projectiles[i].Damage <= 0 || player.Inventory.GetEffect().Contains(EffectTypes.EXPLOSIVE))
+                        DestroyPlayerProjectile(i);
+                    if (enemies.Count > j)
+
+                        break;
                 }
         }
+    }
+    private void DestroyPlayerProjectile(int index)
+    {
+        if (player.Inventory.GetEffect().Contains(EffectTypes.EXPLOSIVE))
+        {
+            ParticleExplosion explosion = new ParticleExplosion(player.Projectiles[index].Position);
+            particles.Add(explosion);
+            for (int j = 0; j < enemies.Count; j++)
+            {
+                if (ObjectCollision.CircleCircleCollision(explosion, enemies[j]))
+                {
+                    enemies[j].RecieveDmg(player.Projectiles[index]);
+                    if (enemies[j].IsDead())
+                    {
+                        player.Kill(enemies[j].XpValue);
+                        foreach (Item item in enemies[j].Drop(1))
+                            drops.Add(item);
+                        enemies.RemoveAt(j);
+                        j--;
+                    }
+                }
+            }
+        }
+        player.Projectiles.RemoveAt(index);
     }
     protected virtual void UpdateEnemies()
     {
@@ -291,6 +331,7 @@ public abstract class Room : IDraw
             projectile.Draw(spriteBatch);
         foreach (Projectile projectile in projectiles)
             projectile.Draw(spriteBatch);
-
+        foreach (Particle particle in particles)
+            particle.Draw(spriteBatch);
     }
 }

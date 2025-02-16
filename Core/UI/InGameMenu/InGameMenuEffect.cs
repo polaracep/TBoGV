@@ -74,8 +74,8 @@ internal class InGameMenuEffect : InGameMenu
         return statType switch
         {
             StatTypes.MAX_HP => value > 0 ? $"(+{(int)(value * 0.5)} Hp)" : $"({(int)(value * 0.5)} Hp)",
-            StatTypes.DAMAGE => $"(+{(value * 20)}% dmg)",
-            StatTypes.PROJECTILE_COUNT => $"(+{(int)(value / 3)} projektilu)",
+            StatTypes.DAMAGE => $"(+{(value * 10)}% dmg)",
+            StatTypes.PROJECTILE_COUNT => $"(+{(int)Math.Max(value / 3,0)} projektilu)",
             StatTypes.XP_GAIN => $"(+{value * 10}% xp gain)",
             StatTypes.ATTACK_SPEED => $"(+{value * 10}% rychlost utoku)",
             StatTypes.MOVEMENT_SPEED => $"(+{value * 10}% rychlost pohybu)",

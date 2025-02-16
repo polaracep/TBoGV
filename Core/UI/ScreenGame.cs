@@ -15,6 +15,7 @@ internal class ScreenGame : Screen
     private InGameMenuEffect effectMenu;
     private InGameMenuLevelUp levelUpMenu;
     private InGameMenuDeath deathMenu;
+	private InGameMenuItemJournal itemJournalMenu;
     private UI UI;
     private MouseState mouseState;
     private KeyboardState keyboardState;
@@ -43,6 +44,7 @@ internal class ScreenGame : Screen
         inGameMenu = effectMenu = new InGameMenuEffect(graphics.GraphicsDevice.Viewport);
         levelUpMenu = new InGameMenuLevelUp(graphics.GraphicsDevice.Viewport);
         deathMenu = new InGameMenuDeath(graphics.GraphicsDevice.Viewport);
+		itemJournalMenu = new InGameMenuItemJournal(graphics.GraphicsDevice.Viewport);
 
         // check the current state of the MediaPlayer.
         Song = SongManager.GetSong("soundtrack");
@@ -90,7 +92,8 @@ internal class ScreenGame : Screen
         mouseState = Mouse.GetState();
         keyboardState = Keyboard.GetState();
         int levelStatsCount = 0;
-        foreach (var item in player.LevelUpStats)
+		itemJournalMenu.Update(graphics.GraphicsDevice.Viewport, player, mouseState);
+		foreach (var item in player.LevelUpStats)
         {
             levelStatsCount += (int)player.LevelUpStats[item.Key];
         }
@@ -106,12 +109,22 @@ internal class ScreenGame : Screen
         }
         if (KeyReleased(Keys.Tab))
         {
-            effectMenu.Active = !effectMenu.Active;
             if (!levelUpMenu.Active && !deathMenu.Active)
-                inGameMenu = effectMenu;
-        }
-
-        if (!inGameMenu.Active)
+			{
+				inGameMenu = effectMenu;
+				effectMenu.Active = !effectMenu.Active;
+			}
+		}
+		if (KeyReleased(Keys.J))
+		{
+			if (!levelUpMenu.Active && !deathMenu.Active)
+			{
+				itemJournalMenu.ShowAll();
+				inGameMenu = itemJournalMenu;
+				itemJournalMenu.Active = !itemJournalMenu.Active;
+			}
+		}
+		if (!inGameMenu.Active)
         {
             player.Update(keyboardState, mouseState, _camera.Transform, CurrentLevel.ActiveRoom, graphics.GraphicsDevice.Viewport);
             CurrentLevel.ActiveRoom.Update();

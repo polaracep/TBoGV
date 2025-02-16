@@ -35,7 +35,18 @@ public static class TextureManager
             "containerBoots",
             "containerBasic",
             "wheat4",
-            "teeth"
+            "teeth",
+			"gymvodMap",
+			"adBlock",
+			"calculator",
+			"fancyShoes",
+			"crocs",
+			"lorentzovaTransformace",
+			"mathProblem",
+			"pencil",
+			"trackShoes",
+			"dagger"
+
         };
 
         foreach (string name in names)
