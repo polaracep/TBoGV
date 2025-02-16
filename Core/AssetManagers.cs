@@ -46,7 +46,8 @@ public static class TextureManager
             "mathProblem",
             "pencil",
             "trackShoes",
-            "dagger"
+            "dagger",
+			"maso"
 
         };
 
