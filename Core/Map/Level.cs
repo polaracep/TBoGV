@@ -55,6 +55,10 @@ public class Level
                 break;
         }
         ActiveRoom = RoomMap[(int)ActiveRoomCoords.X, (int)ActiveRoomCoords.Y];
+        if (!ActiveRoom.IsGenerated)
+            ActiveRoom.GenerateRoom();
+
+        Player.Position = e.OppositeDoor.DoorTpPosition * 50;
         Console.WriteLine("DIR:" + e.Directions);
     }
 }
@@ -100,17 +104,61 @@ public class LevelCreator
 
             Room chosen = Rooms[rand.Next(Rooms.Count())];
             Rooms.Remove(chosen);
-            chosen.DoorDirections = c.DoorDirections;
+            foreach (Directions dir in c.DoorDirections)
+            {
+                chosen.Doors.Add(new TileDoor(DoorTypes.BASIC, dir, Vector2.Zero));
+            }
             chosen.Position = c.Position - trucSize.offset;
             Vector2 newPos = new Vector2((int)c.Position.X - (int)trucSize.offset.X, (int)c.Position.Y - (int)trucSize.offset.Y);
-            Console.WriteLine(chosen.DoorDirections + ", " + newPos);
 
             finalMap[(int)newPos.X, (int)newPos.Y] = chosen;
+
             PrintMap(finalMap);
 
         }
+        finalMap = LinkDoors(finalMap);
         startRoomPos = new Vector2(StartPos.X - trucSize.offset.X, StartPos.Y - trucSize.offset.Y);
         return finalMap;
+    }
+    private Room[,] LinkDoors(Room[,] roomMap)
+    {
+        foreach (Room room in roomMap)
+        {
+            if (room == null)
+                continue;
+
+            foreach (TileDoor door in room.Doors)
+            {
+                Vector2 newRoomPos = new Vector2(-1, -1);
+                Directions lookingForDir = Directions.ENTRY;
+                switch (door.Direction)
+                {
+                    case Directions.LEFT:
+                        newRoomPos = room.Position - Vector2.UnitX;
+                        lookingForDir = Directions.RIGHT;
+                        break;
+                    case Directions.RIGHT:
+                        newRoomPos = room.Position + Vector2.UnitX;
+                        lookingForDir = Directions.LEFT;
+                        break;
+                    case Directions.UP:
+                        newRoomPos = room.Position - Vector2.UnitY;
+                        lookingForDir = Directions.DOWN;
+                        break;
+                    case Directions.DOWN:
+                        newRoomPos = room.Position + Vector2.UnitY;
+                        lookingForDir = Directions.UP;
+                        break;
+                    case Directions.ENTRY:
+                        continue;
+                }
+                Room linkRoom = roomMap[(int)newRoomPos.X, (int)newRoomPos.Y];
+                if (linkRoom is RoomBoss)
+                    door.IsBossDoor = true;
+                door.OppositeDoor = linkRoom.Doors.Find(d => d.Direction == lookingForDir);
+            }
+        }
+        return roomMap;
     }
 
     private RoomCandidate[,] PopulateCandidates()
@@ -182,7 +230,6 @@ public class LevelCreator
         Candidates.Clear();
         return candidateMap;
     }
-
     private void AddCandidate(RoomCandidate r)
     {
         if (IsValidCandidate(r))
@@ -200,7 +247,7 @@ public class LevelCreator
             for (int x = 0; x < map.GetLength(0); x++)
             {
                 if (map[x, y] != null)
-                    Console.Write((int)map[x, y].DoorDirections.Count + " ");
+                    Console.Write((int)map[x, y].Doors.Count + " ");
                 else
                     Console.Write(". ");
             }
@@ -208,7 +255,6 @@ public class LevelCreator
         }
         Console.WriteLine();
     }
-
     private void PrintMap(RoomCandidate[,] map)
     {
         for (int y = 0; y < Size; y++)
@@ -224,6 +270,7 @@ public class LevelCreator
         }
         Console.WriteLine();
     }
+
     private (Vector2 offset, Vector2 bounds) GetOffsetAndSize(RoomCandidate[,] rooms)
     {
         int x = 0, y = 0;

@@ -69,35 +69,56 @@ public class TileWall : Tile, IDraw
 public class TileInteractEventArgs : EventArgs
 {
     public Directions Directions;
-    public TileInteractEventArgs(Directions dir)
+    public TileDoor OppositeDoor;
+    public TileInteractEventArgs(Directions dir, TileDoor oppositeDoor)
     {
+        OppositeDoor = oppositeDoor;
         Directions = dir;
     }
 }
 public class TileDoor : Tile, IDraw, IInteractable
 {
-    private Directions dir;
+    public Directions Direction { get; private set; }
+    public TileDoor OppositeDoor;
+    public Vector2 DoorTpPosition;
+    public bool IsBossDoor = false;
+    // public Vector2 TeleportPosition;
     public static event EventHandler<TileInteractEventArgs> TileInteract;
-    public TileDoor(DoorTypes door, Directions direction) : base(true)
+    public TileDoor(DoorTypes type, Directions direction, Vector2 doorPos, TileDoor oppositeDoor) : base(true)
     {
-        this.dir = direction;
-        switch (door)
-        {
-            case DoorTypes.BASIC:
-                Sprite = TextureManager.GetTexture("door");
-                break;
-        }
+        this.DoorTpPosition = doorPos;
+        this.OppositeDoor = oppositeDoor;
+        this.Direction = direction;
+        SetDoorType(type);
     }
+    public TileDoor(DoorTypes door, Directions direction, Vector2 doorPos) : this(door, direction, doorPos, null) { }
+    public TileDoor(DoorTypes door, Directions direction) : this(door, direction, Vector2.Zero, null) { }
     public void Interact(Entity e, Room r)
     {
         // put player in the left-top corne
-
-        r.ResetRoom();
-        OnTileInteract(new TileInteractEventArgs(this.dir));
+        if (OppositeDoor == null)
+        {
+            Console.WriteLine("No destinaiton door provided");
+            return;
+        }
+        OnTileInteract(new TileInteractEventArgs(this.Direction, this.OppositeDoor));
     }
     protected virtual void OnTileInteract(TileInteractEventArgs e)
     {
         TileInteract?.Invoke(this, e);
+    }
+
+    public void SetDoorType(DoorTypes newType)
+    {
+        switch (newType)
+        {
+            case DoorTypes.BASIC:
+                Sprite = TextureManager.GetTexture("door");
+                break;
+            default:
+                Sprite = TextureManager.GetTexture("door");
+                break;
+        }
     }
 }
 

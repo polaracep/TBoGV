@@ -21,7 +21,7 @@ public abstract class Room : IDraw
     /// Map position used in level generation
     /// </summary>
     public Vector2 Position;
-    public List<Directions> DoorDirections = new List<Directions>();
+    public List<TileDoor> Doors = new List<TileDoor>();
     public bool IsGenerated { get; protected set; } = false;
     /// <summary>
     /// Use for room layout
@@ -34,7 +34,7 @@ public abstract class Room : IDraw
 
     protected List<Projectile> projectiles = new List<Projectile>();
     protected List<Enemy> enemies = new List<Enemy>();
-    public List<Item> drops = new List<Item>() { new ItemDoping(new Vector2(200,200)), new ItemTeeth(new Vector2(100, 200)), new ItemCalculator(new Vector2(150, 200)), new ItemPencil(new Vector2(100, 100)) };
+    public List<Item> drops = new List<Item>() { new ItemDoping(new Vector2(200, 200)), new ItemTeeth(new Vector2(100, 200)), new ItemCalculator(new Vector2(150, 200)), new ItemPencil(new Vector2(100, 100)) };
     public Player player;
 
     public Room(Vector2 dimensions, Vector2 pos, Player p)
@@ -51,7 +51,7 @@ public abstract class Room : IDraw
     /// <param name="coords"></param>
     /// <returns></returns>
     /// <exception cref="ArgumentOutOfRangeException"></exception>
-    public Vector2 GetTilePos(Vector2 coords)
+    public Vector2 GetTileWorldPos(Vector2 coords)
     {
         if (float.IsNaN(coords.X) || float.IsNaN(coords.Y))
             throw new ArgumentOutOfRangeException();
@@ -86,7 +86,7 @@ public abstract class Room : IDraw
     {
         foreach (var item in drops)
         {
-            if(ObjectCollision.RectCircleCollision(item.GetRectangle(), coords, 5))
+            if (ObjectCollision.RectCircleCollision(item.GetRectangle(), coords, 5))
                 return item;
         }
         return null;
@@ -187,7 +187,7 @@ public abstract class Room : IDraw
     protected abstract void GenerateEnemies();
     protected virtual void GenerateRoomBase()
     {
-        if (this.DoorDirections == null)
+        if (this.Doors == null)
             throw new ArgumentNullException("This room does not have any doors!");
 
         this.ClearRoom();
@@ -210,24 +210,26 @@ public abstract class Room : IDraw
             roomFloor[(int)Dimensions.X - 1, i] = new TileWall(WallTypes.BASIC);
         }
 
-        foreach (Directions door in this.DoorDirections)
+        // Generace dveri
+        foreach (TileDoor door in this.Doors)
         {
-            switch (door)
+            switch (door.Direction)
             {
                 case Directions.LEFT:
-                    roomFloor[0, (int)Dimensions.Y / 2] = new TileDoor(DoorTypes.BASIC, Directions.LEFT);
+                    door.DoorTpPosition = new Vector2(1, (int)Dimensions.Y / 2);
+                    roomFloor[0, (int)Dimensions.Y / 2] = door;
                     break;
                 case Directions.RIGHT:
-                    roomFloor[(int)Dimensions.X - 1, (int)Dimensions.Y / 2] = new TileDoor(DoorTypes.BASIC, Directions.RIGHT);
+                    door.DoorTpPosition = new Vector2((int)Dimensions.X - 2, (int)Dimensions.Y / 2);
+                    roomFloor[(int)Dimensions.X - 1, (int)Dimensions.Y / 2] = door;
                     break;
                 case Directions.UP:
-                    roomFloor[(int)Dimensions.X / 2, 0] = new TileDoor(DoorTypes.BASIC, Directions.UP);
+                    door.DoorTpPosition = new Vector2((int)Dimensions.X / 2, 1);
+                    roomFloor[(int)Dimensions.X / 2, 0] = door;
                     break;
                 case Directions.DOWN:
-                    roomFloor[(int)Dimensions.X / 2, (int)Dimensions.Y - 1] = new TileDoor(DoorTypes.BASIC, Directions.DOWN);
-                    break;
-                case Directions.ENTRY:
-                    roomFloor[(int)Dimensions.X / 2, (int)Dimensions.Y / 2] = new TileDoor(DoorTypes.BASIC, Directions.ENTRY);
+                    door.DoorTpPosition = new Vector2((int)Dimensions.X / 2, (int)Dimensions.Y - 2);
+                    roomFloor[(int)Dimensions.X / 2, (int)Dimensions.Y - 1] = door;
                     break;
             }
         }

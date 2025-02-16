@@ -12,7 +12,7 @@ public class RoomStart : Room, IDraw
         this.AddDecorationTile(new TileHeal(), this.Dimensions / 2);
         this.GenerateEnemies();
 
-        player.Position = this.GetTilePos(Vector2.One);
+        player.Position = this.GetTileWorldPos(Vector2.One);
     }
 
     protected override void GenerateEnemies() { }
