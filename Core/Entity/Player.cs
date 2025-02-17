@@ -115,26 +115,78 @@ public class Player : Entity, IRecieveDmg, IDealDmg, IDraw
 	{
 		int dx = 0, dy = 0;
 
+		// Calculate the interaction point (used for interacting with tiles/items)
 		InteractionPoint = Position + (Direction * 50) + Size / 2;
 
+		// Accumulate movement input
 		if (keyboardState.IsKeyDown(Keys.A) || keyboardState.IsKeyDown(Keys.Left))
-		{
 			dx -= MovementSpeed;
-		}
 		if (keyboardState.IsKeyDown(Keys.D) || keyboardState.IsKeyDown(Keys.Right))
-		{
 			dx += MovementSpeed;
-		}
 		if (keyboardState.IsKeyDown(Keys.W) || keyboardState.IsKeyDown(Keys.Up))
-		{
 			dy -= MovementSpeed;
-		}
 		if (keyboardState.IsKeyDown(Keys.S) || keyboardState.IsKeyDown(Keys.Down))
-		{
 			dy += MovementSpeed;
+		// --- Begin Movement ---
+		// We use a tolerance offset for our collision checks
+		int tolerance = 1;
+
+		// Move horizontally in small increments
+		if (dx != 0)
+		{
+			int stepX = Math.Sign(dx); // -1 if moving left, 1 if moving right
+			int remainingX = Math.Abs(dx);
+			while (remainingX > 0)
+			{
+				// Create a test position by moving 1 pixel in the X direction
+				Vector2 testPosition = new Vector2(Position.X + stepX, Position.Y);
+				if (!room.ShouldCollideAt(new Vector2(testPosition.X + tolerance, testPosition.Y + tolerance)) &&
+					!room.ShouldCollideAt(new Vector2(testPosition.X - tolerance + Size.X, testPosition.Y - tolerance + Size.Y)) &&
+					!room.ShouldCollideAt(new Vector2(testPosition.X - tolerance + Size.X, testPosition.Y + tolerance)) &&
+					!room.ShouldCollideAt(new Vector2(testPosition.X + tolerance, testPosition.Y - tolerance + Size.Y)))
+				{
+					// If no collision, update the position by 1 pixel in the X direction.
+					Position.X += stepX;
+				}
+				else
+				{
+					// Stop moving in X if a collision would occur
+					break;
+				}
+				remainingX--;
+			}
 		}
+
+		// Move vertically in small increments
+		if (dy != 0)
+		{
+			int stepY = Math.Sign(dy); // -1 if moving up, 1 if moving down
+			int remainingY = Math.Abs(dy);
+			while (remainingY > 0)
+			{
+				// Create a test position by moving 1 pixel in the Y direction
+				Vector2 testPosition = new Vector2(Position.X, Position.Y + stepY);
+				if (!room.ShouldCollideAt(new Vector2(testPosition.X + tolerance, testPosition.Y + tolerance)) &&
+					!room.ShouldCollideAt(new Vector2(testPosition.X - tolerance + Size.X, testPosition.Y - tolerance + Size.Y)) &&
+					!room.ShouldCollideAt(new Vector2(testPosition.X - tolerance + Size.X, testPosition.Y + tolerance)) &&
+					!room.ShouldCollideAt(new Vector2(testPosition.X + tolerance, testPosition.Y - tolerance + Size.Y)))
+				{
+					// If no collision, update the position by 1 pixel in the Y direction.
+					Position.Y += stepY;
+				}
+				else
+				{
+					// Stop moving in Y if a collision would occur
+					break;
+				}
+				remainingY--;
+			}
+		}
+		// --- End Movement ---
+
 		if ((previousMouseState.RightButton == ButtonState.Pressed &&
-									mouseState.RightButton == ButtonState.Released) || (keyboardState.IsKeyDown(Keys.E) && prevKeyboardState.IsKeyUp(Keys.E)))
+			 mouseState.RightButton == ButtonState.Released) ||
+			 (keyboardState.IsKeyDown(Keys.E) && prevKeyboardState.IsKeyUp(Keys.E)))
 		{
 			Tile t = room.GetTileInteractable(InteractionPoint);
 			if (t != null)
@@ -151,9 +203,7 @@ public class Player : Entity, IRecieveDmg, IDealDmg, IDraw
 		}
 
 		if (keyboardState.IsKeyDown(Keys.R))
-		{
 			room.ResetRoom();
-		}
 
 		for (int i = 0; i < room.drops.Count; i++)
 		{
@@ -165,39 +215,19 @@ public class Player : Entity, IRecieveDmg, IDealDmg, IDraw
 		}
 
 		Inventory.Update(viewport, this, mouseState);
-		/* === */
-		int tolerance = 1;
-		Vector2 newPosition = Position;
-		if (dx != 0)
-		{
-			newPosition.X += dx;
-			if (!room.ShouldCollideAt(new Vector2(newPosition.X + tolerance, newPosition.Y + tolerance)) &&
-				!room.ShouldCollideAt(new Vector2(newPosition.X - tolerance + Size.X, newPosition.Y - tolerance + Size.Y)) &&
-				!room.ShouldCollideAt(new Vector2(newPosition.X - tolerance + Size.X, newPosition.Y + tolerance)) &&
-				!room.ShouldCollideAt(new Vector2(newPosition.X + tolerance, newPosition.Y - tolerance + Size.Y)))
-				Position.X = newPosition.X;
-		}
-		newPosition = Position;
-		// Try moving on the Y-axis next
-		if (dy != 0)
-		{
-			newPosition.Y += dy;
-			if (!room.ShouldCollideAt(new Vector2(newPosition.X + tolerance, newPosition.Y + tolerance)) &&
-				!room.ShouldCollideAt(new Vector2(newPosition.X - tolerance + Size.X, newPosition.Y - tolerance + Size.Y)) &&
-				!room.ShouldCollideAt(new Vector2(newPosition.X - tolerance + Size.X, newPosition.Y + tolerance)) &&
-				!room.ShouldCollideAt(new Vector2(newPosition.X + tolerance, newPosition.Y - tolerance + Size.Y)))
-				Position.Y = newPosition.Y;
-		}
+
+
+		// Calculate the direction from the player to the world mouse position
 		Vector2 screenMousePos = new Vector2(mouseState.X, mouseState.Y);
 		Vector2 worldMousePos = Vector2.Transform(screenMousePos, Matrix.Invert(transform));
-
 		Vector2 direction = worldMousePos - Position - Size / 2;
-
 		if (!float.IsNaN(direction.X) && !float.IsNaN(direction.Y))
 		{
-			direction.Normalize(); // Normalize to get unit direction vector
+			direction.Normalize(); 
 			Direction = direction;
 		}
+
+		// Handle attacking if ready and left mouse button is pressed
 		if (ReadyToAttack() && mouseState.LeftButton == ButtonState.Pressed)
 		{
 			foreach (var projectile in Attack())
@@ -207,9 +237,11 @@ public class Player : Entity, IRecieveDmg, IDealDmg, IDraw
 		}
 
 		SetStats();
+
 		previousMouseState = mouseState;
 		prevKeyboardState = keyboardState;
 	}
+
 
 	public void Draw(SpriteBatch spriteBatch)
 	{
