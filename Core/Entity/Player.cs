@@ -208,42 +208,43 @@ public class Player : Entity, IRecieveDmg, IDealDmg, IDraw
 		{
 			room.ResetRoom();
 
-			for (int i = 0; i < room.drops.Count; i++)
-			{
-				if (room.drops[i] is not ItemContainerable && ObjectCollision.CircleCircleCollision(room.drops[i], this))
-				{
-					room.drops[i].Interact(this, room);
-					room.RemoveItem(room.drops[i]);
-				}
-			}
-
-			Inventory.Update(viewport, this, mouseState);
-
-
-			// Calculate the direction from the player to the world mouse position
-			Vector2 screenMousePos = new Vector2(mouseState.X, mouseState.Y);
-			Vector2 worldMousePos = Vector2.Transform(screenMousePos, Matrix.Invert(transform));
-			Vector2 direction = worldMousePos - Position - Size / 2;
-			if (!float.IsNaN(direction.X) && !float.IsNaN(direction.Y))
-			{
-				direction.Normalize();
-				Direction = direction;
-			}
-
-			// Handle attacking if ready and left mouse button is pressed
-			if (ReadyToAttack() && mouseState.LeftButton == ButtonState.Pressed)
-			{
-				foreach (var projectile in Attack())
-				{
-					Projectiles.Add(projectile);
-				}
-			}
-
-			SetStats();
-
-			previousMouseState = mouseState;
-			prevKeyboardState = keyboardState;
 		}
+		for (int i = 0; i < room.drops.Count; i++)
+		{
+			if (room.drops[i] is not ItemContainerable && ObjectCollision.CircleCircleCollision(room.drops[i], this))
+			{
+				room.drops[i].Interact(this, room);
+				room.RemoveItem(room.drops[i]);
+			}
+		}
+
+		Inventory.Update(viewport, this, mouseState);
+
+
+		// Calculate the direction from the player to the world mouse position
+		Vector2 screenMousePos = new Vector2(mouseState.X, mouseState.Y);
+		Vector2 worldMousePos = Vector2.Transform(screenMousePos, Matrix.Invert(transform));
+		Vector2 direction = worldMousePos - Position - Size / 2;
+		if (!float.IsNaN(direction.X) && !float.IsNaN(direction.Y))
+		{
+			direction.Normalize();
+			Direction = direction;
+		}
+
+		// Handle attacking if ready and left mouse button is pressed
+		if (ReadyToAttack() && mouseState.LeftButton == ButtonState.Pressed)
+		{
+			foreach (var projectile in Attack())
+			{
+				Projectiles.Add(projectile);
+			}
+		}
+
+		SetStats();
+
+		previousMouseState = mouseState;
+		prevKeyboardState = keyboardState;
+	}
 
 
 	public void Draw(SpriteBatch spriteBatch)
