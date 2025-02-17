@@ -45,7 +45,8 @@ internal class ScreenGame : Screen
 
         UI = new UI();
         _camera = new Camera(graphics.GraphicsDevice.Viewport, (int)(CurrentLevel.ActiveRoom.Dimensions.X * Tile.GetSize().X), (int)(CurrentLevel.ActiveRoom.Dimensions.Y * Tile.GetSize().Y));
-        inGameMenu = effectMenu = new InGameMenuEffect(graphics.GraphicsDevice.Viewport);
+		_camera.SetCenter(CurrentLevel.ActiveRoom.Dimensions*Tile.GetSize()/2);
+		inGameMenu = effectMenu = new InGameMenuEffect(graphics.GraphicsDevice.Viewport);
         levelUpMenu = new InGameMenuLevelUp(graphics.GraphicsDevice.Viewport);
         deathMenu = new InGameMenuDeath(graphics.GraphicsDevice.Viewport);
         itemJournalMenu = new InGameMenuItemJournal(graphics.GraphicsDevice.Viewport);
@@ -133,7 +134,8 @@ internal class ScreenGame : Screen
             player.Update(keyboardState, mouseState, _camera.Transform, CurrentLevel.ActiveRoom, graphics.GraphicsDevice.Viewport);
             CurrentLevel.ActiveRoom.Update(gameTime);
             UI.Update(player, graphics);
-            _camera.Update(player.Position + player.Size / 2);
+			_camera.SetCenter(CurrentLevel.ActiveRoom.Dimensions * Tile.GetSize() / 2);
+			_camera.Update(player.Position + player.Size / 2);
             if (MediaPlayer.State == MediaState.Paused)
                 MediaPlayer.Resume();
             else if (MediaPlayer.State == MediaState.Stopped)
