@@ -188,6 +188,7 @@ public class Player : Entity, IRecieveDmg, IDealDmg, IDraw
 			 mouseState.RightButton == ButtonState.Released) ||
 			 (keyboardState.IsKeyDown(Keys.E) && prevKeyboardState.IsKeyUp(Keys.E)))
 		{
+			Console.WriteLine(InteractionPoint);
 			Tile t = room.GetTileInteractable(InteractionPoint);
 			if (t != null)
 			{
@@ -202,45 +203,47 @@ public class Player : Entity, IRecieveDmg, IDealDmg, IDraw
 			}
 		}
 
-		if (keyboardState.IsKeyDown(Keys.R))
+		// Reset room (debug)
+		if (keyboardState.IsKeyDown(Keys.R) && prevKeyboardState.IsKeyUp(Keys.R))
+		{
 			room.ResetRoom();
 
-		for (int i = 0; i < room.drops.Count; i++)
-		{
-			if (room.drops[i] is not ItemContainerable && ObjectCollision.CircleCircleCollision(room.drops[i], this))
+			for (int i = 0; i < room.drops.Count; i++)
 			{
-				room.drops[i].Interact(this, room);
-				room.RemoveItem(room.drops[i]);
+				if (room.drops[i] is not ItemContainerable && ObjectCollision.CircleCircleCollision(room.drops[i], this))
+				{
+					room.drops[i].Interact(this, room);
+					room.RemoveItem(room.drops[i]);
+				}
 			}
-		}
 
-		Inventory.Update(viewport, this, mouseState);
+			Inventory.Update(viewport, this, mouseState);
 
 
-		// Calculate the direction from the player to the world mouse position
-		Vector2 screenMousePos = new Vector2(mouseState.X, mouseState.Y);
-		Vector2 worldMousePos = Vector2.Transform(screenMousePos, Matrix.Invert(transform));
-		Vector2 direction = worldMousePos - Position - Size / 2;
-		if (!float.IsNaN(direction.X) && !float.IsNaN(direction.Y))
-		{
-			direction.Normalize(); 
-			Direction = direction;
-		}
-
-		// Handle attacking if ready and left mouse button is pressed
-		if (ReadyToAttack() && mouseState.LeftButton == ButtonState.Pressed)
-		{
-			foreach (var projectile in Attack())
+			// Calculate the direction from the player to the world mouse position
+			Vector2 screenMousePos = new Vector2(mouseState.X, mouseState.Y);
+			Vector2 worldMousePos = Vector2.Transform(screenMousePos, Matrix.Invert(transform));
+			Vector2 direction = worldMousePos - Position - Size / 2;
+			if (!float.IsNaN(direction.X) && !float.IsNaN(direction.Y))
 			{
-				Projectiles.Add(projectile);
+				direction.Normalize();
+				Direction = direction;
 			}
+
+			// Handle attacking if ready and left mouse button is pressed
+			if (ReadyToAttack() && mouseState.LeftButton == ButtonState.Pressed)
+			{
+				foreach (var projectile in Attack())
+				{
+					Projectiles.Add(projectile);
+				}
+			}
+
+			SetStats();
+
+			previousMouseState = mouseState;
+			prevKeyboardState = keyboardState;
 		}
-
-		SetStats();
-
-		previousMouseState = mouseState;
-		prevKeyboardState = keyboardState;
-	}
 
 
 	public void Draw(SpriteBatch spriteBatch)
@@ -249,7 +252,6 @@ public class Player : Entity, IRecieveDmg, IDealDmg, IDraw
 			new Rectangle(Convert.ToInt32(Position.X), Convert.ToInt32(Position.Y), Convert.ToInt32(Size.X), Convert.ToInt32(Size.Y)),
 			(DateTime.UtcNow - LastRecievedDmgTime).TotalMilliseconds >= InvulnerabilityFrame ? Color.White : Color.DarkRed);
 		spriteBatch.Draw(TextureManager.GetTexture("projectile"), InteractionPoint, Color.White);
-		// Console.WriteLine(InteractionPoint);
 	}
 	public bool ReadyToAttack()
 	{

@@ -23,18 +23,12 @@ public abstract class Tile
         return tileSize;
     }
 }
+
 public class TileFloor : Tile
 {
     public TileFloor(FloorTypes floor, float rotation) : base(false, rotation)
     {
-        switch (floor)
-        {
-            case FloorTypes.BASIC:
-                Sprite = TextureManager.GetTexture("floor1");
-                break;
-            default:
-                throw new Exception();
-        }
+        Sprite = TextureManager.GetTexture(floor.Value);
     }
 
     public TileFloor(FloorTypes floor) : this(floor, 0f) { }
@@ -44,20 +38,7 @@ public class TileWall : Tile
 {
     public TileWall(WallTypes wall, float rotation) : base(true, rotation)
     {
-        switch (wall)
-        {
-            case WallTypes.BASIC:
-                Sprite = TextureManager.GetTexture("wallBrick");
-                break;
-            case WallTypes.WHITE:
-                Sprite = TextureManager.GetTexture("wallWhite");
-                break;
-            case WallTypes.WHITE_CORNER:
-                Sprite = TextureManager.GetTexture("wallWhiteCorner");
-                break;
-            default:
-                throw new Exception();
-        }
+        Sprite = TextureManager.GetTexture(wall.Value);
     }
     public TileWall(WallTypes wall) : this(wall, 0f) { }
 
@@ -106,15 +87,7 @@ public class TileDoor : Tile, IInteractable
 
     public void SetDoorType(DoorTypes newType)
     {
-        switch (newType)
-        {
-            case DoorTypes.BASIC:
-                Sprite = TextureManager.GetTexture("door");
-                break;
-            default:
-                Sprite = TextureManager.GetTexture("door");
-                break;
-        }
+        Sprite = TextureManager.GetTexture(newType.Value);
     }
     private static float ComputeRotation(Directions direction)
     {
