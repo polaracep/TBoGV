@@ -142,13 +142,19 @@ public class Player : Entity, IRecieveDmg, IDealDmg, IDraw
 				IInteractable tile = (IInteractable)t;
 				tile.Interact(this, room);
 			}
-            Item item = room.GetItemInteractable(InteractionPoint);
-            if (item != null)
-            {
-                item.Interact(this, room);
-                room.RemoveItem(item);
-            }
-        }
+			Item item = room.GetItemInteractable(InteractionPoint);
+			if (item != null)
+			{
+				item.Interact(this, room);
+				room.RemoveItem(item);
+			}
+		}
+
+		if (keyboardState.IsKeyDown(Keys.R))
+		{
+			room.ResetRoom();
+		}
+
 		for (int i = 0; i < room.drops.Count; i++)
 		{
 			if (room.drops[i] is not ItemContainerable && ObjectCollision.CircleCircleCollision(room.drops[i], this))
@@ -235,10 +241,10 @@ public class Player : Entity, IRecieveDmg, IDealDmg, IDraw
 			rotatedDirection.Normalize();
 
 			ProjectileMissile projectile = new ProjectileMissile(Position + Size / 2, rotatedDirection, AttackDmg);
-            projectile.ShotByPlayer = true;
+			projectile.ShotByPlayer = true;
 			projectile.ChangeSprite(Inventory.GetWeaponSprite());
 			firedProjectiles.Add(projectile);
-        }
+		}
 
 		return firedProjectiles;
 	}

@@ -31,9 +31,11 @@ public abstract class Room : IDraw
     /// Use for interactable and changing tiles
     /// </summary>
     protected Tile[,] roomDecorations;
+    protected Tile[,] ValidSpawns;
 
     protected List<Projectile> projectiles = new List<Projectile>();
     protected List<Enemy> enemies = new List<Enemy>();
+    protected List<Enemy> EnemyPool = new List<Enemy>();
     public List<Item> drops = new List<Item>() {
         new ItemDoping(new Vector2(200, 200)),
         new ItemTeeth(new Vector2(100, 200)),
@@ -46,14 +48,24 @@ public abstract class Room : IDraw
     protected List<Particle> particles = new List<Particle>();
     public Player player;
 
-    public Room(Vector2 dimensions, Vector2 pos, Player p)
+    public Room(Vector2 dimensions, Vector2 pos, Player p, List<Enemy> enemyList)
     {
         this.player = p;
         this.Dimensions = dimensions;
         this.Position = pos;
-    }
 
-    public Room(Vector2 dimensions, Player p) : this(dimensions, Vector2.One, p) { }
+        if (enemyList != null)
+        {
+            enemyList.ForEach(x => x.Position = Vector2.Zero);
+            this.EnemyPool = enemyList;
+        }
+    }
+    public Room(Vector2 dimensions, Player p, List<Enemy> enemyList) : this(dimensions, Vector2.Zero, p, enemyList) { }
+
+    public Room(Vector2 dimensions, Vector2 pos, Player p) : this(dimensions, pos, p, null) { }
+
+    public Room(Vector2 dimensions, Player p) : this(dimensions, Vector2.Zero, p, null) { }
+
     /// <summary>
     /// Returns the left-top world position for any tile position
     /// </summary>
@@ -126,7 +138,7 @@ public abstract class Room : IDraw
     }
 
     /* === Update methods === */
-    public virtual void Update(GameTime gameTime)
+    public void Update(GameTime gameTime)
     {
         this.UpdateProjectiles();
         this.UpdateEnemies();
@@ -137,7 +149,7 @@ public abstract class Room : IDraw
                 particles.Remove(particles[i]);
         }
     }
-    protected virtual void UpdateProjectiles()
+    protected void UpdateProjectiles()
     {
         for (int i = projectiles.Count - 1; i >= 0; i--)
         {
@@ -212,7 +224,7 @@ public abstract class Room : IDraw
         }
         player.Projectiles.RemoveAt(index);
     }
-    protected virtual void UpdateEnemies()
+    protected void UpdateEnemies()
     {
         foreach (Enemy enemy in enemies)
         {
@@ -231,8 +243,11 @@ public abstract class Room : IDraw
     }
 
     /* === Generation methods === */
-    public abstract void GenerateRoom();
-    protected abstract void GenerateEnemies();
+    public virtual void GenerateRoom()
+    {
+        IsGenerated = true;
+    }
+    protected virtual void GenerateEnemies() { }
     protected virtual void GenerateRoomBase(FloorTypes floors, WallTypes walls, DoorTypes doors)
     {
         if (this.Doors == null)
@@ -282,6 +297,7 @@ public abstract class Room : IDraw
                     break;
             }
         }
+
         IsGenerated = true;
     }
     protected virtual void ClearRoom()
@@ -290,7 +306,7 @@ public abstract class Room : IDraw
         this.enemies.Clear();
         //this.drops.Clear();
     }
-    public virtual bool AddFloorTile(Tile tile, Vector2 position)
+    public bool AddFloorTile(Tile tile, Vector2 position)
     {
         try
         {
@@ -302,7 +318,7 @@ public abstract class Room : IDraw
             return false;
         }
     }
-    public virtual bool AddDecorationTile(Tile tile, Vector2 position)
+    public bool AddDecorationTile(Tile tile, Vector2 position)
     {
         try
         {

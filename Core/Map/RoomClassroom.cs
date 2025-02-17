@@ -1,17 +1,19 @@
 using System;
+using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using TBoGV;
 
 public class RoomClassroom : Room
 {
     public RoomClassroom(Vector2 dimensions, Player p) : base(dimensions, p) { }
-
     public RoomClassroom(Vector2 dimensions, Vector2 pos, Player p) : base(dimensions, pos, p) { }
+    public RoomClassroom(Vector2 dimensions, Vector2 pos, Player p, List<Enemy> enemyList) : base(dimensions, pos, p, enemyList) { }
+    public RoomClassroom(Vector2 dimensions, Player p, List<Enemy> enemyList) : base(dimensions, Vector2.Zero, p, enemyList) { }
 
     public override void GenerateRoom()
     {
         GenerateRoomBase(FloorTypes.BASIC, WallTypes.WHITE, DoorTypes.BASIC);
-        player.Position = this.GetTileWorldPos(Vector2.One);
+        GenerateEnemies();
     }
 
     protected override void GenerateRoomBase(FloorTypes floors, WallTypes walls, DoorTypes doors)
@@ -29,14 +31,14 @@ public class RoomClassroom : Room
 
         for (int i = 0; i < Dimensions.X; i++)
         {
-            roomFloor[i, 0] = new TileWall(walls);
-            roomFloor[i, (int)Dimensions.Y - 1] = new TileWall(walls, MathHelper.Pi);
+            roomFloor[i, 0] = new TileWall(WallTypes.WHITE);
+            roomFloor[i, (int)Dimensions.Y - 1] = new TileWall(WallTypes.WHITE, MathHelper.Pi);
         }
 
         for (int i = 0; i < Dimensions.Y; i++)
         {
-            roomFloor[0, i] = new TileWall(walls, -MathHelper.PiOver2);
-            roomFloor[(int)Dimensions.X - 1, i] = new TileWall(walls, MathHelper.PiOver2);
+            roomFloor[0, i] = new TileWall(WallTypes.WHITE, -MathHelper.PiOver2);
+            roomFloor[(int)Dimensions.X - 1, i] = new TileWall(WallTypes.WHITE, MathHelper.PiOver2);
         }
         roomFloor[0, 0] = new TileWall(WallTypes.WHITE_CORNER, -MathHelper.PiOver2);
         roomFloor[(int)Dimensions.X - 1, 0] = new TileWall(WallTypes.WHITE_CORNER, 0f);
@@ -72,9 +74,19 @@ public class RoomClassroom : Room
 
     protected override void GenerateEnemies()
     {
-        for (int i = 1; i <= 5; i++)
+        Random rand = new Random();
+        foreach (var enemy in EnemyPool)
         {
-            this.AddEnemy(new EnemyZdena(new Vector2(Tile.GetSize().X * i, Tile.GetSize().Y)));
+            while (true)
+            {
+                Vector2 spawnPos = new Vector2(rand.Next((int)Dimensions.X), rand.Next((int)Dimensions.Y)) * 50;
+                if (!this.ShouldCollideAt(spawnPos))
+                {
+                    enemy.Position = spawnPos;
+                    this.AddEnemy(enemy);
+                    break;
+                }
+            }
         }
     }
 }
