@@ -16,6 +16,7 @@ internal class UI : IDraw
     int Xp;
     int MaxXp;
     const int MaxHeartsPerRow = 5;
+	protected List<Effect> Effects;
 
     public UI()
     {
@@ -49,7 +50,7 @@ internal class UI : IDraw
         Coins = player.Coins;
         Xp = (int)player.Xp;
         MaxXp = player.XpForLevel();
-
+		Effects = player.Inventory.Effects;
         Vector2 screenSize = new Vector2(GraphicsDeviceManager.DefaultBackBufferWidth, GraphicsDeviceManager.DefaultBackBufferHeight);
     }
 
@@ -79,5 +80,16 @@ internal class UI : IDraw
         string coinText = $"{Coins}";
         spriteBatch.Draw(SpriteCoin, new Rectangle((int)coinPosition.X, (int)coinPosition.Y, 30, 30), Color.White);
         spriteBatch.DrawString(Font, coinText, new Vector2((int)coinPosition.X + 30, (int)coinPosition.Y), Color.Yellow);
-    }
+		Vector2 effectStartPosition = new Vector2(GraphicsDeviceManager.DefaultBackBufferWidth - 100, 30);
+		for (int i = 0; i < Effects.Count; i++)
+		{
+			// Position each effect in the column, spacing them vertically.
+			Effects[i].Position = effectStartPosition;
+			Effects[i].IconDraw(spriteBatch);
+			effectStartPosition += new Vector2(
+				0,
+				(Effects[i].SpriteSize.X + 5)
+			);
+		}
+	}
 }
