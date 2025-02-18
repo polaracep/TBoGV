@@ -53,7 +53,8 @@ public static class TextureManager
             "dagger",
             "maso",
             "boom",
-            "vitekEleganBolderCut"
+            "vitekEleganBolderCut",
+			"cooked"
 
         };
 

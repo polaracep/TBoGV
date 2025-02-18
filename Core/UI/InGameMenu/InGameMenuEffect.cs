@@ -4,27 +4,36 @@ using System.Linq;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework;
+using System.Text;
+using static System.Net.Mime.MediaTypeNames;
 namespace TBoGV;
 
 internal class InGameMenuEffect : InGameMenu
 {
     static Viewport Viewport;
     static SpriteFont MiddleFont;
-    public Dictionary<StatTypes, int> Stats { get; set; }
-    public InGameMenuEffect(Viewport viewport)
+	static SpriteFont LargerFont;
+	static Texture2D SpriteForeground;
+	public Dictionary<StatTypes, int> Stats { get; set; }
+	public List<Effect> Effects { get; set; }
+	public InGameMenuEffect(Viewport viewport)
     {
         Viewport = viewport;
         SpriteBackground = TextureManager.GetTexture("blackSquare");
         MiddleFont = FontManager.GetFont("Arial12");
+		SpriteForeground = TextureManager.GetTexture("whiteSquare");
+		LargerFont = FontManager.GetFont("Arial16");
 
-        Active = false;
+		Active = false;
     }
     public override void Update(Viewport viewport, Player player, MouseState mouseState)
     {
         base.Update(viewport, player, mouseState);
 
         Stats = player.Inventory.SetStats(player.LevelUpStats);
-    }
+		Effects = player.Inventory.Effects;
+		Viewport = viewport;
+	}
     public override void Draw(SpriteBatch spriteBatch)
     {
         base.Draw(spriteBatch);
@@ -67,7 +76,8 @@ internal class InGameMenuEffect : InGameMenu
             spriteBatch.DrawString(MiddleFont, value, valuePosition, Color.White);
             spriteBatch.DrawString(MiddleFont, effect, effectPosition, Color.LightCyan);
         }
-    }
+		DrawEffects(spriteBatch);
+	}
 
     private string GetEffectString(StatTypes statType, float value)
     {
@@ -97,4 +107,92 @@ internal class InGameMenuEffect : InGameMenu
             _ => statType.ToString()
         };
     }
+	public void DrawEffects(SpriteBatch spriteBatch)
+	{
+		// Get current mouse state for hover detection.
+		MouseState mouseState = Mouse.GetState();
+
+		// Starting position for the first effect on the left side.
+		Vector2 startPosition = new Vector2(10, 10);
+		Vector2 currentPosition = startPosition;
+		int spacingBetweenEffects = 10;
+
+		foreach (var effect in Effects)
+		{
+			effect.Position = currentPosition;
+			effect.Draw(spriteBatch);
+			currentPosition.Y += effect.GetRect().Height + spacingBetweenEffects;
+		}
+		foreach (var effect in Effects)
+			if (effect.GetRect().Contains(mouseState.Position))
+				DrawEffectTooltip(spriteBatch, effect);
+	}
+	private void DrawEffectTooltip(SpriteBatch spriteBatch, Effect effect)
+	{
+		// Prepare full tooltip texts.
+		string nameText = effect.Name;
+		string descriptionText = effect.Description;
+		string levelText = $"Level: {effect.Level}";
+
+		// Build a string from the effect stats.
+		string statsText = FormatStats(effect.Stats);
+
+		// Define padding values.
+		int horizontalPadding = 10;
+		int verticalPadding = 5;
+
+		// Measure text sizes using your fonts.
+		Vector2 nameSize = LargerFont.MeasureString(nameText);
+		Vector2 descriptionSize = MiddleFont.MeasureString(descriptionText);
+		Vector2 levelSize = MiddleFont.MeasureString(levelText);
+		Vector2 statsSize = MiddleFont.MeasureString(statsText);
+
+		// Calculate tooltip dimensions.
+		float tooltipWidth = Math.Max(Math.Max(nameSize.X, descriptionSize.X), Math.Max(levelSize.X, statsSize.X)) + horizontalPadding * 2;
+		float tooltipHeight = nameSize.Y + descriptionSize.Y + levelSize.Y + statsSize.Y + verticalPadding * 4;
+
+		// Position the tooltip near the effect's rectangle.
+		Vector2 tooltipPosition = new Vector2(effect.GetRect().Right + 5, Math.Min(effect.GetRect().Top, Viewport.Height- effect.GetRect().Height-5));
+		Rectangle tooltipRect = new Rectangle((int)tooltipPosition.X, (int)tooltipPosition.Y, (int)tooltipWidth, (int)tooltipHeight);
+
+		// Draw the tooltip background.
+		spriteBatch.Draw(SpriteForeground, tooltipRect, new Color(60, 60, 60, 200));
+
+		// Draw the detailed text inside the tooltip.
+		Vector2 textPos = tooltipPosition + new Vector2(horizontalPadding, verticalPadding);
+		spriteBatch.DrawString(LargerFont, nameText, textPos + new Vector2(tooltipWidth / 2 - nameSize.X/2,0), effect.Positive ? Color.LightGreen : Color.OrangeRed);
+		textPos.Y += nameSize.Y + verticalPadding;
+
+		spriteBatch.DrawString(MiddleFont, levelText, textPos + new Vector2(tooltipWidth / 2 - levelSize.X / 2, 0), effect.Positive ? Color.LightGreen : Color.OrangeRed);
+		textPos.Y += levelSize.Y + verticalPadding;
+
+		spriteBatch.DrawString(MiddleFont, descriptionText, textPos, Color.LightGray);
+		textPos.Y += descriptionSize.Y + verticalPadding;
+
+		spriteBatch.DrawString(MiddleFont, statsText, textPos, Color.LightCyan);
+	}
+	private string FormatStats(Dictionary<StatTypes, int> stats)
+	{
+		if (stats == null || stats.Count == 0) return "";
+
+		StringBuilder sb = new StringBuilder();
+		foreach (var stat in stats)
+		{
+			string displayName = stat.Key switch
+			{
+				StatTypes.MAX_HP => "Biologie",
+				StatTypes.DAMAGE => "Matematika",
+				StatTypes.PROJECTILE_COUNT => "Fyzika",
+				StatTypes.XP_GAIN => "Zsv",
+				StatTypes.ATTACK_SPEED => "Cestina",
+				StatTypes.MOVEMENT_SPEED => "Telocvik",
+				_ => stat.Key.ToString()
+			};
+
+			string valueString = stat.Value.ToString();
+
+			sb.AppendLine($"{displayName}: {valueString}");
+		}
+		return sb.ToString();
+	}
 }
