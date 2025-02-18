@@ -258,7 +258,6 @@ public abstract class Room : IDraw
         roomFloor.GenerateFilledRectangle(
             new Rectangle(0, 0, (int)Dimensions.X, (int)Dimensions.Y),
             new TileFloor(FloorTypes.BASIC),
-            new TileWall(WallTypes.BASIC),
             new TileWall(WallTypes.BASIC)
         );
 

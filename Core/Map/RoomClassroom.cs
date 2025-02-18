@@ -25,25 +25,12 @@ public class RoomClassroom : Room
         this.roomFloor = new Tile[(int)Dimensions.X, (int)Dimensions.Y];
         this.roomDecorations = new Tile[(int)Dimensions.X, (int)Dimensions.Y];
 
-        for (int i = 0; i < Dimensions.X; i++)
-            for (var j = 0; j < Dimensions.Y; j++)
-                roomFloor[i, j] = new TileFloor(floors);
-
-        for (int i = 0; i < Dimensions.X; i++)
-        {
-            roomFloor[i, 0] = new TileWall(WallTypes.WHITE);
-            roomFloor[i, (int)Dimensions.Y - 1] = new TileWall(WallTypes.WHITE, MathHelper.Pi);
-        }
-
-        for (int i = 0; i < Dimensions.Y; i++)
-        {
-            roomFloor[0, i] = new TileWall(WallTypes.WHITE, -MathHelper.PiOver2);
-            roomFloor[(int)Dimensions.X - 1, i] = new TileWall(WallTypes.WHITE, MathHelper.PiOver2);
-        }
-        roomFloor[0, 0] = new TileWall(WallTypes.WHITE_CORNER, -MathHelper.PiOver2);
-        roomFloor[(int)Dimensions.X - 1, 0] = new TileWall(WallTypes.WHITE_CORNER, 0f);
-        roomFloor[0, (int)Dimensions.Y - 1] = new TileWall(WallTypes.WHITE_CORNER, MathHelper.Pi);
-        roomFloor[(int)Dimensions.X - 1, (int)Dimensions.Y - 1] = new TileWall(WallTypes.WHITE_CORNER, MathHelper.PiOver2);
+        roomFloor.GenerateFilledRectangleWRotation(
+            new Rectangle(0, 0, (int)Dimensions.X, (int)Dimensions.Y),
+            new TileFloor(FloorTypes.BASIC),
+            new TileWall(WallTypes.WHITE),
+            new TileWall(WallTypes.WHITE_CORNER)
+        );
 
         // Generace dveri
         foreach (TileDoor door in this.Doors)
