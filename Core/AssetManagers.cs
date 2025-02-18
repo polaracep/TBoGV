@@ -12,11 +12,13 @@ public static class TextureManager
         List<string> names = new List<string>
         {
             "tile",
-            "floor1",
+            "floorYellow",
+            "floorLobby",
             "wall",
             "wallBrick",
             "wallWhite",
             "wallWhiteCorner",
+            "wallLobby",
             "door",
             "vitek-nobg",
             "vitekElegan",
@@ -43,6 +45,7 @@ public static class TextureManager
             "calculator",
             "fancyShoes",
             "crocs",
+            "gumaky",
             "lorentzovaTransformace",
             "mathProblem",
             "pencil",

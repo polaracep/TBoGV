@@ -186,6 +186,7 @@ public class Player : Entity, IRecieveDmg, IDealDmg, IDraw
 			 mouseState.RightButton == ButtonState.Released) ||
 			 (keyboardState.IsKeyDown(Keys.E) && prevKeyboardState.IsKeyUp(Keys.E)))
 		{
+			Console.WriteLine(InteractionPoint);
 			Tile t = room.GetTileInteractable(InteractionPoint);
 			if (t != null)
 			{
@@ -200,9 +201,12 @@ public class Player : Entity, IRecieveDmg, IDealDmg, IDraw
 			}
 		}
 
-		if (keyboardState.IsKeyDown(Keys.R))
+		// Reset room (debug)
+		if (keyboardState.IsKeyDown(Keys.R) && prevKeyboardState.IsKeyUp(Keys.R))
+		{
 			room.ResetRoom();
 
+		}
 		for (int i = 0; i < room.drops.Count; i++)
 		{
 			if (room.drops[i] is not ItemContainerable && ObjectCollision.CircleCircleCollision(room.drops[i], this))
@@ -221,7 +225,7 @@ public class Player : Entity, IRecieveDmg, IDealDmg, IDraw
 		Vector2 direction = worldMousePos - Position - Size / 2;
 		if (!float.IsNaN(direction.X) && !float.IsNaN(direction.Y))
 		{
-			direction.Normalize(); 
+			direction.Normalize();
 			Direction = direction;
 		}
 
@@ -247,7 +251,6 @@ public class Player : Entity, IRecieveDmg, IDealDmg, IDraw
 			new Rectangle(Convert.ToInt32(Position.X), Convert.ToInt32(Position.Y), Convert.ToInt32(Size.X), Convert.ToInt32(Size.Y)),
 			(DateTime.UtcNow - LastRecievedDmgTime).TotalMilliseconds >= InvulnerabilityFrame ? Color.White : Color.DarkRed);
 		spriteBatch.Draw(TextureManager.GetTexture("projectile"), InteractionPoint, Color.White);
-		// Console.WriteLine(InteractionPoint);
 	}
 	public bool ReadyToAttack()
 	{

@@ -36,7 +36,9 @@ public abstract class Room : IDraw
     protected List<Projectile> projectiles = new List<Projectile>();
     protected List<Enemy> enemies = new List<Enemy>();
     protected List<Enemy> EnemyPool = new List<Enemy>();
-    public List<Item> drops = new List<Item>() {
+    public List<Item> drops = new List<Item>()
+    {
+        /*
         new ItemDoping(new Vector2(200, 200)),
         new ItemTeeth(new Vector2(100, 200)),
         new ItemCalculator(new Vector2(150, 200)),
@@ -44,6 +46,7 @@ public abstract class Room : IDraw
         new ItemAdBlock(new Vector2(50, 50)),
         new ItemMathProblem(new Vector2(50, 100)),
         new ItemExplosive(new Vector2(50, 150))
+        */
     };
     protected List<Particle> particles = new List<Particle>();
     public Player player;
@@ -90,11 +93,6 @@ public abstract class Room : IDraw
     }
     public Tile GetTileInteractable(Vector2 coords)
     {
-        if (float.IsNaN(coords.X) || float.IsNaN(coords.Y))
-            throw new ArgumentOutOfRangeException();
-        if (coords.X >= Dimensions.X * Tile.GetSize().X || coords.Y >= Dimensions.Y * Tile.GetSize().Y || coords.X < 0 || coords.Y < 0)
-            throw new ArgumentOutOfRangeException();
-
         (Tile, Tile) t = GetTile(coords);
         if (t.Item2 is IInteractable)
             return t.Item2;
@@ -119,9 +117,9 @@ public abstract class Room : IDraw
     public (Tile floor, Tile decor) GetTile(Vector2 coords)
     {
         if (float.IsNaN(coords.X) || float.IsNaN(coords.Y))
-            throw new ArgumentOutOfRangeException();
+            return (null, null);
         if (coords.X >= Dimensions.X * Tile.GetSize().X || coords.Y >= Dimensions.Y * Tile.GetSize().Y || coords.X < 0 || coords.Y < 0)
-            throw new ArgumentOutOfRangeException();
+            return (null, null);
 
         return (roomFloor[(int)(coords.X / Tile.GetSize().X), (int)(coords.Y / Tile.GetSize().Y)],
                 roomDecorations[(int)(coords.X / Tile.GetSize().X), (int)(coords.Y / Tile.GetSize().Y)]);

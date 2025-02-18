@@ -1,16 +1,40 @@
 namespace TBoGV;
 
-public enum FloorTypes : int
+/// <summary>
+/// Base class for "enum-like" types. 
+/// Field example: 
+/// <code>public static readonly FloorTypes BASIC = new FloorTypes("floorYellow");</code>
+/// </summary>
+public class StringEnum
 {
-    BASIC = 0
+    public string Value { get; }
+
+    protected StringEnum(string value) { Value = value; }
+    public sealed override string ToString() => Value;
 }
-public enum WallTypes : int
+
+public sealed class FloorTypes : StringEnum
 {
-    BASIC,
-    WHITE,
-    WHITE_CORNER,
+    public static readonly FloorTypes BASIC = new FloorTypes("floorYellow");
+    public static readonly FloorTypes LOBBY = new FloorTypes("floorLobby");
+
+    public FloorTypes(string v) : base(v) { }
 }
-public enum DoorTypes : int
+
+public sealed class DoorTypes : StringEnum
 {
-    BASIC = 0
+    public static readonly DoorTypes BASIC = new DoorTypes("door");
+
+    public DoorTypes(string v) : base(v) { }
+}
+public sealed class WallTypes : StringEnum
+{
+    public static readonly WallTypes BASIC = new WallTypes("wallBrick");
+    public static readonly WallTypes WHITE = new WallTypes("wallWhite");
+    public static readonly WallTypes WHITE_CORNER = new WallTypes("wallWhiteCorner");
+    public static readonly WallTypes LOBBY = new WallTypes("wallLobby");
+    public static readonly WallTypes LOBBY_CORNER = new WallTypes("wallLobbyCorner");
+
+    public WallTypes(string v) : base(v) { }
+
 }

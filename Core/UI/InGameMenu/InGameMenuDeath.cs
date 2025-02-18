@@ -26,7 +26,7 @@ internal class InGameMenuDeath : InGameMenu
         "Nepozdravil jsi vratnou",
         "Nezavrel jsi dvere pred skolnikem",
         "Nepipl jsi si u vydeje",
-        "Mikes te videl s telefonem",
+        "Mikes te videl s mobilem",
         "Potkal jsi Prochazkovou",
         "Neprisel jsi na hodinu Predescu",
         "O prestavce jsi poslal pivko a nabils",

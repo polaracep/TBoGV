@@ -19,6 +19,7 @@ internal class ScreenGame : Screen
     private UI UI;
     private MouseState mouseState;
     private KeyboardState keyboardState;
+    private KeyboardState previousKeyboardState;
 
     private Song Song;
 
@@ -86,10 +87,6 @@ internal class ScreenGame : Screen
 
         _spriteBatch.End();
     }
-    public override void LoadContent()
-    {
-        throw new NotImplementedException();
-    }
 
     public override void Update(GameTime gameTime, GraphicsDeviceManager graphics)
     {
@@ -155,7 +152,6 @@ internal class ScreenGame : Screen
             }
         }
     }
-    KeyboardState previousKeyboardState;
 
     public bool KeyReleased(Keys key)
     {
