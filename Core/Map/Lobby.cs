@@ -13,7 +13,6 @@ public class Lobby : IDraw
     public Lobby()
     {
         GenerateLobby();
-
     }
 
     private void GenerateLobby()

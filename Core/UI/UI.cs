@@ -7,7 +7,7 @@ namespace TBoGV;
 
 internal class UI : IDraw
 {
-    List<Heart> hearths;
+    List<Heart> hearts;
     static SpriteFont Font;
     static Texture2D SpriteCoin;
     static Texture2D SpriteXpBar;
@@ -16,11 +16,11 @@ internal class UI : IDraw
     int Xp;
     int MaxXp;
     const int MaxHeartsPerRow = 5;
-	protected List<Effect> Effects;
+    protected List<Effect> Effects;
 
     public UI()
     {
-        hearths = new List<Heart>();
+        hearts = new List<Heart>();
         Font = FontManager.GetFont("font");
         SpriteCoin = TextureManager.GetTexture("coin");
         SpriteXpBar = TextureManager.GetTexture("whiteSquare");
@@ -31,33 +31,33 @@ internal class UI : IDraw
 
     public void Update(Player player, GraphicsDeviceManager graphics)
     {
-        if (player.MaxHp != hearths.Count)
+        if (player.MaxHp != hearts.Count)
         {
-            hearths.Clear();
+            hearts.Clear();
             for (int i = 0; i < player.MaxHp; i++)
-                hearths.Add(new Heart());
+                hearts.Add(new Heart());
         }
 
         Vector2 screenOffset = new Vector2(20, 20);
-        for (int i = 0; i < hearths.Count; i++)
+        for (int i = 0; i < hearts.Count; i++)
         {
-            hearths[i].Broken = i >= player.Hp;
+            hearts[i].Broken = i >= player.Hp;
             int row = i / MaxHeartsPerRow;
             int col = i % MaxHeartsPerRow;
-            hearths[i].Position = screenOffset + new Vector2((Heart.Size.X + 5) * col, (Heart.Size.Y + 3) * row);
+            hearts[i].Position = screenOffset + new Vector2((Heart.Size.X + 5) * col, (Heart.Size.Y + 3) * row);
         }
 
         Coins = player.Coins;
         Xp = (int)player.Xp;
         MaxXp = player.XpForLevel();
-		Effects = player.Inventory.Effects;
+        Effects = player.Inventory.Effects;
         Vector2 screenSize = new Vector2(GraphicsDeviceManager.DefaultBackBufferWidth, GraphicsDeviceManager.DefaultBackBufferHeight);
     }
 
     public void Draw(SpriteBatch spriteBatch)
     {
-        for (int i = 0; i < hearths.Count; i++)
-            hearths[i].Draw(spriteBatch);
+        for (int i = 0; i < hearts.Count; i++)
+            hearts[i].Draw(spriteBatch);
 
         // XP Bar
         Vector2 xpBarPosition = new Vector2(GraphicsDeviceManager.DefaultBackBufferWidth / 2 - 100, 20);
@@ -75,21 +75,21 @@ internal class UI : IDraw
         spriteBatch.DrawString(Font, xpText, xpTextPosition, Color.White);
 
         // Coin display below the hearts
-        int heartRows = (int)Math.Ceiling((double)hearths.Count / MaxHeartsPerRow);
+        int heartRows = (int)Math.Ceiling((double)hearts.Count / MaxHeartsPerRow);
         Vector2 coinPosition = new Vector2(20, 35 + heartRows * (Heart.Size.Y + 3));
         string coinText = $"{Coins}";
         spriteBatch.Draw(SpriteCoin, new Rectangle((int)coinPosition.X, (int)coinPosition.Y, 30, 30), Color.White);
-        spriteBatch.DrawString(Font, coinText, new Vector2((int)coinPosition.X + 30, (int)coinPosition.Y), Color.Yellow);
-		Vector2 effectStartPosition = new Vector2(GraphicsDeviceManager.DefaultBackBufferWidth - 100, 30);
-		for (int i = 0; i < Effects.Count; i++)
-		{
-			// Position each effect in the column, spacing them vertically.
-			Effects[i].Position = effectStartPosition;
-			Effects[i].IconDraw(spriteBatch);
-			effectStartPosition += new Vector2(
-				0,
-				(Effects[i].SpriteSize.X + 5)
-			);
-		}
-	}
+        spriteBatch.DrawString(Font, coinText, new Vector2((int)coinPosition.X + 40, (int)coinPosition.Y), Color.Yellow);
+        Vector2 effectStartPosition = new Vector2(GraphicsDeviceManager.DefaultBackBufferWidth - 100, 30);
+        for (int i = 0; i < Effects.Count; i++)
+        {
+            // Position each effect in the column, spacing them vertically.
+            Effects[i].Position = effectStartPosition;
+            Effects[i].IconDraw(spriteBatch);
+            effectStartPosition += new Vector2(
+                0,
+                (Effects[i].SpriteSize.X + 5)
+            );
+        }
+    }
 }
