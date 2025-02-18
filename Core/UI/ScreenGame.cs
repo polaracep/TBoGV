@@ -1,5 +1,4 @@
-﻿using System;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
@@ -18,7 +17,7 @@ internal class ScreenGame : Screen
     private InGameMenuDeath deathMenu;
     private InGameMenuItemJournal itemJournalMenu;
 
-	private List<Minigame> miniGames;
+	private List<Minigame> miniGames = new List<Minigame>();
 	
     private UI UI;
     private MouseState mouseState;
@@ -36,37 +35,37 @@ internal class ScreenGame : Screen
         player = new Player();
 
         List<Room> rL = new List<Room> {
-            new RoomClassroom(new Vector2(9, 9), player, new List<Enemy> {
-                new EnemyZdena(Vector2.Zero),
-                new EnemyZdena(Vector2.Zero),
-                new EnemyZdena(Vector2.Zero),
-            }),
-            new RoomEmpty(new Vector2(9, 9), player),
-            new RoomEmpty(new Vector2(9, 9), player),
-        };
+                    new RoomClassroom(new Vector2(9, 9), player, new List<Enemy> {
+                        new EnemyZdena(Vector2.Zero),
+                        new EnemyZdena(Vector2.Zero),
+                        new EnemyZdena(Vector2.Zero),
+                    }),
+                    new RoomEmpty(new Vector2(9, 9), player),
+                    new RoomEmpty(new Vector2(9, 9), player),
+                };
         RoomStart start = new RoomStart(new Vector2(5, 5), player);
 
         CurrentLevel = new Level(player, rL, start, 6);
 
         UI = new UI();
         _camera = new Camera(graphics.GraphicsDevice.Viewport, (int)(CurrentLevel.ActiveRoom.Dimensions.X * Tile.GetSize().X), (int)(CurrentLevel.ActiveRoom.Dimensions.Y * Tile.GetSize().Y));
-		_camera.SetCenter(CurrentLevel.ActiveRoom.Dimensions*Tile.GetSize()/2);
-		inGameMenu = effectMenu = new InGameMenuEffect(graphics.GraphicsDevice.Viewport);
+        _camera.SetCenter(CurrentLevel.ActiveRoom.Dimensions * Tile.GetSize() / 2);
+        inGameMenu = effectMenu = new InGameMenuEffect(graphics.GraphicsDevice.Viewport);
         levelUpMenu = new InGameMenuLevelUp(graphics.GraphicsDevice.Viewport);
         deathMenu = new InGameMenuDeath(graphics.GraphicsDevice.Viewport);
         itemJournalMenu = new InGameMenuItemJournal(graphics.GraphicsDevice.Viewport);
-		miniGames = new List<Minigame>();
-		
-		// check the current state of the MediaPlayer.
-		Song = SongManager.GetSong("soundtrack");
+
+        /*
+
+        */
+        // In-game Soundtrack
+        Song = SongManager.GetSong("soundtrack");
         if (MediaPlayer.State != MediaState.Stopped)
         {
-            MediaPlayer.Stop(); // stop current audio playback if playing or paused.
+            MediaPlayer.Stop();
         }
-
-        // Play the selected song reference.
-        MediaPlayer.Play(Song);
-        MediaPlayer.Volume = 0.01f;
+        // MediaPlayer.Play(Song);
+        MediaPlayer.Volume = 0.1f;
     }
 
     public override void Draw(SpriteBatch _spriteBatch, GraphicsDeviceManager graphics)
@@ -139,8 +138,8 @@ internal class ScreenGame : Screen
             player.Update(keyboardState, mouseState, _camera.Transform, CurrentLevel.ActiveRoom, graphics.GraphicsDevice.Viewport);
             CurrentLevel.ActiveRoom.Update(gameTime);
             UI.Update(player, graphics);
-			_camera.SetCenter(CurrentLevel.ActiveRoom.Dimensions * Tile.GetSize() / 2);
-			_camera.Update(player.Position + player.Size / 2);
+            _camera.SetCenter(CurrentLevel.ActiveRoom.Dimensions * Tile.GetSize() / 2);
+            _camera.Update(player.Position + player.Size / 2);
             if (MediaPlayer.State == MediaState.Paused)
                 MediaPlayer.Resume();
             else if (MediaPlayer.State == MediaState.Stopped)

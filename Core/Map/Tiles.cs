@@ -4,7 +4,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace TBoGV;
 
-public abstract class Tile
+public abstract class Tile : ICloneable
 {
     public Texture2D Sprite { get; protected set; }
     public bool DoCollision { get; protected set; } = false;
@@ -21,6 +21,11 @@ public abstract class Tile
     public static Vector2 GetSize()
     {
         return tileSize;
+    }
+
+    public object Clone()
+    {
+        return this.MemberwiseClone();
     }
 }
 

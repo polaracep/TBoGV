@@ -41,29 +41,24 @@ public class MinigameRooted : Minigame
 
 
 		string headline = "Korenovy vezen";
-		string description = "Cele telo mas zaklinene v korenech stromu\nPosttraumaticka porucha v plnem rozsahu - osvobodit se nedokazes, \nmuzes ale zkusit, jestli BOUCHANI DO KORENU neprivola zachranu\nNastal boj o holy zivot!\n";
 		string hintText = "!!!MACKEJ HODNE KLAVES!!!";
 
 		Vector2 headlineSize = LargerFont.MeasureString(headline);
-		Vector2 descriptionSize = MiddleFont.MeasureString(description);
 		Vector2 hintSize = MiddleFont.MeasureString(hintText);
 
-		int rectWidth = (int)Math.Max(headlineSize.X,Math.Max(descriptionSize.X, hintSize.X)) + 60;
-		int rectHeight = (int)(headlineSize.Y + descriptionSize.Y + hintSize.Y + 80);
+		int rectWidth = (int)Math.Max(headlineSize.X, hintSize.X) + 20;
+		int rectHeight = (int)(headlineSize.Y + hintSize.Y + 20);
 
 		int rectX = (screenWidth - rectWidth) / 2;
-		int rectY = (screenHeight - rectHeight) / 2;
+		int rectY = (screenHeight - rectHeight)*3 / 4;
 
 		spriteBatch.Draw(SpriteBackground, new Rectangle(rectX, rectY, rectWidth, rectHeight), new Color(0, 0, 0, 200));
-		int Ypos = rectY + 30;
-		Vector2 headlinePosition = new Vector2((screenWidth - headlineSize.X + 30) / 2, Ypos);
-		Ypos += (int)headlineSize.Y + 20;
-		Vector2 descriptionPosition = new Vector2((screenWidth - descriptionSize.X + 30) / 2, Ypos);
-		Ypos += (int)descriptionSize.Y;
-		Vector2 hintPosition = new Vector2((screenWidth - hintSize.X + 60) / 2, Ypos); // Placing hint below description
+		int Ypos = rectY +5;
+		Vector2 headlinePosition = new Vector2((screenWidth - headlineSize.X) / 2, Ypos);
+		Ypos += (int)headlineSize.Y + 5;
+		Vector2 hintPosition = new Vector2((screenWidth - hintSize.X) / 2, Ypos); // Placing hint below description
 
 		spriteBatch.DrawString(LargerFont, headline, headlinePosition, Color.White);
-		spriteBatch.DrawString(MiddleFont, description, descriptionPosition, Color.White);
 		spriteBatch.DrawString(MiddleFont, hintText, hintPosition, hintColor);  // Drawing the hint with dynamic color
 	}
 
