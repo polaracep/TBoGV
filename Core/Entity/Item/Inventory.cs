@@ -52,6 +52,18 @@ public class Inventory
 		}
 		Effects.Add(effect);		
 	}
+	public void RemoveEffect(Effect effect)
+	{
+		for (int i = 0; i < Effects.Count; i++)
+		{
+			if (Effects[i].GetType() == effect.GetType())
+			{
+				Effects.RemoveAt(i);
+				return;
+			}
+		}
+	}
+
 	public void Draw(SpriteBatch spriteBatch)
 	{
 		foreach (var container in ItemContainers)
@@ -122,6 +134,9 @@ public class Inventory
 			if (!container.IsEmpty())
 				foreach (var effect in container.Item.Effects)			
 					effects.Add(effect);
+		foreach (var effect in Effects)
+			foreach (var e in effect.Effects)
+				effects.Add(e);
 		return effects;	
 	}
 	public float GetWeaponDmg()

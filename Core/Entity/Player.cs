@@ -34,7 +34,7 @@ public class Player : Entity, IRecieveDmg, IDealDmg, IDraw
 	{
 		BaseStats = new Dictionary<StatTypes, float>()
 		{
-			{ StatTypes.MAX_HP, 18 },
+			{ StatTypes.MAX_HP, 18},
 			{ StatTypes.DAMAGE, 1 },
 			{ StatTypes.PROJECTILE_COUNT, 1 },
 			{ StatTypes.XP_GAIN, 1 },
@@ -106,7 +106,7 @@ public class Player : Entity, IRecieveDmg, IDealDmg, IDraw
 		Hp = Math.Min(Hp, MaxHp); // Zajistíme, že HP nepřesáhne MaxHp
 		AttackDmg = finalStats[StatTypes.DAMAGE];
 		AttackSpeed = finalStats[StatTypes.ATTACK_SPEED];
-		MovementSpeed = (int)Math.Max(finalStats[StatTypes.MOVEMENT_SPEED], 1);
+		MovementSpeed = Inventory.GetEffect().Contains(EffectTypes.ROOTED)? 0 : (int)Math.Max(finalStats[StatTypes.MOVEMENT_SPEED], 1);
 		XpGain = finalStats[StatTypes.XP_GAIN];
 		ProjectileCount = (int)Math.Max(finalStats[StatTypes.PROJECTILE_COUNT], 1);
 	}

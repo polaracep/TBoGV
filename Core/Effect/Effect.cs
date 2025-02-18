@@ -12,8 +12,8 @@ public abstract class Effect : IDraw
 	public string Description { get; set; }
 	public bool Positive { get; set; }
 	public int Level { get; set; }
-	public Dictionary<StatTypes, int> Stats { get; set; }
-	public List<EffectTypes> Effects { get; set; }
+	public Dictionary<StatTypes, int> Stats = new Dictionary<StatTypes, int>();
+	public List<EffectTypes> Effects  = new List<EffectTypes>();
 	public Vector2 Position { get; set; }
 	public Vector2 Size { get; set; }
 	public Vector2 SpriteSize = new Vector2(50,50);

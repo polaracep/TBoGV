@@ -11,11 +11,15 @@ internal class ScreenGame : Screen
     private Player player;
     private Camera _camera;
     private Level CurrentLevel;
+
     private InGameMenu inGameMenu;
     private InGameMenuEffect effectMenu;
     private InGameMenuLevelUp levelUpMenu;
     private InGameMenuDeath deathMenu;
     private InGameMenuItemJournal itemJournalMenu;
+
+	private List<Minigame> miniGames;
+	
     private UI UI;
     private MouseState mouseState;
     private KeyboardState keyboardState;
@@ -51,9 +55,10 @@ internal class ScreenGame : Screen
         levelUpMenu = new InGameMenuLevelUp(graphics.GraphicsDevice.Viewport);
         deathMenu = new InGameMenuDeath(graphics.GraphicsDevice.Viewport);
         itemJournalMenu = new InGameMenuItemJournal(graphics.GraphicsDevice.Viewport);
-
-        // check the current state of the MediaPlayer.
-        Song = SongManager.GetSong("soundtrack");
+		miniGames = new List<Minigame>();
+		
+		// check the current state of the MediaPlayer.
+		Song = SongManager.GetSong("soundtrack");
         if (MediaPlayer.State != MediaState.Stopped)
         {
             MediaPlayer.Stop(); // stop current audio playback if playing or paused.
@@ -84,7 +89,8 @@ internal class ScreenGame : Screen
         {
             inGameMenu.Draw(_spriteBatch);
         }
-
+		foreach (Minigame miniGame in miniGames)
+				miniGame.Draw(_spriteBatch);
         _spriteBatch.End();
     }
 
@@ -107,9 +113,11 @@ internal class ScreenGame : Screen
         if (player.Hp < 1 && !deathMenu.Active)
         {
             inGameMenu = deathMenu;
-            deathMenu.OpenMenu();
+			MinigameRooted.State = minigameState.SUCCESS;
+
+			deathMenu.OpenMenu();
         }
-        if (KeyReleased(Keys.Tab))
+        if (KeyReleased(Keys.Tab) && MinigameRooted.State != minigameState.ONGOING)
         {
             if (!levelUpMenu.Active && !deathMenu.Active)
             {
@@ -117,7 +125,7 @@ internal class ScreenGame : Screen
                 effectMenu.Active = !effectMenu.Active;
             }
         }
-        if (KeyReleased(Keys.J))
+        if (KeyReleased(Keys.J) && MinigameRooted.State != minigameState.ONGOING)
         {
             if (!levelUpMenu.Active && !deathMenu.Active)
             {
@@ -151,7 +159,16 @@ internal class ScreenGame : Screen
                 MediaPlayer.Pause();
             }
         }
-    }
+
+		foreach (Minigame miniGame in miniGames)
+			miniGame.Update(keyboardState, gameTime);
+		if (player.Inventory.GetEffect().Contains(EffectTypes.ROOTED) && MinigameRooted.State != minigameState.ONGOING)
+			miniGames.Add(new MinigameRooted(() => player.Inventory.RemoveEffect(new EffectRooted(1))));
+		for (int i = 0; i < miniGames.Count; i++) 
+			if (miniGames[i].GetState() != minigameState.ONGOING)
+				miniGames.RemoveAt(i);
+				
+	}
 
     public bool KeyReleased(Keys key)
     {
