@@ -11,7 +11,7 @@ internal class EffectRooted : Effect
 	public EffectRooted(int level)
 	{
 		Name = "Korenovy vezen";
-		Description = "bouchani nikdo neslysel, \nOdskocit jsi si nemohl, takze te zahriva tepla moc";
+		Description = "Bouchani nikdo neslysel, \nOdskocit jsi si nemohl, takze te zahriva tepla moc";
 		Positive = false;
 		Stats = new Dictionary<StatTypes, int>() { };
 		Effects = new List<EffectTypes> { EffectTypes.ROOTED};

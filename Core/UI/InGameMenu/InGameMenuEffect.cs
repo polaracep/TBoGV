@@ -121,12 +121,11 @@ internal class InGameMenuEffect : InGameMenu
 		{
 			effect.Position = currentPosition;
 			effect.Draw(spriteBatch);
-			// Check if the mouse is hovering over this effect.
-			if (effect.GetRect().Contains(mouseState.Position))
-				DrawEffectTooltip(spriteBatch, effect);
-			// Move to the next effect's position.
 			currentPosition.Y += effect.GetRect().Height + spacingBetweenEffects;
 		}
+		foreach (var effect in Effects)
+			if (effect.GetRect().Contains(mouseState.Position))
+				DrawEffectTooltip(spriteBatch, effect);
 	}
 	private void DrawEffectTooltip(SpriteBatch spriteBatch, Effect effect)
 	{
