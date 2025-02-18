@@ -15,7 +15,7 @@ namespace TBoGV
             _viewport = viewport;
             RoomWidth = roomWidth;
             RoomHeight = roomHeight;
-            Offset = 100;
+            Offset = 200;
         }
 		public void SetCenter(Vector2 position)
 		{
