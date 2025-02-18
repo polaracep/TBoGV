@@ -35,6 +35,7 @@ public enum EffectTypes : int
 	EXPLOSIVE = 4,
 	DODGE = 5,
 	AIM = 6,
+	ROOTED = 7,
 }
 public enum ItemTypes : int
 {

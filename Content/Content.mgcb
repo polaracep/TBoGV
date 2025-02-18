@@ -366,6 +366,18 @@
 /processorParam:TextureFormat=Color
 /build:Textures/containerWeapon.png
 
+#begin Textures/cooked.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Textures/cooked.png
+
 #begin Textures/crocs.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -893,6 +905,18 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Textures/vitekElegan.png
+
+#begin Textures/vitekEleganBolderCut.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Textures/vitekEleganBolderCut.png
 
 #begin Textures/vitekEleganBolderCut.png
 /importer:TextureImporter

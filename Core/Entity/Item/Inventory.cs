@@ -16,6 +16,7 @@ public class Inventory
 	static Texture2D SpriteToolTip;
 
 	public List<ItemContainer> ItemContainers;
+	public List<Effect> Effects = new List<Effect>();
 	public int selectedItemIndex = 0;
 	private int PrevScrollWheelValue;
 	ItemContainer? hoveredItem;
@@ -38,9 +39,19 @@ public class Inventory
 		Font = FontManager.GetFont("Arial8");
 		MiddleFont = FontManager.GetFont("Arial12");
 		LargerFont = FontManager.GetFont("Arial16");
-
 	}
-
+	public void AddEffect(Effect effect)
+	{
+		foreach (var e in Effects)
+		{
+			if (effect.Name == e.Name)
+			{
+				e.ChangeLevel(effect.Level);
+				return;
+			}
+		}
+		Effects.Add(effect);		
+	}
 	public void Draw(SpriteBatch spriteBatch)
 	{
 		foreach (var container in ItemContainers)
@@ -88,7 +99,21 @@ public class Inventory
 				}
 			}
 		}
-	return finalStats;
+		foreach (var effect in Effects)
+		{
+			foreach (var stat in effect.Stats)
+			{
+				if (finalStats.ContainsKey(stat.Key))
+				{
+					finalStats[stat.Key] += stat.Value;
+				}
+				else
+				{
+					finalStats[stat.Key] = stat.Value;
+				}
+			}
+		}
+		return finalStats;
 	}
 	public List<EffectTypes> GetEffect()
 	{
@@ -306,6 +331,6 @@ public class Inventory
         }
         return sb.ToString();
     }
-
+	
 }
 

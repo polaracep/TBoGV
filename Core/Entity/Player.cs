@@ -39,7 +39,7 @@ public class Player : Entity, IRecieveDmg, IDealDmg, IDraw
 			{ StatTypes.PROJECTILE_COUNT, 1 },
 			{ StatTypes.XP_GAIN, 1 },
 			{ StatTypes.ATTACK_SPEED, 1500 },
-			{ StatTypes.MOVEMENT_SPEED, 2 }
+			{ StatTypes.MOVEMENT_SPEED, 5 }
 		};
 		LevelUpStats = new Dictionary<StatTypes, int>()
 		{
@@ -115,10 +115,8 @@ public class Player : Entity, IRecieveDmg, IDealDmg, IDraw
 	{
 		int dx = 0, dy = 0;
 
-		// Calculate the interaction point (used for interacting with tiles/items)
 		InteractionPoint = Position + (Direction * 50) + Size / 2;
 
-		// Accumulate movement input
 		if (keyboardState.IsKeyDown(Keys.A) || keyboardState.IsKeyDown(Keys.Left))
 			dx -= MovementSpeed;
 		if (keyboardState.IsKeyDown(Keys.D) || keyboardState.IsKeyDown(Keys.Right))
@@ -127,8 +125,8 @@ public class Player : Entity, IRecieveDmg, IDealDmg, IDraw
 			dy -= MovementSpeed;
 		if (keyboardState.IsKeyDown(Keys.S) || keyboardState.IsKeyDown(Keys.Down))
 			dy += MovementSpeed;
+
 		// --- Begin Movement ---
-		// We use a tolerance offset for our collision checks
 		int tolerance = 1;
 
 		// Move horizontally in small increments
@@ -294,6 +292,9 @@ public class Player : Entity, IRecieveDmg, IDealDmg, IDraw
 				}
 				Hp -= projectile.Damage;
 				LastRecievedDmgTime = DateTime.UtcNow;
+				Inventory.AddEffect(new EffectCooked(1));
+				if(projectile.GetType() == typeof(ProjectileRoot))
+					Inventory.AddEffect(new EffectRooted(1));
 			}
 			return 0;
 		}
