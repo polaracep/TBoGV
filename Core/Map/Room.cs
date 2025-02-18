@@ -255,21 +255,12 @@ public abstract class Room : IDraw
         this.roomFloor = new Tile[(int)Dimensions.X, (int)Dimensions.Y];
         this.roomDecorations = new Tile[(int)Dimensions.X, (int)Dimensions.Y];
 
-        for (int i = 0; i < Dimensions.X; i++)
-            for (var j = 0; j < Dimensions.Y; j++)
-                roomFloor[i, j] = new TileFloor(floors);
-
-        for (int i = 0; i < Dimensions.X; i++)
-        {
-            roomFloor[i, 0] = new TileWall(walls);
-            roomFloor[i, (int)Dimensions.Y - 1] = new TileWall(walls);
-        }
-
-        for (int i = 0; i < Dimensions.Y; i++)
-        {
-            roomFloor[0, i] = new TileWall(walls);
-            roomFloor[(int)Dimensions.X - 1, i] = new TileWall(walls);
-        }
+        roomFloor.GenerateFilledRectangle(
+            new Rectangle(0, 0, (int)Dimensions.X, (int)Dimensions.Y),
+            new TileFloor(FloorTypes.BASIC),
+            new TileWall(WallTypes.BASIC),
+            new TileWall(WallTypes.BASIC)
+        );
 
         // Generace dveri
         foreach (TileDoor door in this.Doors)
