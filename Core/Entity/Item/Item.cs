@@ -7,9 +7,9 @@ public abstract class Item : Entity, IDraw, IInteractable
     public bool Small;
     public abstract void Draw(SpriteBatch spriteBatch);
 
-    public virtual void Interact(Entity e, Room r)
+    public virtual void Interact(Entity e, Place p)
     {
-        r.player.Coins++;
+        p.player.Coins++;
     }
 }
 

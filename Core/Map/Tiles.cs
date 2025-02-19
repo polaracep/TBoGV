@@ -75,7 +75,7 @@ public class TileDoor : Tile, IInteractable
     }
     public TileDoor(DoorTypes door, Directions direction, Vector2 doorPos) : this(door, direction, doorPos, null) { }
     public TileDoor(DoorTypes door, Directions direction) : this(door, direction, Vector2.Zero, null) { }
-    public void Interact(Entity e, Room r)
+    public void Interact(Entity e, Place p)
     {
         // put player in the left-top corne
         if (OppositeDoor == null)
@@ -115,7 +115,7 @@ public class TileHeal : Tile, IInteractable
     }
 
     public TileHeal() : this(0f) { }
-    public void Interact(Entity e, Room r)
+    public void Interact(Entity e, Place _)
     {
         if (e is Player)
         {

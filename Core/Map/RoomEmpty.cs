@@ -27,4 +27,7 @@ public class RoomEmpty : Room, IDraw
         }
     }
 
+    public override void Reset()
+    {
+    }
 }

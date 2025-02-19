@@ -111,7 +111,7 @@ public class Player : Entity, IRecieveDmg, IDealDmg, IDraw
 		ProjectileCount = (int)Math.Max(finalStats[StatTypes.PROJECTILE_COUNT], 1);
 	}
 
-	public void Update(KeyboardState keyboardState, MouseState mouseState, Matrix transform, Room room, Viewport viewport)
+	public void Update(KeyboardState keyboardState, MouseState mouseState, Matrix transform, Place place, Viewport viewport)
 	{
 		int dx = 0, dy = 0;
 
@@ -138,10 +138,10 @@ public class Player : Entity, IRecieveDmg, IDealDmg, IDraw
 			{
 				// Create a test position by moving 1 pixel in the X direction
 				Vector2 testPosition = new Vector2(Position.X + stepX, Position.Y);
-				if (!room.ShouldCollideAt(new Vector2(testPosition.X + tolerance, testPosition.Y + tolerance)) &&
-					!room.ShouldCollideAt(new Vector2(testPosition.X - tolerance + Size.X, testPosition.Y - tolerance + Size.Y)) &&
-					!room.ShouldCollideAt(new Vector2(testPosition.X - tolerance + Size.X, testPosition.Y + tolerance)) &&
-					!room.ShouldCollideAt(new Vector2(testPosition.X + tolerance, testPosition.Y - tolerance + Size.Y)))
+				if (!place.ShouldCollideAt(new Vector2(testPosition.X + tolerance, testPosition.Y + tolerance)) &&
+					!place.ShouldCollideAt(new Vector2(testPosition.X - tolerance + Size.X, testPosition.Y - tolerance + Size.Y)) &&
+					!place.ShouldCollideAt(new Vector2(testPosition.X - tolerance + Size.X, testPosition.Y + tolerance)) &&
+					!place.ShouldCollideAt(new Vector2(testPosition.X + tolerance, testPosition.Y - tolerance + Size.Y)))
 				{
 					// If no collision, update the position by 1 pixel in the X direction.
 					Position.X += stepX;
@@ -164,10 +164,10 @@ public class Player : Entity, IRecieveDmg, IDealDmg, IDraw
 			{
 				// Create a test position by moving 1 pixel in the Y direction
 				Vector2 testPosition = new Vector2(Position.X, Position.Y + stepY);
-				if (!room.ShouldCollideAt(new Vector2(testPosition.X + tolerance, testPosition.Y + tolerance)) &&
-					!room.ShouldCollideAt(new Vector2(testPosition.X - tolerance + Size.X, testPosition.Y - tolerance + Size.Y)) &&
-					!room.ShouldCollideAt(new Vector2(testPosition.X - tolerance + Size.X, testPosition.Y + tolerance)) &&
-					!room.ShouldCollideAt(new Vector2(testPosition.X + tolerance, testPosition.Y - tolerance + Size.Y)))
+				if (!place.ShouldCollideAt(new Vector2(testPosition.X + tolerance, testPosition.Y + tolerance)) &&
+					!place.ShouldCollideAt(new Vector2(testPosition.X - tolerance + Size.X, testPosition.Y - tolerance + Size.Y)) &&
+					!place.ShouldCollideAt(new Vector2(testPosition.X - tolerance + Size.X, testPosition.Y + tolerance)) &&
+					!place.ShouldCollideAt(new Vector2(testPosition.X + tolerance, testPosition.Y - tolerance + Size.Y)))
 				{
 					// If no collision, update the position by 1 pixel in the Y direction.
 					Position.Y += stepY;
@@ -187,32 +187,32 @@ public class Player : Entity, IRecieveDmg, IDealDmg, IDraw
 			 (keyboardState.IsKeyDown(Keys.E) && prevKeyboardState.IsKeyUp(Keys.E)))
 		{
 			Console.WriteLine(InteractionPoint);
-			Tile t = room.GetTileInteractable(InteractionPoint);
+			Tile t = place.GetTileInteractable(InteractionPoint);
 			if (t != null)
 			{
 				IInteractable tile = (IInteractable)t;
-				tile.Interact(this, room);
+				tile.Interact(this, place);
 			}
-			Item item = room.GetItemInteractable(InteractionPoint);
+			Item item = place.GetItemInteractable(InteractionPoint);
 			if (item != null)
 			{
-				item.Interact(this, room);
-				room.RemoveItem(item);
+				item.Interact(this, place);
+				place.Drops.Remove(item);
 			}
 		}
 
 		// Reset room (debug)
 		if (keyboardState.IsKeyDown(Keys.R) && prevKeyboardState.IsKeyUp(Keys.R))
 		{
-			room.ResetRoom();
+			place.Reset();
 
 		}
-		for (int i = 0; i < room.drops.Count; i++)
+		for (int i = 0; i < place.Drops.Count; i++)
 		{
-			if (room.drops[i] is not ItemContainerable && ObjectCollision.CircleCircleCollision(room.drops[i], this))
+			if (place.Drops[i] is not ItemContainerable && ObjectCollision.CircleCircleCollision(place.Drops[i], this))
 			{
-				room.drops[i].Interact(this, room);
-				room.RemoveItem(room.drops[i]);
+				place.Drops[i].Interact(this, place);
+				place.Drops.Remove(place.Drops[i]);
 			}
 		}
 
@@ -296,7 +296,7 @@ public class Player : Entity, IRecieveDmg, IDealDmg, IDraw
 				Hp -= projectile.Damage;
 				LastRecievedDmgTime = DateTime.UtcNow;
 				Inventory.AddEffect(new EffectCooked(1));
-				if(projectile.GetType() == typeof(ProjectileRoot))
+				if (projectile.GetType() == typeof(ProjectileRoot))
 					Inventory.AddEffect(new EffectRooted(1));
 			}
 			return 0;

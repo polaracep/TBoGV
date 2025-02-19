@@ -58,60 +58,6 @@ public abstract class Room : Place
     /// <param name="coords"></param>
     /// <returns></returns>
     /// <exception cref="ArgumentOutOfRangeException"></exception>
-    public Vector2 GetTileWorldPos(Vector2 coords)
-    {
-        if (float.IsNaN(coords.X) || float.IsNaN(coords.Y))
-            throw new ArgumentOutOfRangeException();
-        if (coords.X >= Dimensions.X * Tile.GetSize().X || coords.Y >= Dimensions.Y * Tile.GetSize().Y || coords.X < 0 || coords.Y < 0)
-            throw new ArgumentOutOfRangeException();
-        return new Vector2((int)(coords.X * Tile.GetSize().X), (int)(coords.Y * Tile.GetSize().Y));
-    }
-    public Tile GetTileFloor(Vector2 coords)
-    {
-        return GetTile(coords).floor;
-    }
-    public Tile GetTileDecoration(Vector2 coords)
-    {
-        return GetTile(coords).decor;
-    }
-    public Tile GetTileInteractable(Vector2 coords)
-    {
-        (Tile, Tile) t = GetTile(coords);
-        if (t.Item2 is IInteractable)
-            return t.Item2;
-        else if (t.Item1 is IInteractable)
-            return t.Item1;
-
-        return null;
-    }
-    public Item GetItemInteractable(Vector2 coords)
-    {
-        foreach (var item in Drops)
-        {
-            if (ObjectCollision.RectCircleCollision(item.GetRectangle(), coords, 5))
-                return item;
-        }
-        return null;
-    }
-    public void RemoveItem(Item item)
-    {
-        Drops.Remove(item);
-    }
-    public (Tile floor, Tile decor) GetTile(Vector2 coords)
-    {
-        if (float.IsNaN(coords.X) || float.IsNaN(coords.Y))
-            return (null, null);
-        if (coords.X >= Dimensions.X * Tile.GetSize().X || coords.Y >= Dimensions.Y * Tile.GetSize().Y || coords.X < 0 || coords.Y < 0)
-            return (null, null);
-
-        return (Floor[(int)(coords.X / Tile.GetSize().X), (int)(coords.Y / Tile.GetSize().Y)],
-                Decorations[(int)(coords.X / Tile.GetSize().X), (int)(coords.Y / Tile.GetSize().Y)]);
-    }
-    public bool ShouldCollideAt(Vector2 coords)
-    {
-        return (this.GetTileFloor(coords)?.DoCollision ?? false) ||
-               (this.GetTileDecoration(coords)?.DoCollision ?? false);
-    }
     public virtual void ResetRoom()
     {
         this.ClearRoom();

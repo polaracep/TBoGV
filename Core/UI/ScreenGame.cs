@@ -41,10 +41,11 @@ internal class ScreenGame : Screen
         RoomStart start = new RoomStart(new Vector2(5, 5), player);
 
         CurrentLevel = new Level(player, rL, start, 6);
+        activePlace = CurrentLevel.ActiveRoom;
 
         UI = new UI();
-        _camera = new Camera(graphics.GraphicsDevice.Viewport, (int)(CurrentLevel.ActiveRoom.Dimensions.X * Tile.GetSize().X), (int)(CurrentLevel.ActiveRoom.Dimensions.Y * Tile.GetSize().Y));
-        _camera.SetCenter(CurrentLevel.ActiveRoom.Dimensions * Tile.GetSize() / 2);
+        _camera = new Camera(graphics.GraphicsDevice.Viewport, (int)(activePlace.Dimensions.X * Tile.GetSize().X), (int)(CurrentLevel.ActiveRoom.Dimensions.Y * Tile.GetSize().Y));
+        _camera.SetCenter(activePlace.Dimensions * Tile.GetSize() / 2);
         inGameMenu = effectMenu = new InGameMenuEffect(graphics.GraphicsDevice.Viewport);
         levelUpMenu = new InGameMenuLevelUp(graphics.GraphicsDevice.Viewport);
         deathMenu = new InGameMenuDeath(graphics.GraphicsDevice.Viewport);
@@ -69,7 +70,7 @@ internal class ScreenGame : Screen
         //_spriteBatch.End();
 
         _spriteBatch.Begin(transformMatrix: _camera.Transform);
-        CurrentLevel.ActiveRoom.Draw(_spriteBatch);
+        activePlace.Draw(_spriteBatch);
         player.Draw(_spriteBatch);
         _spriteBatch.End();
 
@@ -124,10 +125,10 @@ internal class ScreenGame : Screen
         }
         if (!inGameMenu.Active)
         {
-            player.Update(keyboardState, mouseState, _camera.Transform, CurrentLevel.ActiveRoom, graphics.GraphicsDevice.Viewport);
-            CurrentLevel.ActiveRoom.Update(gameTime);
+            player.Update(keyboardState, mouseState, _camera.Transform, activePlace, graphics.GraphicsDevice.Viewport);
+            activePlace.Update(gameTime);
             UI.Update(player, graphics);
-            _camera.SetCenter(CurrentLevel.ActiveRoom.Dimensions * Tile.GetSize() / 2);
+            _camera.SetCenter(activePlace.Dimensions * Tile.GetSize() / 2);
             _camera.Update(player.Position + player.Size / 2);
             if (MediaPlayer.State == MediaState.Paused)
                 MediaPlayer.Resume();

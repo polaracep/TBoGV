@@ -48,4 +48,8 @@ public class Lobby : Place
     public override void Update(GameTime gameTime)
     {
     }
+
+    public override void Reset()
+    {
+    }
 }
