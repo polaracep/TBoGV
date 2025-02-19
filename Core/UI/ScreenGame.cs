@@ -10,6 +10,8 @@ internal class ScreenGame : Screen
     private Player player;
     private Camera _camera;
     private Level CurrentLevel;
+    private Lobby lobby = new Lobby();
+    private Place activePlace;
     private InGameMenu inGameMenu;
     private InGameMenuEffect effectMenu;
     private InGameMenuLevelUp levelUpMenu;
@@ -22,23 +24,20 @@ internal class ScreenGame : Screen
 
     private Song Song;
 
-    public ScreenGame()
-    {
-    }
-
     public override void BeginRun(GraphicsDeviceManager graphics)
     {
         player = new Player();
 
+
         List<Room> rL = new List<Room> {
-                    new RoomClassroom(new Vector2(9, 9), player, new List<Enemy> {
-                        new EnemyZdena(Vector2.Zero),
-                        new EnemyZdena(Vector2.Zero),
-                        new EnemyZdena(Vector2.Zero),
-                    }),
-                    new RoomEmpty(new Vector2(9, 9), player),
-                    new RoomEmpty(new Vector2(9, 9), player),
-                };
+            new RoomClassroom(new Vector2(9, 9), player, new List<Enemy> {
+                new EnemyZdena(Vector2.Zero),
+                new EnemyZdena(Vector2.Zero),
+                new EnemyZdena(Vector2.Zero),
+            }),
+            new RoomEmpty(new Vector2(9, 9), player),
+            new RoomEmpty(new Vector2(9, 9), player),
+        };
         RoomStart start = new RoomStart(new Vector2(5, 5), player);
 
         CurrentLevel = new Level(player, rL, start, 6);
@@ -51,10 +50,6 @@ internal class ScreenGame : Screen
         deathMenu = new InGameMenuDeath(graphics.GraphicsDevice.Viewport);
         itemJournalMenu = new InGameMenuItemJournal(graphics.GraphicsDevice.Viewport);
 
-
-        /*
-
-        */
         // In-game Soundtrack
         Song = SongManager.GetSong("soundtrack");
         if (MediaPlayer.State != MediaState.Stopped)

@@ -52,6 +52,8 @@ public class Level
             case Directions.DOWN:
                 ActiveRoomCoords.Y += 1;
                 break;
+            default:
+                break;
         }
         ActiveRoom = RoomMap[(int)ActiveRoomCoords.X, (int)ActiveRoomCoords.Y];
         if (!ActiveRoom.IsGenerated)
