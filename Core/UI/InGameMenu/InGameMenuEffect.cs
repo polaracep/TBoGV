@@ -26,9 +26,9 @@ internal class InGameMenuEffect : InGameMenu
 
 		Active = false;
     }
-    public override void Update(Viewport viewport, Player player, MouseState mouseState)
+    public override void Update(Viewport viewport, Player player, MouseState mouseState, KeyboardState keyboardState, GameTime gameTime)
     {
-        base.Update(viewport, player, mouseState);
+        base.Update(viewport, player, mouseState, keyboardState, gameTime);
 
         Stats = player.Inventory.SetStats(player.LevelUpStats);
 		Effects = player.Inventory.Effects;

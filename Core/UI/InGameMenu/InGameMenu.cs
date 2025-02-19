@@ -8,7 +8,7 @@ abstract class InGameMenu : IDraw
     public static Texture2D SpriteBackground;
     static Viewport Viewport;
     public bool Active;
-    public virtual void Update(Viewport viewport, Player player, MouseState mouseState)
+    public virtual void Update(Viewport viewport, Player player, MouseState mouseState, KeyboardState keyboardState, GameTime gameTime)
     {
         Viewport = viewport;
     }

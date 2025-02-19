@@ -84,4 +84,9 @@ public class MinigameRooted : Minigame
 	{
 		return State;
 	}
+
+	public override Rectangle GetRect()
+	{
+		throw new NotImplementedException();
+	}
 }

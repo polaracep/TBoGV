@@ -102,9 +102,9 @@ internal class InGameMenuItemJournal : InGameMenu
 		}
 	}
 
-	public override void Update(Viewport viewport, Player player, MouseState mouseState)
+	public override void Update(Viewport viewport, Player player, MouseState mouseState, KeyboardState keyboardState, GameTime gameTime)
 	{
-		base.Update(viewport, player, mouseState);
+		base.Update(viewport, player, mouseState, keyboardState, gameTime);
 
 		if (!Active)
 			return;

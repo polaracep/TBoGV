@@ -53,6 +53,8 @@ internal class ScreenGame : Screen
         inGameMenu = effectMenu = new InGameMenuEffect(graphics.GraphicsDevice.Viewport);
         levelUpMenu = new InGameMenuLevelUp(graphics.GraphicsDevice.Viewport);
         deathMenu = new InGameMenuDeath(graphics.GraphicsDevice.Viewport);
+		deathMenu.ResetLevel = () => Reset();
+		deathMenu.PassTest = () => Revive();
         itemJournalMenu = new InGameMenuItemJournal(graphics.GraphicsDevice.Viewport);
 
         /*
@@ -99,7 +101,7 @@ internal class ScreenGame : Screen
         mouseState = Mouse.GetState();
         keyboardState = Keyboard.GetState();
         int levelStatsCount = 0;
-        itemJournalMenu.Update(graphics.GraphicsDevice.Viewport, player, mouseState);
+        itemJournalMenu.Update(graphics.GraphicsDevice.Viewport, player, mouseState, keyboardState, gameTime);
         foreach (var item in player.LevelUpStats)
         {
             levelStatsCount += (int)player.LevelUpStats[item.Key];
@@ -149,10 +151,7 @@ internal class ScreenGame : Screen
         }
         else
         {
-            inGameMenu.Update(graphics.GraphicsDevice.Viewport, player, mouseState);
-            // revive
-            if (!deathMenu.Active && player.Hp < 1)
-                Reset();
+            inGameMenu.Update(graphics.GraphicsDevice.Viewport, player, mouseState, keyboardState, gameTime);
             if (MediaPlayer.State == MediaState.Playing)
             {
                 MediaPlayer.Pause();
@@ -176,5 +175,11 @@ internal class ScreenGame : Screen
     void Reset()
     {
         player.Heal((uint)player.MaxHp);
+		deathMenu.Active = false;
     }
+	void Revive()
+	{
+		deathMenu.Active = false;
+		player.Heal(3);
+	}
 }

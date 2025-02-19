@@ -8,7 +8,8 @@ namespace TBoGV;
 public abstract class Minigame
 {
 	public Action OnSuccess { get; set; }
-
+	public Action OnFailure { get; set; }
+	public abstract Rectangle GetRect();
 	public abstract void Update(KeyboardState keyboardState, GameTime gameTime);
 	public abstract void Draw(SpriteBatch spriteBatch);
 	public abstract minigameState GetState();
@@ -17,6 +18,10 @@ public abstract class Minigame
 		if (GetState() == minigameState.SUCCESS)
 		{
 			OnSuccess.Invoke();
+		}
+		if (GetState() == minigameState.FAILURE)
+		{
+			OnFailure.Invoke();
 		}
 	}
 }
