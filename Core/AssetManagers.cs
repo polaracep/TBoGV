@@ -55,8 +55,8 @@ public static class TextureManager
             "maso",
             "boom",
             "vitekEleganBolderCut",
-            "cooked"
-
+            "cooked",
+            "sarka",
         };
 
         foreach (string name in names)

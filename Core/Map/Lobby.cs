@@ -24,7 +24,13 @@ public class Lobby : Place
             new TileWall(WallTypes.LOBBY_CORNER)
         );
         player.Position = this.GetTileWorldPos(Vector2.One);
+        GenerateEntities();
         IsGenerated = true;
+    }
+
+    private void GenerateEntities()
+    {
+        this.Entities.Add(new EntitySarka(GetTileWorldPos(new Vector2(3, 3))));
     }
 
     public override void Draw(SpriteBatch spriteBatch)

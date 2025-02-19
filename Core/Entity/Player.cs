@@ -214,6 +214,12 @@ public class Player : Entity, IRecieveDmg, IDealDmg
 				item.Interact(this, place);
 				place.Drops.Remove(item);
 			}
+
+			IInteractable entity = place.GetEntityInteractable(InteractionPoint);
+			if (entity != null)
+			{
+				entity.Interact(this, place);
+			}
 		}
 
 		// Pickup?

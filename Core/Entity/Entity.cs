@@ -25,4 +25,5 @@ public abstract class Entity : IDraw
 	public abstract Texture2D GetSprite();
 
 	public abstract void Draw(SpriteBatch spriteBatch);
+
 }

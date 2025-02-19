@@ -80,6 +80,21 @@ public abstract class Place : IDraw
         }
         return null;
     }
+
+    public IInteractable GetEntityInteractable(Vector2 coords)
+    {
+        if (!IsGenerated)
+            return null;
+
+        foreach (var entity in this.Entities)
+        {
+            if (entity is IInteractable && ObjectCollision.RectCircleCollision(entity.GetRectangle(), coords, 5))
+            {
+                return (IInteractable)entity;
+            }
+        }
+        return null;
+    }
     public (Tile floor, Tile decor) GetTile(Vector2 coords)
     {
         if (!IsGenerated)
