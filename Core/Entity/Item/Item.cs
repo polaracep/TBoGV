@@ -1,11 +1,8 @@
-﻿using Microsoft.Xna.Framework.Graphics;
+﻿namespace TBoGV;
 
-namespace TBoGV;
-
-public abstract class Item : Entity, IDraw, IInteractable
+public abstract class Item : Entity, IInteractable
 {
     public bool Small;
-    public abstract void Draw(SpriteBatch spriteBatch);
 
     public virtual void Interact(Entity e, Place p)
     {

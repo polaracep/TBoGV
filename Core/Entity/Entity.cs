@@ -4,7 +4,7 @@ using System;
 
 namespace TBoGV;
 
-public abstract class Entity
+public abstract class Entity : IDraw
 {
 	public Vector2 Position;
 	public Vector2 Direction;
@@ -23,4 +23,6 @@ public abstract class Entity
 		return Math.Min(Size.X, Size.Y) / 2;
 	}
 	public abstract Texture2D GetSprite();
+
+	public abstract void Draw(SpriteBatch spriteBatch);
 }

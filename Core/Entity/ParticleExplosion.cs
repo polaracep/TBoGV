@@ -4,7 +4,7 @@ using System;
 
 namespace TBoGV;
 
-internal class ParticleExplosion : Particle, IDraw
+internal class ParticleExplosion : Particle
 {
 	static Texture2D Sprite;
 	private float rotation;
@@ -31,7 +31,7 @@ internal class ParticleExplosion : Particle, IDraw
 			(float)(rnd.Next(0, 100) - 50) * 2f  // random Y velocity
 		);
 
-		rotationSpeed = MathHelper.ToRadians(180 * velocity.X/Math.Abs(velocity.X)); // 180 degrees per second rotation
+		rotationSpeed = MathHelper.ToRadians(180 * velocity.X / Math.Abs(velocity.X)); // 180 degrees per second rotation
 
 		Visible = true;
 		initTime = DateTime.UtcNow;
@@ -49,7 +49,7 @@ internal class ParticleExplosion : Particle, IDraw
 
 		// Update rotation and scale over time
 		rotation += rotationSpeed * delta;
-		scale = Size.X / Sprite.Width + progress/10; // explosion grows over time
+		scale = Size.X / Sprite.Width + progress / 10; // explosion grows over time
 		alpha = 1f - progress; // fades out
 
 		// Update position (simulate slight dispersion)
