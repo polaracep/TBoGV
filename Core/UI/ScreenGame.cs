@@ -116,7 +116,7 @@ internal class ScreenGame : Screen
 
 			deathMenu.OpenMenu();
         }
-        if (KeyReleased(Keys.Tab) && MinigameRooted.State != minigameState.ONGOING)
+        if (KeyReleased(Keys.Tab))
         {
             if (!levelUpMenu.Active && !deathMenu.Active)
             {

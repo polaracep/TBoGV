@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Media;
@@ -89,6 +90,28 @@ public static class SongManager
     {
         return songs.GetValueOrDefault(name);
     }
+}
+public static class SoundManager
+{
+	private static Dictionary<string, SoundEffect> soundEffects = new Dictionary<string, SoundEffect>();
+
+	public static void Load(ContentManager content)
+	{
+		List<string> names = new List<string>
+		{
+			"bouchaniDoKorenu",
+        };
+
+		foreach (string name in names)
+		{
+			soundEffects.Add(name, content.Load<SoundEffect>("Sounds/" + name));
+		}
+	}
+
+	public static SoundEffect GetSound(string name)
+	{
+		return soundEffects.GetValueOrDefault(name);
+	}
 }
 
 public static class FontManager

@@ -1,12 +1,9 @@
 ﻿using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
-using System.Windows.Input;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Media;
+using Microsoft.Xna.Framework.Audio;
 
 namespace TBoGV;
 
@@ -17,60 +14,46 @@ public class MinigameRooted : Minigame
 	private const int RequiredKeys = 3;
 	static SpriteFont MiddleFont;
 	static SpriteFont LargerFont;
-	static Texture2D SpriteBackground;
+	static SoundEffect rootTap = SoundManager.GetSound("bouchaniDoKorenu");
 	public static minigameState State;
 	private Color hintColor = Color.White;
 	private TimeSpan timeSinceLastHint = TimeSpan.Zero;
+	private KeyboardState prevKeyboardState;
+
 	public MinigameRooted(Action onSuccess)
 	{
 		State = minigameState.ONGOING;
-		SpriteBackground = TextureManager.GetTexture("blackSquare");
 		MiddleFont = FontManager.GetFont("Arial12");
 		LargerFont = FontManager.GetFont("Arial16");
 		OnSuccess = onSuccess;
 	}
+
 	public override void Draw(SpriteBatch spriteBatch)
 	{
-
 		int screenWidth = GraphicsDeviceManager.DefaultBackBufferWidth;
 		int screenHeight = GraphicsDeviceManager.DefaultBackBufferHeight;
 
-
-
-
-
-
-		string headline = "Korenovy vezen";
 		string hintText = "!!!MACKEJ HODNE KLAVES!!!";
+		Vector2 hintSize = LargerFont.MeasureString(hintText);
+		Vector2 hintPosition = new Vector2((screenWidth - hintSize.X) / 2, (screenHeight - hintSize.Y) * 3 / 4);
 
-		Vector2 headlineSize = LargerFont.MeasureString(headline);
-		Vector2 hintSize = MiddleFont.MeasureString(hintText);
+		// Draw text outline
+		Color outlineColor = Color.Black;
+		Vector2 offset = new Vector2(1, 1);
+		spriteBatch.DrawString(LargerFont, hintText, hintPosition + new Vector2(-offset.X, -offset.Y), outlineColor);
+		spriteBatch.DrawString(LargerFont, hintText, hintPosition + new Vector2(offset.X, -offset.Y), outlineColor);
+		spriteBatch.DrawString(LargerFont, hintText, hintPosition + new Vector2(-offset.X, offset.Y), outlineColor);
+		spriteBatch.DrawString(LargerFont, hintText, hintPosition + new Vector2(offset.X, offset.Y), outlineColor);
 
-		int rectWidth = (int)Math.Max(headlineSize.X, hintSize.X) + 20;
-		int rectHeight = (int)(headlineSize.Y + hintSize.Y + 20);
-
-		int rectX = (screenWidth - rectWidth) / 2;
-		int rectY = (screenHeight - rectHeight)*3 / 4;
-
-		spriteBatch.Draw(SpriteBackground, new Rectangle(rectX, rectY, rectWidth, rectHeight), new Color(0, 0, 0, 200));
-		int Ypos = rectY +5;
-		Vector2 headlinePosition = new Vector2((screenWidth - headlineSize.X) / 2, Ypos);
-		Ypos += (int)headlineSize.Y + 5;
-		Vector2 hintPosition = new Vector2((screenWidth - hintSize.X) / 2, Ypos); // Placing hint below description
-
-		spriteBatch.DrawString(LargerFont, headline, headlinePosition, Color.White);
-		spriteBatch.DrawString(MiddleFont, hintText, hintPosition, hintColor);  // Drawing the hint with dynamic color
+		// Draw the main text
+		spriteBatch.DrawString(LargerFont, hintText, hintPosition, hintColor);
 	}
-
 
 	public override void Update(KeyboardState keyboardState, GameTime gameTime)
 	{
 		UpdateState(keyboardState);
-
-		// Accumulate elapsed time
+		prevKeyboardState = keyboardState;
 		timeSinceLastHint += gameTime.ElapsedGameTime;
-
-		// If more than 1 second has passed, change the hint color
 		if (timeSinceLastHint.TotalSeconds > 0.5)
 		{
 			timeSinceLastHint = TimeSpan.Zero;
@@ -80,19 +63,21 @@ public class MinigameRooted : Minigame
 
 	public override void UpdateState(KeyboardState keyboardState)
 	{
+		if (DetectKeySmash(keyboardState))
+		{
+			smashCount++;
+			rootTap.Play();
+		}
 		if (smashCount >= RequiredSmashCount)
 			State = minigameState.SUCCESS;
-
-		if (State == minigameState.SUCCESS)
-			OnSuccess();
-
-		if (DetectKeySmash(keyboardState))
-			smashCount++;
+		base.UpdateState(keyboardState);
 	}
 
 	private bool DetectKeySmash(KeyboardState keyboardState)
 	{
-		return keyboardState.GetPressedKeyCount() >= RequiredKeys;
+		if(prevKeyboardState.GetPressedKeyCount() < 3) 
+			return keyboardState.GetPressedKeyCount() >= RequiredKeys;
+		return false;
 	}
 
 	public override minigameState GetState()
