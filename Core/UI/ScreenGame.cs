@@ -10,7 +10,7 @@ internal class ScreenGame : Screen
     private Player player;
     private Camera _camera;
     private Level CurrentLevel;
-    private Lobby lobby = new Lobby();
+    private Lobby lobby;
     private Place activePlace;
     private InGameMenu inGameMenu;
     private InGameMenuEffect effectMenu;
@@ -28,7 +28,6 @@ internal class ScreenGame : Screen
     {
         player = new Player();
 
-
         List<Room> rL = new List<Room> {
             new RoomClassroom(new Vector2(9, 9), player, new List<Enemy> {
                 new EnemyZdena(Vector2.Zero),
@@ -38,10 +37,12 @@ internal class ScreenGame : Screen
             new RoomEmpty(new Vector2(9, 9), player),
             new RoomEmpty(new Vector2(9, 9), player),
         };
-        RoomStart start = new RoomStart(new Vector2(5, 5), player);
+        RoomStart start = new RoomStart(new Vector2(6, 6), player);
 
         CurrentLevel = new Level(player, rL, start, 6);
-        activePlace = CurrentLevel.ActiveRoom;
+        //activePlace = CurrentLevel.ActiveRoom;
+        lobby = new Lobby(player);
+        activePlace = lobby;
 
         UI = new UI();
         _camera = new Camera(graphics.GraphicsDevice.Viewport, (int)(activePlace.Dimensions.X * Tile.GetSize().X), (int)(CurrentLevel.ActiveRoom.Dimensions.Y * Tile.GetSize().Y));
@@ -87,6 +88,9 @@ internal class ScreenGame : Screen
 
     public override void Update(GameTime gameTime, GraphicsDeviceManager graphics)
     {
+        if (CurrentLevel.ActiveRoom != activePlace && player.IsPlaying)
+            activePlace = CurrentLevel.ActiveRoom;
+
         previousKeyboardState = keyboardState;
         mouseState = Mouse.GetState();
         keyboardState = Keyboard.GetState();
@@ -121,6 +125,19 @@ internal class ScreenGame : Screen
                 itemJournalMenu.ShowAll();
                 inGameMenu = itemJournalMenu;
                 itemJournalMenu.Active = !itemJournalMenu.Active;
+            }
+        }
+        if (keyboardState.IsKeyDown(Keys.P) && previousKeyboardState.IsKeyUp(Keys.P))
+        {
+            if (player.IsPlaying)
+            {
+                this.activePlace = lobby;
+                player.IsPlaying = false;
+            }
+            else
+            {
+                this.activePlace = CurrentLevel.ActiveRoom;
+                player.IsPlaying = true;
             }
         }
         if (!inGameMenu.Active)

@@ -19,6 +19,7 @@ public static class TextureManager
             "wallWhite",
             "wallWhiteCorner",
             "wallLobby",
+            "wallLobbyCorner",
             "door",
             "vitek-nobg",
             "vitekElegan",
@@ -54,7 +55,7 @@ public static class TextureManager
             "maso",
             "boom",
             "vitekEleganBolderCut",
-			"cooked"
+            "cooked"
 
         };
 

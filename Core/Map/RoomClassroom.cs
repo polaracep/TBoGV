@@ -76,6 +76,4 @@ public class RoomClassroom : Room
             }
         }
     }
-
-    public override void Reset() { }
 }

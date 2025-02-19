@@ -4,40 +4,46 @@ using TBoGV;
 
 public class Lobby : Place
 {
-    private Vector2 Size = new Vector2(13);
 
-    public Lobby()
+    public Lobby(Player p)
     {
-        GenerateLobby();
+        this.player = p;
+        this.Dimensions = new Vector2(13, 9);
     }
+
 
     private void GenerateLobby()
     {
-        Floor = new Tile[(int)Size.X, (int)Size.Y];
-        Decorations = new Tile[(int)Size.X, (int)Size.Y];
+        Floor = new Tile[(int)Dimensions.X, (int)Dimensions.Y];
+        Decorations = new Tile[(int)Dimensions.X, (int)Dimensions.Y];
 
         Floor.GenerateFilledRectangleWRotation(
-            new Rectangle(0, 0, (int)Size.X, (int)Size.Y),
+            new Rectangle(0, 0, (int)Dimensions.X, (int)Dimensions.Y),
             new TileFloor(FloorTypes.LOBBY),
             new TileWall(WallTypes.LOBBY),
             new TileWall(WallTypes.LOBBY_CORNER)
         );
-
+        player.Position = this.GetTileWorldPos(Vector2.One);
+        IsGenerated = true;
     }
 
     public override void Draw(SpriteBatch spriteBatch)
     {
+        if (!IsGenerated)
+            GenerateLobby();
+
         int tS = (int)Tile.GetSize().X;
+        Vector2 origin = new Vector2(25, 25);
         for (int x = 0; x < Floor.GetLength(0); x++)
             for (int y = 0; y < Floor.GetLength(1); y++)
             {
-                spriteBatch.Draw(Floor[x, y].Sprite, new Vector2(x * tS, y * tS), Color.White);
-            }
+                Tile t = Floor[x, y];
+                if (t != null)
+                    spriteBatch.Draw(t.Sprite, new Vector2(x * tS, y * tS) + origin, null, Color.White, t.Rotation, origin, 1f, SpriteEffects.None, 0f);
 
-        for (int x = 0; x < Decorations.GetLength(0); x++)
-            for (int y = 0; y < Decorations.GetLength(1); y++)
-            {
-                spriteBatch.Draw(Decorations[x, y].Sprite, new Vector2(x * tS, y * tS), Color.White);
+                t = Decorations[x, y];
+                if (t != null)
+                    spriteBatch.Draw(t.Sprite, new Vector2(x * tS, y * tS) + origin, null, Color.White, t.Rotation, origin, 1f, SpriteEffects.None, 0f);
             }
 
         foreach (var e in Entities)

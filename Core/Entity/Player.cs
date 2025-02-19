@@ -10,6 +10,7 @@ public class Player : Entity, IRecieveDmg, IDealDmg, IDraw
 {
 	static Texture2D Sprite;
 	public int Level { get; set; }
+	public bool IsPlaying = false;
 	public float Xp { get; set; }
 	public float AttackSpeed { get; set; }
 	public float AttackDmg { get; set; }
@@ -126,6 +127,12 @@ public class Player : Entity, IRecieveDmg, IDealDmg, IDraw
 		if (keyboardState.IsKeyDown(Keys.S) || keyboardState.IsKeyDown(Keys.Down))
 			dy += MovementSpeed;
 
+		if (Math.Abs(dx) == Math.Abs(dy) && dx != 0)
+		{
+			dx = (int)(dx / Math.Sqrt(2));
+			dy = (int)(dy / Math.Sqrt(2));
+			// Console.WriteLine("Dx")
+		}
 		// --- Begin Movement ---
 		int tolerance = 1;
 
@@ -182,11 +189,19 @@ public class Player : Entity, IRecieveDmg, IDealDmg, IDraw
 		}
 		// --- End Movement ---
 
+
+		// Reset room (debug)
+		if (keyboardState.IsKeyDown(Keys.R) && prevKeyboardState.IsKeyUp(Keys.R))
+		{
+			place.Reset();
+		}
+
+		// Interaction
 		if ((previousMouseState.RightButton == ButtonState.Pressed &&
 			 mouseState.RightButton == ButtonState.Released) ||
 			 (keyboardState.IsKeyDown(Keys.E) && prevKeyboardState.IsKeyUp(Keys.E)))
 		{
-			Console.WriteLine(InteractionPoint);
+			// Console.WriteLine(InteractionPoint);
 			Tile t = place.GetTileInteractable(InteractionPoint);
 			if (t != null)
 			{
@@ -201,12 +216,7 @@ public class Player : Entity, IRecieveDmg, IDealDmg, IDraw
 			}
 		}
 
-		// Reset room (debug)
-		if (keyboardState.IsKeyDown(Keys.R) && prevKeyboardState.IsKeyUp(Keys.R))
-		{
-			place.Reset();
-
-		}
+		// Pickup?
 		for (int i = 0; i < place.Drops.Count; i++)
 		{
 			if (place.Drops[i] is not ItemContainerable && ObjectCollision.CircleCircleCollision(place.Drops[i], this))
@@ -217,7 +227,6 @@ public class Player : Entity, IRecieveDmg, IDealDmg, IDraw
 		}
 
 		Inventory.Update(viewport, this, mouseState);
-
 
 		// Calculate the direction from the player to the world mouse position
 		Vector2 screenMousePos = new Vector2(mouseState.X, mouseState.Y);
@@ -254,7 +263,7 @@ public class Player : Entity, IRecieveDmg, IDealDmg, IDraw
 	}
 	public bool ReadyToAttack()
 	{
-		return (DateTime.UtcNow - LastAttackTime).TotalMilliseconds >= AttackSpeed;
+		return ((DateTime.UtcNow - LastAttackTime).TotalMilliseconds >= AttackSpeed) && IsPlaying;
 	}
 	public List<Projectile> Attack()
 	{

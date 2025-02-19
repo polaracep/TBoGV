@@ -15,8 +15,6 @@ public class RoomEmpty : Room, IDraw
         base.GenerateRoomBase(FloorTypes.BASIC, WallTypes.BASIC, DoorTypes.BASIC);
         // this.AddDecorationTile(new TileHeal(), new Vector2(5, 5));
         this.GenerateEnemies();
-
-        player.Position = this.GetTileWorldPos(Vector2.One);
     }
 
     protected override void GenerateEnemies()
@@ -27,7 +25,4 @@ public class RoomEmpty : Room, IDraw
         }
     }
 
-    public override void Reset()
-    {
-    }
 }

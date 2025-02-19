@@ -21,7 +21,6 @@ public abstract class Room : Place
     /// </summary>
     public Vector2 Position;
     public List<TileDoor> Doors = new List<TileDoor>();
-    public bool IsGenerated { get; protected set; } = false;
     protected Tile[,] ValidSpawns;
 
     protected List<Projectile> projectiles = new List<Projectile>();
@@ -58,10 +57,11 @@ public abstract class Room : Place
     /// <param name="coords"></param>
     /// <returns></returns>
     /// <exception cref="ArgumentOutOfRangeException"></exception>
-    public virtual void ResetRoom()
+    public override void Reset()
     {
         this.ClearRoom();
         this.GenerateRoom();
+        this.GenerateEnemies();
     }
 
     /* === Update methods === */

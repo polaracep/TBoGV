@@ -17,7 +17,4 @@ public class RoomStart : Room, IDraw
 
     protected override void GenerateEnemies() { }
 
-    public override void Reset()
-    {
-    }
 }

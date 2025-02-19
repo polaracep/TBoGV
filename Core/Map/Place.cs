@@ -40,6 +40,7 @@ public abstract class Place : IDraw
     /// </summary>
     protected List<Particle> Particles = new List<Particle>();
 
+    public bool IsGenerated { get; protected set; } = false;
     public Player player;
 
     public Vector2 GetTileWorldPos(Vector2 coords)
@@ -70,6 +71,8 @@ public abstract class Place : IDraw
     }
     public Item GetItemInteractable(Vector2 coords)
     {
+        if (!IsGenerated)
+            return null;
         foreach (var item in Drops)
         {
             if (ObjectCollision.RectCircleCollision(item.GetRectangle(), coords, 5))
@@ -79,6 +82,9 @@ public abstract class Place : IDraw
     }
     public (Tile floor, Tile decor) GetTile(Vector2 coords)
     {
+        if (!IsGenerated)
+            return (null, null);
+
         if (float.IsNaN(coords.X) || float.IsNaN(coords.Y))
             return (null, null);
         if (coords.X >= Dimensions.X * Tile.GetSize().X || coords.Y >= Dimensions.Y * Tile.GetSize().Y || coords.X < 0 || coords.Y < 0)
