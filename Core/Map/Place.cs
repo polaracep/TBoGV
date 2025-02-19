@@ -59,13 +59,13 @@ public abstract class Place : IDraw
     {
         return GetTile(coords).decor;
     }
-    public Tile GetTileInteractable(Vector2 coords)
+    public IInteractable GetTileInteractable(Vector2 coords)
     {
         (Tile, Tile) t = GetTile(coords);
         if (t.Item2 is IInteractable)
-            return t.Item2;
+            return (IInteractable)t.Item2;
         else if (t.Item1 is IInteractable)
-            return t.Item1;
+            return (IInteractable)t.Item1;
 
         return null;
     }

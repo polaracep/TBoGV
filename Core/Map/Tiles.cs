@@ -53,10 +53,12 @@ public class TileInteractEventArgs : EventArgs
 {
     public Directions Directions;
     public TileDoor OppositeDoor;
-    public TileInteractEventArgs(Directions dir, TileDoor oppositeDoor)
+    public Place Place;
+    public TileInteractEventArgs(Directions dir, TileDoor oppositeDoor, Place place)
     {
         OppositeDoor = oppositeDoor;
         Directions = dir;
+        Place = place;
     }
 }
 public class TileDoor : Tile, IInteractable
@@ -83,7 +85,7 @@ public class TileDoor : Tile, IInteractable
             Console.WriteLine("No destinaiton door provided");
             return;
         }
-        OnTileInteract(new TileInteractEventArgs(this.Direction, this.OppositeDoor));
+        OnTileInteract(new TileInteractEventArgs(this.Direction, this.OppositeDoor, p));
     }
     protected virtual void OnTileInteract(TileInteractEventArgs e)
     {

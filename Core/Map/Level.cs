@@ -56,10 +56,11 @@ public class Level
                 break;
         }
         ActiveRoom = RoomMap[(int)ActiveRoomCoords.X, (int)ActiveRoomCoords.Y];
+
         if (!ActiveRoom.IsGenerated)
             ActiveRoom.GenerateRoom();
 
-        Player.Position = e.OppositeDoor.DoorTpPosition * 50;
+        Player.Position = e.OppositeDoor.DoorTpPosition * Tile.GetSize().X;
         Console.WriteLine("DIR:" + e.Directions);
     }
 }

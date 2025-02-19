@@ -201,13 +201,13 @@ public class Player : Entity, IRecieveDmg, IDealDmg
 			 mouseState.RightButton == ButtonState.Released) ||
 			 (keyboardState.IsKeyDown(Keys.E) && prevKeyboardState.IsKeyUp(Keys.E)))
 		{
-			// Console.WriteLine(InteractionPoint);
-			Tile t = place.GetTileInteractable(InteractionPoint);
+			IInteractable t = place.GetTileInteractable(InteractionPoint);
 			if (t != null)
 			{
-				IInteractable tile = (IInteractable)t;
+				IInteractable tile = t;
 				tile.Interact(this, place);
 			}
+			/*
 			Item item = place.GetItemInteractable(InteractionPoint);
 			if (item != null)
 			{
@@ -220,6 +220,7 @@ public class Player : Entity, IRecieveDmg, IDealDmg
 			{
 				entity.Interact(this, place);
 			}
+			*/
 		}
 
 		// Pickup?

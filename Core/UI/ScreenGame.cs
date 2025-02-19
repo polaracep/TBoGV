@@ -2,7 +2,6 @@
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
-using System.Collections.Generic;
 namespace TBoGV;
 
 internal class ScreenGame : Screen
@@ -27,19 +26,13 @@ internal class ScreenGame : Screen
     public override void BeginRun(GraphicsDeviceManager graphics)
     {
         player = new Player();
+        Storyline.Player = player;
 
-        List<Room> rL = new List<Room> {
-            new RoomClassroom(new Vector2(9, 9), player, new List<Enemy> {
-                new EnemyZdena(Vector2.Zero),
-                new EnemyZdena(Vector2.Zero),
-                new EnemyZdena(Vector2.Zero),
-            }),
-            new RoomEmpty(new Vector2(9, 9), player),
-            new RoomEmpty(new Vector2(9, 9), player),
-        };
-        RoomStart start = new RoomStart(new Vector2(6, 6), player);
+        Storyline.GenerateStoryline();
+        Storyline.NextLevel();
+        CurrentLevel = Storyline.CurrentLevel;
 
-        CurrentLevel = new Level(player, rL, start, 6);
+        // CurrentLevel = new Level(player, rL, start, 6);
         //activePlace = CurrentLevel.ActiveRoom;
         lobby = new Lobby(player);
         activePlace = lobby;
@@ -136,6 +129,8 @@ internal class ScreenGame : Screen
             }
             else
             {
+                // Storyline.NextLevel();
+                // CurrentLevel = Storyline.CurrentLevel;
                 this.activePlace = CurrentLevel.ActiveRoom;
                 player.IsPlaying = true;
             }
