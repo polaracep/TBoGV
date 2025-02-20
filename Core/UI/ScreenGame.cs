@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
+using System;
 using System.Collections.Generic;
 namespace TBoGV;
 
@@ -176,10 +177,12 @@ internal class ScreenGame : Screen
     {
         player.Heal((uint)player.MaxHp);
 		deathMenu.Active = false;
+		player.LastRecievedDmgTime = DateTime.UtcNow;
     }
 	void Revive()
 	{
 		deathMenu.Active = false;
 		player.Heal(3);
+		player.LastRecievedDmgTime = DateTime.UtcNow;
 	}
 }

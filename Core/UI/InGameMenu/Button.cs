@@ -16,7 +16,7 @@ internal class Button : IDraw
 
 	protected Action OnClick;
 	protected MouseState PrevMouseState;
-	protected Color[] color = new Color[2] {new(160,160,160,128), new(20, 20, 20, 128)};
+	protected Color[] color = new Color[2] {new(60,60,60,128), new(20, 20, 20, 128)};
 	protected int ColorIndex = 0;
 
 	public Button(string text, SpriteFont font, Action onClick) 

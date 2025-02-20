@@ -136,7 +136,7 @@ internal class InGameMenuDeath : InGameMenu
 	public void OpenMenu()
 	{
 		GenerateDeathMessage();
-		minigame = new MinigameKomisionalky(() => OnSuccess(), () => OnFailure(), 1);
+		minigame = new MinigameKomisionalky(() => OnSuccess(), () => OnFailure(), -4);
 		minigameCompleted = false;
 		Active = true;
 	}

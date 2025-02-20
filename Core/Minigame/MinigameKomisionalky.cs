@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace TBoGV;
 
@@ -14,8 +15,8 @@ public class MinigameKomisionalky : Minigame
 	private int greenStart, greenEnd;
 	private int arrowPosition;
 	private int successCount = 0;
-	private const int RequiredSuccesses = 3;
-	private float arrowSpeed = 750f;
+	private int RequiredSuccesses = 3;
+	private float arrowSpeed = 500f;
 	private bool movingRight = true;
 	private bool highlightSegment = false;
 	private double highlightTime = 0;
@@ -23,11 +24,13 @@ public class MinigameKomisionalky : Minigame
 	private KeyboardState prevKeyboardState;
 	static Texture2D SpriteForeground = TextureManager.GetTexture("whiteSquare");
 	static Texture2D SpriteArrow = TextureManager.GetTexture("arrow");
+	static SpriteFont Font = FontManager.GetFont("Arial12");
 
 	public static minigameState State;
 	public Vector2 PositionOffset;
 	public Vector2 Size;
 
+	private string displayedText;
 	public MinigameKomisionalky(Action onSuccess, Action onFailure, int difficulty)
 	{
 		State = minigameState.ONGOING;
@@ -35,18 +38,34 @@ public class MinigameKomisionalky : Minigame
 		OnFailure = onFailure;
 
 		GenerateGreenZone(difficulty);
+		RequiredSuccesses = Math.Max(3, 6 - difficulty);
 
 		arrowPosition = 0;
 		int screenWidth = GraphicsDeviceManager.DefaultBackBufferWidth;
 		int screenHeight = GraphicsDeviceManager.DefaultBackBufferHeight;
 
-		Size = new Vector2((screenWidth - BarWidth) / 2, screenHeight / 2 + ArrowWidth);
+		if (difficulty < -4)
+			displayedText = "Fyzika";
+		else if (difficulty >= -4 && difficulty < -1)
+			displayedText = "Anglictina se Synkovou";
+		else if (difficulty >= -1 && difficulty < 1)
+			displayedText = "Matematika";
+		else if (difficulty == 1)
+			displayedText = "Cestina";
+		else if (difficulty == 2)
+			displayedText = "Zsv";
+		else 
+			displayedText = "Telocvik";
+
+
+		Vector2 textSize = Font.MeasureString(displayedText);
+		Size = new Vector2((screenWidth - BarWidth) / 2, screenHeight / 2 + ArrowWidth + textSize.Y);
 	}
 
 	private void GenerateGreenZone(int difficulty)
 	{
 		int maxSegments = BarWidth / SegmentWidth;
-		int greenSegments = Math.Max(1, difficulty * maxSegments / 10);
+		int greenSegments = Math.Max(3, difficulty * maxSegments / 10);
 		int startSegment = new Random().Next(0, maxSegments - greenSegments);
 
 		greenStart = startSegment * SegmentWidth;
@@ -55,8 +74,14 @@ public class MinigameKomisionalky : Minigame
 
 	public override void Draw(SpriteBatch spriteBatch)
 	{
-		int barX = (int)Size.X;
-		int barY = (int)Size.Y - ArrowWidth;
+		Vector2 textSize = Font.MeasureString(displayedText);
+		int barX = (int)(Size.X);
+		int barY = (int)(Size.Y - ArrowWidth + textSize.Y);
+
+		// Draw the text above the minigame
+
+		Vector2 textPosition = new Vector2(barX + BarWidth / 2 - textSize.X / 2 + (int)PositionOffset.X, barY - 30 + (int)PositionOffset.Y);
+		spriteBatch.DrawString(Font, displayedText, textPosition, Color.White);
 
 		// Draw the bar segments with black borders
 		for (int i = 0; i < BarWidth; i += SegmentWidth)
@@ -76,6 +101,11 @@ public class MinigameKomisionalky : Minigame
 
 		// Draw the arrow
 		spriteBatch.Draw(SpriteArrow, new Rectangle(barX + arrowPosition + (int)PositionOffset.X, barY - 10 + (int)PositionOffset.Y, ArrowWidth, 20), Color.White);
+
+		// Draw the progress bar
+		int progressBarWidth = (int)((float)successCount / RequiredSuccesses * BarWidth);
+		spriteBatch.Draw(SpriteForeground, new Rectangle(barX + (int)PositionOffset.X, barY + BarHeight + 10+ (int)PositionOffset.Y, BarWidth, 5), Color.Gray);
+		spriteBatch.Draw(SpriteForeground, new Rectangle(barX + (int)PositionOffset.X, barY + BarHeight + 10+ (int)PositionOffset.Y, progressBarWidth, 5), Color.Blue);
 	}
 
 	public override void Update(KeyboardState keyboardState, GameTime gameTime)
@@ -86,12 +116,12 @@ public class MinigameKomisionalky : Minigame
 		base.UpdateState(keyboardState);
 		if (State == minigameState.FAILURE || State == minigameState.SUCCESS)
 			return;
-		
+
 		float elapsed = (float)gameTime.ElapsedGameTime.TotalSeconds;
 
 		if (keyboardState.IsKeyDown(Keys.Space) && prevKeyboardState.IsKeyUp(Keys.Space))
 		{
-			if (arrowPosition+ ArrowWidth / 2 >= greenStart && arrowPosition <= greenEnd - ArrowWidth/2)
+			if (arrowPosition + ArrowWidth / 2 >= greenStart && arrowPosition <= greenEnd - ArrowWidth / 2)
 			{
 				successCount++;
 				highlightedSegment = (arrowPosition / SegmentWidth) * SegmentWidth;
@@ -106,7 +136,7 @@ public class MinigameKomisionalky : Minigame
 				State = minigameState.FAILURE;
 			}
 		}
-		else 
+		else
 		{
 			if (movingRight)
 			{
