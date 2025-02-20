@@ -15,7 +15,7 @@ public class MinigameKomisionalky : Minigame
 	private int arrowPosition;
 	private int successCount = 0;
 	private const int RequiredSuccesses = 3;
-	private float arrowSpeed = 500f;
+	private float arrowSpeed = 750f;
 	private bool movingRight = true;
 	private bool highlightSegment = false;
 	private double highlightTime = 0;
@@ -75,7 +75,7 @@ public class MinigameKomisionalky : Minigame
 		}
 
 		// Draw the arrow
-		spriteBatch.Draw(SpriteArrow, new Rectangle(barX + arrowPosition + (int)PositionOffset.X, barY - 10 + (int)PositionOffset.Y, ArrowWidth, 30), Color.White);
+		spriteBatch.Draw(SpriteArrow, new Rectangle(barX + arrowPosition + (int)PositionOffset.X, barY - 10 + (int)PositionOffset.Y, ArrowWidth, 20), Color.White);
 	}
 
 	public override void Update(KeyboardState keyboardState, GameTime gameTime)
@@ -84,6 +84,9 @@ public class MinigameKomisionalky : Minigame
 			State = minigameState.SUCCESS;
 
 		base.UpdateState(keyboardState);
+		if (State == minigameState.FAILURE || State == minigameState.SUCCESS)
+			return;
+		
 		float elapsed = (float)gameTime.ElapsedGameTime.TotalSeconds;
 
 		if (keyboardState.IsKeyDown(Keys.Space) && prevKeyboardState.IsKeyUp(Keys.Space))
