@@ -84,31 +84,11 @@ public class MinigameKomisionalky : Minigame
 			State = minigameState.SUCCESS;
 
 		base.UpdateState(keyboardState);
-		if (State == minigameState.SUCCESS || State == minigameState.FAILURE)
-			return;
-
 		float elapsed = (float)gameTime.ElapsedGameTime.TotalSeconds;
-
-		if (movingRight)
-		{
-			arrowPosition += (int)(arrowSpeed * elapsed);
-			if (arrowPosition >= BarWidth - ArrowWidth)
-			{
-				movingRight = false;
-			}
-		}
-		else
-		{
-			arrowPosition -= (int)(arrowSpeed * elapsed);
-			if (arrowPosition <= 0)
-			{
-				movingRight = true;
-			}
-		}
 
 		if (keyboardState.IsKeyDown(Keys.Space) && prevKeyboardState.IsKeyUp(Keys.Space))
 		{
-			if (arrowPosition >= greenStart && arrowPosition <= greenEnd - ArrowWidth)
+			if (arrowPosition+ ArrowWidth / 2 >= greenStart && arrowPosition <= greenEnd - ArrowWidth/2)
 			{
 				successCount++;
 				highlightedSegment = (arrowPosition / SegmentWidth) * SegmentWidth;
@@ -116,7 +96,31 @@ public class MinigameKomisionalky : Minigame
 				highlightTime = 0.2;
 			}
 			else
+			{
+				highlightedSegment = (arrowPosition / SegmentWidth) * SegmentWidth;
+				highlightSegment = true;
+				highlightTime = 0.2;
 				State = minigameState.FAILURE;
+			}
+		}
+		else 
+		{
+			if (movingRight)
+			{
+				arrowPosition += (int)(arrowSpeed * elapsed);
+				if (arrowPosition >= BarWidth - ArrowWidth)
+				{
+					movingRight = false;
+				}
+			}
+			else
+			{
+				arrowPosition -= (int)(arrowSpeed * elapsed);
+				if (arrowPosition <= 0)
+				{
+					movingRight = true;
+				}
+			}
 		}
 
 		if (highlightSegment)
