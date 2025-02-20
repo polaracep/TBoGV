@@ -119,7 +119,7 @@ internal class InGameMenuDeath : InGameMenu
 		);
 		Rectangle imageBounds = new Rectangle((int)imagePos.X, (int)imagePos.Y, imageWidth, imageHeight);
 		spriteBatch.Draw(SpriteCooked, imageBounds, Color.White);
-
+		minigame.PositionOffset = new Vector2(0, (int)imagePos.Y+ imageHeight-Viewport.Height/2 + 20);
 		minigame.Draw(spriteBatch);
 
 		if (minigameCompleted)
@@ -136,7 +136,7 @@ internal class InGameMenuDeath : InGameMenu
 	public void OpenMenu()
 	{
 		GenerateDeathMessage();
-		minigame = new MinigameKomisionalky(() => OnSuccess(), () => OnFailure());
+		minigame = new MinigameKomisionalky(() => OnSuccess(), () => OnFailure(), 1);
 		minigameCompleted = false;
 		Active = true;
 	}

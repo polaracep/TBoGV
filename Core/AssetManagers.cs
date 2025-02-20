@@ -55,7 +55,8 @@ public static class TextureManager
             "maso",
             "boom",
             "vitekEleganBolderCut",
-			"cooked"
+			"cooked",
+			"arrow"
 
         };
 
