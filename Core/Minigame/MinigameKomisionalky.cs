@@ -76,7 +76,7 @@ public class MinigameKomisionalky : Minigame
 	{
 		Vector2 textSize = Font.MeasureString(displayedText);
 		int barX = (int)(Size.X);
-		int barY = (int)(Size.Y - ArrowWidth + textSize.Y);
+		int barY = (int)(Size.Y - ArrowWidth);
 
 		// Draw the text above the minigame
 

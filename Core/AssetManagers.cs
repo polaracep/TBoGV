@@ -59,7 +59,12 @@ public static class TextureManager
             "cooked",
             "arrow",
             "sarka",
-        };
+			"kavesAles",
+			"chillAles",
+			"kaves",
+			"dzojkAles",
+			"spritesheetOIIA"
+		};
 
         foreach (string name in names)
         {
@@ -102,6 +107,8 @@ public static class SoundManager
         List<string> names = new List<string>
         {
             "bouchaniDoKorenu",
+			"dzojkShorter",
+			"OIIAOIIA"
         };
 
         foreach (string name in names)
