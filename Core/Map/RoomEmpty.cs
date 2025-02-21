@@ -25,4 +25,5 @@ public class RoomEmpty : Room, IDraw
         }
     }
 
+    protected override void GenerateEntities() { }
 }

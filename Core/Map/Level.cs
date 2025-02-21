@@ -70,7 +70,7 @@ public class Level
             ActiveRoom.GenerateRoom();
 
         Player.Position = e.OppositeDoor.DoorTpPosition * 50;
-        Console.WriteLine("DIR:" + e.Directions);
+        // Console.WriteLine("DIR:" + e.Directions);
     }
 }
 
@@ -143,7 +143,7 @@ public class LevelCreator
 
             finalMap[(int)newPos.X, (int)newPos.Y] = chosen;
 
-            PrintMap(finalMap);
+            // PrintMap(finalMap);
 
         }
         finalMap = LinkDoors(finalMap);
@@ -253,7 +253,7 @@ public class LevelCreator
                 if (!rCan.GeneratedFromRoom.DoorDirections.Contains(d))
                     rCan.GeneratedFromRoom.DoorDirections.Add(d);
             }
-            PrintMap(candidateMap);
+            // PrintMap(candidateMap);
         }
 
         Candidates.Clear();

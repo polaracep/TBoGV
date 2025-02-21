@@ -3,6 +3,10 @@ using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using TBoGV;
 
+/// <summary>
+/// Klasicky encounter room. 
+/// Dostacujici jsou nejake enemy entity.
+/// </summary>
 public class RoomClassroom : Room
 {
     public RoomClassroom(Vector2 dimensions, Player p) : base(dimensions, p) { }
@@ -76,4 +80,6 @@ public class RoomClassroom : Room
             }
         }
     }
+
+    protected override void GenerateEntities() { }
 }

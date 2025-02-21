@@ -28,6 +28,7 @@ public static class Storyline
                     new EnemyZdena(Vector2.Zero),
                     new EnemyZdena(Vector2.Zero),
                     new EnemyZdena(Vector2.Zero),
+                    new EntitySarka(Vector2.One),
                 }),
                 new RoomClassroom(new Vector2(7), p, new List<Entity> {
                     new EnemyVitek(Vector2.Zero),

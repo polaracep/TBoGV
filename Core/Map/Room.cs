@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -187,11 +186,9 @@ public abstract class Room : Place
     }
 
     /* === Generation methods === */
-    public virtual void GenerateRoom()
-    {
-        IsGenerated = true;
-    }
-    protected virtual void GenerateEnemies() { }
+    public abstract void GenerateRoom();
+    protected abstract void GenerateEnemies();
+    protected abstract void GenerateEntities();
     protected virtual void GenerateRoomBase(FloorTypes floors, WallTypes walls, DoorTypes doors)
     {
         if (this.Doors == null)
