@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -39,10 +40,10 @@ public abstract class Room : Place
         this.Drops.Add(new ItemAdBlock(new Vector2(50, 50)));
         this.Drops.Add(new ItemMathProblem(new Vector2(50, 100)));
         this.Drops.Add(new ItemExplosive(new Vector2(50, 150)));
-        if (enemies != null)
+        if (enemyList != null)
         {
-            enemies.ForEach(x => x.Position = Vector2.Zero);
-            this.EnemyPool = enemies;
+            enemyList.ForEach(x => x.Position = Vector2.Zero);
+            this.EnemyPool = enemyList.ToList();
         }
     }
     public Room(Vector2 dimensions, Player p, List<Enemy> enemyList) : this(dimensions, Vector2.Zero, p, enemyList) { }
