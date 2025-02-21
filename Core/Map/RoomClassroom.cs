@@ -22,10 +22,10 @@ public class RoomClassroom : Room
             throw new ArgumentNullException("This room does not have any doors!");
 
         this.ClearRoom();
-        this.roomFloor = new Tile[(int)Dimensions.X, (int)Dimensions.Y];
-        this.roomDecorations = new Tile[(int)Dimensions.X, (int)Dimensions.Y];
+        this.Floor = new Tile[(int)Dimensions.X, (int)Dimensions.Y];
+        this.Decorations = new Tile[(int)Dimensions.X, (int)Dimensions.Y];
 
-        roomFloor.GenerateFilledRectangleWRotation(
+        Floor.GenerateFilledRectangleWRotation(
             new Rectangle(0, 0, (int)Dimensions.X, (int)Dimensions.Y),
             new TileFloor(FloorTypes.BASIC),
             new TileWall(WallTypes.WHITE),
@@ -40,19 +40,19 @@ public class RoomClassroom : Room
             {
                 case Directions.LEFT:
                     door.DoorTpPosition = new Vector2(1, (int)Dimensions.Y / 2);
-                    roomDecorations[0, (int)Dimensions.Y / 2] = door;
+                    Decorations[0, (int)Dimensions.Y / 2] = door;
                     break;
                 case Directions.RIGHT:
                     door.DoorTpPosition = new Vector2((int)Dimensions.X - 2, (int)Dimensions.Y / 2);
-                    roomDecorations[(int)Dimensions.X - 1, (int)Dimensions.Y / 2] = door;
+                    Decorations[(int)Dimensions.X - 1, (int)Dimensions.Y / 2] = door;
                     break;
                 case Directions.UP:
                     door.DoorTpPosition = new Vector2((int)Dimensions.X / 2, 1);
-                    roomDecorations[(int)Dimensions.X / 2, 0] = door;
+                    Decorations[(int)Dimensions.X / 2, 0] = door;
                     break;
                 case Directions.DOWN:
                     door.DoorTpPosition = new Vector2((int)Dimensions.X / 2, (int)Dimensions.Y - 2);
-                    roomDecorations[(int)Dimensions.X / 2, (int)Dimensions.Y - 1] = door;
+                    Decorations[(int)Dimensions.X / 2, (int)Dimensions.Y - 1] = door;
                     break;
             }
         }

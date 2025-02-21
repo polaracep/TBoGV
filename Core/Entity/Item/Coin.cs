@@ -4,14 +4,14 @@ using System;
 
 namespace TBoGV;
 
-internal class Coin : Item, IDraw
+internal class Coin : Item
 {
 	static Texture2D Sprite;
 	public Coin(Vector2 position)
 	{
 		Sprite = TextureManager.GetTexture("coin");
 		Size = new Vector2(15, 15);
-		Position = position - Size/2;
+		Position = position - Size / 2;
 		Small = true;
 	}
 	public override void Draw(SpriteBatch spriteBatch)

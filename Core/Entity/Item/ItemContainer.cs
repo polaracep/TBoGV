@@ -4,15 +4,15 @@ using System;
 
 namespace TBoGV;
 
-public class ItemContainer : Entity, IDraw
+public class ItemContainer : Entity
 {
     static Texture2D SpriteContainerBasic;
     static Texture2D SpriteContainerEffect;
     static Texture2D SpriteContainerArmor;
     static Texture2D SpriteContainerWeapon;
     static Texture2D SpriteContainerBorder;
-	public ItemTypes ContainerType { get; set; }
-	public bool Selected;
+    public ItemTypes ContainerType { get; set; }
+    public bool Selected;
     public ItemContainerable Item { get; set; }
     public ItemContainer()
     {
@@ -25,10 +25,10 @@ public class ItemContainer : Entity, IDraw
         Selected = false;
         ContainerType = ItemTypes.BASIC;
     }
-    public void Draw(SpriteBatch spriteBatch)
+    public override void Draw(SpriteBatch spriteBatch)
     {
         Texture2D Sprite;
-        switch(ContainerType)
+        switch (ContainerType)
         {
             case ItemTypes.BASIC:
                 Sprite = SpriteContainerBasic;
@@ -42,7 +42,7 @@ public class ItemContainer : Entity, IDraw
             case ItemTypes.EFFECT:
                 Sprite = SpriteContainerEffect;
                 break;
-                default: Sprite = SpriteContainerBasic; break;
+            default: Sprite = SpriteContainerBasic; break;
         }
         if (!IsEmpty())
             Sprite = SpriteContainerBasic;
@@ -55,17 +55,17 @@ public class ItemContainer : Entity, IDraw
     public void SetPosition(Vector2 position)
     {
         Position = position;
-        if(!IsEmpty())
+        if (!IsEmpty())
             Item.Position = Position;
     }
     public bool IsEmpty()
     {
         return Item == null;
     }
-	public override Texture2D GetSprite()
-	{
-		return null;
-	}
+    public override Texture2D GetSprite()
+    {
+        return null;
+    }
 
 }
 

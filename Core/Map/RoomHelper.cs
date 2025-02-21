@@ -24,7 +24,7 @@ public static class RoomHelper
             floor[x, i + y] = v;
             Tile t = (Tile)wall.Clone();
             t.Rotation = MathHelper.PiOver2;
-            floor[x + rect.Height - 1, i + y] = t;
+            floor[x + rect.Width - 1, i + y] = t;
         }
 
         Tile _a = (Tile)corner.Clone();

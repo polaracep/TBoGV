@@ -222,7 +222,7 @@
 /processorParam:TextureFormat=Color
 /build:Textures/containerEffect.png
 
-#begin Textures/containerWeapon.png
+#begin Textures/cooked.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -306,7 +306,7 @@
 /processorParam:TextureFormat=Color
 /build:Textures/floorLobby.png
 
-#begin Textures/floorYellow.png
+#begin Textures/gumaky.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255

@@ -20,6 +20,7 @@ public static class TextureManager
             "wallWhite",
             "wallWhiteCorner",
             "wallLobby",
+            "wallLobbyCorner",
             "door",
             "vitek-nobg",
             "vitekElegan",
@@ -55,9 +56,9 @@ public static class TextureManager
             "maso",
             "boom",
             "vitekEleganBolderCut",
-			"cooked",
-			"arrow"
-
+            "cooked",
+            "arrow",
+            "sarka",
         };
 
         foreach (string name in names)
@@ -94,25 +95,25 @@ public static class SongManager
 }
 public static class SoundManager
 {
-	private static Dictionary<string, SoundEffect> soundEffects = new Dictionary<string, SoundEffect>();
+    private static Dictionary<string, SoundEffect> soundEffects = new Dictionary<string, SoundEffect>();
 
-	public static void Load(ContentManager content)
-	{
-		List<string> names = new List<string>
-		{
-			"bouchaniDoKorenu",
+    public static void Load(ContentManager content)
+    {
+        List<string> names = new List<string>
+        {
+            "bouchaniDoKorenu",
         };
 
-		foreach (string name in names)
-		{
-			soundEffects.Add(name, content.Load<SoundEffect>("Sounds/" + name));
-		}
-	}
+        foreach (string name in names)
+        {
+            soundEffects.Add(name, content.Load<SoundEffect>("Sounds/" + name));
+        }
+    }
 
-	public static SoundEffect GetSound(string name)
-	{
-		return soundEffects.GetValueOrDefault(name);
-	}
+    public static SoundEffect GetSound(string name)
+    {
+        return soundEffects.GetValueOrDefault(name);
+    }
 }
 
 public static class FontManager

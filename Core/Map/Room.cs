@@ -14,53 +14,35 @@ public enum Directions
     ENTRY = 4,
 }
 
-public abstract class Room : IDraw
+public abstract class Room : Place
 {
-    public Vector2 Dimensions { get; protected set; }
     /// <summary>
     /// Map position used in level generation
     /// </summary>
     public Vector2 Position;
     public List<TileDoor> Doors = new List<TileDoor>();
-    public bool IsGenerated { get; protected set; } = false;
-    /// <summary>
-    /// Use for room layout
-    /// </summary>
-    protected Tile[,] roomFloor;
-    /// <summary>
-    /// Use for interactable and changing tiles
-    /// </summary>
-    protected Tile[,] roomDecorations;
     protected Tile[,] ValidSpawns;
 
     protected List<Projectile> projectiles = new List<Projectile>();
     protected List<Enemy> enemies = new List<Enemy>();
     protected List<Enemy> EnemyPool = new List<Enemy>();
-    public List<Item> drops = new List<Item>()
-    {
-        /*
-        new ItemDoping(new Vector2(200, 200)),
-        new ItemTeeth(new Vector2(100, 200)),
-        new ItemCalculator(new Vector2(150, 200)),
-        new ItemPencil(new Vector2(100, 100)),
-        new ItemAdBlock(new Vector2(50, 50)),
-        new ItemMathProblem(new Vector2(50, 100)),
-        new ItemExplosive(new Vector2(50, 150))
-        */
-    };
-    protected List<Particle> particles = new List<Particle>();
-    public Player player;
 
     public Room(Vector2 dimensions, Vector2 pos, Player p, List<Enemy> enemyList)
     {
         this.player = p;
         this.Dimensions = dimensions;
         this.Position = pos;
-
-        if (enemyList != null)
+        this.Drops.Add(new ItemDoping(new Vector2(200, 200)));
+        this.Drops.Add(new ItemTeeth(new Vector2(100, 200)));
+        this.Drops.Add(new ItemCalculator(new Vector2(150, 200)));
+        this.Drops.Add(new ItemPencil(new Vector2(100, 100)));
+        this.Drops.Add(new ItemAdBlock(new Vector2(50, 50)));
+        this.Drops.Add(new ItemMathProblem(new Vector2(50, 100)));
+        this.Drops.Add(new ItemExplosive(new Vector2(50, 150)));
+        if (enemies != null)
         {
-            enemyList.ForEach(x => x.Position = Vector2.Zero);
-            this.EnemyPool = enemyList;
+            enemies.ForEach(x => x.Position = Vector2.Zero);
+            this.EnemyPool = enemies;
         }
     }
     public Room(Vector2 dimensions, Player p, List<Enemy> enemyList) : this(dimensions, Vector2.Zero, p, enemyList) { }
@@ -75,76 +57,23 @@ public abstract class Room : IDraw
     /// <param name="coords"></param>
     /// <returns></returns>
     /// <exception cref="ArgumentOutOfRangeException"></exception>
-    public Vector2 GetTileWorldPos(Vector2 coords)
-    {
-        if (float.IsNaN(coords.X) || float.IsNaN(coords.Y))
-            throw new ArgumentOutOfRangeException();
-        if (coords.X >= Dimensions.X * Tile.GetSize().X || coords.Y >= Dimensions.Y * Tile.GetSize().Y || coords.X < 0 || coords.Y < 0)
-            throw new ArgumentOutOfRangeException();
-        return new Vector2((int)(coords.X * Tile.GetSize().X), (int)(coords.Y * Tile.GetSize().Y));
-    }
-    public Tile GetTileFloor(Vector2 coords)
-    {
-        return GetTile(coords).floor;
-    }
-    public Tile GetTileDecoration(Vector2 coords)
-    {
-        return GetTile(coords).decor;
-    }
-    public Tile GetTileInteractable(Vector2 coords)
-    {
-        (Tile, Tile) t = GetTile(coords);
-        if (t.Item2 is IInteractable)
-            return t.Item2;
-        else if (t.Item1 is IInteractable)
-            return t.Item1;
-
-        return null;
-    }
-    public Item GetItemInteractable(Vector2 coords)
-    {
-        foreach (var item in drops)
-        {
-            if (ObjectCollision.RectCircleCollision(item.GetRectangle(), coords, 5))
-                return item;
-        }
-        return null;
-    }
-    public void RemoveItem(Item item)
-    {
-        drops.Remove(item);
-    }
-    public (Tile floor, Tile decor) GetTile(Vector2 coords)
-    {
-        if (float.IsNaN(coords.X) || float.IsNaN(coords.Y))
-            return (null, null);
-        if (coords.X >= Dimensions.X * Tile.GetSize().X || coords.Y >= Dimensions.Y * Tile.GetSize().Y || coords.X < 0 || coords.Y < 0)
-            return (null, null);
-
-        return (roomFloor[(int)(coords.X / Tile.GetSize().X), (int)(coords.Y / Tile.GetSize().Y)],
-                roomDecorations[(int)(coords.X / Tile.GetSize().X), (int)(coords.Y / Tile.GetSize().Y)]);
-    }
-    public bool ShouldCollideAt(Vector2 coords)
-    {
-        return (this.GetTileFloor(coords)?.DoCollision ?? false) ||
-               (this.GetTileDecoration(coords)?.DoCollision ?? false);
-    }
-    public virtual void ResetRoom()
+    public override void Reset()
     {
         this.ClearRoom();
         this.GenerateRoom();
+        this.GenerateEnemies();
     }
 
     /* === Update methods === */
-    public void Update(GameTime gameTime)
+    public override void Update(GameTime gameTime)
     {
         this.UpdateProjectiles();
         this.UpdateEnemies();
-        for (int i = 0; i < particles.Count; i++)
+        for (int i = 0; i < Particles.Count; i++)
         {
-            particles[i].Update(gameTime);
-            if (!particles[i].Visible)
-                particles.Remove(particles[i]);
+            Particles[i].Update(gameTime);
+            if (!Particles[i].Visible)
+                Particles.Remove(Particles[i]);
         }
     }
     protected void UpdateProjectiles()
@@ -183,7 +112,7 @@ public abstract class Room : IDraw
                     {
                         player.Kill(enemies[j].XpValue);
                         foreach (Item item in enemies[j].Drop(1))
-                            drops.Add(item);
+                            Drops.Add(item);
                         enemies.RemoveAt(j);
                     }
                     if (!player.Inventory.GetEffect().Contains(EffectTypes.PIERCING) && !player.Inventory.GetEffect().Contains(EffectTypes.EXPLOSIVE))
@@ -203,7 +132,7 @@ public abstract class Room : IDraw
         if (player.Inventory.GetEffect().Contains(EffectTypes.EXPLOSIVE))
         {
             ParticleExplosion explosion = new ParticleExplosion(player.Projectiles[index].Position);
-            particles.Add(explosion);
+            Particles.Add(explosion);
             for (int j = 0; j < enemies.Count; j++)
             {
                 if (ObjectCollision.CircleCircleCollision(explosion, enemies[j]))
@@ -213,7 +142,7 @@ public abstract class Room : IDraw
                     {
                         player.Kill(enemies[j].XpValue);
                         foreach (Item item in enemies[j].Drop(1))
-                            drops.Add(item);
+                            Drops.Add(item);
                         enemies.RemoveAt(j);
                         j--;
                     }
@@ -252,10 +181,10 @@ public abstract class Room : IDraw
             throw new ArgumentNullException("This room does not have any doors!");
 
         this.ClearRoom();
-        this.roomFloor = new Tile[(int)Dimensions.X, (int)Dimensions.Y];
-        this.roomDecorations = new Tile[(int)Dimensions.X, (int)Dimensions.Y];
+        this.Floor = new Tile[(int)Dimensions.X, (int)Dimensions.Y];
+        this.Decorations = new Tile[(int)Dimensions.X, (int)Dimensions.Y];
 
-        roomFloor.GenerateFilledRectangle(
+        Floor.GenerateFilledRectangle(
             new Rectangle(0, 0, (int)Dimensions.X, (int)Dimensions.Y),
             new TileFloor(FloorTypes.BASIC),
             new TileWall(WallTypes.BASIC)
@@ -269,19 +198,19 @@ public abstract class Room : IDraw
             {
                 case Directions.LEFT:
                     door.DoorTpPosition = new Vector2(1, (int)Dimensions.Y / 2);
-                    roomDecorations[0, (int)Dimensions.Y / 2] = door;
+                    Decorations[0, (int)Dimensions.Y / 2] = door;
                     break;
                 case Directions.RIGHT:
                     door.DoorTpPosition = new Vector2((int)Dimensions.X - 2, (int)Dimensions.Y / 2);
-                    roomDecorations[(int)Dimensions.X - 1, (int)Dimensions.Y / 2] = door;
+                    Decorations[(int)Dimensions.X - 1, (int)Dimensions.Y / 2] = door;
                     break;
                 case Directions.UP:
                     door.DoorTpPosition = new Vector2((int)Dimensions.X / 2, 1);
-                    roomDecorations[(int)Dimensions.X / 2, 0] = door;
+                    Decorations[(int)Dimensions.X / 2, 0] = door;
                     break;
                 case Directions.DOWN:
                     door.DoorTpPosition = new Vector2((int)Dimensions.X / 2, (int)Dimensions.Y - 2);
-                    roomDecorations[(int)Dimensions.X / 2, (int)Dimensions.Y - 1] = door;
+                    Decorations[(int)Dimensions.X / 2, (int)Dimensions.Y - 1] = door;
                     break;
             }
         }
@@ -292,13 +221,13 @@ public abstract class Room : IDraw
     {
         this.projectiles.Clear();
         this.enemies.Clear();
-        //this.drops.Clear();
+        //this.Drops.Clear();
     }
     public bool AddFloorTile(Tile tile, Vector2 position)
     {
         try
         {
-            roomFloor[(int)position.X, (int)position.Y] = tile;
+            Floor[(int)position.X, (int)position.Y] = tile;
             return true;
         }
         catch (Exception)
@@ -310,7 +239,7 @@ public abstract class Room : IDraw
     {
         try
         {
-            roomDecorations[(int)position.X, (int)position.Y] = tile;
+            Decorations[(int)position.X, (int)position.Y] = tile;
             return true;
         }
         catch (Exception)
@@ -322,27 +251,27 @@ public abstract class Room : IDraw
     {
         enemies.Add(enemy);
     }
-    public virtual void Draw(SpriteBatch spriteBatch)
+    public override void Draw(SpriteBatch spriteBatch)
     {
         if (!this.IsGenerated)
             this.GenerateRoom();
         for (int i = 0; i < Dimensions.X; i++)
             for (var j = 0; j < Dimensions.Y; j++)
             {
-                Tile t = roomFloor[i, j];
+                Tile t = Floor[i, j];
                 if (t != null)
                 {
                     Vector2 origin = new Vector2(25, 25);
                     spriteBatch.Draw(t.Sprite, new Vector2(i * Tile.GetSize().X, j * Tile.GetSize().Y) + origin, null, Color.White, t.Rotation, origin, 1f, SpriteEffects.None, 0f);
                 }
-                t = roomDecorations[i, j];
+                t = Decorations[i, j];
                 if (t != null)
                 {
                     Vector2 origin = new Vector2(25, 25);
                     spriteBatch.Draw(t.Sprite, new Vector2(i * Tile.GetSize().X, j * Tile.GetSize().Y) + origin, null, Color.White, t.Rotation, origin, 1f, SpriteEffects.None, 0f);
                 }
             }
-        foreach (Item item in drops)
+        foreach (Item item in Drops)
             item.Draw(spriteBatch);
         foreach (Enemy enemy in enemies)
             enemy.Draw(spriteBatch);
@@ -350,7 +279,7 @@ public abstract class Room : IDraw
             projectile.Draw(spriteBatch);
         foreach (Projectile projectile in projectiles)
             projectile.Draw(spriteBatch);
-        foreach (Particle particle in particles)
+        foreach (Particle particle in Particles)
             particle.Draw(spriteBatch);
     }
 }

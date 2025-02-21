@@ -1,51 +1,67 @@
-using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using TBoGV;
 
-public class Lobby : IDraw
+public class Lobby : Place
 {
-    private Tile[,] LobbyFloor;
-    private Tile[,] LobbyDecorations;
-    private List<Entity> LobbyEntities;
-    private Vector2 Size = new Vector2(13);
 
-    public Lobby()
+    public Lobby(Player p)
     {
-        GenerateLobby();
+        this.player = p;
+        this.Dimensions = new Vector2(13, 9);
     }
+
 
     private void GenerateLobby()
     {
-        LobbyFloor = new Tile[(int)Size.X, (int)Size.Y];
-        LobbyDecorations = new Tile[(int)Size.X, (int)Size.Y];
+        Floor = new Tile[(int)Dimensions.X, (int)Dimensions.Y];
+        Decorations = new Tile[(int)Dimensions.X, (int)Dimensions.Y];
 
-        LobbyFloor.GenerateFilledRectangleWRotation(
-            new Rectangle(0, 0, (int)Size.X, (int)Size.Y),
+        Floor.GenerateFilledRectangleWRotation(
+            new Rectangle(0, 0, (int)Dimensions.X, (int)Dimensions.Y),
             new TileFloor(FloorTypes.LOBBY),
             new TileWall(WallTypes.LOBBY),
             new TileWall(WallTypes.LOBBY_CORNER)
         );
+        player.Position = this.GetTileWorldPos(Vector2.One);
+        GenerateEntities();
+        IsGenerated = true;
+    }
+
+    private void GenerateEntities()
+    {
+        this.Entities.Add(new EntitySarka(GetTileWorldPos(new Vector2(3, 3))));
+    }
+
+    public override void Draw(SpriteBatch spriteBatch)
+    {
+        if (!IsGenerated)
+            GenerateLobby();
+
+        int tS = (int)Tile.GetSize().X;
+        Vector2 origin = new Vector2(25, 25);
+        for (int x = 0; x < Floor.GetLength(0); x++)
+            for (int y = 0; y < Floor.GetLength(1); y++)
+            {
+                Tile t = Floor[x, y];
+                if (t != null)
+                    spriteBatch.Draw(t.Sprite, new Vector2(x * tS, y * tS) + origin, null, Color.White, t.Rotation, origin, 1f, SpriteEffects.None, 0f);
+
+                t = Decorations[x, y];
+                if (t != null)
+                    spriteBatch.Draw(t.Sprite, new Vector2(x * tS, y * tS) + origin, null, Color.White, t.Rotation, origin, 1f, SpriteEffects.None, 0f);
+            }
+
+        foreach (var e in Entities)
+            spriteBatch.Draw(e.GetSprite(), e.Position, Color.White);
 
     }
 
-    public void Draw(SpriteBatch spriteBatch)
+    public override void Update(GameTime gameTime)
     {
-        int tS = (int)Tile.GetSize().X;
-        for (int x = 0; x < LobbyFloor.GetLength(0); x++)
-            for (int y = 0; y < LobbyFloor.GetLength(1); y++)
-            {
-                spriteBatch.Draw(LobbyFloor[x, y].Sprite, new Vector2(x * tS, y * tS), Color.White);
-            }
+    }
 
-        for (int x = 0; x < LobbyDecorations.GetLength(0); x++)
-            for (int y = 0; y < LobbyDecorations.GetLength(1); y++)
-            {
-                spriteBatch.Draw(LobbyDecorations[x, y].Sprite, new Vector2(x * tS, y * tS), Color.White);
-            }
-
-        foreach (var e in LobbyEntities)
-            spriteBatch.Draw(e.GetSprite(), e.Position, Color.White);
-
+    public override void Reset()
+    {
     }
 }
