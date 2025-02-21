@@ -16,6 +16,6 @@ class EntitySarka : EntityPassive, IInteractable
 
     public void Interact(Entity e, Place p)
     {
-        Console.WriteLine("ahel");
+        Storyline.NextLevel();
     }
 }

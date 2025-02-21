@@ -8,7 +8,6 @@ internal class ScreenGame : Screen
 {
     private Player player;
     private Camera _camera;
-    private Level CurrentLevel;
     private Lobby lobby;
     private Place activePlace;
     private InGameMenu inGameMenu;
@@ -29,8 +28,6 @@ internal class ScreenGame : Screen
         Storyline.Player = player;
 
         Storyline.GenerateStoryline();
-        Storyline.NextLevel();
-        CurrentLevel = Storyline.CurrentLevel;
 
         // CurrentLevel = new Level(player, rL, start, 6);
         //activePlace = CurrentLevel.ActiveRoom;
@@ -38,7 +35,7 @@ internal class ScreenGame : Screen
         activePlace = lobby;
 
         UI = new UI();
-        _camera = new Camera(graphics.GraphicsDevice.Viewport, (int)(activePlace.Dimensions.X * Tile.GetSize().X), (int)(CurrentLevel.ActiveRoom.Dimensions.Y * Tile.GetSize().Y));
+        _camera = new Camera(graphics.GraphicsDevice.Viewport, (int)(activePlace.Dimensions.X * Tile.GetSize().X), (int)(activePlace.Dimensions.Y * Tile.GetSize().Y));
         _camera.SetCenter(activePlace.Dimensions * Tile.GetSize() / 2);
         inGameMenu = effectMenu = new InGameMenuEffect(graphics.GraphicsDevice.Viewport);
         levelUpMenu = new InGameMenuLevelUp(graphics.GraphicsDevice.Viewport);
@@ -81,8 +78,8 @@ internal class ScreenGame : Screen
 
     public override void Update(GameTime gameTime, GraphicsDeviceManager graphics)
     {
-        if (CurrentLevel.ActiveRoom != activePlace && player.IsPlaying)
-            activePlace = CurrentLevel.ActiveRoom;
+        if (Storyline.CurrentLevel?.ActiveRoom != activePlace && player.IsPlaying)
+            activePlace = Storyline.CurrentLevel.ActiveRoom;
 
         previousKeyboardState = keyboardState;
         mouseState = Mouse.GetState();
@@ -120,21 +117,33 @@ internal class ScreenGame : Screen
                 itemJournalMenu.Active = !itemJournalMenu.Active;
             }
         }
+
         if (keyboardState.IsKeyDown(Keys.P) && previousKeyboardState.IsKeyUp(Keys.P))
+        {
+            player.LevelChanged = true;
+            if (!player.IsPlaying)
+            {
+                Storyline.NextLevel();
+            }
+        }
+
+        // Level checker
+        if (player.LevelChanged)
         {
             if (player.IsPlaying)
             {
-                this.activePlace = lobby;
                 player.IsPlaying = false;
+                activePlace = lobby;
             }
             else
             {
-                // Storyline.NextLevel();
-                // CurrentLevel = Storyline.CurrentLevel;
-                this.activePlace = CurrentLevel.ActiveRoom;
                 player.IsPlaying = true;
+                activePlace = Storyline.CurrentLevel.ActiveRoom;
             }
+            player.LevelChanged = false;
         }
+
+
         if (!inGameMenu.Active)
         {
             player.Update(keyboardState, mouseState, _camera.Transform, activePlace, graphics.GraphicsDevice.Viewport);

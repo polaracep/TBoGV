@@ -23,7 +23,7 @@ public static class Storyline
 
         /* Level 1 */
         LevelList.Add(
-            new Level(new Player(), new List<Room> {
+            new Level(Player, new List<Room> {
                 new RoomClassroom(new Vector2(9), p, new List<Enemy> {
                     new EnemyZdena(Vector2.Zero),
                     new EnemyZdena(Vector2.Zero),
@@ -44,12 +44,10 @@ public static class Storyline
         4));
 
         /* Level 2 */
-        /*
         LevelList.Add(
-            new Level(new Player(), new List<Room> { new RoomEmpty(new Vector2(9), p) },
+            new Level(Player, new List<Room> { new RoomEmpty(new Vector2(9), p) },
             new RoomStart(new Vector2(9, 9), p),
         4));
-        */
     }
 
     public static void NextLevel()
@@ -60,5 +58,6 @@ public static class Storyline
 
         CurrentLevel = LevelList[CurrentLevelNumber];
         CurrentLevelNumber++;
+        Player.LevelChanged = true;
     }
 }

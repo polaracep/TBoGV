@@ -11,6 +11,7 @@ public class Player : Entity, IRecieveDmg, IDealDmg
 	static Texture2D Sprite;
 	public int Level { get; set; }
 	public bool IsPlaying = false;
+	public bool LevelChanged = false;
 	public float Xp { get; set; }
 	public float AttackSpeed { get; set; }
 	public float AttackDmg { get; set; }
@@ -129,8 +130,12 @@ public class Player : Entity, IRecieveDmg, IDealDmg
 
 		if (Math.Abs(dx) == Math.Abs(dy) && dx != 0)
 		{
-			dx = (int)(dx / Math.Sqrt(2));
-			dy = (int)(dy / Math.Sqrt(2));
+			int _dx = (int)(dx / Math.Sqrt(2));
+			int _dy = (int)(dy / Math.Sqrt(2));
+			if (_dx == 0)
+				dx = Math.Sign(dx);
+			if (_dy == 0)
+				dy = Math.Sign(dy);
 			// Console.WriteLine("Dx")
 		}
 		// --- Begin Movement ---
@@ -207,7 +212,7 @@ public class Player : Entity, IRecieveDmg, IDealDmg
 				IInteractable tile = t;
 				tile.Interact(this, place);
 			}
-			/*
+
 			Item item = place.GetItemInteractable(InteractionPoint);
 			if (item != null)
 			{
@@ -220,7 +225,6 @@ public class Player : Entity, IRecieveDmg, IDealDmg
 			{
 				entity.Interact(this, place);
 			}
-			*/
 		}
 
 		// Pickup?
