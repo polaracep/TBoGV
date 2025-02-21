@@ -7,8 +7,8 @@ public class RoomClassroom : Room
 {
     public RoomClassroom(Vector2 dimensions, Player p) : base(dimensions, p) { }
     public RoomClassroom(Vector2 dimensions, Vector2 pos, Player p) : base(dimensions, pos, p) { }
-    public RoomClassroom(Vector2 dimensions, Vector2 pos, Player p, List<Enemy> enemyList) : base(dimensions, pos, p, enemyList) { }
-    public RoomClassroom(Vector2 dimensions, Player p, List<Enemy> enemyList) : base(dimensions, Vector2.Zero, p, enemyList) { }
+    public RoomClassroom(Vector2 dimensions, Vector2 pos, Player p, List<Entity> entityList) : base(dimensions, pos, p, entityList) { }
+    public RoomClassroom(Vector2 dimensions, Player p, List<Entity> entityList) : base(dimensions, Vector2.Zero, p, entityList) { }
 
     public override void GenerateRoom()
     {

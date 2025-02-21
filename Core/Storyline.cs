@@ -24,17 +24,17 @@ public static class Storyline
         /* Level 1 */
         LevelList.Add(
             new Level(Player, new List<Room> {
-                new RoomClassroom(new Vector2(9), p, new List<Enemy> {
+                new RoomClassroom(new Vector2(9), p, new List<Entity> {
                     new EnemyZdena(Vector2.Zero),
                     new EnemyZdena(Vector2.Zero),
                     new EnemyZdena(Vector2.Zero),
                 }),
-                new RoomClassroom(new Vector2(7), p, new List<Enemy> {
+                new RoomClassroom(new Vector2(7), p, new List<Entity> {
                     new EnemyVitek(Vector2.Zero),
                     new EnemyVitek(Vector2.Zero),
                     new EnemyVitek(Vector2.Zero),
                 }),
-                new RoomClassroom(new Vector2(11), p, new List<Enemy> {
+                new RoomClassroom(new Vector2(11), p, new List<Entity> {
                     new EnemyZdena(Vector2.Zero),
                     new EnemyZdena(Vector2.Zero),
                     new EnemyZdena(Vector2.Zero),
