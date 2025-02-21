@@ -21,11 +21,17 @@ public abstract class Room : Place
     /// Map position used in level generation
     /// </summary>
     public Vector2 Position;
+
+    /// <summary>
+    /// Contains all doors.
+    /// Needed for moving between rooms
+    /// </summary>
     public List<TileDoor> Doors = new List<TileDoor>();
-    protected Tile[,] ValidSpawns;
     protected List<Projectile> Projectiles = new List<Projectile>();
-    protected List<Enemy> Enemies = new List<Enemy>();
-    protected List<EntityPassive> Passives = new List<EntityPassive>();
+
+    /// <summary>
+    /// List of spawnable enemies
+    /// </summary>
     protected List<Enemy> EnemyPool = new List<Enemy>();
 
     public Room(Vector2 dimensions, Vector2 pos, Player p, List<Entity> entityList)
@@ -47,11 +53,11 @@ public abstract class Room : Place
         entityList.ForEach(e =>
         {
             if (e is Enemy)
-                Enemies.Add((Enemy)e);
+                EnemyPool.Add((Enemy)e);
             else if (e is Item)
                 Drops.Add((Item)e);
             else if (e is EntityPassive)
-                Passives.Add((EntityPassive)e);
+                Entities.Add((EntityPassive)e);
             else
                 throw new Exception("Invalid entity type provided.");
         });
