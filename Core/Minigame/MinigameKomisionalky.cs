@@ -45,17 +45,17 @@ public class MinigameKomisionalky : Minigame
 		int screenHeight = GraphicsDeviceManager.DefaultBackBufferHeight;
 
 		if (difficulty < -4)
-			displayedText = "Fyzika";
+			displayedText = "Fyzika\nDifficulty: hodne stesti";
 		else if (difficulty >= -4 && difficulty < -1)
-			displayedText = "Anglictina se Synkovou";
+			displayedText = "Anglictina se Synkovou\nDifficulty: G_G";
 		else if (difficulty >= -1 && difficulty < 1)
-			displayedText = "Matematika";
+			displayedText = "Matematika\nDifficulty: hard";
 		else if (difficulty == 1)
-			displayedText = "Cestina";
+			displayedText = "Cestina\nDifficulty: normal";
 		else if (difficulty == 2)
-			displayedText = "Zsv";
+			displayedText = "Zsv\nDifficulty: 2 ez";
 		else 
-			displayedText = "Telocvik";
+			displayedText = "Telocvik\nDifficulty: free pass";
 
 
 		Vector2 textSize = Font.MeasureString(displayedText);
@@ -80,7 +80,7 @@ public class MinigameKomisionalky : Minigame
 
 		// Draw the text above the minigame
 
-		Vector2 textPosition = new Vector2(barX + BarWidth / 2 - textSize.X / 2 + (int)PositionOffset.X, barY - 30 + (int)PositionOffset.Y);
+		Vector2 textPosition = new Vector2(barX + BarWidth / 2 - textSize.X / 2 + (int)PositionOffset.X, barY - textSize.Y + (int)PositionOffset.Y);
 		spriteBatch.DrawString(Font, displayedText, textPosition, Color.White);
 
 		// Draw the bar segments with black borders
