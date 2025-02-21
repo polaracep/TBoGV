@@ -6,10 +6,12 @@ using Microsoft.Xna.Framework.Input;
 
 namespace TBoGV;
 
-public class Player : Entity, IRecieveDmg, IDealDmg, IDraw
+public class Player : Entity, IRecieveDmg, IDealDmg
 {
 	static Texture2D Sprite;
 	public int Level { get; set; }
+	public bool IsPlaying = false;
+	public bool LevelChanged = false;
 	public float Xp { get; set; }
 	public float AttackSpeed { get; set; }
 	public float AttackDmg { get; set; }
@@ -111,7 +113,7 @@ public class Player : Entity, IRecieveDmg, IDealDmg, IDraw
 		ProjectileCount = (int)Math.Max(finalStats[StatTypes.PROJECTILE_COUNT], 1);
 	}
 
-	public void Update(KeyboardState keyboardState, MouseState mouseState, Matrix transform, Room room, Viewport viewport)
+	public void Update(KeyboardState keyboardState, MouseState mouseState, Matrix transform, Place place, Viewport viewport)
 	{
 		int dx = 0, dy = 0;
 
@@ -126,6 +128,16 @@ public class Player : Entity, IRecieveDmg, IDealDmg, IDraw
 		if (keyboardState.IsKeyDown(Keys.S) || keyboardState.IsKeyDown(Keys.Down))
 			dy += MovementSpeed;
 
+		if (Math.Abs(dx) == Math.Abs(dy) && dx != 0)
+		{
+			int _dx = (int)(dx / Math.Sqrt(2));
+			int _dy = (int)(dy / Math.Sqrt(2));
+			if (_dx == 0)
+				dx = Math.Sign(dx);
+			if (_dy == 0)
+				dy = Math.Sign(dy);
+			// Console.WriteLine("Dx")
+		}
 		// --- Begin Movement ---
 		int tolerance = 1;
 
@@ -138,10 +150,10 @@ public class Player : Entity, IRecieveDmg, IDealDmg, IDraw
 			{
 				// Create a test position by moving 1 pixel in the X direction
 				Vector2 testPosition = new Vector2(Position.X + stepX, Position.Y);
-				if (!room.ShouldCollideAt(new Vector2(testPosition.X + tolerance, testPosition.Y + tolerance)) &&
-					!room.ShouldCollideAt(new Vector2(testPosition.X - tolerance + Size.X, testPosition.Y - tolerance + Size.Y)) &&
-					!room.ShouldCollideAt(new Vector2(testPosition.X - tolerance + Size.X, testPosition.Y + tolerance)) &&
-					!room.ShouldCollideAt(new Vector2(testPosition.X + tolerance, testPosition.Y - tolerance + Size.Y)))
+				if (!place.ShouldCollideAt(new Vector2(testPosition.X + tolerance, testPosition.Y + tolerance)) &&
+					!place.ShouldCollideAt(new Vector2(testPosition.X - tolerance + Size.X, testPosition.Y - tolerance + Size.Y)) &&
+					!place.ShouldCollideAt(new Vector2(testPosition.X - tolerance + Size.X, testPosition.Y + tolerance)) &&
+					!place.ShouldCollideAt(new Vector2(testPosition.X + tolerance, testPosition.Y - tolerance + Size.Y)))
 				{
 					// If no collision, update the position by 1 pixel in the X direction.
 					Position.X += stepX;
@@ -164,10 +176,10 @@ public class Player : Entity, IRecieveDmg, IDealDmg, IDraw
 			{
 				// Create a test position by moving 1 pixel in the Y direction
 				Vector2 testPosition = new Vector2(Position.X, Position.Y + stepY);
-				if (!room.ShouldCollideAt(new Vector2(testPosition.X + tolerance, testPosition.Y + tolerance)) &&
-					!room.ShouldCollideAt(new Vector2(testPosition.X - tolerance + Size.X, testPosition.Y - tolerance + Size.Y)) &&
-					!room.ShouldCollideAt(new Vector2(testPosition.X - tolerance + Size.X, testPosition.Y + tolerance)) &&
-					!room.ShouldCollideAt(new Vector2(testPosition.X + tolerance, testPosition.Y - tolerance + Size.Y)))
+				if (!place.ShouldCollideAt(new Vector2(testPosition.X + tolerance, testPosition.Y + tolerance)) &&
+					!place.ShouldCollideAt(new Vector2(testPosition.X - tolerance + Size.X, testPosition.Y - tolerance + Size.Y)) &&
+					!place.ShouldCollideAt(new Vector2(testPosition.X - tolerance + Size.X, testPosition.Y + tolerance)) &&
+					!place.ShouldCollideAt(new Vector2(testPosition.X + tolerance, testPosition.Y - tolerance + Size.Y)))
 				{
 					// If no collision, update the position by 1 pixel in the Y direction.
 					Position.Y += stepY;
@@ -182,42 +194,50 @@ public class Player : Entity, IRecieveDmg, IDealDmg, IDraw
 		}
 		// --- End Movement ---
 
-		if ((previousMouseState.RightButton == ButtonState.Pressed &&
-			 mouseState.RightButton == ButtonState.Released) ||
-			 (keyboardState.IsKeyDown(Keys.E) && prevKeyboardState.IsKeyUp(Keys.E)))
-		{
-			Console.WriteLine(InteractionPoint);
-			Tile t = room.GetTileInteractable(InteractionPoint);
-			if (t != null)
-			{
-				IInteractable tile = (IInteractable)t;
-				tile.Interact(this, room);
-			}
-			Item item = room.GetItemInteractable(InteractionPoint);
-			if (item != null)
-			{
-				item.Interact(this, room);
-				room.RemoveItem(item);
-			}
-		}
 
 		// Reset room (debug)
 		if (keyboardState.IsKeyDown(Keys.R) && prevKeyboardState.IsKeyUp(Keys.R))
 		{
-			room.ResetRoom();
-
+			place.Reset();
 		}
-		for (int i = 0; i < room.drops.Count; i++)
+
+		// Interaction
+		if ((previousMouseState.RightButton == ButtonState.Pressed &&
+			 mouseState.RightButton == ButtonState.Released) ||
+			 (keyboardState.IsKeyDown(Keys.E) && prevKeyboardState.IsKeyUp(Keys.E)))
 		{
-			if (room.drops[i] is not ItemContainerable && ObjectCollision.CircleCircleCollision(room.drops[i], this))
+			IInteractable t = place.GetTileInteractable(InteractionPoint);
+			if (t != null)
 			{
-				room.drops[i].Interact(this, room);
-				room.RemoveItem(room.drops[i]);
+				IInteractable tile = t;
+				tile.Interact(this, place);
+			}
+
+			Item item = place.GetItemInteractable(InteractionPoint);
+			if (item != null)
+			{
+				item.Interact(this, place);
+				place.Drops.Remove(item);
+			}
+
+			IInteractable entity = place.GetEntityInteractable(InteractionPoint);
+			if (entity != null)
+			{
+				entity.Interact(this, place);
+			}
+		}
+
+		// Pickup?
+		for (int i = 0; i < place.Drops.Count; i++)
+		{
+			if (place.Drops[i] is not ItemContainerable && ObjectCollision.CircleCircleCollision(place.Drops[i], this))
+			{
+				place.Drops[i].Interact(this, place);
+				place.Drops.Remove(place.Drops[i]);
 			}
 		}
 
 		Inventory.Update(viewport, this, mouseState);
-
 
 		// Calculate the direction from the player to the world mouse position
 		Vector2 screenMousePos = new Vector2(mouseState.X, mouseState.Y);
@@ -245,7 +265,7 @@ public class Player : Entity, IRecieveDmg, IDealDmg, IDraw
 	}
 
 
-	public void Draw(SpriteBatch spriteBatch)
+	public override void Draw(SpriteBatch spriteBatch)
 	{
 		spriteBatch.Draw(Sprite,
 			new Rectangle(Convert.ToInt32(Position.X), Convert.ToInt32(Position.Y), Convert.ToInt32(Size.X), Convert.ToInt32(Size.Y)),
@@ -254,7 +274,7 @@ public class Player : Entity, IRecieveDmg, IDealDmg, IDraw
 	}
 	public bool ReadyToAttack()
 	{
-		return (DateTime.UtcNow - LastAttackTime).TotalMilliseconds >= AttackSpeed;
+		return ((DateTime.UtcNow - LastAttackTime).TotalMilliseconds >= AttackSpeed) && IsPlaying;
 	}
 	public List<Projectile> Attack()
 	{
@@ -296,7 +316,7 @@ public class Player : Entity, IRecieveDmg, IDealDmg, IDraw
 				Hp -= projectile.Damage;
 				LastRecievedDmgTime = DateTime.UtcNow;
 				Inventory.AddEffect(new EffectCooked(1));
-				if(projectile.GetType() == typeof(ProjectileRoot))
+				if (projectile.GetType() == typeof(ProjectileRoot))
 					Inventory.AddEffect(new EffectRooted(1));
 			}
 			return 0;

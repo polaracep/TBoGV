@@ -12,6 +12,11 @@ public class RoomBoss : Room
         throw new System.NotImplementedException();
     }
 
+    public override void Reset()
+    {
+        throw new System.NotImplementedException();
+    }
+
     protected override void GenerateEnemies()
     {
         throw new System.NotImplementedException();

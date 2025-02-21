@@ -53,10 +53,12 @@ public class TileInteractEventArgs : EventArgs
 {
     public Directions Directions;
     public TileDoor OppositeDoor;
-    public TileInteractEventArgs(Directions dir, TileDoor oppositeDoor)
+    public Place Place;
+    public TileInteractEventArgs(Directions dir, TileDoor oppositeDoor, Place place)
     {
         OppositeDoor = oppositeDoor;
         Directions = dir;
+        Place = place;
     }
 }
 public class TileDoor : Tile, IInteractable
@@ -75,7 +77,7 @@ public class TileDoor : Tile, IInteractable
     }
     public TileDoor(DoorTypes door, Directions direction, Vector2 doorPos) : this(door, direction, doorPos, null) { }
     public TileDoor(DoorTypes door, Directions direction) : this(door, direction, Vector2.Zero, null) { }
-    public void Interact(Entity e, Room r)
+    public void Interact(Entity e, Place p)
     {
         // put player in the left-top corne
         if (OppositeDoor == null)
@@ -83,7 +85,7 @@ public class TileDoor : Tile, IInteractable
             Console.WriteLine("No destinaiton door provided");
             return;
         }
-        OnTileInteract(new TileInteractEventArgs(this.Direction, this.OppositeDoor));
+        OnTileInteract(new TileInteractEventArgs(this.Direction, this.OppositeDoor, p));
     }
     protected virtual void OnTileInteract(TileInteractEventArgs e)
     {
@@ -115,7 +117,7 @@ public class TileHeal : Tile, IInteractable
     }
 
     public TileHeal() : this(0f) { }
-    public void Interact(Entity e, Room r)
+    public void Interact(Entity e, Place _)
     {
         if (e is Player)
         {

@@ -1,9 +1,6 @@
-﻿using Microsoft.Xna.Framework.Graphics;
+﻿namespace TBoGV;
 
-
-namespace TBoGV;
-
-public abstract class Projectile : Entity, IDraw
+public abstract class Projectile : Entity
 {
 	public bool ShotByPlayer;
 	public float Damage { get; set; }
@@ -11,7 +8,6 @@ public abstract class Projectile : Entity, IDraw
 	{
 		Position += Direction * MovementSpeed;
 	}
-	public abstract void Draw(SpriteBatch spriteBatch);
 
 }
 

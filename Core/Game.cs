@@ -9,12 +9,12 @@ public class TBoGVGame : Game
     private GraphicsDeviceManager _graphics;
     private SpriteBatch _spriteBatch;
 
-    Screen screenGame, screenCurrent;
+    Screen screenCurrent;
     public TBoGVGame()
     {
         _graphics = new GraphicsDeviceManager(this);
 
-        screenCurrent = screenGame = new ScreenGame();
+        screenCurrent = new ScreenGame();
 
         Content.RootDirectory = "Content";
         IsMouseVisible = true;
@@ -31,8 +31,8 @@ public class TBoGVGame : Game
         _spriteBatch = new SpriteBatch(GraphicsDevice);
         TextureManager.Load(Content);
         SongManager.Load(Content);
-		FontManager.Load(Content);
-		SoundManager.Load(Content);
+        FontManager.Load(Content);
+        SoundManager.Load(Content);
     }
 
     // Run after LoadContent

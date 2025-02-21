@@ -36,8 +36,17 @@ public class Level
     public Level(Player player, List<Room> roomList, uint maxSize) : this(player, roomList, null, maxSize, new Vector2(maxSize) / 2) { }
     public Level(Player player, List<Room> roomList, RoomStart roomStart, uint maxSize) : this(player, roomList, roomStart, maxSize, new Vector2(maxSize) / 2) { }
 
+    ~Level()
+    {
+        TileDoor.TileInteract -= OnRoomChanged;
+    }
     private void OnRoomChanged(object sender, TileInteractEventArgs e)
     {
+        // ten event projede proste tolikrat, kolik je levelu...
+        // check, jestli se nachazime v tom levelu, ve kterym jsme ty dvere otevreli
+        if (this.ActiveRoom != e.Place)
+            return;
+
         switch (e.Directions)
         {
             case Directions.LEFT:
@@ -52,8 +61,11 @@ public class Level
             case Directions.DOWN:
                 ActiveRoomCoords.Y += 1;
                 break;
+            default:
+                break;
         }
         ActiveRoom = RoomMap[(int)ActiveRoomCoords.X, (int)ActiveRoomCoords.Y];
+
         if (!ActiveRoom.IsGenerated)
             ActiveRoom.GenerateRoom();
 
