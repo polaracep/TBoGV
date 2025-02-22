@@ -12,37 +12,56 @@ public static class TextureManager
     {
         List<string> names = new List<string>
         {
+            // Floors
             "tile",
             "floorYellow",
             "floorLobby",
+            // "floorHallway",
+
+            // Walls
             "wall",
             "wallBrick",
             "wallWhite",
             "wallWhiteCorner",
             "wallLobby",
             "wallLobbyCorner",
+            // "wallHallway",
+            // "wallHallwayCorner",
+            
+            // Doors
             "door",
+
+            // Entities
+            "korenovy_vezen",
+            "sarka",
+
+            // Vitek
             "vitek-nobg",
             "vitekElegan",
+            "vitekEleganBolderCut",
+
+            // Projectiles
             "projectile",
+            "koren",
+
+            // UI
             "taunt",
             "admiration",
-            "heal",
             "blackSquare",
-            "koren",
-            "korenovy_vezen",
-            "gymvod",
-            "platina",
-            "coin",
             "whiteSquare",
             "containerBorder",
             "containerWeapon",
             "containerEffect",
             "containerBoots",
             "containerBasic",
-            "wheat4",
-            "teeth",
             "gymvodMap",
+            "cooked",
+            "wheat4",
+            "arrow",
+
+            // Items
+            "heal",
+            "coin",
             "adBlock",
             "calculator",
             "fancyShoes",
@@ -54,11 +73,12 @@ public static class TextureManager
             "trackShoes",
             "dagger",
             "maso",
+            "teeth",
+
+            // Misc
+            "gymvod",
+            "platina",
             "boom",
-            "vitekEleganBolderCut",
-            "cooked",
-            "arrow",
-            "sarka",
         };
 
         foreach (string name in names)

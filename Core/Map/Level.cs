@@ -36,10 +36,6 @@ public class Level
     public Level(Player player, List<Room> roomList, uint maxSize) : this(player, roomList, null, maxSize, new Vector2(maxSize) / 2) { }
     public Level(Player player, List<Room> roomList, RoomStart roomStart, uint maxSize) : this(player, roomList, roomStart, maxSize, new Vector2(maxSize) / 2) { }
 
-    ~Level()
-    {
-        TileDoor.TileInteract -= OnRoomChanged;
-    }
     private void OnRoomChanged(object sender, TileInteractEventArgs e)
     {
         // ten event projede proste tolikrat, kolik je levelu...

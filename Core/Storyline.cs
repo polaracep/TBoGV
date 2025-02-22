@@ -20,8 +20,22 @@ public static class Storyline
     public static void GenerateStoryline()
     {
         LevelList = new List<Level>();
+        // Test level
+        LevelList.Add(
+            new Level(Player, new List<Room> {
+                new RoomHallway(new Vector2(17, 7), p, new List<Entity> {
+                    new EnemyZdena(Vector2.Zero),
+                    new EnemyZdena(Vector2.Zero),
+                    new EnemyZdena(Vector2.Zero),
+                    new EntitySarka(Vector2.One),
+                })
+            },
+            new RoomStart(new Vector2(7, 7), p), 4
+            )
+        );
 
         /* Level 1 */
+        /*
         LevelList.Add(
             new Level(Player, new List<Room> {
                 new RoomClassroom(new Vector2(9), p, new List<Entity> {
@@ -43,12 +57,14 @@ public static class Storyline
             },
             new RoomStart(new Vector2(7, 7), p),
         4));
-
+        */
         /* Level 2 */
+        /*
         LevelList.Add(
             new Level(Player, new List<Room> { new RoomEmpty(new Vector2(9), p) },
             new RoomStart(new Vector2(9, 9), p),
         4));
+        */
     }
 
     public static void NextLevel()

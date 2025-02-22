@@ -22,7 +22,4 @@ public class RoomBoss : Room
         throw new System.NotImplementedException();
     }
 
-    protected override void GenerateEntities()
-    {
-    }
 }

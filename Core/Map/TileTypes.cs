@@ -13,14 +13,16 @@ public class StringEnum
     public sealed override string ToString() => Value;
 }
 
+/* ===== Tile types ===== */
+
 public sealed class FloorTypes : StringEnum
 {
     public static readonly FloorTypes BASIC = new FloorTypes("floorYellow");
     public static readonly FloorTypes LOBBY = new FloorTypes("floorLobby");
+    public static readonly FloorTypes HALLWAY = new FloorTypes("floorHallway");
 
     public FloorTypes(string v) : base(v) { }
 }
-
 public sealed class DoorTypes : StringEnum
 {
     public static readonly DoorTypes BASIC = new DoorTypes("door");
@@ -34,6 +36,8 @@ public sealed class WallTypes : StringEnum
     public static readonly WallTypes WHITE_CORNER = new WallTypes("wallWhiteCorner");
     public static readonly WallTypes LOBBY = new WallTypes("wallLobby");
     public static readonly WallTypes LOBBY_CORNER = new WallTypes("wallLobbyCorner");
+    public static readonly WallTypes HALLWAY = new WallTypes("wallHallway");
+    public static readonly WallTypes HALLWAY_CORNER = new WallTypes("wallHallwayCorner");
 
     public WallTypes(string v) : base(v) { }
 

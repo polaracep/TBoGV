@@ -17,6 +17,4 @@ public class RoomStart : Room, IDraw
     }
 
     protected override void GenerateEnemies() { }
-
-    protected override void GenerateEntities() { }
 }

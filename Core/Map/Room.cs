@@ -38,13 +38,10 @@ public abstract class Room : Place
         this.player = p;
         this.Dimensions = dimensions;
         this.Position = pos;
-        this.Drops.Add(new ItemDoping(new Vector2(200, 200)));
-        this.Drops.Add(new ItemTeeth(new Vector2(100, 200)));
-        this.Drops.Add(new ItemCalculator(new Vector2(150, 200)));
-        this.Drops.Add(new ItemPencil(new Vector2(100, 100)));
-        this.Drops.Add(new ItemAdBlock(new Vector2(50, 50)));
-        this.Drops.Add(new ItemMathProblem(new Vector2(50, 100)));
-        this.Drops.Add(new ItemExplosive(new Vector2(50, 150)));
+
+        this.Floor = new Tile[(int)Dimensions.X, (int)Dimensions.Y];
+        this.Decorations = new Tile[(int)Dimensions.X, (int)Dimensions.Y];
+
         if (entityList == null)
             return;
 
@@ -60,12 +57,20 @@ public abstract class Room : Place
             else
                 throw new Exception("Invalid entity type provided.");
         });
+
+        /*
+        this.Drops.Add(new ItemDoping(new Vector2(200, 200)));
+        this.Drops.Add(new ItemTeeth(new Vector2(100, 200)));
+        this.Drops.Add(new ItemCalculator(new Vector2(150, 200)));
+        this.Drops.Add(new ItemPencil(new Vector2(100, 100)));
+        this.Drops.Add(new ItemAdBlock(new Vector2(50, 50)));
+        this.Drops.Add(new ItemMathProblem(new Vector2(50, 100)));
+        this.Drops.Add(new ItemExplosive(new Vector2(50, 150)));
+        */
     }
-    public Room(Vector2 dimensions, Player p, List<Entity> entityList) : this(dimensions, Vector2.Zero, p, entityList) { }
-
     public Room(Vector2 dimensions, Vector2 pos, Player p) : this(dimensions, pos, p, null) { }
-
     public Room(Vector2 dimensions, Player p) : this(dimensions, Vector2.Zero, p, null) { }
+    public Room(Vector2 dimensions, Player p, List<Entity> entityList) : this(dimensions, Vector2.Zero, p, entityList) { }
 
     /// <summary>
     /// Returns the left-top world position for any tile position
@@ -187,50 +192,84 @@ public abstract class Room : Place
 
     /* === Generation methods === */
     public abstract void GenerateRoom();
-    protected abstract void GenerateEnemies();
-    protected abstract void GenerateEntities();
+    protected virtual void GenerateEnemies()
+    {
+        Random rand = new Random();
+        foreach (var enemy in EnemyPool)
+        {
+            while (true)
+            {
+                Vector2 spawnPos = new Vector2(rand.Next((int)Dimensions.X - 2) + 1, rand.Next((int)Dimensions.Y - 2) + 1) * 50;
+                if (!this.ShouldCollideAt(spawnPos))
+                {
+                    enemy.Position = spawnPos;
+                    this.AddEnemy(enemy);
+                    break;
+                }
+            }
+        }
+    }
+    protected virtual void GenerateRoomBase() { GenerateRoomBase(FloorTypes.BASIC, WallTypes.BASIC, DoorTypes.BASIC); }
     protected virtual void GenerateRoomBase(FloorTypes floors, WallTypes walls, DoorTypes doors)
     {
-        if (this.Doors == null)
-            throw new ArgumentNullException("This room does not have any doors!");
-
         this.ClearRoom();
-        this.Floor = new Tile[(int)Dimensions.X, (int)Dimensions.Y];
-        this.Decorations = new Tile[(int)Dimensions.X, (int)Dimensions.Y];
 
         Floor.GenerateFilledRectangle(
             new Rectangle(0, 0, (int)Dimensions.X, (int)Dimensions.Y),
-            new TileFloor(FloorTypes.BASIC),
-            new TileWall(WallTypes.BASIC)
+            new TileFloor(floors),
+            new TileWall(walls)
         );
 
+        GenerateDoors(doors);
+
+        IsGenerated = true;
+    }
+
+
+    protected virtual void GenerateDoors(DoorTypes doors) { GenerateDoors(doors, false); }
+    protected virtual void GenerateDoors(DoorTypes doors, bool center)
+    {
+        if (this.Doors == null)
+            throw new ArgumentNullException("This room does not have any doors!");
         // Generace dveri
+        int _x;
+        int _y;
+        if (center)
+        {
+            _x = (int)Dimensions.X / 2;
+            _y = (int)Dimensions.Y / 2;
+        }
+        else
+        {
+            Random rand = new Random();
+            _x = rand.Next((int)Dimensions.X - 2) + 1;
+            _y = rand.Next((int)Dimensions.Y - 2) + 1;
+        }
         foreach (TileDoor door in this.Doors)
         {
             door.SetDoorType(doors);
             switch (door.Direction)
             {
                 case Directions.LEFT:
-                    door.DoorTpPosition = new Vector2(1, (int)Dimensions.Y / 2);
-                    Decorations[0, (int)Dimensions.Y / 2] = door;
+                    door.DoorTpPosition = new Vector2(1, _y);
+                    Decorations[0, _y] = door;
                     break;
                 case Directions.RIGHT:
-                    door.DoorTpPosition = new Vector2((int)Dimensions.X - 2, (int)Dimensions.Y / 2);
-                    Decorations[(int)Dimensions.X - 1, (int)Dimensions.Y / 2] = door;
+                    door.DoorTpPosition = new Vector2((int)Dimensions.X - 2, _y);
+                    Decorations[(int)Dimensions.X - 1, _y] = door;
                     break;
                 case Directions.UP:
-                    door.DoorTpPosition = new Vector2((int)Dimensions.X / 2, 1);
-                    Decorations[(int)Dimensions.X / 2, 0] = door;
+                    door.DoorTpPosition = new Vector2(_x, 1);
+                    Decorations[_x, 0] = door;
                     break;
                 case Directions.DOWN:
-                    door.DoorTpPosition = new Vector2((int)Dimensions.X / 2, (int)Dimensions.Y - 2);
-                    Decorations[(int)Dimensions.X / 2, (int)Dimensions.Y - 1] = door;
+                    door.DoorTpPosition = new Vector2(_x, (int)Dimensions.Y - 2);
+                    Decorations[_x, (int)Dimensions.Y - 1] = door;
                     break;
             }
         }
-
-        IsGenerated = true;
     }
+
     protected virtual void ClearRoom()
     {
         this.Projectiles.Clear();
