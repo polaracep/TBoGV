@@ -9,7 +9,7 @@ public abstract class Entity : IDraw
 	public Vector2 Position;
 	public Vector2 Direction;
 	public Vector2 Size;
-	public int MovementSpeed;
+	public float MovementSpeed;
 	public Rectangle GetRectangle()
 	{
 		return new Rectangle((int)Position.X, (int)Position.Y, (int)Size.X, (int)Size.Y);

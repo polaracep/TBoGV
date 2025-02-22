@@ -94,7 +94,10 @@ public abstract class Room : Place
             if (this.ShouldCollideAt(projectiles[i].GetCircleCenter()))
             {
                 projectiles.RemoveAt(i);
-            }
+				continue;
+			}
+			if (projectiles[i] is ProjectileMelee)
+				projectiles.RemoveAt(i);
         }
         for (int i = player.Projectiles.Count - 1; i >= 0; i--)
         {
@@ -157,6 +160,7 @@ public abstract class Room : Place
         foreach (Enemy enemy in enemies)
         {
             enemy.Update(player.Position + player.Size / 2);
+			enemy.Move(this);
 
             if (enemy.ReadyToAttack())
             {

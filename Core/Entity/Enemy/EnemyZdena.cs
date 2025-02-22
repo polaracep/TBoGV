@@ -32,4 +32,9 @@ internal class EnemyZdena : EnemyRanged
 	{
 		return Sprite;
 	}
+
+	public override void Move(Place place)
+	{
+		return;
+	}
 }

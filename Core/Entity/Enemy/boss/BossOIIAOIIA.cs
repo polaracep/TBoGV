@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace TBoGV;
 internal class BossOIIAOIIA : EnemyBoss
@@ -10,7 +11,7 @@ internal class BossOIIAOIIA : EnemyBoss
 	static Texture2D Spritesheet = TextureManager.GetTexture("spritesheetOIIA");
 	static SoundEffect SfxOIIA = SoundManager.GetSound("OIIAOIIA");
 	protected DateTime phaseChange = DateTime.UtcNow;
-	protected int chillDuration = 5000;
+	protected int chillDuration = 3000;
 	protected int rageDuration = (int)SfxOIIA.Duration.TotalMilliseconds;
 
 	float Scale;
@@ -21,14 +22,17 @@ internal class BossOIIAOIIA : EnemyBoss
 	DateTime lastFrameChange = DateTime.UtcNow;
 	TimeSpan frameSpeed = TimeSpan.FromMilliseconds((SfxOIIA.Duration.TotalMilliseconds / 27));
 
-
 	protected bool Rage { get; set; }
+	protected int rageCount = 0;
+
+	private Vector2 direction;
+	private Random random = new Random();
 
 	private double rotationOffset = 0;
 	protected new enum bossPhases : int
 	{
 		IDLE = 0,
-		KAVES = 1,
+		STANDING = 1,
 	}
 	protected bossPhases Phase { get; set; }
 
@@ -39,8 +43,8 @@ internal class BossOIIAOIIA : EnemyBoss
 		Hp = 60;
 		MovementSpeed = 2;
 		AttackDmg = 1;
-		Scale = 100f/ Math.Max(frameWidth,frameHeight);
-		Size = new Vector2(frameWidth, frameHeight);
+		Scale = 100f / Math.Max(frameWidth, frameHeight);
+		Size = new Vector2(frameWidth * Scale, frameHeight * Scale);
 		XpValue = 50;
 		phaseChange = DateTime.UtcNow;
 	}
@@ -48,12 +52,12 @@ internal class BossOIIAOIIA : EnemyBoss
 	public override void Draw(SpriteBatch spriteBatch)
 	{
 		Rectangle sourceRect = new Rectangle(currentFrame * frameWidth, 0, frameWidth, frameHeight);
-		spriteBatch.Draw(Spritesheet, new Rectangle((int)Position.X, (int)Position.Y, (int)(Size.X* Scale), (int)(Size.Y* Scale)), sourceRect, Color.White);
+		spriteBatch.Draw(Spritesheet, new Rectangle((int)Position.X, (int)Position.Y, (int)(Size.X), (int)(Size.Y)), sourceRect, Color.White);
 	}
 
 	public override List<Projectile> Attack()
 	{
-		return new List<Projectile>();
+		return new List<Projectile>() { new ProjectileMelee(Position + Size/2, Size*new Vector2(0.6f)) };
 	}
 
 	public override Texture2D GetSprite()
@@ -63,21 +67,46 @@ internal class BossOIIAOIIA : EnemyBoss
 
 	public override void Update(Vector2 playerPosition)
 	{
-		UpdatePhase();
+		UpdatePhase(playerPosition);
 		UpdateAnimation();
 	}
-
-	protected void UpdatePhase()
+	protected void UpdatePhase(Vector2 playerPosition)
 	{
-		if (((DateTime.UtcNow - phaseChange).TotalMilliseconds > rageDuration && Rage) || ((DateTime.UtcNow - phaseChange).TotalMilliseconds > chillDuration && !Rage))
+		if (((DateTime.UtcNow - phaseChange).TotalMilliseconds > rageDuration && Rage) ||
+			((DateTime.UtcNow - phaseChange).TotalMilliseconds > chillDuration && !Rage))
 		{
 			Rage = !Rage;
 			phaseChange = DateTime.UtcNow;
 			chillDuration = new Random().Next(100, 1500);
+
 			if (Rage)
-				SfxOIIA.Play();
+			{
+				rageCount++; // Increment Rage phase count
+				if (rageCount % 3 == 0)
+				{
+					rageDuration *= 3; // Every third Rage phase lasts 3x longer
+					PlaySfxMultipleTimes(3); // Play the sound effect three times
+				}
+				else
+				{
+					rageDuration = (int)SfxOIIA.Duration.TotalMilliseconds; // Reset to normal
+					SfxOIIA.Play();
+				}
+
+				PickNewDirection(playerPosition);
+			}
 		}
 	}
+
+	private async void PlaySfxMultipleTimes(int times)
+	{
+		for (int i = 0; i < times; i++)
+		{
+			SfxOIIA.Play();
+			await Task.Delay((int)SfxOIIA.Duration.TotalMilliseconds);
+		}
+	}
+
 
 	private void UpdateAnimation()
 	{
@@ -90,9 +119,62 @@ internal class BossOIIAOIIA : EnemyBoss
 			currentFrame = 0;
 	}
 
+	private void PickNewDirection(Vector2 playerPosition)
+	{
+		float accuracy = 1f - Hp / 120f; // Accuracy increases as HP decreases
+		Vector2 randomDirection = new Vector2((float)(random.NextDouble() * 2 - 1), (float)(random.NextDouble() * 2 - 1));
+		Vector2 playerDirection = Vector2.Normalize(playerPosition - Position);
+		direction = Vector2.Normalize(Vector2.Lerp(randomDirection, playerDirection, accuracy));
+	}
+
+	public override void Move(Place place)
+	{
+		if (!Rage)
+			return;
+
+		// Scale movement speed from 2 (max HP) to 8 (1 HP)
+		MovementSpeed = 2 + (8 - 2) * (1 - (Hp / 60f));
+
+		// Break movement into smaller increments
+		float stepSize = 1.0f; // Move 1 pixel at a time to avoid skipping walls
+		int steps = (int)Math.Ceiling(MovementSpeed / stepSize); // Total steps needed
+		Vector2 stepDirection = Vector2.Normalize(direction) * stepSize; // Ensure direction is normalized
+
+		for (int i = 0; i < steps; i++)
+		{
+			Vector2 nextPositionX = new Vector2(Position.X + stepDirection.X, Position.Y);
+			Vector2 nextPositionY = new Vector2(Position.X, Position.Y + stepDirection.Y);
+
+			bool collidesX = CollidesWithWall(nextPositionX, place);
+			bool collidesY = CollidesWithWall(nextPositionY, place);
+
+			if (collidesX)
+			{
+				direction.X *= -1; // Bounce on X-axis
+			}
+			if (collidesY)
+			{
+				direction.Y *= -1; // Bounce on Y-axis
+			}
+			if (collidesX || collidesY)
+			{
+				break; // Stop moving if a collision occurs
+			}
+
+			Position += stepDirection; // Apply the step movement
+		}
+	}
+
+
+
+	private bool CollidesWithWall(Vector2 testPosition, Place place)
+	{
+		return place.ShouldCollideAt(new Vector2(testPosition.X + Size.X/2, testPosition.Y + Size.Y / 2));
+	}
+
 	public override bool ReadyToAttack()
 	{
-		return false;
+		return Rage;
 	}
 
 	public override bool IsDead()
@@ -103,5 +185,14 @@ internal class BossOIIAOIIA : EnemyBoss
 	public override List<Item> Drop(int looting)
 	{
 		return new List<Item>() { new ItemTeeth(Vector2.Zero) };
+	}
+	public override float RecieveDmg(Projectile projectile)
+	{
+		if (!projectilesRecieved.Contains(projectile) && !Rage)
+		{
+			Hp -= projectile.Damage;
+			projectilesRecieved.Add(projectile);
+		}
+		return Rage ? projectile.Damage : 0;
 	}
 }

@@ -8,6 +8,5 @@ public abstract class Projectile : Entity
 	{
 		Position += Direction * MovementSpeed;
 	}
-
 }
 

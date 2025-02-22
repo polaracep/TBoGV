@@ -115,7 +115,7 @@ public class Player : Entity, IRecieveDmg, IDealDmg
 
 	public void Update(KeyboardState keyboardState, MouseState mouseState, Matrix transform, Place place, Viewport viewport)
 	{
-		int dx = 0, dy = 0;
+		float dx = 0, dy = 0;
 
 		InteractionPoint = Position + (Direction * 50) + Size / 2;
 
@@ -145,7 +145,7 @@ public class Player : Entity, IRecieveDmg, IDealDmg
 		if (dx != 0)
 		{
 			int stepX = Math.Sign(dx); // -1 if moving left, 1 if moving right
-			int remainingX = Math.Abs(dx);
+			int remainingX = (int)Math.Abs(dx);
 			while (remainingX > 0)
 			{
 				// Create a test position by moving 1 pixel in the X direction
@@ -171,7 +171,7 @@ public class Player : Entity, IRecieveDmg, IDealDmg
 		if (dy != 0)
 		{
 			int stepY = Math.Sign(dy); // -1 if moving up, 1 if moving down
-			int remainingY = Math.Abs(dy);
+			int remainingY = (int)Math.Abs(dy);
 			while (remainingY > 0)
 			{
 				// Create a test position by moving 1 pixel in the Y direction
@@ -330,7 +330,7 @@ public class Player : Entity, IRecieveDmg, IDealDmg
 	public void Kill(int xpGain)
 	{
 		Xp += xpGain * XpGain;
-		if (Xp >= XpForLevel())
+		while (Xp >= XpForLevel())
 		{
 			LevelUp();
 		}
@@ -343,8 +343,8 @@ public class Player : Entity, IRecieveDmg, IDealDmg
 	}
 	private void LevelUp()
 	{
+		Xp -= XpForLevel();
 		Level += 1;
-		Xp = 0;
 	}
 	public void Heal(float healAmount)
 	{
@@ -357,6 +357,5 @@ public class Player : Entity, IRecieveDmg, IDealDmg
 	{
 		return Sprite;
 	}
-
 }
 

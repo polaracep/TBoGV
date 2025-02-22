@@ -12,9 +12,10 @@ public abstract class Enemy : Entity, IRecieveDmg, IDealDmg
   public int MaxHp { get; set; }
   public int XpValue { get; set; }
   public List<Projectile> projectilesRecieved = new List<Projectile>();
-
+	
   public abstract bool ReadyToAttack();
   public abstract void Update(Vector2 playerPosition);
+	public abstract void Move(Place place);
   public abstract bool IsDead();
   public abstract List<Projectile> Attack();
   public abstract List<Item> Drop(int looting);

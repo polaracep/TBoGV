@@ -105,4 +105,9 @@ internal class BossAles : EnemyBoss
 	{
 		return new List<Item>() {new ItemTeeth(Vector2.Zero) };
 	}
+
+	public override void Move(Place place)
+	{
+		return;
+	}
 }
