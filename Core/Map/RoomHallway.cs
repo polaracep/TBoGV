@@ -27,9 +27,15 @@ public class RoomHallway : Room
             new TileWall(WallTypes.LOBBY_CORNER)
         );
 
+        GenerateDoors(DoorTypes.BASIC);
+
         GenerateDecor();
 
-        GenerateDoors(DoorTypes.BASIC);
+    }
+
+    protected override void GenerateDecor()
+    {
+
     }
 
 }

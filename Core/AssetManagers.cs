@@ -36,6 +36,10 @@ public static class TextureManager
             "zidle",
             "katedra",
             "blackboard",
+            "decoInfo1",
+            "decoInfo2",
+            "decoInfo3",
+            "decoInfo4",
 
             // Entities
             "korenovy_vezen",
