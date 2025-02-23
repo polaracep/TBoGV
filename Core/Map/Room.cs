@@ -277,29 +277,19 @@ public abstract class Room : Place
         this.Enemies.Clear();
         //this.Drops.Clear();
     }
-    public bool AddFloorTile(Tile tile, Vector2 position)
+    public bool AddFloorTile(Vector2 position, Tile tile)
     {
-        try
-        {
-            Floor[(int)position.X, (int)position.Y] = tile;
-            return true;
-        }
-        catch (Exception)
-        {
+        if (Floor[(int)position.X, (int)position.Y] == null)
             return false;
-        }
+        Floor[(int)position.X, (int)position.Y] = tile;
+        return true;
     }
-    public bool AddDecorationTile(Tile tile, Vector2 position)
+    public bool AddDecoTile(Vector2 position, Tile tile)
     {
-        try
-        {
-            Decorations[(int)position.X, (int)position.Y] = tile;
-            return true;
-        }
-        catch (Exception)
-        {
+        if (Decorations[(int)position.X, (int)position.Y] != null)
             return false;
-        }
+        Decorations[(int)position.X, (int)position.Y] = tile;
+        return true;
     }
     public virtual void AddEnemy(Enemy enemy)
     {
@@ -316,13 +306,13 @@ public abstract class Room : Place
                 if (t != null)
                 {
                     Vector2 origin = new Vector2(25, 25);
-                    spriteBatch.Draw(t.Sprite, new Vector2(i * Tile.GetSize().X, j * Tile.GetSize().Y) + origin, null, Color.White, t.Rotation, origin, 1f, SpriteEffects.None, 0f);
+                    spriteBatch.Draw(t.Sprite, new Vector2(i * Tile.GetSize().X, j * Tile.GetSize().Y) + origin, null, Color.White, t.Rotation, origin, 1f, t.SpriteEffects, 0f);
                 }
                 t = Decorations[i, j];
                 if (t != null)
                 {
                     Vector2 origin = new Vector2(25, 25);
-                    spriteBatch.Draw(t.Sprite, new Vector2(i * Tile.GetSize().X, j * Tile.GetSize().Y) + origin, null, Color.White, t.Rotation, origin, 1f, SpriteEffects.None, 0f);
+                    spriteBatch.Draw(t.Sprite, new Vector2(i * Tile.GetSize().X, j * Tile.GetSize().Y) + origin, null, Color.White, t.Rotation, origin, 1f, t.SpriteEffects, 0f);
                 }
             }
         foreach (Item item in Drops)

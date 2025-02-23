@@ -49,4 +49,5 @@ public sealed class DecorationTypes : StringEnum
     public static readonly DecorationTypes CHAIR = new DecorationTypes("zidle");
     public static readonly DecorationTypes DESK = new DecorationTypes("lavice");
     public static readonly DecorationTypes KATEDRA = new DecorationTypes("katedra");
+    public static readonly DecorationTypes BLACKBOARD = new DecorationTypes("blackboard");
 }

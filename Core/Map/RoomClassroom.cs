@@ -45,29 +45,63 @@ public class RoomClassroom : Room
         base.GenerateEnemies();
     }
 
-    protected override void GenerateDecor()
+    protected void _GenerateDecor()
     {
         // Generovat pary lavice + zidle
-        int cntY = (int)Math.Ceiling((Dimensions.Y - 4) / 2);
-        int cntX = (int)Math.Ceiling((Dimensions.X - 4) / 3) - 2;
-
-        if (cntY % 2 == 1)
-            cntY--;
-        if (cntX % 2 == 1)
-            cntX--;
+        int cntX = (int)Math.Floor((Dimensions.X - 6) / 3);
+        // I o Z S o Z S o K Z o I
+        int cntY = (int)Math.Floor((Dimensions.Y - 4) / 2);
 
         for (int y = 0; y < cntX; y++)
             for (int i = 0; i < cntY; i++)
             {
-                Decorations[2 + 3 * y, 2 + 2 * i] = new TileDecoration(false, DecorationTypes.CHAIR);
-                Decorations[3 + 3 * y, 2 + 2 * i] = new TileDecoration(true, DecorationTypes.DESK);
+                AddDecoTile(new Vector2(2 + 3 * y, 2 + 2 * i), new TileDecoration(false, DecorationTypes.CHAIR));
+                AddDecoTile(new Vector2(3 + 3 * y, 2 + 2 * i), new TileDecoration(true, DecorationTypes.DESK));
             }
 
-        TileDecoration chair = new TileDecoration(false, DecorationTypes.CHAIR);
-        // chair.FlipHorizontally();
-        Decorations[(int)Dimensions.X - 4, 3] = new TileDecoration(true, DecorationTypes.KATEDRA);
-        Decorations[(int)Dimensions.X - 3, 3] = chair;
-
-
+        AddDecoTile(new Vector2((int)Dimensions.X - 4, 3), new TileDecoration(true, DecorationTypes.KATEDRA));
+        AddDecoTile(new Vector2((int)Dimensions.X - 3, 3), new TileDecoration(false, DecorationTypes.CHAIR, SpriteEffects.FlipHorizontally));
     }
+
+    protected override void GenerateDecor()
+    {
+        if (Random.Shared.Next(2) == 1)
+        {
+            // Horizontal layout: same as your updated GenerateDecor()
+            int cntX = (int)Math.Floor((Dimensions.X - 6) / 3);
+            int cntY = (int)Math.Floor((Dimensions.Y - 4) / 2);
+
+            for (int y = 0; y < cntX; y++)
+                for (int i = 0; i < cntY; i++)
+                {
+                    AddDecoTile(new Vector2(2 + 3 * y, 2 + 2 * i), new TileDecoration(false, DecorationTypes.CHAIR));
+                    AddDecoTile(new Vector2(3 + 3 * y, 2 + 2 * i), new TileDecoration(true, DecorationTypes.DESK));
+                }
+
+            AddDecoTile(new Vector2(Dimensions.X - 4, 3), new TileDecoration(true, DecorationTypes.KATEDRA));
+            AddDecoTile(new Vector2(Dimensions.X - 3, 3), new TileDecoration(false, DecorationTypes.CHAIR, SpriteEffects.FlipHorizontally));
+            AddDecoTile(new Vector2(Dimensions.X - 1, Dimensions.Y / 2), new TileDecoration(false, DecorationTypes.BLACKBOARD));
+
+        }
+        else
+        {
+            // Vertical layout: swap roles so that the upper decoration is the desk and the lower is the chair.
+            int cntY = (int)Math.Floor((Dimensions.Y - 6) / 3);
+            int cntX = (int)Math.Floor((Dimensions.X - 4) / 2);
+
+            for (int x = 0; x < cntX; x++)
+                for (int y = 0; y < cntY; y++)
+                {
+                    // For vertical, the top tile (desk) now has collision and the bottom tile (chair) does not.
+                    AddDecoTile(new Vector2(2 + 2 * x, 2 + 3 * y), new TileDecoration(true, DecorationTypes.DESK));
+                    AddDecoTile(new Vector2(2 + 2 * x, 3 + 3 * y), new TileDecoration(false, DecorationTypes.CHAIR));
+                }
+
+            AddDecoTile(new Vector2(3, Dimensions.Y - 4), new TileDecoration(false, DecorationTypes.CHAIR));
+            AddDecoTile(new Vector2(3, Dimensions.Y - 3), new TileDecoration(true, DecorationTypes.KATEDRA));
+            AddDecoTile(new Vector2(Dimensions.X / 2, Dimensions.Y - 1), new TileDecoration(true, DecorationTypes.BLACKBOARD, MathHelper.PiOver2));
+
+        }
+    }
+
 }

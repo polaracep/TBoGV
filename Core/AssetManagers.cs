@@ -35,6 +35,7 @@ public static class TextureManager
             "lavice",
             "zidle",
             "katedra",
+            "blackboard",
 
             // Entities
             "korenovy_vezen",

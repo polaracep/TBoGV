@@ -10,7 +10,7 @@ public class RoomStart : Room, IDraw
     public override void GenerateRoom()
     {
         base.GenerateRoomBase(FloorTypes.BASIC, WallTypes.BASIC, DoorTypes.BASIC);
-        this.AddDecorationTile(new TileHeal(), this.Dimensions / 2);
+        this.AddDecoTile(this.Dimensions / 2, new TileHeal());
         this.GenerateEnemies();
 
         player.Position = this.GetTileWorldPos(Vector2.One);
