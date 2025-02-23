@@ -12,8 +12,10 @@ abstract class EnemyRanged : Enemy
     }
     public override List<Projectile> Attack()
     {
-        LastAttackTime = DateTime.UtcNow;
-        return new List<Projectile>() { new ProjectilePee(Position + Size / 2, Direction, AttackDmg) };
+		List<Projectile> projectiles = base.Attack();
+		projectiles.Add(new ProjectilePee(Position + Size / 2, Direction, AttackDmg));
+		LastAttackTime = DateTime.UtcNow;
+        return projectiles;
     }
     public override bool ReadyToAttack()
     {

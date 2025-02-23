@@ -64,19 +64,20 @@ public class RoomClassroom : Room
     protected override void GenerateEnemies()
     {
         Random rand = new Random();
-        //foreach (var enemy in EnemyPool)
-        //{
-        //    while (true)
-        //    {
-        //        Vector2 spawnPos = new Vector2(rand.Next((int)Dimensions.X), rand.Next((int)Dimensions.Y)) * 50;
-        //        if (!this.ShouldCollideAt(spawnPos))
-        //        {
-        //            enemy.Position = spawnPos;
-        //            this.AddEnemy(enemy);
-        //            break;
-        //        }
-        //    }
-        //}
+		EnemyPool.Add(new EnemyVitek(Vector2.Zero));
+		foreach (var enemy in EnemyPool)
+		{
+			while (true)
+			{
+				Vector2 spawnPos = new Vector2(rand.Next((int)Dimensions.X), rand.Next((int)Dimensions.Y)) * 50;
+				if (!this.ShouldCollideAt(spawnPos))
+				{
+					enemy.Position = spawnPos;
+					this.AddEnemy(enemy);
+					break;
+				}
+			}
+		}
 		while (true)
 		{
 			Vector2 spawnPos = new Vector2(rand.Next((int)Dimensions.X), rand.Next((int)Dimensions.Y)) * 50;
