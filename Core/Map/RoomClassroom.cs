@@ -45,24 +45,6 @@ public class RoomClassroom : Room
         base.GenerateEnemies();
     }
 
-    protected void _GenerateDecor()
-    {
-        // Generovat pary lavice + zidle
-        int cntX = (int)Math.Floor((Dimensions.X - 6) / 3);
-        // I o Z S o Z S o K Z o I
-        int cntY = (int)Math.Floor((Dimensions.Y - 4) / 2);
-
-        for (int y = 0; y < cntX; y++)
-            for (int i = 0; i < cntY; i++)
-            {
-                AddDecoTile(new Vector2(2 + 3 * y, 2 + 2 * i), new TileDecoration(false, DecorationTypes.CHAIR));
-                AddDecoTile(new Vector2(3 + 3 * y, 2 + 2 * i), new TileDecoration(true, DecorationTypes.DESK));
-            }
-
-        AddDecoTile(new Vector2((int)Dimensions.X - 4, 3), new TileDecoration(true, DecorationTypes.KATEDRA));
-        AddDecoTile(new Vector2((int)Dimensions.X - 3, 3), new TileDecoration(false, DecorationTypes.CHAIR, SpriteEffects.FlipHorizontally));
-    }
-
     protected override void GenerateDecor()
     {
         if (Random.Shared.Next(2) == 1)
