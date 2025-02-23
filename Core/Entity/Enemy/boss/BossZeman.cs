@@ -2,23 +2,29 @@
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using TBoGV;
 
 internal class BossZeman : EnemyBoss
 {
-	static Texture2D Sprite = TextureManager.GetTexture("admiration");
+	static Texture2D Sprite = TextureManager.GetTexture("milosSpinks");
+	static SoundEffect AligatorSfx = SoundManager.GetSound("aligator");
+	protected DateTime phaseChange = DateTime.UtcNow;
+	protected int chillDuration = 3000;
+	protected int rageDuration = 2500;
 
 	private Queue<Vector2> path = new Queue<Vector2>();
 	private DateTime lastPathUpdate = DateTime.UtcNow;
 	private Vector2 PlayerPosition;
 	private Vector2 targetPosition;
 	private float pathUpdateCooldown = 0.1f;
+	private bool Rage = false;
 	public BossZeman(Vector2 position)
 	{
 		Position = position;
 		Hp = 80;
-		MovementSpeed = 3;
+		MovementSpeed = 7;
 		AttackDmg = 2;
 		float scale = 45f / Math.Max(Sprite.Width, Sprite.Height);
 		Size = new Vector2(Sprite.Width * scale, Sprite.Height * scale);
@@ -28,7 +34,21 @@ internal class BossZeman : EnemyBoss
 	public override void Update(Vector2 playerPosition)
 	{
 		PlayerPosition = playerPosition;
+		UpdatePhase();
 	}
+	protected void UpdatePhase()
+	{
+		if (((DateTime.UtcNow - phaseChange).TotalMilliseconds > rageDuration && Rage) ||
+			((DateTime.UtcNow - phaseChange).TotalMilliseconds > chillDuration && !Rage))
+		{
+			Rage = !Rage;
+			phaseChange = DateTime.UtcNow;
+			chillDuration = new Random().Next(2000, 3500);
+			if(Rage)
+				AligatorSfx.Play();
+		}
+	}
+
 	private void FollowPath()
 	{
 		if (path.Count > 0)
@@ -81,8 +101,8 @@ internal class BossZeman : EnemyBoss
 			lastPathUpdate = DateTime.UtcNow; // Update the last path update time
 		}
 
-		// Follow the path
-		FollowPath();
+		if(Rage)
+			FollowPath();
 	}
 
 	private Queue<Vector2> FindPath(Vector2 start, Vector2 goal, Place place)

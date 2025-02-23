@@ -63,7 +63,8 @@ public static class TextureManager
 			"chillAles",
 			"kaves",
 			"dzojkAles",
-			"spritesheetOIIA"
+			"spritesheetOIIA",
+			"milosSpinks"
 		};
 
         foreach (string name in names)
@@ -108,7 +109,8 @@ public static class SoundManager
         {
             "bouchaniDoKorenu",
 			"dzojkShorter",
-			"OIIAOIIA"
+			"OIIAOIIA",
+			"aligator"
         };
 
         foreach (string name in names)
