@@ -31,6 +31,11 @@ public static class TextureManager
             // Doors
             "door",
 
+            // Decorations 
+            "lavice",
+            "zidle",
+            "katedra",
+
             // Entities
             "korenovy_vezen",
             "sarka",

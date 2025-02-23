@@ -23,6 +23,11 @@ public abstract class Tile : ICloneable
         return tileSize;
     }
 
+    public void FlipHorizontally()
+    {
+        Sprite.FlipHorizontally();
+    }
+
     public object Clone()
     {
         return this.MemberwiseClone();
@@ -48,6 +53,7 @@ public class TileWall : Tile
     public TileWall(WallTypes wall) : this(wall, 0f) { }
 
 }
+
 
 public class TileInteractEventArgs : EventArgs
 {
@@ -125,4 +131,14 @@ public class TileHeal : Tile, IInteractable
             p.Heal(1);
         }
     }
+}
+
+public class TileDecoration : Tile
+{
+    public TileDecoration(bool collide, float rotation, DecorationTypes type) : base(collide, rotation)
+    {
+        this.Sprite = TextureManager.GetTexture(type.Value);
+    }
+    public TileDecoration(bool collide, DecorationTypes type) : this(collide, 0f, type) { }
+
 }

@@ -111,7 +111,7 @@ public abstract class Room : Place
                     Projectiles.RemoveAt(i);
                 continue;
             }
-            if (this.ShouldCollideAt(Projectiles[i].GetCircleCenter()))
+            if (this.ShouldCollideAt(Projectiles[i].GetCircleCenter(), true))
             {
                 Projectiles.RemoveAt(i);
             }
@@ -119,7 +119,7 @@ public abstract class Room : Place
         for (int i = player.Projectiles.Count - 1; i >= 0; i--)
         {
             player.Projectiles[i].Update();
-            if (this.ShouldCollideAt(player.Projectiles[i].GetCircleCenter()))
+            if (this.ShouldCollideAt(player.Projectiles[i].GetCircleCenter(), true))
             {
                 DestroyPlayerProjectile(i);
                 continue;
@@ -225,6 +225,7 @@ public abstract class Room : Place
         IsGenerated = true;
     }
 
+    protected virtual void GenerateDecor() { }
 
     protected virtual void GenerateDoors(DoorTypes doors) { GenerateDoors(doors, false); }
     protected virtual void GenerateDoors(DoorTypes doors, bool center)

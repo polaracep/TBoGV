@@ -27,6 +27,9 @@ public class RoomHallway : Room
             new TileWall(WallTypes.LOBBY_CORNER)
         );
 
+        GenerateDecor();
+
         GenerateDoors(DoorTypes.BASIC);
     }
+
 }

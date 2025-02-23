@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using TBoGV;
 
 /// <summary>
@@ -17,6 +18,7 @@ public class RoomClassroom : Room
     public override void GenerateRoom()
     {
         GenerateRoomBase(FloorTypes.BASIC, WallTypes.WHITE, DoorTypes.BASIC);
+        GenerateDecor();
         GenerateEnemies();
     }
 
@@ -43,4 +45,29 @@ public class RoomClassroom : Room
         base.GenerateEnemies();
     }
 
+    protected override void GenerateDecor()
+    {
+        // Generovat pary lavice + zidle
+        int cntY = (int)Math.Ceiling((Dimensions.Y - 4) / 2);
+        int cntX = (int)Math.Ceiling((Dimensions.X - 4) / 3) - 2;
+
+        if (cntY % 2 == 1)
+            cntY--;
+        if (cntX % 2 == 1)
+            cntX--;
+
+        for (int y = 0; y < cntX; y++)
+            for (int i = 0; i < cntY; i++)
+            {
+                Decorations[2 + 3 * y, 2 + 2 * i] = new TileDecoration(false, DecorationTypes.CHAIR);
+                Decorations[3 + 3 * y, 2 + 2 * i] = new TileDecoration(true, DecorationTypes.DESK);
+            }
+
+        TileDecoration chair = new TileDecoration(false, DecorationTypes.CHAIR);
+        // chair.FlipHorizontally();
+        Decorations[(int)Dimensions.X - 4, 3] = new TileDecoration(true, DecorationTypes.KATEDRA);
+        Decorations[(int)Dimensions.X - 3, 3] = chair;
+
+
+    }
 }

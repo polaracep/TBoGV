@@ -113,10 +113,18 @@ public abstract class Place : IDraw
         return (Floor[(int)(coords.X / Tile.GetSize().X), (int)(coords.Y / Tile.GetSize().Y)],
                 Decorations[(int)(coords.X / Tile.GetSize().X), (int)(coords.Y / Tile.GetSize().Y)]);
     }
-    public bool ShouldCollideAt(Vector2 coords)
+    public bool ShouldCollideAt(Vector2 coords) { return ShouldCollideAt(coords, false); }
+    public bool ShouldCollideAt(Vector2 coords, bool projectilesOnly)
     {
-        return (this.GetTileFloor(coords)?.DoCollision ?? false) ||
-               (this.GetTileDecoration(coords)?.DoCollision ?? false);
+        if (projectilesOnly)
+        {
+            return this.GetTileFloor(coords)?.DoCollision ?? false;
+        }
+        else
+        {
+            return (this.GetTileFloor(coords)?.DoCollision ?? false) ||
+                    (this.GetTileDecoration(coords)?.DoCollision ?? false);
+        }
     }
 
     public abstract void Reset();

@@ -42,3 +42,11 @@ public sealed class WallTypes : StringEnum
     public WallTypes(string v) : base(v) { }
 
 }
+
+public sealed class DecorationTypes : StringEnum
+{
+    public DecorationTypes(string v) : base(v) { }
+    public static readonly DecorationTypes CHAIR = new DecorationTypes("zidle");
+    public static readonly DecorationTypes DESK = new DecorationTypes("lavice");
+    public static readonly DecorationTypes KATEDRA = new DecorationTypes("katedra");
+}
