@@ -113,8 +113,31 @@ public abstract class Place : IDraw
         return (this.GetTileFloor(coords)?.DoCollision ?? false) ||
                (this.GetTileDecoration(coords)?.DoCollision ?? false);
     }
+	public bool ShouldCollideAt(Rectangle rect)
+	{
+		//experimental
+		Vector2 tileSize = Tile.GetSize();
 
-    public abstract void Reset();
+		// Calculate tile indices for the rectangle bounds
+		int startX = Math.Max(0, rect.Left / (int)tileSize.X);
+		int startY = Math.Max(0, rect.Top / (int)tileSize.Y);
+		int endX = Math.Min((int)Dimensions.X - 1, rect.Right / (int)tileSize.X);
+		int endY = Math.Min((int)Dimensions.Y - 1, rect.Bottom / (int)tileSize.Y);
+
+		// Iterate through all tiles the rectangle covers
+		for (int x = startX; x <= endX; x++)
+		{
+			for (int y = startY; y <= endY; y++)
+			{
+				Vector2 tileCoords = new Vector2(x * tileSize.X, y * tileSize.Y);
+				if (ShouldCollideAt(tileCoords))
+					return true; // If any tile collides, return true
+			}
+		}
+		return false;
+	}
+
+	public abstract void Reset();
     public abstract void Draw(SpriteBatch spriteBatch);
     public abstract void Update(GameTime gameTime);
 }

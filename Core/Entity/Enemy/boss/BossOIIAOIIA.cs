@@ -164,24 +164,18 @@ internal class BossOIIAOIIA : EnemyBoss
 			Position += stepDirection; // Apply the step movement
 		}
 	}
-
-
-
 	private bool CollidesWithWall(Vector2 testPosition, Place place)
 	{
-		return place.ShouldCollideAt(new Vector2(testPosition.X + Size.X/2, testPosition.Y + Size.Y / 2));
+		return place.ShouldCollideAt(new Rectangle((int)testPosition.X, (int)testPosition.Y, (int)Size.X, (int)Size.Y));
 	}
-
 	public override bool ReadyToAttack()
 	{
 		return Rage;
 	}
-
 	public override bool IsDead()
 	{
 		return Hp <= 0;
 	}
-
 	public override List<Item> Drop(int looting)
 	{
 		return new List<Item>() { new ItemTeeth(Vector2.Zero) };

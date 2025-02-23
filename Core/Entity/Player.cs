@@ -150,10 +150,7 @@ public class Player : Entity, IRecieveDmg, IDealDmg
 			{
 				// Create a test position by moving 1 pixel in the X direction
 				Vector2 testPosition = new Vector2(Position.X + stepX, Position.Y);
-				if (!place.ShouldCollideAt(new Vector2(testPosition.X + tolerance, testPosition.Y + tolerance)) &&
-					!place.ShouldCollideAt(new Vector2(testPosition.X - tolerance + Size.X, testPosition.Y - tolerance + Size.Y)) &&
-					!place.ShouldCollideAt(new Vector2(testPosition.X - tolerance + Size.X, testPosition.Y + tolerance)) &&
-					!place.ShouldCollideAt(new Vector2(testPosition.X + tolerance, testPosition.Y - tolerance + Size.Y)))
+				if (!place.ShouldCollideAt(new Rectangle((int)testPosition.X, (int)testPosition.Y, (int)Size.X, (int)Size.Y)))
 				{
 					// If no collision, update the position by 1 pixel in the X direction.
 					Position.X += stepX;
@@ -176,10 +173,8 @@ public class Player : Entity, IRecieveDmg, IDealDmg
 			{
 				// Create a test position by moving 1 pixel in the Y direction
 				Vector2 testPosition = new Vector2(Position.X, Position.Y + stepY);
-				if (!place.ShouldCollideAt(new Vector2(testPosition.X + tolerance, testPosition.Y + tolerance)) &&
-					!place.ShouldCollideAt(new Vector2(testPosition.X - tolerance + Size.X, testPosition.Y - tolerance + Size.Y)) &&
-					!place.ShouldCollideAt(new Vector2(testPosition.X - tolerance + Size.X, testPosition.Y + tolerance)) &&
-					!place.ShouldCollideAt(new Vector2(testPosition.X + tolerance, testPosition.Y - tolerance + Size.Y)))
+
+				if (!place.ShouldCollideAt(new Rectangle((int)testPosition.X, (int)testPosition.Y, (int)Size.X, (int)Size.Y)))
 				{
 					// If no collision, update the position by 1 pixel in the Y direction.
 					Position.Y += stepY;
