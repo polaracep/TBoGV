@@ -11,6 +11,8 @@ public abstract class EntityPassive : Entity
         this.Sprite = GetSprite();
         this.Size = new Vector2(this.Sprite.Width, this.Sprite.Height);
     }
+    public EntityPassive() : this(Vector2.Zero) { }
+
     public override void Draw(SpriteBatch spriteBatch)
     {
         spriteBatch.Draw(this.GetSprite(), this.Position, Color.White);

@@ -19,12 +19,13 @@ internal class BossAles : EnemyBoss
 	protected bool Rage { get; set; }
 
 	private double rotationOffset = 0;
-	protected new enum bossPhases : int
+	protected new enum BossPhases : int
 	{
 		IDLE = 0,
 		KAVES = 1,
 	}
-	protected bossPhases Phase { get; set; }
+	protected BossPhases Phase { get; set; }
+
 	public BossAles(Vector2 position)
 	{
 		Rage = false;
@@ -40,6 +41,7 @@ internal class BossAles : EnemyBoss
 		XpValue = 50;
 		phaseChange = DateTime.UtcNow;
 	}
+	public BossAles() : this(Vector2.Zero) { }
 	public override void Draw(SpriteBatch spriteBatch)
 	{
 		spriteBatch.Draw(Rage ? SpriteRage : SpriteChill, new Rectangle(Convert.ToInt32(Position.X), Convert.ToInt32(Position.Y), Convert.ToInt32(Size.X), Convert.ToInt32(Size.Y)), Color.White);

@@ -48,6 +48,7 @@ internal class BossOIIAOIIA : EnemyBoss
 		XpValue = 50;
 		phaseChange = DateTime.UtcNow;
 	}
+	public BossOIIAOIIA() : this(Vector2.Zero) { }
 
 	public override void Draw(SpriteBatch spriteBatch)
 	{

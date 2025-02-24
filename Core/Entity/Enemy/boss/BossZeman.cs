@@ -39,6 +39,7 @@ internal class BossZeman : EnemyBoss
 		XpValue = 70;
 		phaseChange = DateTime.UtcNow;
 	}
+	public BossZeman() : this(Vector2.Zero) { }
 
 	public override void Update(Vector2 playerPosition)
 	{
