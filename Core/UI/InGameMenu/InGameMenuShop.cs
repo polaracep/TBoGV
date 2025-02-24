@@ -28,11 +28,13 @@ namespace TBoGV
         private List<ShopItem> shopItemsPool = new List<ShopItem>();
         // The three items currently offered in the shop.
         private List<ShopItem> currentShopItems = new List<ShopItem>();
+        private static List<ShopItem> itemCache = new List<ShopItem>();
 
         // Rectangles representing the clickable areas for the 3 boxes.
         private Rectangle[] boxBounds = new Rectangle[3];
         private int hoveredBox = -1;
         private MouseState previousMouseState;
+        private KeyboardState previousKeyboardState;
 
         public InGameMenuShop(Viewport viewport)
         {
@@ -65,8 +67,14 @@ namespace TBoGV
         // Opens the shop by randomly selecting 3 items from the pool.
         public void OpenMenu()
         {
-            Random random = new Random();
-            currentShopItems = shopItemsPool.OrderBy(x => random.Next()).Take(3).ToList();
+            if (itemCache.Count != 0)
+                currentShopItems = itemCache;
+            else
+            {
+                Random random = new Random();
+                currentShopItems = shopItemsPool.OrderBy(x => random.Next()).Take(3).ToList();
+                itemCache = currentShopItems;
+            }
             Active = true;
         }
 
@@ -76,6 +84,14 @@ namespace TBoGV
 
             if (!Active)
                 return;
+
+
+            // Not clearing the cache here
+            if (keyboardState.IsKeyDown(Keys.Escape) && previousKeyboardState.IsKeyUp(Keys.Escape))
+            {
+                Active = false;
+                return;
+            }
 
             hoveredBox = -1; // Reset hover state.
 
@@ -90,14 +106,20 @@ namespace TBoGV
                         mouseState.LeftButton == ButtonState.Released)
                     {
                         // "Purchase" the item: add it to the player's inventory.
+                        if (player.Coins < currentShopItems[i].Price)
+                            return;
+
                         player.Inventory.PickUpItem(currentShopItems[i].Item);
                         // Optionally, you could deduct money from the player here.
+
+                        itemCache.Clear();
                         Active = false; // Close shop after purchase.
                         return;
                     }
                 }
             }
             previousMouseState = mouseState;
+            previousKeyboardState = keyboardState;
         }
 
         public override void Draw(SpriteBatch spriteBatch)

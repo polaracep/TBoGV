@@ -73,12 +73,12 @@ public class RoomClassroom : Room
                 for (int y = 0; y < cntY; y++)
                 {
                     // For vertical, the top tile (desk) now has collision and the bottom tile (chair) does not.
-                    AddDecoTile(new Vector2(2 + 2 * x, 2 + 3 * y), new TileDecoration(true, DecorationTypes.DESK));
-                    AddDecoTile(new Vector2(2 + 2 * x, 3 + 3 * y), new TileDecoration(false, DecorationTypes.CHAIR));
+                    AddDecoTile(new Vector2(2 + 2 * x, 2 + 3 * y), new TileDecoration(false, DecorationTypes.CHAIR));
+                    AddDecoTile(new Vector2(2 + 2 * x, 3 + 3 * y), new TileDecoration(true, DecorationTypes.DESK));
                 }
 
-            AddDecoTile(new Vector2(3, Dimensions.Y - 4), new TileDecoration(false, DecorationTypes.CHAIR));
-            AddDecoTile(new Vector2(3, Dimensions.Y - 3), new TileDecoration(true, DecorationTypes.KATEDRA));
+            AddDecoTile(new Vector2(3, Dimensions.Y - 4), new TileDecoration(true, DecorationTypes.KATEDRA));
+            AddDecoTile(new Vector2(3, Dimensions.Y - 3), new TileDecoration(false, DecorationTypes.CHAIR));
             AddDecoTile(new Vector2(Dimensions.X / 2, Dimensions.Y - 1), new TileDecoration(true, DecorationTypes.BLACKBOARD, MathHelper.PiOver2));
 
         }

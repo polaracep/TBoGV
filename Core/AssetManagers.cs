@@ -104,6 +104,7 @@ public static class TextureManager
             "gymvod",
             "platina",
             "boom",
+            "gold",
         };
 
         foreach (string name in names)

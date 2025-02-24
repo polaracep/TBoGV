@@ -24,6 +24,8 @@ public class Lobby : Place
             new TileWall(WallTypes.LOBBY_CORNER)
         );
 
+        AddDecoTile(Dimensions / 2, new TileTreasure());
+
         // lol
         AddDecoTile(new Vector2(1, Dimensions.Y - 3), new TileDecoration(false, DecorationTypes.CHAIR_CAFETERIA_G));
         AddDecoTile(new Vector2(1, Dimensions.Y - 2), new TileDecoration(false, DecorationTypes.CHAIR_CAFETERIA_G));

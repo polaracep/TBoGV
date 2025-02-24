@@ -146,6 +146,27 @@ public class TileHeal : Tile, IInteractable
     }
 }
 
+public class TileTreasure : Tile, IInteractable
+{
+    public TileTreasure(float rotation, SpriteEffects fx) : base(false, rotation, fx)
+    {
+        this.Sprite = TextureManager.GetTexture("gold");
+    }
+
+    public TileTreasure(float rotation) : this(0f, SpriteEffects.None) { }
+
+    public TileTreasure() : this(0f) { }
+    public void Interact(Entity e, Place _)
+    {
+        if (e is Player)
+        {
+            Random r = new Random();
+            Player p = (Player)e;
+            p.Coins += r.Next(20);
+        }
+    }
+}
+
 public class TileDecoration : Tile
 {
     public TileDecoration(bool collide, float rotation, DecorationTypes type, SpriteEffects fx) : base(collide, rotation, fx)
