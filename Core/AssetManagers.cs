@@ -12,37 +12,72 @@ public static class TextureManager
     {
         List<string> names = new List<string>
         {
+            // Floors
             "tile",
             "floorYellow",
             "floorLobby",
+            // "floorHallway",
+
+            // Walls
             "wall",
             "wallBrick",
             "wallWhite",
             "wallWhiteCorner",
             "wallLobby",
             "wallLobbyCorner",
+            // "wallHallway",
+            // "wallHallwayCorner",
+            
+            // Doors
             "door",
+
+            // Decorations 
+            "lavice",
+            "zidle",
+            "katedra",
+            "blackboard",
+            "decoInfo1",
+            "decoInfo2",
+            "decoInfo3",
+            "decoInfo4",
+
+            // Entities
+            "korenovy_vezen",
+            "sarka",
+            "kavesAles",
+            "chillAles",
+            "kaves",
+            "dzojkAles",
+            "spritesheetOIIA",
+            "milosSpinks",
+
+            // Vitek
             "vitek-nobg",
             "vitekElegan",
+            "vitekEleganBolderCut",
+
+            // Projectiles
             "projectile",
+            "koren",
+
+            // UI
             "taunt",
             "admiration",
-            "heal",
             "blackSquare",
-            "koren",
-            "korenovy_vezen",
-            "gymvod",
-            "platina",
-            "coin",
             "whiteSquare",
             "containerBorder",
             "containerWeapon",
             "containerEffect",
             "containerBoots",
             "containerBasic",
-            "wheat4",
-            "teeth",
             "gymvodMap",
+            "cooked",
+            "wheat4",
+            "arrow",
+
+            // Items
+            "heal",
+            "coin",
             "adBlock",
             "calculator",
             "fancyShoes",
@@ -54,18 +89,13 @@ public static class TextureManager
             "trackShoes",
             "dagger",
             "maso",
+            "teeth",
+
+            // Misc
+            "gymvod",
+            "platina",
             "boom",
-            "vitekEleganBolderCut",
-            "cooked",
-            "arrow",
-            "sarka",
-			"kavesAles",
-			"chillAles",
-			"kaves",
-			"dzojkAles",
-			"spritesheetOIIA",
-			"milosSpinks"
-		};
+        };
 
         foreach (string name in names)
         {
@@ -108,9 +138,9 @@ public static class SoundManager
         List<string> names = new List<string>
         {
             "bouchaniDoKorenu",
-			"dzojkShorter",
-			"OIIAOIIA",
-			"aligator"
+            "dzojkShorter",
+            "OIIAOIIA",
+            "aligator"
         };
 
         foreach (string name in names)

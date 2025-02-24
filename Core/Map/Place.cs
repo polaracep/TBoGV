@@ -21,9 +21,14 @@ public abstract class Place : IDraw
     protected Tile[,] Decorations;
 
     /// <summary>
-    /// List of passive entities
+    /// List of living passive entities
     /// </summary>
-    public List<Entity> Entities = new List<Entity>();
+    public List<EntityPassive> Entities = new List<EntityPassive>();
+
+    /// <summary>
+    /// List of living entities
+    /// </summary>
+    protected List<Enemy> Enemies = new List<Enemy>();
 
     /// <summary>
     /// Dimensions of the room
@@ -31,7 +36,7 @@ public abstract class Place : IDraw
     public Vector2 Dimensions { get; protected set; }
 
     /// <summary>
-    /// All dropped items -> items on the ground
+    /// All dropped items (items on the ground)
     /// </summary>
     public List<Item> Drops = new List<Item>();
 
@@ -108,10 +113,18 @@ public abstract class Place : IDraw
         return (Floor[(int)(coords.X / Tile.GetSize().X), (int)(coords.Y / Tile.GetSize().Y)],
                 Decorations[(int)(coords.X / Tile.GetSize().X), (int)(coords.Y / Tile.GetSize().Y)]);
     }
-    public bool ShouldCollideAt(Vector2 coords)
+    public bool ShouldCollideAt(Vector2 coords) { return ShouldCollideAt(coords, false); }
+    public bool ShouldCollideAt(Vector2 coords, bool projectilesOnly)
     {
-        return (this.GetTileFloor(coords)?.DoCollision ?? false) ||
-               (this.GetTileDecoration(coords)?.DoCollision ?? false);
+        if (projectilesOnly)
+        {
+            return this.GetTileFloor(coords)?.DoCollision ?? false;
+        }
+        else
+        {
+            return (this.GetTileFloor(coords)?.DoCollision ?? false) ||
+                    (this.GetTileDecoration(coords)?.DoCollision ?? false);
+        }
     }
 	public bool ShouldCollideAt(Rectangle rect)
 	{

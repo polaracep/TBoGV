@@ -20,21 +20,36 @@ public static class Storyline
     public static void GenerateStoryline()
     {
         LevelList = new List<Level>();
-
-        /* Level 1 */
+        // Test level
         LevelList.Add(
             new Level(Player, new List<Room> {
-                new RoomClassroom(new Vector2(9), p, new List<Enemy> {
+                new RoomClassroom(new Vector2(16, 10), p, new List<Entity> {
+                    // new EnemyZdena(Vector2.Zero),
+                    // new EnemyZdena(Vector2.Zero),
+                    // new EnemyZdena(Vector2.Zero),
+                    new EntitySarka(Vector2.One),
+                })
+            },
+            new RoomStart(new Vector2(7, 7), p), 4
+            )
+        );
+
+        /* Level 1 */
+        /*
+        LevelList.Add(
+            new Level(Player, new List<Room> {
+                new RoomClassroom(new Vector2(9), p, new List<Entity> {
                     new EnemyZdena(Vector2.Zero),
                     new EnemyZdena(Vector2.Zero),
                     new EnemyZdena(Vector2.Zero),
+                    new EntitySarka(Vector2.One),
                 }),
-                new RoomClassroom(new Vector2(7), p, new List<Enemy> {
+                new RoomClassroom(new Vector2(7), p, new List<Entity> {
                     new EnemyVitek(Vector2.Zero),
                     new EnemyVitek(Vector2.Zero),
                     new EnemyVitek(Vector2.Zero),
                 }),
-                new RoomClassroom(new Vector2(11), p, new List<Enemy> {
+                new RoomClassroom(new Vector2(11), p, new List<Entity> {
                     new EnemyZdena(Vector2.Zero),
                     new EnemyZdena(Vector2.Zero),
                     new EnemyZdena(Vector2.Zero),
@@ -42,12 +57,14 @@ public static class Storyline
             },
             new RoomStart(new Vector2(7, 7), p),
         4));
-
+        */
         /* Level 2 */
+        /*
         LevelList.Add(
             new Level(Player, new List<Room> { new RoomEmpty(new Vector2(9), p) },
             new RoomStart(new Vector2(9, 9), p),
         4));
+        */
     }
 
     public static void NextLevel()
