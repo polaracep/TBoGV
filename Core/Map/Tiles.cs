@@ -10,17 +10,25 @@ public abstract class Tile : ICloneable
     public bool DoCollision { get; protected set; } = false;
     public float Rotation = 0f;
 
+    public SpriteEffects SpriteEffects;
+
     // Vsechny tiles50x50.
     protected static Vector2 tileSize = new Vector2(50, 50);
 
-    protected Tile(bool collide, float rotation)
+    protected Tile(bool collide, float rotation, SpriteEffects effects)
     {
         this.Rotation = rotation;
-        DoCollision = collide;
+        this.DoCollision = collide;
+        this.SpriteEffects = effects;
     }
     public static Vector2 GetSize()
     {
         return tileSize;
+    }
+
+    public void FlipHorizontally()
+    {
+        Sprite.FlipHorizontally();
     }
 
     public object Clone()
@@ -31,22 +39,26 @@ public abstract class Tile : ICloneable
 
 public class TileFloor : Tile
 {
-    public TileFloor(FloorTypes floor, float rotation) : base(false, rotation)
+    public TileFloor(FloorTypes floor, float rotation, SpriteEffects effects)
+        : base(false, rotation, effects)
     {
         Sprite = TextureManager.GetTexture(floor.Value);
     }
 
-    public TileFloor(FloorTypes floor) : this(floor, 0f) { }
+    public TileFloor(FloorTypes floor)
+        : this(floor, 0f, SpriteEffects.None) { }
 }
 
 public class TileWall : Tile
 {
-    public TileWall(WallTypes wall, float rotation) : base(true, rotation)
+    public TileWall(WallTypes wall, float rotation, SpriteEffects effects)
+        : base(true, rotation, effects)
     {
         Sprite = TextureManager.GetTexture(wall.Value);
     }
-    public TileWall(WallTypes wall) : this(wall, 0f) { }
 
+    public TileWall(WallTypes wall)
+        : this(wall, 0f, SpriteEffects.None) { }
 }
 
 public class TileInteractEventArgs : EventArgs
@@ -68,15 +80,20 @@ public class TileDoor : Tile, IInteractable
     public Vector2 DoorTpPosition;
     public bool IsBossDoor = false;
     public static event EventHandler<TileInteractEventArgs> TileInteract;
-    public TileDoor(DoorTypes type, Directions direction, Vector2 doorPos, TileDoor oppositeDoor) : base(true, ComputeRotation(direction))
+    public TileDoor(DoorTypes type, Directions direction, Vector2 doorPos, TileDoor oppositeDoor, SpriteEffects fx)
+        : base(true, ComputeRotation(direction), fx)
     {
         this.DoorTpPosition = doorPos;
         this.OppositeDoor = oppositeDoor;
         this.Direction = direction;
         SetDoorType(type);
     }
-    public TileDoor(DoorTypes door, Directions direction, Vector2 doorPos) : this(door, direction, doorPos, null) { }
-    public TileDoor(DoorTypes door, Directions direction) : this(door, direction, Vector2.Zero, null) { }
+    public TileDoor(DoorTypes type, Directions direction, Vector2 doorPos, TileDoor oppositeDoor)
+        : this(type, direction, doorPos, oppositeDoor, SpriteEffects.None) { }
+    public TileDoor(DoorTypes door, Directions direction, Vector2 doorPos)
+        : this(door, direction, doorPos, null, SpriteEffects.None) { }
+    public TileDoor(DoorTypes door, Directions direction)
+        : this(door, direction, Vector2.Zero, null, SpriteEffects.None) { }
     public void Interact(Entity e, Place p)
     {
         // put player in the left-top corne
@@ -111,10 +128,12 @@ public class TileDoor : Tile, IInteractable
 
 public class TileHeal : Tile, IInteractable
 {
-    public TileHeal(float rotation) : base(true, rotation)
+    public TileHeal(float rotation, SpriteEffects fx) : base(true, rotation, fx)
     {
         this.Sprite = TextureManager.GetTexture("heal");
     }
+
+    public TileHeal(float rotation) : this(0f, SpriteEffects.None) { }
 
     public TileHeal() : this(0f) { }
     public void Interact(Entity e, Place _)
@@ -125,4 +144,16 @@ public class TileHeal : Tile, IInteractable
             p.Heal(1);
         }
     }
+}
+
+public class TileDecoration : Tile
+{
+    public TileDecoration(bool collide, float rotation, DecorationTypes type, SpriteEffects fx) : base(collide, rotation, fx)
+    {
+        this.Sprite = TextureManager.GetTexture(type.Value);
+    }
+    public TileDecoration(bool collide, DecorationTypes type, SpriteEffects fx) : this(collide, 0f, type, fx) { }
+    public TileDecoration(bool collide, DecorationTypes type, float rotation) : this(collide, rotation, type, SpriteEffects.None) { }
+    public TileDecoration(bool collide, DecorationTypes type) : this(collide, 0f, type, SpriteEffects.None) { }
+
 }
