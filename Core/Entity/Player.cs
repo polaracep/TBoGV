@@ -139,7 +139,7 @@ public class Player : Entity, IRecieveDmg, IDealDmg
 			// Console.WriteLine("Dx")
 		}
 		// --- Begin Movement ---
-		int tolerance = 1;
+		int tolerance = 4;
 
 		// Move horizontally in small increments
 		if (dx != 0)
@@ -150,7 +150,7 @@ public class Player : Entity, IRecieveDmg, IDealDmg
 			{
 				// Create a test position by moving 1 pixel in the X direction
 				Vector2 testPosition = new Vector2(Position.X + stepX, Position.Y);
-				if (!place.ShouldCollideAt(new Rectangle((int)testPosition.X, (int)testPosition.Y, (int)Size.X - 1, (int)Size.Y - 1)))
+				if (!place.ShouldCollideAt(new Rectangle((int)testPosition.X+tolerance, (int)testPosition.Y + tolerance, (int)Size.X - tolerance*2, (int)Size.Y - tolerance * 2)))
 				{
 					// If no collision, update the position by 1 pixel in the X direction.
 					Position.X += stepX;
@@ -174,7 +174,7 @@ public class Player : Entity, IRecieveDmg, IDealDmg
 				// Create a test position by moving 1 pixel in the Y direction
 				Vector2 testPosition = new Vector2(Position.X, Position.Y + stepY);
 
-				if (!place.ShouldCollideAt(new Rectangle((int)testPosition.X, (int)testPosition.Y, (int)Size.X-1, (int)Size.Y - 1)))
+				if (!place.ShouldCollideAt(new Rectangle((int)testPosition.X + tolerance, (int)testPosition.Y + tolerance, (int)Size.X - tolerance * 2, (int)Size.Y - tolerance * 2)))
 				{
 					// If no collision, update the position by 1 pixel in the Y direction.
 					Position.Y += stepY;
