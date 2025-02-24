@@ -57,7 +57,7 @@ internal class BossOIIAOIIA : EnemyBoss
 
 	public override List<Projectile> Attack()
 	{
-		return new List<Projectile>() { new ProjectileMelee(Position + Size/2, Size*new Vector2(0.6f)) };
+		return new List<Projectile>() { new ProjectileMelee(Position + Size / 2, Size * new Vector2(0.6f)) };
 	}
 
 	public override Texture2D GetSprite()
@@ -178,7 +178,7 @@ internal class BossOIIAOIIA : EnemyBoss
 	}
 	public override List<Item> Drop(int looting)
 	{
-		return new List<Item>() { new ItemTeeth(Vector2.Zero) };
+		return new List<Item>() { new ItemTeeth(this.Position) };
 	}
 	public override float RecieveDmg(Projectile projectile)
 	{

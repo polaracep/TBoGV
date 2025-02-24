@@ -14,21 +14,21 @@ internal class BossAles : EnemyBoss
 	static float ScaleChill;
 	static float ScaleRage;
 	protected DateTime phaseChange = DateTime.UtcNow;
-	protected int chillDuration = 5000; 
+	protected int chillDuration = 5000;
 	protected int rageDuration = (int)SfxKaves.Duration.TotalMilliseconds;
 	protected bool Rage { get; set; }
 
-	private double rotationOffset = 0; 
+	private double rotationOffset = 0;
 	protected new enum bossPhases : int
 	{
 		IDLE = 0,
 		KAVES = 1,
 	}
 	protected bossPhases Phase { get; set; }
-	public BossAles(Vector2 position) 
-	{ 
+	public BossAles(Vector2 position)
+	{
 		Rage = false;
-			
+
 		Position = position;
 		Hp = 200;
 		MovementSpeed = 4;
@@ -36,7 +36,7 @@ internal class BossAles : EnemyBoss
 		AttackDmg = 1;
 		ScaleRage = 100f / Math.Max(SpriteRage.Width, SpriteRage.Height);
 		ScaleChill = 100f / Math.Max(SpriteChill.Width, SpriteChill.Height);
-		Size = new Vector2(SpriteChill.Width * ScaleChill, SpriteChill.Height*ScaleChill);
+		Size = new Vector2(SpriteChill.Width * ScaleChill, SpriteChill.Height * ScaleChill);
 		XpValue = 50;
 		phaseChange = DateTime.UtcNow;
 	}
@@ -44,26 +44,26 @@ internal class BossAles : EnemyBoss
 	{
 		spriteBatch.Draw(Rage ? SpriteRage : SpriteChill, new Rectangle(Convert.ToInt32(Position.X), Convert.ToInt32(Position.Y), Convert.ToInt32(Size.X), Convert.ToInt32(Size.Y)), Color.White);
 	}
-		
+
 
 	public override List<Projectile> Attack()
 	{
 		LastAttackTime = DateTime.UtcNow;
 		List<Projectile> projectiles = new List<Projectile>();
 
-		int projectileCount = 6; 
+		int projectileCount = 6;
 		double angleStep = 360.0 / projectileCount; // Spread evenly in a circle
 
 		for (int i = 0; i < projectileCount; i++)
 		{
-			double angle = i * angleStep + rotationOffset; 
-			double radians = Math.PI * angle / 180.0; 
+			double angle = i * angleStep + rotationOffset;
+			double radians = Math.PI * angle / 180.0;
 			Vector2 direction = new Vector2((float)Math.Cos(radians), (float)Math.Sin(radians));
 
 			projectiles.Add(new ProjectileKaves(Position + Size / 2, direction, AttackDmg));
 		}
 
-		rotationOffset += 5; 
+		rotationOffset += 5;
 
 		return projectiles;
 	}
@@ -81,7 +81,7 @@ internal class BossAles : EnemyBoss
 	}
 	protected void UpdatePhase()
 	{
-		if (((DateTime.UtcNow - phaseChange).TotalMilliseconds > rageDuration && Rage)|| ((DateTime.UtcNow - phaseChange).TotalMilliseconds > chillDuration && !Rage))
+		if (((DateTime.UtcNow - phaseChange).TotalMilliseconds > rageDuration && Rage) || ((DateTime.UtcNow - phaseChange).TotalMilliseconds > chillDuration && !Rage))
 		{
 			Rage = !Rage;
 			phaseChange = DateTime.UtcNow;
@@ -103,7 +103,7 @@ internal class BossAles : EnemyBoss
 
 	public override List<Item> Drop(int looting)
 	{
-		return new List<Item>() {new ItemTeeth(Vector2.Zero) };
+		return new List<Item>() { new ItemTeeth(this.Position) };
 	}
 
 	public override void Move(Place place)

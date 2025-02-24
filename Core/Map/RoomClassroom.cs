@@ -37,7 +37,7 @@ public class RoomClassroom : Room
             new TileWall(WallTypes.WHITE),
             new TileWall(WallTypes.WHITE_CORNER)
         );
-		this.Floor[2, 2] = new TileFloor(FloorTypes.STAIRS);
+        this.Floor[2, 2] = new TileFloor(FloorTypes.STAIRS);
 
         GenerateDoors(doors);
         IsGenerated = true;
@@ -99,22 +99,6 @@ public class RoomClassroom : Room
                 }
             }
         }
-		GenerateMilos();
-
-	}
-
-    protected void GenerateMilos()
-    {
-        Random rand = new Random();
-        while (true)
-        {
-            Vector2 spawnPos = new Vector2(rand.Next((int)Dimensions.X), rand.Next((int)Dimensions.Y)) * 50;
-            if (!this.ShouldCollideAt(spawnPos))
-            {
-                this.AddEnemy(new BossZeman(spawnPos));
-                break;
-            }
-        }
-
     }
+
 }
