@@ -81,7 +81,7 @@ public abstract class Room : Place
     public override void Reset()
     {
         this.ClearRoom();
-        this.GenerateRoom();
+        this.Generate();
         this.GenerateEnemies();
     }
 
@@ -195,7 +195,6 @@ public abstract class Room : Place
     }
 
     /* === Generation methods === */
-    public abstract void GenerateRoom();
     protected virtual void GenerateEnemies()
     {
         Random rand = new Random();
@@ -213,8 +212,8 @@ public abstract class Room : Place
             }
         }
     }
-    protected virtual void GenerateRoomBase() { GenerateRoomBase(FloorTypes.BASIC, WallTypes.BASIC, DoorTypes.BASIC); }
-    protected virtual void GenerateRoomBase(FloorTypes floors, WallTypes walls, DoorTypes doors)
+    protected virtual void GenerateBase() { GenerateBase(FloorTypes.BASIC, WallTypes.BASIC, DoorTypes.BASIC); }
+    protected virtual void GenerateBase(FloorTypes floors, WallTypes walls, DoorTypes doors)
     {
         this.ClearRoom();
 
@@ -281,44 +280,14 @@ public abstract class Room : Place
         this.Enemies.Clear();
         //this.Drops.Clear();
     }
-    public bool AddFloorTile(Vector2 position, Tile tile)
-    {
-        if (Floor[(int)position.X, (int)position.Y] == null)
-            return false;
-        Floor[(int)position.X, (int)position.Y] = tile;
-        return true;
-    }
-    public bool AddDecoTile(Vector2 position, Tile tile)
-    {
-        if (Decorations[(int)position.X, (int)position.Y] != null)
-            return false;
-        Decorations[(int)position.X, (int)position.Y] = tile;
-        return true;
-    }
     public virtual void AddEnemy(Enemy enemy)
     {
         Enemies.Add(enemy);
     }
     public override void Draw(SpriteBatch spriteBatch)
     {
-        if (!this.IsGenerated)
-            this.GenerateRoom();
-        for (int i = 0; i < Dimensions.X; i++)
-            for (var j = 0; j < Dimensions.Y; j++)
-            {
-                Tile t = Floor[i, j];
-                if (t != null)
-                {
-                    Vector2 origin = new Vector2(25, 25);
-                    spriteBatch.Draw(t.Sprite, new Vector2(i * Tile.GetSize().X, j * Tile.GetSize().Y) + origin, null, Color.White, t.Rotation, origin, 1f, t.SpriteEffects, 0f);
-                }
-                t = Decorations[i, j];
-                if (t != null)
-                {
-                    Vector2 origin = new Vector2(25, 25);
-                    spriteBatch.Draw(t.Sprite, new Vector2(i * Tile.GetSize().X, j * Tile.GetSize().Y) + origin, null, Color.White, t.Rotation, origin, 1f, t.SpriteEffects, 0f);
-                }
-            }
+        base.Draw(spriteBatch);
+
         foreach (Item item in Drops)
             item.Draw(spriteBatch);
         foreach (Enemy enemy in Enemies)

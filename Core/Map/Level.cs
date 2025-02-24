@@ -63,7 +63,7 @@ public class Level
         ActiveRoom = RoomMap[(int)ActiveRoomCoords.X, (int)ActiveRoomCoords.Y];
 
         if (!ActiveRoom.IsGenerated)
-            ActiveRoom.GenerateRoom();
+            ActiveRoom.Generate();
 
         Player.Position = e.OppositeDoor.DoorTpPosition * 50;
         // Console.WriteLine("DIR:" + e.Directions);

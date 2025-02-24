@@ -3,7 +3,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 namespace TBoGV;
 
-abstract class InGameMenu : IDraw
+public abstract class InGameMenu : IDraw
 {
     public static Texture2D SpriteBackground;
     static Viewport Viewport;

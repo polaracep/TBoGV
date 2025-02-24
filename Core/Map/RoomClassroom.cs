@@ -17,14 +17,14 @@ public class RoomClassroom : Room
     public RoomClassroom(Vector2 dimensions, Vector2 pos, Player p, List<Entity> entityList) : base(dimensions, pos, p, entityList) { }
     public RoomClassroom(Vector2 dimensions, Player p, List<Entity> entityList) : base(dimensions, Vector2.Zero, p, entityList) { }
 
-    public override void GenerateRoom()
+    public override void Generate()
     {
-        GenerateRoomBase(FloorTypes.BASIC, WallTypes.WHITE, DoorTypes.BASIC);
+        GenerateBase(FloorTypes.BASIC, WallTypes.WHITE, DoorTypes.BASIC);
         GenerateDecor();
         GenerateEnemies();
     }
 
-    protected override void GenerateRoomBase(FloorTypes floors, WallTypes walls, DoorTypes doors)
+    protected override void GenerateBase(FloorTypes floors, WallTypes walls, DoorTypes doors)
     {
 
         this.ClearRoom();

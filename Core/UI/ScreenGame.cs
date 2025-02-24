@@ -6,7 +6,7 @@ using System;
 using System.Collections.Generic;
 namespace TBoGV;
 
-internal class ScreenGame : Screen
+public class ScreenGame : Screen
 {
     private Player player;
     private Camera _camera;
@@ -17,6 +17,7 @@ internal class ScreenGame : Screen
     private InGameMenuLevelUp levelUpMenu;
     private InGameMenuDeath deathMenu;
     private InGameMenuItemJournal itemJournalMenu;
+    private InGameMenuShop shopMenu;
 
     private List<Minigame> miniGames = new List<Minigame>();
 
@@ -27,6 +28,7 @@ internal class ScreenGame : Screen
 
     private Song Song;
 
+    public bool openShop = false;
     public override void BeginRun(GraphicsDeviceManager graphics)
     {
         player = new Player();
@@ -45,6 +47,8 @@ internal class ScreenGame : Screen
         inGameMenu = effectMenu = new InGameMenuEffect(graphics.GraphicsDevice.Viewport);
         levelUpMenu = new InGameMenuLevelUp(graphics.GraphicsDevice.Viewport);
         deathMenu = new InGameMenuDeath(graphics.GraphicsDevice.Viewport);
+        shopMenu = new InGameMenuShop(graphics.GraphicsDevice.Viewport);
+
         deathMenu.ResetLevel = () => Reset();
         deathMenu.PassTest = () => Revive();
         itemJournalMenu = new InGameMenuItemJournal(graphics.GraphicsDevice.Viewport);
@@ -109,6 +113,12 @@ internal class ScreenGame : Screen
             MinigameRooted.State = minigameState.SUCCESS;
 
             deathMenu.OpenMenu();
+        }
+        if (openShop && !shopMenu.Active)
+        {
+            inGameMenu = shopMenu;
+            shopMenu.OpenMenu();
+            openShop = false;
         }
         if (KeyReleased(Keys.Tab))
         {

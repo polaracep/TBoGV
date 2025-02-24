@@ -7,7 +7,7 @@ public class RoomBoss : Room
 
     public RoomBoss(Vector2 dimensions, Vector2 pos, Player p) : base(dimensions, pos, p) { }
 
-    public override void GenerateRoom()
+    public override void Generate()
     {
         throw new System.NotImplementedException();
     }

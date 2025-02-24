@@ -276,7 +276,7 @@
 /processorParam:TextureFormat=Color
 /build:Textures/calculator.png
 
-#begin Textures/chairCafeteria.png
+#begin Textures/chairCafeteriaGreen.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -286,7 +286,19 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Textures/chairCafeteria.png
+/build:Textures/chairCafeteriaGreen.png
+
+#begin Textures/chairCafeteriaRed.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Textures/chairCafeteriaRed.png
 
 #begin Textures/chillAles.png
 /importer:TextureImporter
@@ -1415,6 +1427,18 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Textures/stairs.png
+
+#begin Textures/tableCafeteria.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Textures/tableCafeteria.png
 
 #begin Textures/tableCafeteria.png
 /importer:TextureImporter

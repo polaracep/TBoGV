@@ -11,11 +11,8 @@ internal class InGameMenuDeath : InGameMenu
 	private static SpriteFont MiddleFont = FontManager.GetFont("Arial12");
 	private static SpriteFont LargerFont;
 	private static Texture2D SpriteCooked;
-	private Rectangle buttonBounds;
 	private string chosenDeathMessage = "";
-	private bool isHovered = false;
 	private MinigameKomisionalky minigame;
-	private MouseState previousMouseState;
 	private bool minigameCompleted = false;
 	private bool minigameSuccess = false;
 
@@ -119,7 +116,7 @@ internal class InGameMenuDeath : InGameMenu
 		);
 		Rectangle imageBounds = new Rectangle((int)imagePos.X, (int)imagePos.Y, imageWidth, imageHeight);
 		spriteBatch.Draw(SpriteCooked, imageBounds, Color.White);
-		minigame.PositionOffset = new Vector2(0, (int)imagePos.Y+ imageHeight-Viewport.Height/2 + 20);
+		minigame.PositionOffset = new Vector2(0, (int)imagePos.Y + imageHeight - Viewport.Height / 2 + 20);
 		minigame.Draw(spriteBatch);
 
 		if (minigameCompleted)
@@ -136,7 +133,7 @@ internal class InGameMenuDeath : InGameMenu
 	public void OpenMenu()
 	{
 		GenerateDeathMessage();
-		minigame = new MinigameKomisionalky(() => OnSuccess(), () => OnFailure(), new Random().Next(-10,5));
+		minigame = new MinigameKomisionalky(() => OnSuccess(), () => OnFailure(), new Random().Next(-10, 5));
 		minigameCompleted = false;
 		Active = true;
 	}

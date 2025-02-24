@@ -42,7 +42,8 @@ public static class TextureManager
             "decoInfo2",
             "decoInfo3",
             "decoInfo4",
-            "chairCafeteria",
+            "chairCafeteriaRed",
+            "chairCafeteriaGreen",
             "tableCafeteria",
 
             // Entities
