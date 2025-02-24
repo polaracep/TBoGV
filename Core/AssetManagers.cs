@@ -64,7 +64,12 @@ public static class TextureManager
 			"kaves",
 			"dzojkAles",
 			"spritesheetOIIA",
-			"milosSpinks"
+			"milosSpinks",
+			"milosSchlafen",
+			"milosMood",
+			"milosMoodHandless",
+			"milosSpritesheet",
+			"stairs"
 		};
 
         foreach (string name in names)

@@ -8,8 +8,16 @@ using TBoGV;
 
 internal class BossZeman : EnemyBoss
 {
-	static Texture2D Sprite = TextureManager.GetTexture("milosSpinks");
+	static Texture2D Spritesheet = TextureManager.GetTexture("milosSpritesheet");
 	static SoundEffect AligatorSfx = SoundManager.GetSound("aligator");
+
+	float Scale;
+	int frameWidth = 147;
+	int frameHeight = 113;
+	int frameCount = 4;
+	int currentFrame = 0;
+	bool lookingLeft = true;
+
 	protected DateTime phaseChange = DateTime.UtcNow;
 	protected int chillDuration = 3000;
 	protected int rageDuration = 2500;
@@ -26,14 +34,16 @@ internal class BossZeman : EnemyBoss
 		Hp = 80;
 		MovementSpeed = 7;
 		AttackDmg = 2;
-		float scale = 45f / Math.Max(Sprite.Width, Sprite.Height);
-		Size = new Vector2(Sprite.Width * scale, Sprite.Height * scale);
+		Scale = 50f / Math.Max(frameWidth, frameHeight);
+		Size = new Vector2(frameWidth * Scale, frameHeight * Scale);
 		XpValue = 70;
+		phaseChange = DateTime.UtcNow;
 	}
 
 	public override void Update(Vector2 playerPosition)
 	{
 		PlayerPosition = playerPosition;
+		lookingLeft = playerPosition.X - Position.X < 0;
 		UpdatePhase();
 	}
 	protected void UpdatePhase()
@@ -60,7 +70,6 @@ internal class BossZeman : EnemyBoss
 			{
 				Vector2 nextStep = path.Peek();
 				Vector2 direction = nextStep - Position;
-
 				float distanceToNextStep = direction.Length();
 
 				if (distanceToNextStep > 0)
@@ -96,7 +105,7 @@ internal class BossZeman : EnemyBoss
 		if ((DateTime.UtcNow - lastPathUpdate).TotalSeconds >= pathUpdateCooldown && (path.Count == 0 || targetPosition != PlayerPosition))
 		{
 			// Update path and target position
-			path = FindPath(Position, PlayerPosition, place);
+			path = FindPath(Position, PlayerPosition - Size / 2, place);
 			targetPosition = PlayerPosition;
 			lastPathUpdate = DateTime.UtcNow; // Update the last path update time
 		}
@@ -107,19 +116,23 @@ internal class BossZeman : EnemyBoss
 
 	private Queue<Vector2> FindPath(Vector2 start, Vector2 goal, Place place)
 	{
+		// Convert positions to grid-aligned points (multiples of 50)
+		Vector2 startNode = new Vector2((float)Math.Round(start.X / 50) * 50, (float)Math.Round(start.Y / 50) * 50);
+		Vector2 goalNode = new Vector2((float)Math.Round(goal.X / 50) * 50, (float)Math.Round(goal.Y / 50) * 50);
+
 		HashSet<Vector2> closedSet = new HashSet<Vector2>();
 		PriorityQueue<Vector2, float> openSet = new PriorityQueue<Vector2, float>();
 		Dictionary<Vector2, Vector2> cameFrom = new Dictionary<Vector2, Vector2>();
-		Dictionary<Vector2, float> gScore = new Dictionary<Vector2, float> { [start] = 0 };
-		Dictionary<Vector2, float> fScore = new Dictionary<Vector2, float> { [start] = Vector2.Distance(start, goal) };
+		Dictionary<Vector2, float> gScore = new Dictionary<Vector2, float> { [startNode] = 0 };
+		Dictionary<Vector2, float> fScore = new Dictionary<Vector2, float> { [startNode] = Vector2.Distance(startNode, goalNode) };
 
-		openSet.Enqueue(start, fScore[start]);
+		openSet.Enqueue(startNode, fScore[startNode]);
 
 		while (openSet.Count > 0)
 		{
 			Vector2 current = openSet.Dequeue();
 
-			if (current == goal)
+			if (current == goalNode)
 			{
 				Queue<Vector2> path = new Queue<Vector2>();
 				while (cameFrom.ContainsKey(current))
@@ -144,7 +157,7 @@ internal class BossZeman : EnemyBoss
 				{
 					cameFrom[neighbor] = current;
 					gScore[neighbor] = tentativeGScore;
-					fScore[neighbor] = tentativeGScore + Vector2.Distance(neighbor, goal);
+					fScore[neighbor] = tentativeGScore + Vector2.Distance(neighbor, goalNode);
 					openSet.Enqueue(neighbor, fScore[neighbor]);
 				}
 			}
@@ -155,18 +168,18 @@ internal class BossZeman : EnemyBoss
 	private IEnumerable<Vector2> GetNeighbors(Vector2 node)
 	{
 		List<Vector2> neighbors = new List<Vector2>
-		{
-			node + new Vector2(1, 0),
-			node + new Vector2(-1, 0),
-			node + new Vector2(0, 1),
-			node + new Vector2(0, -1)
-		};
+	{
+		node + new Vector2(50, 0),  // Right
+		node + new Vector2(-50, 0), // Left
+		node + new Vector2(0, 50),  // Down
+		node + new Vector2(0, -50)  // Up
+	};
 		return neighbors;
 	}
 
 	public override bool ReadyToAttack()
 	{
-		return true;
+		return Rage;
 	}
 
 	public override bool IsDead()
@@ -185,6 +198,7 @@ internal class BossZeman : EnemyBoss
 		{
 			Hp -= projectile.Damage;
 			projectilesRecieved.Add(projectile);
+			return 0;
 		}
 		return projectile.Damage;
 	}
@@ -196,6 +210,9 @@ internal class BossZeman : EnemyBoss
 
 	public override void Draw(SpriteBatch spriteBatch)
 	{
-		spriteBatch.Draw(Sprite, new Rectangle((int)Position.X, (int)Position.Y, (int)Size.X, (int)Size.Y), Color.White);
+		currentFrame = Convert.ToInt32(!lookingLeft) + Convert.ToInt32(!Rage)*2;
+		Rectangle sourceRect = new Rectangle(currentFrame * frameWidth, 0, frameWidth, frameHeight);
+		spriteBatch.Draw(Spritesheet, new Rectangle((int)Position.X, (int)Position.Y, (int)(Size.X), (int)(Size.Y)), sourceRect, Color.White);
+
 	}
 }

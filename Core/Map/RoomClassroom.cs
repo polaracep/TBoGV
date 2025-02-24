@@ -33,6 +33,7 @@ public class RoomClassroom : Room
             new TileWall(WallTypes.WHITE),
             new TileWall(WallTypes.WHITE_CORNER)
         );
+		this.Floor[2, 2] = new TileFloor(FloorTypes.STAIRS);
 
         // Generace dveri
         foreach (TileDoor door in this.Doors)

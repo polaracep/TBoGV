@@ -17,8 +17,9 @@ public sealed class FloorTypes : StringEnum
 {
     public static readonly FloorTypes BASIC = new FloorTypes("floorYellow");
     public static readonly FloorTypes LOBBY = new FloorTypes("floorLobby");
+	public static readonly FloorTypes STAIRS = new FloorTypes("stairs");
 
-    public FloorTypes(string v) : base(v) { }
+	public FloorTypes(string v) : base(v) { }
 }
 
 public sealed class DoorTypes : StringEnum
