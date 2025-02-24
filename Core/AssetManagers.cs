@@ -16,6 +16,8 @@ public static class TextureManager
             "tile",
             "floorYellow",
             "floorLobby",
+			"stairs",
+
             // "floorHallway",
 
             // Walls
@@ -50,6 +52,10 @@ public static class TextureManager
             "dzojkAles",
             "spritesheetOIIA",
             "milosSpinks",
+			"milosSchlafen",
+			"milosMood",
+			"milosMoodHandless",
+			"milosSpritesheet",
 
             // Vitek
             "vitek-nobg",
@@ -95,21 +101,6 @@ public static class TextureManager
             "gymvod",
             "platina",
             "boom",
-            "vitekEleganBolderCut",
-            "cooked",
-            "arrow",
-            "sarka",
-			"kavesAles",
-			"chillAles",
-			"kaves",
-			"dzojkAles",
-			"spritesheetOIIA",
-			"milosSpinks",
-			"milosSchlafen",
-			"milosMood",
-			"milosMoodHandless",
-			"milosSpritesheet",
-			"stairs"
 		};
 
         foreach (string name in names)

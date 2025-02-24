@@ -54,11 +54,29 @@
 /processorParam:Quality=Best
 /build:Sounds/alesSmich.wav
 
+#begin Sounds/alesSmich.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sounds/alesSmich.wav
+
 #begin Sounds/aligator.wav
 /importer:WavImporter
 /processor:SoundEffectProcessor
 /processorParam:Quality=Best
 /build:Sounds/aligator.wav
+
+#begin Sounds/aligator.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sounds/aligator.wav
+
+#begin Sounds/bouchaniDoKorenu.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sounds/bouchaniDoKorenu.wav
 
 #begin Sounds/bouchaniDoKorenu.wav
 /importer:WavImporter
@@ -72,11 +90,29 @@
 /processorParam:Quality=Best
 /build:Sounds/bouchaniDoKorenuNebyloSlyset.mp3
 
+#begin Sounds/bouchaniDoKorenuNebyloSlyset.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:Sounds/bouchaniDoKorenuNebyloSlyset.mp3
+
 #begin Sounds/dzojk.wav
 /importer:WavImporter
 /processor:SoundEffectProcessor
 /processorParam:Quality=Best
 /build:Sounds/dzojk.wav
+
+#begin Sounds/dzojk.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sounds/dzojk.wav
+
+#begin Sounds/dzojkShorter.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sounds/dzojkShorter.wav
 
 #begin Sounds/dzojkShorter.wav
 /importer:WavImporter
@@ -90,6 +126,18 @@
 /processorParam:Quality=Best
 /build:Sounds/nebyloTadyDoSmichu.mp3
 
+#begin Sounds/nebyloTadyDoSmichu.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:Sounds/nebyloTadyDoSmichu.mp3
+
+#begin Sounds/OIIAOIIA.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sounds/OIIAOIIA.wav
+
 #begin Sounds/OIIAOIIA.wav
 /importer:WavImporter
 /processor:SoundEffectProcessor
@@ -101,6 +149,18 @@
 /processor:SongProcessor
 /processorParam:Quality=Best
 /build:Sounds/soundtrack.mp3
+
+#begin Sounds/soundtrack.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:Sounds/soundtrack.mp3
+
+#begin Sounds/susn.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sounds/susn.wav
 
 #begin Sounds/susn.wav
 /importer:WavImporter
@@ -180,6 +240,18 @@
 /processorParam:TextureFormat=Color
 /build:Textures/arrow.png
 
+#begin Textures/blackboard.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Textures/blackboard.png
+
 #begin Textures/blackSquare.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -540,6 +612,54 @@
 /processorParam:TextureFormat=Color
 /build:Textures/dagger.png
 
+#begin Textures/decoInfo1.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Textures/decoInfo1.png
+
+#begin Textures/decoInfo2.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Textures/decoInfo2.png
+
+#begin Textures/decoInfo3.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Textures/decoInfo3.png
+
+#begin Textures/decoInfo4.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Textures/decoInfo4.png
+
 #begin Textures/door.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -756,6 +876,18 @@
 /processorParam:TextureFormat=Color
 /build:Textures/heal.png
 
+#begin Textures/katedra.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Textures/katedra.png
+
 #begin Textures/kaves.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -851,6 +983,18 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Textures/korenovy_vezen.png
+
+#begin Textures/lavice.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Textures/lavice.png
 
 #begin Textures/lorentzovaTransformace.png
 /importer:TextureImporter
@@ -960,6 +1104,18 @@
 /processorParam:TextureFormat=Color
 /build:Textures/milosMood1.png
 
+#begin Textures/milosMood1.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Textures/milosMood1.png
+
 #begin Textures/milosMoodHandless.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -1043,6 +1199,30 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Textures/milosSpinks1.png
+
+#begin Textures/milosSpinks1.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Textures/milosSpinks1.png
+
+#begin Textures/milosSpritesheet.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Textures/milosSpritesheet.png
 
 #begin Textures/milosSpritesheet.png
 /importer:TextureImporter
@@ -1559,4 +1739,16 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Textures/whiteSquare.png
+
+#begin Textures/zidle.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Textures/zidle.png
 

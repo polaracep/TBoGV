@@ -99,7 +99,9 @@ public class RoomClassroom : Room
                 }
             }
         }
-    }
+		GenerateMilos();
+
+	}
 
     protected void GenerateMilos()
     {
