@@ -178,8 +178,8 @@ public class LevelCreator
                         continue;
                 }
                 Room linkRoom = roomMap[(int)newRoomPos.X, (int)newRoomPos.Y];
-                if (linkRoom is RoomBoss)
-                    door.IsBossDoor = true;
+                // if (linkRoom is RoomBoss)
+                // door.IsBossDoor = true;
                 door.OppositeDoor = linkRoom.Doors.Find(d => d.Direction == lookingForDir);
             }
         }

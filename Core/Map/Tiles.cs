@@ -126,6 +126,24 @@ public class TileDoor : Tile, IInteractable
     }
 }
 
+public class TileExit : Tile, IInteractable
+{
+    public TileExit(float rotation, SpriteEffects effects) : base(false, rotation, effects)
+    {
+        this.Sprite = TextureManager.GetTexture("exit");
+    }
+    public TileExit() : this(0f, SpriteEffects.None) { }
+
+    public void Interact(Entity e, Place p)
+    {
+        if (e is not Player)
+            return;
+        // TODO: Neco jako lobby() metoda co vrati hrace do lobby, zaroven resetuje shop
+        ((Player)e).LevelChanged = true;
+        ((Player)e).Position = new Vector2(3, 3);
+    }
+}
+
 public class TileHeal : Tile, IInteractable
 {
     public TileHeal(float rotation, SpriteEffects fx) : base(true, rotation, fx)

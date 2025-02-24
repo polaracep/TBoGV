@@ -105,6 +105,7 @@ public static class TextureManager
             "platina",
             "boom",
             "gold",
+            "exit",
         };
 
         foreach (string name in names)

@@ -16,8 +16,6 @@ class EntitySarka : EntityPassive, IInteractable
 
     public void Interact(Entity e, Place p)
     {
-        // Storyline.NextLevel();
-
         Screen c = TBoGVGame.screenCurrent;
         if (c is not ScreenGame)
             return;

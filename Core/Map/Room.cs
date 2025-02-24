@@ -134,6 +134,8 @@ public abstract class Room : Place
                     float excessDmg = Enemies[j].RecieveDmg(player.Projectiles[i]);
                     if (Enemies[j].IsDead())
                     {
+                        if (Enemies[j] is EnemyBoss)
+                            GenerateExit();
                         player.Kill(Enemies[j].XpValue);
                         foreach (Item item in Enemies[j].Drop(1))
                             Drops.Add(item);
@@ -164,6 +166,7 @@ public abstract class Room : Place
                     Enemies[j].RecieveDmg(player.Projectiles[index]);
                     if (Enemies[j].IsDead())
                     {
+
                         player.Kill(Enemies[j].XpValue);
                         foreach (Item item in Enemies[j].Drop(1))
                             Drops.Add(item);
@@ -298,5 +301,33 @@ public abstract class Room : Place
             projectile.Draw(spriteBatch);
         foreach (Particle particle in Particles)
             particle.Draw(spriteBatch);
+    }
+
+    public virtual void GenerateExit()
+    {
+        Random rand = new Random();
+        int _x, _y;
+        do
+        {
+            _x = rand.Next((int)Dimensions.X - 2) + 1;
+            _y = rand.Next((int)Dimensions.Y - 2) + 1;
+        }
+        while (Decorations[_x, _y] != null);
+
+        switch (rand.Next(4))
+        {
+            case 0:
+                AddDecoTile(new Vector2(0, _y), new TileExit());
+                break;
+            case 1:
+                AddDecoTile(new Vector2(_x, 0), new TileExit());
+                break;
+            case 2:
+                AddDecoTile(new Vector2(Dimensions.X - 1, _y), new TileExit());
+                break;
+            case 3:
+                AddDecoTile(new Vector2(_x, Dimensions.Y - 1), new TileExit());
+                break;
+        }
     }
 }
