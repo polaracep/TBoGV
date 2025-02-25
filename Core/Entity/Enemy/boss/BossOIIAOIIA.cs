@@ -28,13 +28,12 @@ internal class BossOIIAOIIA : EnemyBoss
 	private Vector2 direction;
 	private Random random = new Random();
 
-	private double rotationOffset = 0;
-	protected new enum bossPhases : int
+	protected new enum BossPhases : int
 	{
 		IDLE = 0,
 		STANDING = 1,
 	}
-	protected bossPhases Phase { get; set; }
+	protected BossPhases Phase { get; set; }
 
 	public BossOIIAOIIA(Vector2 position)
 	{
