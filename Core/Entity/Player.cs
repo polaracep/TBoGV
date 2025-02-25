@@ -108,7 +108,7 @@ public class Player : Entity, IRecieveDmg, IDealDmg
 		Hp = Math.Min(Hp, MaxHp); // Zajistíme, že HP nepřesáhne MaxHp
 		AttackDmg = finalStats[StatTypes.DAMAGE];
 		AttackSpeed = finalStats[StatTypes.ATTACK_SPEED];
-		MovementSpeed = Inventory.GetEffect().Contains(EffectTypes.ROOTED)? 0 : (int)Math.Max(finalStats[StatTypes.MOVEMENT_SPEED], 1);
+		MovementSpeed = Inventory.GetEffect().Contains(EffectTypes.ROOTED) ? 0 : (int)Math.Max(finalStats[StatTypes.MOVEMENT_SPEED], 1);
 		XpGain = finalStats[StatTypes.XP_GAIN];
 		ProjectileCount = (int)Math.Max(finalStats[StatTypes.PROJECTILE_COUNT], 1);
 	}
@@ -146,12 +146,12 @@ public class Player : Entity, IRecieveDmg, IDealDmg
 		// Move horizontally in small increments
 		if (dx != 0)
 		{
-			int stepX = Math.Sign(dx); 
+			int stepX = Math.Sign(dx);
 			int remainingX = (int)Math.Abs(dx);
 			while (remainingX > 0)
 			{
 				Vector2 testPosition = new Vector2(Position.X + stepX, Position.Y);
-				if (!place.ShouldCollideAt(new Rectangle((int)testPosition.X+tolerance, (int)testPosition.Y + tolerance, (int)Size.X - tolerance*2, (int)Size.Y - tolerance * 2)))
+				if (!place.ShouldCollideAt(new Rectangle((int)testPosition.X + tolerance, (int)testPosition.Y + tolerance, (int)Size.X - tolerance * 2, (int)Size.Y - tolerance * 2)))
 				{
 					Position.X += stepX;
 				}
@@ -166,7 +166,7 @@ public class Player : Entity, IRecieveDmg, IDealDmg
 		// Move vertically in small increments
 		if (dy != 0)
 		{
-			int stepY = Math.Sign(dy); 
+			int stepY = Math.Sign(dy);
 			int remainingY = (int)Math.Abs(dy);
 			while (remainingY > 0)
 			{
@@ -347,6 +347,12 @@ public class Player : Entity, IRecieveDmg, IDealDmg
 	public override Texture2D GetSprite()
 	{
 		return Sprite;
+	}
+
+	public void ReturnToLobby()
+	{
+		LevelChanged = true;
+		Position = Lobby.SpawnPos * 50;
 	}
 }
 

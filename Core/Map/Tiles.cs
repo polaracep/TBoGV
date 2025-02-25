@@ -60,6 +60,17 @@ public class TileWall : Tile
     public TileWall(WallTypes wall)
         : this(wall, 0f, SpriteEffects.None) { }
 }
+public class TileDecoration : Tile
+{
+    public TileDecoration(bool collide, DecorationTypes type, float rotation, SpriteEffects fx) : base(collide, rotation, fx)
+    {
+        this.Sprite = TextureManager.GetTexture(type.Value);
+    }
+    public TileDecoration(bool collide, DecorationTypes type, SpriteEffects fx) : this(collide, type, 0f, fx) { }
+    public TileDecoration(bool collide, DecorationTypes type, float rotation) : this(collide, type, rotation, SpriteEffects.None) { }
+    public TileDecoration(bool collide, DecorationTypes type) : this(collide, type, 0f, SpriteEffects.None) { }
+
+}
 
 public class TileInteractEventArgs : EventArgs
 {
@@ -139,11 +150,28 @@ public class TileExit : Tile, IInteractable
         if (e is not Player)
             return;
         // TODO: Neco jako lobby() metoda co vrati hrace do lobby, zaroven resetuje shop
-        ((Player)e).LevelChanged = true;
-        ((Player)e).Position = new Vector2(3, 3);
+        ((Player)e).ReturnToLobby();
     }
 }
 
+public class TileStart : Tile, IInteractable
+{
+    public TileStart(float rotation, SpriteEffects effects) : base(false, rotation, effects)
+    {
+        this.Sprite = TextureManager.GetTexture("exit");
+    }
+    public TileStart() : this(0f, SpriteEffects.None) { }
+    public TileStart(float rotation) : this(rotation, SpriteEffects.None) { }
+
+    public void Interact(Entity e, Place p)
+    {
+        if (e is not Player)
+            return;
+
+        Storyline.NextLevel();
+    }
+
+}
 public class TileHeal : Tile, IInteractable
 {
     public TileHeal(float rotation, SpriteEffects fx) : base(true, rotation, fx)
@@ -183,16 +211,4 @@ public class TileTreasure : Tile, IInteractable
             p.Coins += r.Next(20);
         }
     }
-}
-
-public class TileDecoration : Tile
-{
-    public TileDecoration(bool collide, DecorationTypes type, float rotation, SpriteEffects fx) : base(collide, rotation, fx)
-    {
-        this.Sprite = TextureManager.GetTexture(type.Value);
-    }
-    public TileDecoration(bool collide, DecorationTypes type, SpriteEffects fx) : this(collide, type, 0f, fx) { }
-    public TileDecoration(bool collide, DecorationTypes type, float rotation) : this(collide, type, rotation, SpriteEffects.None) { }
-    public TileDecoration(bool collide, DecorationTypes type) : this(collide, type, 0f, SpriteEffects.None) { }
-
 }

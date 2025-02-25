@@ -5,10 +5,12 @@ using TBoGV;
 public class Lobby : Place
 {
 
+    public static Vector2 SpawnPos;
     public Lobby(Player p)
     {
         this.player = p;
-        this.Dimensions = new Vector2(13, 9);
+        this.Dimensions = new Vector2(14, 6);
+        SpawnPos = new Vector2(Dimensions.X - 2, Dimensions.Y / 2);
     }
 
 
@@ -24,7 +26,10 @@ public class Lobby : Place
             new TileWall(WallTypes.LOBBY_CORNER)
         );
 
-        AddDecoTile(Dimensions / 2, new TileTreasure());
+        AddDecoTile(new Vector2(3, 2), new TileTreasure());
+
+        // Spawnpos + o jedno doprava
+        AddDecoTile(SpawnPos + Vector2.UnitX, new TileStart(MathHelper.PiOver2));
 
         // lol
         AddDecoTile(new Vector2(1, Dimensions.Y - 3), new TileDecoration(false, DecorationTypes.CHAIR_CAFETERIA_G));
@@ -54,7 +59,7 @@ public class Lobby : Place
 
     private void GenerateEntities()
     {
-        this.Entities.Add(new EntitySarka(GetTileWorldPos(new Vector2(3, 3))));
+        this.Entities.Add(new EntitySarka(GetTileWorldPos(new Vector2(1, 0))));
     }
 
     public override void Draw(SpriteBatch spriteBatch)

@@ -25,7 +25,6 @@ public static class Storyline
             new Level(Player, new List<Room> {
                 new RoomClassroom(new Vector2(17, 17), p, new List<Entity> {
                     new BossZeman()
-                    // new EntitySarka()
                     // new EnemyZdena(Vector2.Zero),
                     // new EnemyZdena(Vector2.Zero),
                     // new EnemyZdena(Vector2.Zero),
