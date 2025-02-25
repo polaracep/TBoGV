@@ -18,12 +18,12 @@ internal class BossZeman : EnemyBoss
 	int currentFrame = 0;
 	bool lookingLeft = true;
 
-	protected DateTime phaseChange = DateTime.UtcNow;
+	protected double phaseChangeElapsed = 0;
 	protected int chillDuration = 3000;
 	protected int rageDuration = 2500;
 
 	private Queue<Vector2> path = new Queue<Vector2>();
-	private DateTime lastPathUpdate = DateTime.UtcNow;
+	private double lastPathUpdateElapsed = 0;
 	private Vector2 PlayerPosition;
 	private Vector2 targetPosition;
 	private float pathUpdateCooldown = 0.1f;
@@ -37,22 +37,25 @@ internal class BossZeman : EnemyBoss
 		Scale = 50f / Math.Max(frameWidth, frameHeight);
 		Size = new Vector2(frameWidth * Scale, frameHeight * Scale);
 		XpValue = 70;
-		phaseChange = DateTime.UtcNow;
+		phaseChangeElapsed = 0;
 	}
 
-	public override void Update(Vector2 playerPosition)
+	public override void Update(Vector2 playerPosition, double dt)
 	{
 		PlayerPosition = playerPosition;
 		lookingLeft = playerPosition.X - Position.X < 0;
-		UpdatePhase();
+		UpdatePhase(dt);
 	}
-	protected void UpdatePhase()
+	protected void UpdatePhase(double dt)
 	{
-		if (((DateTime.UtcNow - phaseChange).TotalMilliseconds > rageDuration && Rage) ||
-			((DateTime.UtcNow - phaseChange).TotalMilliseconds > chillDuration && !Rage))
+		phaseChangeElapsed += dt;
+		lastPathUpdateElapsed += dt;
+
+		if ((phaseChangeElapsed > rageDuration && Rage) ||
+			(phaseChangeElapsed > chillDuration && !Rage))
 		{
 			Rage = !Rage;
-			phaseChange = DateTime.UtcNow;
+			phaseChangeElapsed = 0;
 			chillDuration = new Random().Next(2000, 3500);
 			if(Rage)
 				AligatorSfx.Play();
@@ -102,12 +105,12 @@ internal class BossZeman : EnemyBoss
 	public override void Move(Place place)
 	{
 		// Check if the cooldown has passed based on DateTime
-		if ((DateTime.UtcNow - lastPathUpdate).TotalSeconds >= pathUpdateCooldown && (path.Count == 0 || targetPosition != PlayerPosition))
+		if (lastPathUpdateElapsed >= pathUpdateCooldown && (path.Count == 0 || targetPosition != PlayerPosition))
 		{
 			// Update path and target position
 			path = FindPath(Position, PlayerPosition - Size / 2, place);
 			targetPosition = PlayerPosition;
-			lastPathUpdate = DateTime.UtcNow; // Update the last path update time
+			lastPathUpdateElapsed = 0; // Update the last path update time
 		}
 
 		if(Rage)

@@ -17,7 +17,7 @@ public class MinigameRooted : Minigame
 	static SoundEffect rootTap = SoundManager.GetSound("bouchaniDoKorenu");
 	public static minigameState State;
 	private Color hintColor = Color.White;
-	private TimeSpan timeSinceLastHint = TimeSpan.Zero;
+	private double timeSinceLastHint = 0;
 	private KeyboardState prevKeyboardState;
 
 	public MinigameRooted(Action onSuccess)
@@ -49,14 +49,14 @@ public class MinigameRooted : Minigame
 		spriteBatch.DrawString(LargerFont, hintText, hintPosition, hintColor);
 	}
 
-	public override void Update(KeyboardState keyboardState, GameTime gameTime)
+	public override void Update(KeyboardState keyboardState, double dt)
 	{
 		UpdateState(keyboardState);
 		prevKeyboardState = keyboardState;
-		timeSinceLastHint += gameTime.ElapsedGameTime;
-		if (timeSinceLastHint.TotalSeconds > 0.5)
+		timeSinceLastHint += dt;
+		if (timeSinceLastHint > 0.5)
 		{
-			timeSinceLastHint = TimeSpan.Zero;
+			timeSinceLastHint = 0;
 			hintColor = (hintColor == Color.White) ? Color.Red : Color.White;
 		}
 	}

@@ -57,16 +57,16 @@ internal class InGameMenuDeath : InGameMenu
 		chosenDeathMessage = deathMessages[random.Next(deathMessages.Count)];
 	}
 
-	public override void Update(Viewport viewport, Player player, MouseState mouseState, KeyboardState keyboardState, GameTime gameTime)
+	public override void Update(Viewport viewport, Player player, MouseState mouseState, KeyboardState keyboardState, double dt)
 	{
-		base.Update(viewport, player, mouseState, keyboardState, gameTime);
+		base.Update(viewport, player, mouseState, keyboardState, dt);
 
 		if (!Active)
 			return;
 
 		if (!minigameCompleted)
 		{
-			minigame.Update(keyboardState, gameTime);
+			minigame.Update(keyboardState, dt);
 		}
 		else
 		{

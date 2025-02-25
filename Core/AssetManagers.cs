@@ -56,6 +56,7 @@ public static class TextureManager
 			"milosMood",
 			"milosMoodHandless",
 			"milosSpritesheet",
+			"zdenda",
 
             // Vitek
             "vitek-nobg",
@@ -65,6 +66,7 @@ public static class TextureManager
             // Projectiles
             "projectile",
             "koren",
+			"jatrovyKnedlicek",
 
             // UI
             "taunt",

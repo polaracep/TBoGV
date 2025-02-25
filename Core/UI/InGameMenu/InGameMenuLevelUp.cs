@@ -60,9 +60,9 @@ internal class InGameMenuLevelUp : InGameMenu
         chosenDescription = descriptions[random.Next(descriptions.Count)];
     }
 
-    public override void Update(Viewport viewport, Player player, MouseState mouseState, KeyboardState keyboardState, GameTime gameTime)
+    public override void Update(Viewport viewport, Player player, MouseState mouseState, KeyboardState keyboardState, double dt)
     {
-        base.Update(viewport, player, mouseState, keyboardState, gameTime);
+        base.Update(viewport, player, mouseState, keyboardState, dt);
 
         if (!Active)
             return;

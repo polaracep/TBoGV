@@ -13,7 +13,7 @@ internal class BossAles : EnemyBoss
 	static SoundEffect SfxKaves = SoundManager.GetSound("dzojkShorter");
 	static float ScaleChill;
 	static float ScaleRage;
-	protected DateTime phaseChange = DateTime.UtcNow;
+	protected double phaseChangeElapsed = 0;
 	protected int chillDuration = 5000; 
 	protected int rageDuration = (int)SfxKaves.Duration.TotalMilliseconds;
 	protected bool Rage { get; set; }
@@ -38,7 +38,7 @@ internal class BossAles : EnemyBoss
 		ScaleChill = 100f / Math.Max(SpriteChill.Width, SpriteChill.Height);
 		Size = new Vector2(SpriteChill.Width * ScaleChill, SpriteChill.Height*ScaleChill);
 		XpValue = 50;
-		phaseChange = DateTime.UtcNow;
+		phaseChangeElapsed = 0;
 	}
 	public override void Draw(SpriteBatch spriteBatch)
 	{
@@ -48,7 +48,7 @@ internal class BossAles : EnemyBoss
 
 	public override List<Projectile> Attack()
 	{
-		LastAttackTime = DateTime.UtcNow;
+		LastAttackElapsed = 0;
 		List<Projectile> projectiles = new List<Projectile>();
 
 		int projectileCount = 6; 
@@ -75,16 +75,16 @@ internal class BossAles : EnemyBoss
 		throw new NotImplementedException();
 	}
 
-	public override void Update(Vector2 playerPosition)
+	public override void Update(Vector2 playerPosition, double dt)
 	{
 		UpdatePhase();
 	}
 	protected void UpdatePhase()
 	{
-		if (((DateTime.UtcNow - phaseChange).TotalMilliseconds > rageDuration && Rage)|| ((DateTime.UtcNow - phaseChange).TotalMilliseconds > chillDuration && !Rage))
+		if ((phaseChangeElapsed > rageDuration && Rage)|| (phaseChangeElapsed > chillDuration && !Rage))
 		{
 			Rage = !Rage;
-			phaseChange = DateTime.UtcNow;
+			phaseChangeElapsed = 0;
 			chillDuration = new Random().Next(5000, 15000);
 			if (Rage)
 				SfxKaves.Play();
@@ -93,7 +93,7 @@ internal class BossAles : EnemyBoss
 
 	public override bool ReadyToAttack()
 	{
-		return Rage && (DateTime.UtcNow - LastAttackTime).TotalMilliseconds >= AttackSpeed;
+		return Rage && LastAttackElapsed >= AttackSpeed;
 	}
 
 	public override bool IsDead()

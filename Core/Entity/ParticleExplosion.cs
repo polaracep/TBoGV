@@ -13,8 +13,6 @@ internal class ParticleExplosion : Particle
 	private float rotationSpeed;
 	private Vector2 velocity;
 
-	// Time tracking for animation progress (0 to 1)
-	private float elapsedTime;
 	private Random rnd = new Random();
 	public ParticleExplosion(Vector2 position)
 	{
@@ -34,26 +32,24 @@ internal class ParticleExplosion : Particle
 		rotationSpeed = MathHelper.ToRadians(180 * velocity.X / Math.Abs(velocity.X)); // 180 degrees per second rotation
 
 		Visible = true;
-		initTime = DateTime.UtcNow;
 		DurationMilliseconds = 200; // total duration in ms
 		elapsedTime = 0f;
 	}
 
-	public override void Update(GameTime gameTime)
+	public override void Update(double dt)
 	{
-		float delta = (float)gameTime.ElapsedGameTime.TotalSeconds;
-		elapsedTime += delta;
+		elapsedTime += dt;
 
 		// Calculate progress (0 to 1)
-		float progress = MathHelper.Clamp((float)(DateTime.UtcNow - initTime).TotalMilliseconds / DurationMilliseconds, 0f, 1f);
+		float progress = MathHelper.Clamp((float)elapsedTime / DurationMilliseconds, 0f, 1f);
 
 		// Update rotation and scale over time
-		rotation += rotationSpeed * delta;
+		rotation += rotationSpeed * (float)dt;
 		scale = Size.X / Sprite.Width + progress / 10; // explosion grows over time
 		alpha = 1f - progress; // fades out
 
 		// Update position (simulate slight dispersion)
-		Position += velocity * delta;
+		Position += (velocity * (float)dt);
 
 		// Optionally, set Visible to false when finished
 		if (progress >= 1f)

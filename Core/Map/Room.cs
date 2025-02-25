@@ -86,13 +86,13 @@ public abstract class Room : Place
     }
 
     /* === Update methods === */
-    public override void Update(GameTime gameTime)
+    public override void Update(double dt)
     {
         this.UpdateProjectiles();
-        this.UpdateEnemies();
+        this.UpdateEnemies(dt);
         for (int i = 0; i < Particles.Count; i++)
         {
-            Particles[i].Update(gameTime);
+            Particles[i].Update(dt);
             if (!Particles[i].Visible)
                 Particles.Remove(Particles[i]);
         }
@@ -175,11 +175,11 @@ public abstract class Room : Place
         }
         player.Projectiles.RemoveAt(index);
     }
-    protected void UpdateEnemies()
+    protected void UpdateEnemies(double dt)
     {
         foreach (Enemy enemy in Enemies)
         {
-            enemy.Update(player.Position + player.Size / 2);
+            enemy.Update(player.Position + player.Size / 2, dt);
             enemy.Move(this);
 
             if (enemy.ReadyToAttack())

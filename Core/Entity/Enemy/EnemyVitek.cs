@@ -38,7 +38,7 @@ internal class EnemyVitek : EnemyRanged
 
 	public override void Move(Place place)
 	{
-		if ((DateTime.UtcNow - LastAttackTime).TotalMilliseconds >= AttackSpeed+0.8)
+		if (LastAttackElapsed >= AttackSpeed+0.8)
 			return;
 
 		// Break movement into smaller increments

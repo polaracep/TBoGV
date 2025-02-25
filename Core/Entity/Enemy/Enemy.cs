@@ -5,7 +5,7 @@ using System.Collections.Generic;
 namespace TBoGV;
 public abstract class Enemy : Entity, IRecieveDmg, IDealDmg
 {
-  public DateTime LastAttackTime { get; set; }
+  public double LastAttackElapsed { get; set; }
   public float AttackSpeed { get; set; }
   public float AttackDmg { get; set; }
   public float Hp { get; set; }
@@ -14,7 +14,7 @@ public abstract class Enemy : Entity, IRecieveDmg, IDealDmg
   public List<Projectile> projectilesRecieved = new List<Projectile>();
 	public Vector2 HeadedDirection { get; set; }
   public abstract bool ReadyToAttack();
-  public abstract void Update(Vector2 playerPosition);
+  public abstract void Update(Vector2 playerPosition, double dt);
 	public abstract void Move(Place place);
   public abstract bool IsDead();
   public virtual List<Projectile> Attack()

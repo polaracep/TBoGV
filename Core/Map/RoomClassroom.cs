@@ -111,7 +111,7 @@ public class RoomClassroom : Room
             Vector2 spawnPos = new Vector2(rand.Next((int)Dimensions.X), rand.Next((int)Dimensions.Y)) * 50;
             if (!this.ShouldCollideAt(spawnPos))
             {
-                this.AddEnemy(new BossZeman(spawnPos));
+                this.AddEnemy(new BossOIIAOIIA(spawnPos));
                 break;
             }
         }

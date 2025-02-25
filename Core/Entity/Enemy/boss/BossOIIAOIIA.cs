@@ -10,7 +10,7 @@ internal class BossOIIAOIIA : EnemyBoss
 {
 	static Texture2D Spritesheet = TextureManager.GetTexture("spritesheetOIIA");
 	static SoundEffect SfxOIIA = SoundManager.GetSound("OIIAOIIA");
-	protected DateTime phaseChange = DateTime.UtcNow;
+	protected double phaseChangeElapsed = 0;
 	protected int chillDuration = 3000;
 	protected int rageDuration = (int)SfxOIIA.Duration.TotalMilliseconds;
 
@@ -19,8 +19,8 @@ internal class BossOIIAOIIA : EnemyBoss
 	int frameHeight = 132;
 	int frameCount = 27;
 	int currentFrame = 0;
-	DateTime lastFrameChange = DateTime.UtcNow;
-	TimeSpan frameSpeed = TimeSpan.FromMilliseconds((SfxOIIA.Duration.TotalMilliseconds / 27));
+	double lastFrameChangeElapsed = 0;
+	double frameSpeed = SfxOIIA.Duration.TotalMilliseconds / 27;
 
 	protected bool Rage { get; set; }
 	protected int rageCount = 0;
@@ -46,7 +46,7 @@ internal class BossOIIAOIIA : EnemyBoss
 		Scale = 100f / Math.Max(frameWidth, frameHeight);
 		Size = new Vector2(frameWidth * Scale, frameHeight * Scale);
 		XpValue = 50;
-		phaseChange = DateTime.UtcNow;
+		phaseChangeElapsed = 0;
 	}
 
 	public override void Draw(SpriteBatch spriteBatch)
@@ -65,18 +65,20 @@ internal class BossOIIAOIIA : EnemyBoss
 		throw new NotImplementedException();
 	}
 
-	public override void Update(Vector2 playerPosition)
+	public override void Update(Vector2 playerPosition, double dt)
 	{
+		phaseChangeElapsed += dt;
+		lastFrameChangeElapsed += dt;
 		UpdatePhase(playerPosition);
 		UpdateAnimation();
 	}
 	protected void UpdatePhase(Vector2 playerPosition)
 	{
-		if (((DateTime.UtcNow - phaseChange).TotalMilliseconds > rageDuration && Rage) ||
-			((DateTime.UtcNow - phaseChange).TotalMilliseconds > chillDuration && !Rage))
+		if ((phaseChangeElapsed > rageDuration && Rage) ||
+			(phaseChangeElapsed > chillDuration && !Rage))
 		{
 			Rage = !Rage;
-			phaseChange = DateTime.UtcNow;
+			phaseChangeElapsed = 0;
 			chillDuration = new Random().Next(100, 1500);
 
 			if (Rage)
@@ -110,10 +112,10 @@ internal class BossOIIAOIIA : EnemyBoss
 
 	private void UpdateAnimation()
 	{
-		if (DateTime.UtcNow - lastFrameChange > frameSpeed)
+		if (lastFrameChangeElapsed > frameSpeed)
 		{
 			currentFrame = (currentFrame + 1) % frameCount;
-			lastFrameChange = DateTime.UtcNow;
+			lastFrameChangeElapsed = 0;
 		}
 		if (!Rage)
 			currentFrame = 0;

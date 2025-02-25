@@ -83,9 +83,11 @@ internal class ScreenGame : Screen
             miniGame.Draw(_spriteBatch);
         _spriteBatch.End();
     }
-
+	GameTime prevGameTime = new GameTime();
     public override void Update(GameTime gameTime, GraphicsDeviceManager graphics)
     {
+		double dt = gameTime.ElapsedGameTime.TotalMilliseconds;
+		prevGameTime = gameTime;
         if (Storyline.CurrentLevel?.ActiveRoom != activePlace && player.IsPlaying)
             activePlace = Storyline.CurrentLevel.ActiveRoom;
 
@@ -93,7 +95,7 @@ internal class ScreenGame : Screen
         mouseState = Mouse.GetState();
         keyboardState = Keyboard.GetState();
         int levelStatsCount = 0;
-        itemJournalMenu.Update(graphics.GraphicsDevice.Viewport, player, mouseState, keyboardState, gameTime);
+        itemJournalMenu.Update(graphics.GraphicsDevice.Viewport, player, mouseState, keyboardState, dt);
         foreach (var item in player.LevelUpStats)
         {
             levelStatsCount += (int)player.LevelUpStats[item.Key];
@@ -156,8 +158,8 @@ internal class ScreenGame : Screen
 
         if (!inGameMenu.Active)
         {
-            player.Update(keyboardState, mouseState, _camera.Transform, activePlace, graphics.GraphicsDevice.Viewport);
-            activePlace.Update(gameTime);
+            player.Update(keyboardState, mouseState, _camera.Transform, activePlace, graphics.GraphicsDevice.Viewport, dt);
+            activePlace.Update(dt);
             UI.Update(player, graphics);
             _camera.SetCenter(activePlace.Dimensions * Tile.GetSize() / 2);
             _camera.Update(player.Position + player.Size / 2);
@@ -170,7 +172,7 @@ internal class ScreenGame : Screen
         }
         else
         {
-            inGameMenu.Update(graphics.GraphicsDevice.Viewport, player, mouseState, keyboardState, gameTime);
+            inGameMenu.Update(graphics.GraphicsDevice.Viewport, player, mouseState, keyboardState, dt);
             if (MediaPlayer.State == MediaState.Playing)
             {
                 MediaPlayer.Pause();
@@ -178,7 +180,7 @@ internal class ScreenGame : Screen
         }
 
         foreach (Minigame miniGame in miniGames)
-            miniGame.Update(keyboardState, gameTime);
+            miniGame.Update(keyboardState, dt);
         if (player.Inventory.GetEffect().Contains(EffectTypes.ROOTED) && MinigameRooted.State != minigameState.ONGOING)
             miniGames.Add(new MinigameRooted(() => player.Inventory.RemoveEffect(new EffectRooted(1))));
         for (int i = 0; i < miniGames.Count; i++)
@@ -195,12 +197,12 @@ internal class ScreenGame : Screen
     {
         player.Heal((uint)player.MaxHp);
         deathMenu.Active = false;
-        player.LastRecievedDmgTime = DateTime.UtcNow;
+        player.LastRecievedDmgElapsed = 0;
     }
     void Revive()
     {
         deathMenu.Active = false;
         player.Heal(3);
-        player.LastRecievedDmgTime = DateTime.UtcNow;
+        player.LastRecievedDmgElapsed = 0;
     }
 }

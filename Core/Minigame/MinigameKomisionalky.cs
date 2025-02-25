@@ -25,6 +25,7 @@ public class MinigameKomisionalky : Minigame
 	static Texture2D SpriteForeground = TextureManager.GetTexture("whiteSquare");
 	static Texture2D SpriteArrow = TextureManager.GetTexture("arrow");
 	static SpriteFont Font = FontManager.GetFont("Arial12");
+	float elapsed;
 
 	public static minigameState State;
 	public Vector2 PositionOffset;
@@ -108,7 +109,7 @@ public class MinigameKomisionalky : Minigame
 		spriteBatch.Draw(SpriteForeground, new Rectangle(barX + (int)PositionOffset.X, barY + BarHeight + 10+ (int)PositionOffset.Y, progressBarWidth, 5), Color.Blue);
 	}
 
-	public override void Update(KeyboardState keyboardState, GameTime gameTime)
+	public override void Update(KeyboardState keyboardState, double dt)
 	{
 		if (successCount >= RequiredSuccesses)
 			State = minigameState.SUCCESS;
@@ -117,7 +118,7 @@ public class MinigameKomisionalky : Minigame
 		if (State == minigameState.FAILURE || State == minigameState.SUCCESS)
 			return;
 
-		float elapsed = (float)gameTime.ElapsedGameTime.TotalSeconds;
+		elapsed = (float)dt/1000;
 
 		if (keyboardState.IsKeyDown(Keys.Space) && prevKeyboardState.IsKeyUp(Keys.Space))
 		{

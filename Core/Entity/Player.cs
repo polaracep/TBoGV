@@ -23,8 +23,8 @@ public class Player : Entity, IRecieveDmg, IDealDmg
 	public int Coins { get; set; }
 	public Dictionary<StatTypes, float> BaseStats { get; set; }
 	public Dictionary<StatTypes, int> LevelUpStats { get; set; }
-	public DateTime LastAttackTime { get; set; }
-	public DateTime LastRecievedDmgTime { get; set; }
+	public double LastAttackElapsed { get; set; }
+	public double LastRecievedDmgElapsed { get; set; }
 	public int InvulnerabilityFrame = 1000;
 	public List<Projectile> Projectiles { get; set; }
 	List<Projectile> projectilesRecieved = new List<Projectile>();
@@ -36,7 +36,7 @@ public class Player : Entity, IRecieveDmg, IDealDmg
 	{
 		BaseStats = new Dictionary<StatTypes, float>()
 		{
-			{ StatTypes.MAX_HP, 20},
+			{ StatTypes.MAX_HP, 2},
 			{ StatTypes.DAMAGE, 1 },
 			{ StatTypes.PROJECTILE_COUNT, 1 },
 			{ StatTypes.XP_GAIN, 1 },
@@ -113,8 +113,11 @@ public class Player : Entity, IRecieveDmg, IDealDmg
 		ProjectileCount = (int)Math.Max(finalStats[StatTypes.PROJECTILE_COUNT], 1);
 	}
 
-	public void Update(KeyboardState keyboardState, MouseState mouseState, Matrix transform, Place place, Viewport viewport)
+	public void Update(KeyboardState keyboardState, MouseState mouseState, Matrix transform, Place place, Viewport viewport, double dt)
 	{
+		LastRecievedDmgElapsed += dt;
+		LastAttackElapsed += dt;
+
 		float dx = 0, dy = 0;
 
 		InteractionPoint = Position + (Direction * 50) + Size / 2;
@@ -136,7 +139,6 @@ public class Player : Entity, IRecieveDmg, IDealDmg
 				dx = Math.Sign(dx);
 			if (_dy == 0)
 				dy = Math.Sign(dy);
-			// Console.WriteLine("Dx")
 		}
 		// --- Begin Movement ---
 		int tolerance = 4;
@@ -144,20 +146,17 @@ public class Player : Entity, IRecieveDmg, IDealDmg
 		// Move horizontally in small increments
 		if (dx != 0)
 		{
-			int stepX = Math.Sign(dx); // -1 if moving left, 1 if moving right
+			int stepX = Math.Sign(dx); 
 			int remainingX = (int)Math.Abs(dx);
 			while (remainingX > 0)
 			{
-				// Create a test position by moving 1 pixel in the X direction
 				Vector2 testPosition = new Vector2(Position.X + stepX, Position.Y);
 				if (!place.ShouldCollideAt(new Rectangle((int)testPosition.X+tolerance, (int)testPosition.Y + tolerance, (int)Size.X - tolerance*2, (int)Size.Y - tolerance * 2)))
 				{
-					// If no collision, update the position by 1 pixel in the X direction.
 					Position.X += stepX;
 				}
 				else
 				{
-					// Stop moving in X if a collision would occur
 					break;
 				}
 				remainingX--;
@@ -167,21 +166,18 @@ public class Player : Entity, IRecieveDmg, IDealDmg
 		// Move vertically in small increments
 		if (dy != 0)
 		{
-			int stepY = Math.Sign(dy); // -1 if moving up, 1 if moving down
+			int stepY = Math.Sign(dy); 
 			int remainingY = (int)Math.Abs(dy);
 			while (remainingY > 0)
 			{
-				// Create a test position by moving 1 pixel in the Y direction
 				Vector2 testPosition = new Vector2(Position.X, Position.Y + stepY);
 
 				if (!place.ShouldCollideAt(new Rectangle((int)testPosition.X + tolerance, (int)testPosition.Y + tolerance, (int)Size.X - tolerance * 2, (int)Size.Y - tolerance * 2)))
 				{
-					// If no collision, update the position by 1 pixel in the Y direction.
 					Position.Y += stepY;
 				}
 				else
 				{
-					// Stop moving in Y if a collision would occur
 					break;
 				}
 				remainingY--;
@@ -264,16 +260,16 @@ public class Player : Entity, IRecieveDmg, IDealDmg
 	{
 		spriteBatch.Draw(Sprite,
 			new Rectangle(Convert.ToInt32(Position.X), Convert.ToInt32(Position.Y), Convert.ToInt32(Size.X), Convert.ToInt32(Size.Y)),
-			(DateTime.UtcNow - LastRecievedDmgTime).TotalMilliseconds >= InvulnerabilityFrame ? Color.White : Color.DarkRed);
+			LastRecievedDmgElapsed >= InvulnerabilityFrame ? Color.White : Color.DarkRed);
 		spriteBatch.Draw(TextureManager.GetTexture("projectile"), InteractionPoint, Color.White);
 	}
 	public bool ReadyToAttack()
 	{
-		return ((DateTime.UtcNow - LastAttackTime).TotalMilliseconds >= AttackSpeed) && IsPlaying;
+		return LastAttackElapsed >= AttackSpeed && IsPlaying;
 	}
 	public List<Projectile> Attack()
 	{
-		LastAttackTime = DateTime.UtcNow;
+		LastAttackElapsed = 0;
 		List<Projectile> firedProjectiles = new List<Projectile>();
 
 		float spreadAngle = 10f; // Angle between projectiles in degrees
@@ -301,7 +297,7 @@ public class Player : Entity, IRecieveDmg, IDealDmg
 	{
 		if (!projectilesRecieved.Contains(projectile))
 		{
-			if ((DateTime.UtcNow - LastRecievedDmgTime).TotalMilliseconds >= InvulnerabilityFrame)
+			if (LastRecievedDmgElapsed >= InvulnerabilityFrame)
 			{
 				if (Inventory.GetEffect().Contains(EffectTypes.DODGE) && GetSuccess(50))
 				{
@@ -309,7 +305,7 @@ public class Player : Entity, IRecieveDmg, IDealDmg
 					return projectile.Damage;
 				}
 				Hp -= projectile.Damage;
-				LastRecievedDmgTime = DateTime.UtcNow;
+				LastRecievedDmgElapsed = 0;
 				Inventory.AddEffect(new EffectCooked(1));
 				if (projectile.GetType() == typeof(ProjectileRoot))
 					Inventory.AddEffect(new EffectRooted(1));

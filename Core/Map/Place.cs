@@ -152,5 +152,5 @@ public abstract class Place : IDraw
 
 	public abstract void Reset();
     public abstract void Draw(SpriteBatch spriteBatch);
-    public abstract void Update(GameTime gameTime);
+    public abstract void Update(double dt);
 }

@@ -6,10 +6,10 @@ namespace TBoGV;
 public abstract class Particle : Entity
 {
 	public bool Visible;
-	protected DateTime initTime { get; set; }
 	protected int DurationMilliseconds { get; set; }
-	public virtual void Update(GameTime gameTime)
+	protected double elapsedTime {  get; set; }
+	public virtual void Update(double dt)
 	{
-		Visible = (DateTime.UtcNow - initTime).TotalMilliseconds < DurationMilliseconds;
+		elapsedTime += dt;
 	}
 }

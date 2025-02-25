@@ -27,7 +27,7 @@ internal class EnemyZdena : EnemyRanged
 	{
 		List<Projectile> projectiles = base.Attack();
 		projectiles.Add(new ProjectileRoot(Position + Size / 2, Direction, AttackDmg));
-		LastAttackTime = DateTime.UtcNow;
+		LastAttackElapsed = 0;
 		return projectiles;
 	}
 	public override Texture2D GetSprite()
