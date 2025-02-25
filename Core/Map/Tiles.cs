@@ -187,12 +187,12 @@ public class TileTreasure : Tile, IInteractable
 
 public class TileDecoration : Tile
 {
-    public TileDecoration(bool collide, float rotation, DecorationTypes type, SpriteEffects fx) : base(collide, rotation, fx)
+    public TileDecoration(bool collide, DecorationTypes type, float rotation, SpriteEffects fx) : base(collide, rotation, fx)
     {
         this.Sprite = TextureManager.GetTexture(type.Value);
     }
-    public TileDecoration(bool collide, DecorationTypes type, SpriteEffects fx) : this(collide, 0f, type, fx) { }
-    public TileDecoration(bool collide, DecorationTypes type, float rotation) : this(collide, rotation, type, SpriteEffects.None) { }
-    public TileDecoration(bool collide, DecorationTypes type) : this(collide, 0f, type, SpriteEffects.None) { }
+    public TileDecoration(bool collide, DecorationTypes type, SpriteEffects fx) : this(collide, type, 0f, fx) { }
+    public TileDecoration(bool collide, DecorationTypes type, float rotation) : this(collide, type, rotation, SpriteEffects.None) { }
+    public TileDecoration(bool collide, DecorationTypes type) : this(collide, type, 0f, SpriteEffects.None) { }
 
 }

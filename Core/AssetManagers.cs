@@ -34,9 +34,9 @@ public static class TextureManager
             "door",
 
             // Decorations 
-            "lavice",
-            "zidle",
-            "katedra",
+            "tableClassroom",
+            "chairClassroom",
+            "tableComputerClassroom",
             "blackboard",
             "decoInfo1",
             "decoInfo2",
