@@ -34,7 +34,7 @@ internal class BossAles : EnemyBoss
 		Position = position;
 		Hp = 200;
 		MovementSpeed = 4;
-		AttackSpeed = 250;
+		AttackSpeed = 350;
 		AttackDmg = 1;
 		ScaleRage = 100f / Math.Max(SpriteRage.Width, SpriteRage.Height);
 		ScaleChill = 100f / Math.Max(SpriteChill.Width, SpriteChill.Height);
@@ -66,7 +66,7 @@ internal class BossAles : EnemyBoss
 			projectiles.Add(new ProjectileKaves(Position + Size / 2, direction, AttackDmg));
 		}
 
-		rotationOffset += 5;
+		rotationOffset += 8;
 
 		return projectiles;
 	}
@@ -80,12 +80,14 @@ internal class BossAles : EnemyBoss
 
 	public override void Update(Vector2 playerPosition, double dt)
 	{
+		LastAttackElapsed += dt;
+		phaseChangeElapsed += dt;
 		UpdatePhase();
 	}
 	protected void UpdatePhase()
 	{
 		if ((phaseChangeElapsed > rageDuration && Rage)|| (phaseChangeElapsed > chillDuration && !Rage))
-		{
+		{	
 			Rage = !Rage;
 			phaseChangeElapsed = 0;
 			chillDuration = new Random().Next(5000, 15000);
