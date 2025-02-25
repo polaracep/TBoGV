@@ -9,14 +9,14 @@ public class RoomHallway : Room
     public RoomHallway(Vector2 dimensions, Player p, List<Entity> entityList) : base(dimensions, p, entityList) { }
     public RoomHallway(Vector2 dimensions, Vector2 pos, Player p, List<Entity> entityList) : base(dimensions, pos, p, entityList) { }
 
-    public override void GenerateRoom()
+    public override void Generate()
     {
-        GenerateRoomBase();
+        GenerateBase();
         GenerateEnemies();
         IsGenerated = true;
     }
 
-    protected override void GenerateRoomBase()
+    protected override void GenerateBase()
     {
         this.ClearRoom();
 

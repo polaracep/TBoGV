@@ -16,7 +16,7 @@ public static class TextureManager
             "tile",
             "floorYellow",
             "floorLobby",
-			"stairs",
+            "stairs",
 
             // "floorHallway",
 
@@ -34,14 +34,17 @@ public static class TextureManager
             "door",
 
             // Decorations 
-            "lavice",
-            "zidle",
-            "katedra",
+            "tableClassroom",
+            "chairClassroom",
+            "tableComputerClassroom",
             "blackboard",
             "decoInfo1",
             "decoInfo2",
             "decoInfo3",
             "decoInfo4",
+            "chairCafeteriaRed",
+            "chairCafeteriaGreen",
+            "tableCafeteria",
 
             // Entities
             "korenovy_vezen",
@@ -103,7 +106,9 @@ public static class TextureManager
             "gymvod",
             "platina",
             "boom",
-		};
+            "gold",
+            "exit",
+        };
 
         foreach (string name in names)
         {

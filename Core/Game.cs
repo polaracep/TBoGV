@@ -8,8 +8,7 @@ public class TBoGVGame : Game
 {
     private GraphicsDeviceManager _graphics;
     private SpriteBatch _spriteBatch;
-
-    Screen screenCurrent;
+    public static Screen screenCurrent;
     public TBoGVGame()
     {
         _graphics = new GraphicsDeviceManager(this);

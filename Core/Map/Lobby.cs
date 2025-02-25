@@ -12,7 +12,7 @@ public class Lobby : Place
     }
 
 
-    private void GenerateLobby()
+    public override void Generate()
     {
         Floor = new Tile[(int)Dimensions.X, (int)Dimensions.Y];
         Decorations = new Tile[(int)Dimensions.X, (int)Dimensions.Y];
@@ -23,6 +23,30 @@ public class Lobby : Place
             new TileWall(WallTypes.LOBBY),
             new TileWall(WallTypes.LOBBY_CORNER)
         );
+
+        AddDecoTile(Dimensions / 2, new TileTreasure());
+
+        // lol
+        AddDecoTile(new Vector2(1, Dimensions.Y - 3), new TileDecoration(false, DecorationTypes.CHAIR_CAFETERIA_G));
+        AddDecoTile(new Vector2(1, Dimensions.Y - 2), new TileDecoration(false, DecorationTypes.CHAIR_CAFETERIA_G));
+        AddDecoTile(new Vector2(2, Dimensions.Y - 3), new TileDecoration(true, DecorationTypes.TABLE_CAFETERIA));
+        AddDecoTile(new Vector2(2, Dimensions.Y - 2), new TileDecoration(true, DecorationTypes.TABLE_CAFETERIA));
+        AddDecoTile(new Vector2(3, Dimensions.Y - 3), new TileDecoration(false, DecorationTypes.CHAIR_CAFETERIA_G, SpriteEffects.FlipHorizontally));
+        AddDecoTile(new Vector2(3, Dimensions.Y - 2), new TileDecoration(false, DecorationTypes.CHAIR_CAFETERIA_G, SpriteEffects.FlipHorizontally));
+
+        AddDecoTile(new Vector2(5, Dimensions.Y - 3), new TileDecoration(false, DecorationTypes.CHAIR_CAFETERIA_G));
+        AddDecoTile(new Vector2(5, Dimensions.Y - 2), new TileDecoration(false, DecorationTypes.CHAIR_CAFETERIA_G));
+        AddDecoTile(new Vector2(6, Dimensions.Y - 3), new TileDecoration(true, DecorationTypes.TABLE_CAFETERIA));
+        AddDecoTile(new Vector2(6, Dimensions.Y - 2), new TileDecoration(true, DecorationTypes.TABLE_CAFETERIA));
+        AddDecoTile(new Vector2(7, Dimensions.Y - 3), new TileDecoration(false, DecorationTypes.CHAIR_CAFETERIA_G, SpriteEffects.FlipHorizontally));
+        AddDecoTile(new Vector2(7, Dimensions.Y - 2), new TileDecoration(false, DecorationTypes.CHAIR_CAFETERIA_G, SpriteEffects.FlipHorizontally));
+
+        AddDecoTile(new Vector2(9, Dimensions.Y - 3), new TileDecoration(false, DecorationTypes.CHAIR_CAFETERIA_G));
+        AddDecoTile(new Vector2(9, Dimensions.Y - 2), new TileDecoration(false, DecorationTypes.CHAIR_CAFETERIA_G));
+        AddDecoTile(new Vector2(10, Dimensions.Y - 3), new TileDecoration(true, DecorationTypes.TABLE_CAFETERIA));
+        AddDecoTile(new Vector2(10, Dimensions.Y - 2), new TileDecoration(true, DecorationTypes.TABLE_CAFETERIA));
+        AddDecoTile(new Vector2(11, Dimensions.Y - 3), new TileDecoration(false, DecorationTypes.CHAIR_CAFETERIA_G, SpriteEffects.FlipHorizontally));
+        AddDecoTile(new Vector2(11, Dimensions.Y - 2), new TileDecoration(false, DecorationTypes.CHAIR_CAFETERIA_G, SpriteEffects.FlipHorizontally));
         player.Position = this.GetTileWorldPos(Vector2.One);
         GenerateEntities();
         IsGenerated = true;
@@ -35,22 +59,7 @@ public class Lobby : Place
 
     public override void Draw(SpriteBatch spriteBatch)
     {
-        if (!IsGenerated)
-            GenerateLobby();
-
-        int tS = (int)Tile.GetSize().X;
-        Vector2 origin = new Vector2(25, 25);
-        for (int x = 0; x < Floor.GetLength(0); x++)
-            for (int y = 0; y < Floor.GetLength(1); y++)
-            {
-                Tile t = Floor[x, y];
-                if (t != null)
-                    spriteBatch.Draw(t.Sprite, new Vector2(x * tS, y * tS) + origin, null, Color.White, t.Rotation, origin, 1f, SpriteEffects.None, 0f);
-
-                t = Decorations[x, y];
-                if (t != null)
-                    spriteBatch.Draw(t.Sprite, new Vector2(x * tS, y * tS) + origin, null, Color.White, t.Rotation, origin, 1f, SpriteEffects.None, 0f);
-            }
+        base.Draw(spriteBatch);
 
         foreach (var e in Entities)
             spriteBatch.Draw(e.GetSprite(), e.Position, Color.White);

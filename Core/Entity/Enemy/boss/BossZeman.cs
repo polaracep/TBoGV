@@ -11,12 +11,12 @@ internal class BossZeman : EnemyBoss
 	static Texture2D Spritesheet = TextureManager.GetTexture("milosSpritesheet");
 	static SoundEffect AligatorSfx = SoundManager.GetSound("aligator");
 
-	float Scale;
-	int frameWidth = 147;
-	int frameHeight = 113;
-	int frameCount = 4;
-	int currentFrame = 0;
-	bool lookingLeft = true;
+	private float Scale;
+	private int frameWidth = 147;
+	private int frameHeight = 113;
+	private int frameCount = 4;
+	private int currentFrame = 0;
+	private bool lookingLeft = true;
 
 	protected double phaseChangeElapsed = 0;
 	protected int chillDuration = 3000;
@@ -39,6 +39,7 @@ internal class BossZeman : EnemyBoss
 		XpValue = 70;
 		phaseChangeElapsed = 0;
 	}
+	public BossZeman() : this(Vector2.Zero) { }
 
 	public override void Update(Vector2 playerPosition, double dt)
 	{
@@ -57,7 +58,7 @@ internal class BossZeman : EnemyBoss
 			Rage = !Rage;
 			phaseChangeElapsed = 0;
 			chillDuration = new Random().Next(2000, 3500);
-			if(Rage)
+			if (Rage)
 				AligatorSfx.Play();
 		}
 	}
@@ -113,7 +114,7 @@ internal class BossZeman : EnemyBoss
 			lastPathUpdateElapsed = 0; // Update the last path update time
 		}
 
-		if(Rage)
+		if (Rage)
 			FollowPath();
 	}
 
@@ -192,7 +193,7 @@ internal class BossZeman : EnemyBoss
 
 	public override List<Item> Drop(int looting)
 	{
-		return new List<Item>() { new ItemTeeth(Vector2.Zero) };
+		return new List<Item>() { new ItemTeeth(this.Position) };
 	}
 
 	public override float RecieveDmg(Projectile projectile)
@@ -213,7 +214,7 @@ internal class BossZeman : EnemyBoss
 
 	public override void Draw(SpriteBatch spriteBatch)
 	{
-		currentFrame = Convert.ToInt32(!lookingLeft) + Convert.ToInt32(!Rage)*2;
+		currentFrame = Convert.ToInt32(!lookingLeft) + Convert.ToInt32(!Rage) * 2;
 		Rectangle sourceRect = new Rectangle(currentFrame * frameWidth, 0, frameWidth, frameHeight);
 		spriteBatch.Draw(Spritesheet, new Rectangle((int)Position.X, (int)Position.Y, (int)(Size.X), (int)(Size.Y)), sourceRect, Color.White);
 

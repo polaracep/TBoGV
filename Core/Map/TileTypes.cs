@@ -19,10 +19,10 @@ public sealed class FloorTypes : StringEnum
 {
     public static readonly FloorTypes BASIC = new FloorTypes("floorYellow");
     public static readonly FloorTypes LOBBY = new FloorTypes("floorLobby");
-	public static readonly FloorTypes STAIRS = new FloorTypes("stairs");
+    public static readonly FloorTypes STAIRS = new FloorTypes("stairs");
     public static readonly FloorTypes HALLWAY = new FloorTypes("floorHallway");
 
-	public FloorTypes(string v) : base(v) { }
+    public FloorTypes(string v) : base(v) { }
 }
 public sealed class DoorTypes : StringEnum
 {
@@ -47,13 +47,16 @@ public sealed class WallTypes : StringEnum
 public sealed class DecorationTypes : StringEnum
 {
     public DecorationTypes(string v) : base(v) { }
-    public static readonly DecorationTypes CHAIR = new DecorationTypes("zidle");
-    public static readonly DecorationTypes DESK = new DecorationTypes("lavice");
-    public static readonly DecorationTypes KATEDRA = new DecorationTypes("katedra");
+    public static readonly DecorationTypes CHAIR_CLASSROOM = new DecorationTypes("chairClassroom");
+    public static readonly DecorationTypes DESK = new DecorationTypes("tableClassroom");
+    public static readonly DecorationTypes KATEDRA = new DecorationTypes("tableComputerClassroom");
     public static readonly DecorationTypes BLACKBOARD = new DecorationTypes("blackboard");
     public static readonly DecorationTypes INFO1 = new DecorationTypes("decoInfo1");
     public static readonly DecorationTypes INFO2 = new DecorationTypes("decoInfo2");
     public static readonly DecorationTypes INFO3 = new DecorationTypes("decoInfo3");
     public static readonly DecorationTypes INFO4 = new DecorationTypes("decoInfo4");
+    public static readonly DecorationTypes CHAIR_CAFETERIA_R = new DecorationTypes("chairCafeteriaRed");
+    public static readonly DecorationTypes CHAIR_CAFETERIA_G = new DecorationTypes("chairCafeteriaGreen");
+    public static readonly DecorationTypes TABLE_CAFETERIA = new DecorationTypes("tableCafeteria");
 
 }

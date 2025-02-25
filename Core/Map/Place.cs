@@ -126,31 +126,67 @@ public abstract class Place : IDraw
                     (this.GetTileDecoration(coords)?.DoCollision ?? false);
         }
     }
-	public bool ShouldCollideAt(Rectangle rect)
-	{
-		//experimental
-		Vector2 tileSize = Tile.GetSize();
+    public bool ShouldCollideAt(Rectangle rect)
+    {
+        //experimental
+        Vector2 tileSize = Tile.GetSize();
 
-		// Calculate tile indices for the rectangle bounds
-		int startX = Math.Max(0, rect.Left / (int)tileSize.X);
-		int startY = Math.Max(0, rect.Top / (int)tileSize.Y);
-		int endX = Math.Min((int)Dimensions.X - 1, rect.Right / (int)tileSize.X);
-		int endY = Math.Min((int)Dimensions.Y - 1, rect.Bottom / (int)tileSize.Y);
+        // Calculate tile indices for the rectangle bounds
+        int startX = Math.Max(0, rect.Left / (int)tileSize.X);
+        int startY = Math.Max(0, rect.Top / (int)tileSize.Y);
+        int endX = Math.Min((int)Dimensions.X - 1, rect.Right / (int)tileSize.X);
+        int endY = Math.Min((int)Dimensions.Y - 1, rect.Bottom / (int)tileSize.Y);
 
-		// Iterate through all tiles the rectangle covers
-		for (int x = startX; x <= endX; x++)
-		{
-			for (int y = startY; y <= endY; y++)
-			{
-				Vector2 tileCoords = new Vector2(x * tileSize.X, y * tileSize.Y);
-				if (ShouldCollideAt(tileCoords))
-					return true; // If any tile collides, return true
-			}
-		}
-		return false;
-	}
+        // Iterate through all tiles the rectangle covers
+        for (int x = startX; x <= endX; x++)
+        {
+            for (int y = startY; y <= endY; y++)
+            {
+                Vector2 tileCoords = new Vector2(x * tileSize.X, y * tileSize.Y);
+                if (ShouldCollideAt(tileCoords))
+                    return true; // If any tile collides, return true
+            }
+        }
+        return false;
+    }
 
-	public abstract void Reset();
-    public abstract void Draw(SpriteBatch spriteBatch);
     public abstract void Update(double dt);
+
+    public bool AddFloorTile(Vector2 position, Tile tile)
+    {
+        if (Floor[(int)position.X, (int)position.Y] == null)
+            return false;
+        Floor[(int)position.X, (int)position.Y] = tile;
+        return true;
+    }
+    public bool AddDecoTile(Vector2 position, Tile tile)
+    {
+        if (Decorations[(int)position.X, (int)position.Y] != null)
+            return false;
+        Decorations[(int)position.X, (int)position.Y] = tile;
+        return true;
+    }
+    public abstract void Reset();
+    public abstract void Generate();
+    public virtual void Draw(SpriteBatch spriteBatch)
+    {
+        if (!this.IsGenerated)
+            this.Generate();
+        for (int i = 0; i < Dimensions.X; i++)
+            for (var j = 0; j < Dimensions.Y; j++)
+            {
+                Tile t = Floor[i, j];
+                if (t != null)
+                {
+                    Vector2 origin = new Vector2(25, 25);
+                    spriteBatch.Draw(t.Sprite, new Vector2(i * Tile.GetSize().X, j * Tile.GetSize().Y) + origin, null, Color.White, t.Rotation, origin, 1f, t.SpriteEffects, 0f);
+                }
+                t = Decorations[i, j];
+                if (t != null)
+                {
+                    Vector2 origin = new Vector2(25, 25);
+                    spriteBatch.Draw(t.Sprite, new Vector2(i * Tile.GetSize().X, j * Tile.GetSize().Y) + origin, null, Color.White, t.Rotation, origin, 1f, t.SpriteEffects, 0f);
+                }
+            }
+    }
 }

@@ -1,4 +1,3 @@
-using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using TBoGV;
@@ -8,6 +7,7 @@ class EntitySarka : EntityPassive, IInteractable
     public EntitySarka(Vector2 position) : base(position)
     {
     }
+    public EntitySarka() : base() { }
 
     public override Texture2D GetSprite()
     {
@@ -16,6 +16,12 @@ class EntitySarka : EntityPassive, IInteractable
 
     public void Interact(Entity e, Place p)
     {
-        Storyline.NextLevel();
+        Screen c = TBoGVGame.screenCurrent;
+        if (c is not ScreenGame)
+            return;
+
+        ScreenGame sg = (ScreenGame)c;
+
+        sg.openShop = true;
     }
 }

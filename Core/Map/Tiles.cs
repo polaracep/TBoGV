@@ -126,6 +126,24 @@ public class TileDoor : Tile, IInteractable
     }
 }
 
+public class TileExit : Tile, IInteractable
+{
+    public TileExit(float rotation, SpriteEffects effects) : base(false, rotation, effects)
+    {
+        this.Sprite = TextureManager.GetTexture("exit");
+    }
+    public TileExit() : this(0f, SpriteEffects.None) { }
+
+    public void Interact(Entity e, Place p)
+    {
+        if (e is not Player)
+            return;
+        // TODO: Neco jako lobby() metoda co vrati hrace do lobby, zaroven resetuje shop
+        ((Player)e).LevelChanged = true;
+        ((Player)e).Position = new Vector2(3, 3);
+    }
+}
+
 public class TileHeal : Tile, IInteractable
 {
     public TileHeal(float rotation, SpriteEffects fx) : base(true, rotation, fx)
@@ -146,14 +164,35 @@ public class TileHeal : Tile, IInteractable
     }
 }
 
+public class TileTreasure : Tile, IInteractable
+{
+    public TileTreasure(float rotation, SpriteEffects fx) : base(false, rotation, fx)
+    {
+        this.Sprite = TextureManager.GetTexture("gold");
+    }
+
+    public TileTreasure(float rotation) : this(0f, SpriteEffects.None) { }
+
+    public TileTreasure() : this(0f) { }
+    public void Interact(Entity e, Place _)
+    {
+        if (e is Player)
+        {
+            Random r = new Random();
+            Player p = (Player)e;
+            p.Coins += r.Next(20);
+        }
+    }
+}
+
 public class TileDecoration : Tile
 {
-    public TileDecoration(bool collide, float rotation, DecorationTypes type, SpriteEffects fx) : base(collide, rotation, fx)
+    public TileDecoration(bool collide, DecorationTypes type, float rotation, SpriteEffects fx) : base(collide, rotation, fx)
     {
         this.Sprite = TextureManager.GetTexture(type.Value);
     }
-    public TileDecoration(bool collide, DecorationTypes type, SpriteEffects fx) : this(collide, 0f, type, fx) { }
-    public TileDecoration(bool collide, DecorationTypes type, float rotation) : this(collide, rotation, type, SpriteEffects.None) { }
-    public TileDecoration(bool collide, DecorationTypes type) : this(collide, 0f, type, SpriteEffects.None) { }
+    public TileDecoration(bool collide, DecorationTypes type, SpriteEffects fx) : this(collide, type, 0f, fx) { }
+    public TileDecoration(bool collide, DecorationTypes type, float rotation) : this(collide, type, rotation, SpriteEffects.None) { }
+    public TileDecoration(bool collide, DecorationTypes type) : this(collide, type, 0f, SpriteEffects.None) { }
 
 }

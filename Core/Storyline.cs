@@ -23,11 +23,12 @@ public static class Storyline
         // Test level
         LevelList.Add(
             new Level(Player, new List<Room> {
-                new RoomClassroom(new Vector2(16, 10), p, new List<Entity> {
+                new RoomClassroom(new Vector2(17, 17), p, new List<Entity> {
+                    new BossZeman()
+                    // new EntitySarka()
                     // new EnemyZdena(Vector2.Zero),
                     // new EnemyZdena(Vector2.Zero),
                     // new EnemyZdena(Vector2.Zero),
-                    new EntitySarka(Vector2.One),
                 })
             },
             new RoomStart(new Vector2(7, 7), p), 4

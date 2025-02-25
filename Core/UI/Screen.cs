@@ -3,7 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace TBoGV;
 
-abstract class Screen
+public abstract class Screen
 {
     public abstract void Draw(SpriteBatch _spriteBatch, GraphicsDeviceManager graphics);
     public abstract void BeginRun(GraphicsDeviceManager graphics);

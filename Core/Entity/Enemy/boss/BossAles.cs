@@ -13,22 +13,24 @@ internal class BossAles : EnemyBoss
 	static SoundEffect SfxKaves = SoundManager.GetSound("dzojkShorter");
 	static float ScaleChill;
 	static float ScaleRage;
+
 	protected double phaseChangeElapsed = 0;
 	protected int chillDuration = 5000; 
 	protected int rageDuration = (int)SfxKaves.Duration.TotalMilliseconds;
 	protected bool Rage { get; set; }
 
-	private double rotationOffset = 0; 
-	protected new enum bossPhases : int
+	private double rotationOffset = 0;
+	protected new enum BossPhases : int
 	{
 		IDLE = 0,
 		KAVES = 1,
 	}
-	protected bossPhases Phase { get; set; }
-	public BossAles(Vector2 position) 
-	{ 
+	protected BossPhases Phase { get; set; }
+
+	public BossAles(Vector2 position)
+	{
 		Rage = false;
-			
+
 		Position = position;
 		Hp = 200;
 		MovementSpeed = 4;
@@ -36,34 +38,35 @@ internal class BossAles : EnemyBoss
 		AttackDmg = 1;
 		ScaleRage = 100f / Math.Max(SpriteRage.Width, SpriteRage.Height);
 		ScaleChill = 100f / Math.Max(SpriteChill.Width, SpriteChill.Height);
-		Size = new Vector2(SpriteChill.Width * ScaleChill, SpriteChill.Height*ScaleChill);
+		Size = new Vector2(SpriteChill.Width * ScaleChill, SpriteChill.Height * ScaleChill);
 		XpValue = 50;
 		phaseChangeElapsed = 0;
 	}
+	public BossAles() : this(Vector2.Zero) { }
 	public override void Draw(SpriteBatch spriteBatch)
 	{
 		spriteBatch.Draw(Rage ? SpriteRage : SpriteChill, new Rectangle(Convert.ToInt32(Position.X), Convert.ToInt32(Position.Y), Convert.ToInt32(Size.X), Convert.ToInt32(Size.Y)), Color.White);
 	}
-		
+
 
 	public override List<Projectile> Attack()
 	{
 		LastAttackElapsed = 0;
 		List<Projectile> projectiles = new List<Projectile>();
 
-		int projectileCount = 6; 
+		int projectileCount = 6;
 		double angleStep = 360.0 / projectileCount; // Spread evenly in a circle
 
 		for (int i = 0; i < projectileCount; i++)
 		{
-			double angle = i * angleStep + rotationOffset; 
-			double radians = Math.PI * angle / 180.0; 
+			double angle = i * angleStep + rotationOffset;
+			double radians = Math.PI * angle / 180.0;
 			Vector2 direction = new Vector2((float)Math.Cos(radians), (float)Math.Sin(radians));
 
 			projectiles.Add(new ProjectileKaves(Position + Size / 2, direction, AttackDmg));
 		}
 
-		rotationOffset += 5; 
+		rotationOffset += 5;
 
 		return projectiles;
 	}
@@ -103,7 +106,7 @@ internal class BossAles : EnemyBoss
 
 	public override List<Item> Drop(int looting)
 	{
-		return new List<Item>() {new ItemTeeth(Vector2.Zero) };
+		return new List<Item>() { new ItemTeeth(this.Position) };
 	}
 
 	public override void Move(Place place)

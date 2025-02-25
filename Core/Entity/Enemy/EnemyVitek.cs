@@ -2,7 +2,6 @@
 using System;
 using Microsoft.Xna.Framework;
 using System.Collections.Generic;
-using static System.Formats.Asn1.AsnWriter;
 namespace TBoGV;
 
 internal class EnemyVitek : EnemyRanged
@@ -15,7 +14,7 @@ internal class EnemyVitek : EnemyRanged
 	protected DateTime DirectionChanged;
 	protected int DirectionChangeTime = 4000;
 	public EnemyVitek(Vector2 position)
-	{	
+	{
 		Position = position;
 		Hp = 3;
 		MovementSpeed = 3;
@@ -23,10 +22,12 @@ internal class EnemyVitek : EnemyRanged
 		AttackDmg = 1;
 		Sprite = TextureManager.GetTexture("taunt");
 		Scale = 50f / Math.Max(Sprite.Width, Sprite.Height);
-		Size = new Vector2(Sprite.Width * Scale, Sprite.Height*Scale);
+		Size = new Vector2(Sprite.Width * Scale, Sprite.Height * Scale);
 		XpValue = 1;
 		PickNewDirection();
 	}
+	public EnemyVitek() : this(Vector2.Zero) { }
+
 	public override void Draw(SpriteBatch spriteBatch)
 	{
 		spriteBatch.Draw(Sprite, new Rectangle((int)(Position.X), (int)(Position.Y), (int)(Size.X), (int)(Size.Y)), Color.White);

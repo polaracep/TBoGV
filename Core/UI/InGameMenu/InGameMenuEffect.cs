@@ -5,22 +5,21 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework;
 using System.Text;
-using static System.Net.Mime.MediaTypeNames;
 namespace TBoGV;
 
 internal class InGameMenuEffect : InGameMenu
 {
-    static Viewport Viewport;
-    static SpriteFont MiddleFont;
+	static Viewport Viewport;
+	static SpriteFont MiddleFont;
 	static SpriteFont LargerFont;
 	static Texture2D SpriteForeground;
 	public Dictionary<StatTypes, int> Stats { get; set; }
 	public List<Effect> Effects { get; set; }
 	public InGameMenuEffect(Viewport viewport)
-    {
-        Viewport = viewport;
-        SpriteBackground = TextureManager.GetTexture("blackSquare");
-        MiddleFont = FontManager.GetFont("Arial12");
+	{
+		Viewport = viewport;
+		SpriteBackground = TextureManager.GetTexture("blackSquare");
+		MiddleFont = FontManager.GetFont("Arial12");
 		SpriteForeground = TextureManager.GetTexture("whiteSquare");
 		LargerFont = FontManager.GetFont("Arial16");
 
@@ -30,83 +29,84 @@ internal class InGameMenuEffect : InGameMenu
     {
         base.Update(viewport, player, mouseState, keyboardState, dt);
 
-        Stats = player.Inventory.SetStats(player.LevelUpStats);
+
+		Stats = player.Inventory.SetStats(player.LevelUpStats);
 		Effects = player.Inventory.Effects;
 		Viewport = viewport;
 	}
-    public override void Draw(SpriteBatch spriteBatch)
-    {
-        base.Draw(spriteBatch);
+	public override void Draw(SpriteBatch spriteBatch)
+	{
+		base.Draw(spriteBatch);
 
-        if (Stats == null || Stats.Count == 0) return;
+		if (Stats == null || Stats.Count == 0) return;
 
-        // Convert stats to a formatted list of (label, value, effect)
-        List<(string label, string value, string effect)> statEntries = Stats.Select(stat =>
-            (GetStatName(stat.Key), stat.Value.ToString(), GetEffectString(stat.Key, stat.Value))
-        ).ToList();
+		// Convert stats to a formatted list of (label, value, effect)
+		List<(string label, string value, string effect)> statEntries = Stats.Select(stat =>
+			(GetStatName(stat.Key), stat.Value.ToString(), GetEffectString(stat.Key, stat.Value))
+		).ToList();
 
-        // Measure the widest label, value, and effect separately
-        float maxLabelWidth = statEntries.Max(entry => MiddleFont.MeasureString(entry.label).X);
-        float maxValueWidth = statEntries.Max(entry => MiddleFont.MeasureString(entry.value).X);
-        float maxEffectWidth = statEntries.Max(entry => MiddleFont.MeasureString(entry.effect).X);
-        float spacing = 10f; // Space between columns
+		// Measure the widest label, value, and effect separately
+		float maxLabelWidth = statEntries.Max(entry => MiddleFont.MeasureString(entry.label).X);
+		float maxValueWidth = statEntries.Max(entry => MiddleFont.MeasureString(entry.value).X);
+		float maxEffectWidth = statEntries.Max(entry => MiddleFont.MeasureString(entry.effect).X);
+		float spacing = 10f; // Space between columns
 
-        // Total width of text block
-        float totalWidth = maxLabelWidth + spacing + maxValueWidth + spacing + maxEffectWidth;
-        float totalHeight = statEntries.Count * MiddleFont.LineSpacing;
+		// Total width of text block
+		float totalWidth = maxLabelWidth + spacing + maxValueWidth + spacing + maxEffectWidth;
+		float totalHeight = statEntries.Count * MiddleFont.LineSpacing;
 
-        // Start position centered horizontally
-        float startX = (Viewport.Width - totalWidth) / 2;
-        float startY = (Viewport.Height - (statEntries.Count * MiddleFont.LineSpacing)) / 2;
+		// Start position centered horizontally
+		float startX = (Viewport.Width - totalWidth) / 2;
+		float startY = (Viewport.Height - (statEntries.Count * MiddleFont.LineSpacing)) / 2;
 
-        Rectangle backgroundRect = new Rectangle((int)startX - 10, (int)startY - 10, (int)totalWidth + 20, (int)totalHeight + 20);
-        spriteBatch.Draw(SpriteBackground, backgroundRect, Color.Black * 0.5f);
+		Rectangle backgroundRect = new Rectangle((int)startX - 10, (int)startY - 10, (int)totalWidth + 20, (int)totalHeight + 20);
+		spriteBatch.Draw(SpriteBackground, backgroundRect, Color.Black * 0.5f);
 
-        for (int i = 0; i < statEntries.Count; i++)
-        {
-            string label = statEntries[i].label;
-            string value = statEntries[i].value;
-            string effect = statEntries[i].effect;
+		for (int i = 0; i < statEntries.Count; i++)
+		{
+			string label = statEntries[i].label;
+			string value = statEntries[i].value;
+			string effect = statEntries[i].effect;
 
-            Vector2 labelPosition = new Vector2(startX, startY + i * MiddleFont.LineSpacing);
-            Vector2 valuePosition = new Vector2(startX + maxLabelWidth + spacing + maxValueWidth - MiddleFont.MeasureString(value).X, startY + i * MiddleFont.LineSpacing);
-            Vector2 effectPosition = new Vector2(startX + maxLabelWidth + spacing + maxValueWidth + spacing, startY + i * MiddleFont.LineSpacing);
+			Vector2 labelPosition = new Vector2(startX, startY + i * MiddleFont.LineSpacing);
+			Vector2 valuePosition = new Vector2(startX + maxLabelWidth + spacing + maxValueWidth - MiddleFont.MeasureString(value).X, startY + i * MiddleFont.LineSpacing);
+			Vector2 effectPosition = new Vector2(startX + maxLabelWidth + spacing + maxValueWidth + spacing, startY + i * MiddleFont.LineSpacing);
 
-            spriteBatch.DrawString(MiddleFont, label, labelPosition, Color.White);
-            spriteBatch.DrawString(MiddleFont, value, valuePosition, Color.White);
-            spriteBatch.DrawString(MiddleFont, effect, effectPosition, Color.LightCyan);
-        }
+			spriteBatch.DrawString(MiddleFont, label, labelPosition, Color.White);
+			spriteBatch.DrawString(MiddleFont, value, valuePosition, Color.White);
+			spriteBatch.DrawString(MiddleFont, effect, effectPosition, Color.LightCyan);
+		}
 		DrawEffects(spriteBatch);
 	}
 
-    private string GetEffectString(StatTypes statType, float value)
-    {
-        return statType switch
-        {
-            StatTypes.MAX_HP => value > 0 ? $"(+{(int)(value * 0.5)} Hp)" : $"({(int)(value * 0.5)} Hp)",
-            StatTypes.DAMAGE => $"(+{(value * 10)}% dmg)",
-            StatTypes.PROJECTILE_COUNT => $"(+{(int)Math.Max(value / 3,0)} projektilu)",
-            StatTypes.XP_GAIN => $"(+{value * 10}% xp gain)",
-            StatTypes.ATTACK_SPEED => $"(+{value * 10}% rychlost utoku)",
-            StatTypes.MOVEMENT_SPEED => $"(+{value * 10}% rychlost pohybu)",
-            _ => "(N/A)"
-        };
-    }
+	private string GetEffectString(StatTypes statType, float value)
+	{
+		return statType switch
+		{
+			StatTypes.MAX_HP => value > 0 ? $"(+{(int)(value * 0.5)} Hp)" : $"({(int)(value * 0.5)} Hp)",
+			StatTypes.DAMAGE => $"(+{(value * 10)}% dmg)",
+			StatTypes.PROJECTILE_COUNT => $"(+{(int)Math.Max(value / 3, 0)} projektilu)",
+			StatTypes.XP_GAIN => $"(+{value * 10}% xp gain)",
+			StatTypes.ATTACK_SPEED => $"(+{value * 10}% rychlost utoku)",
+			StatTypes.MOVEMENT_SPEED => $"(+{value * 10}% rychlost pohybu)",
+			_ => "(N/A)"
+		};
+	}
 
-    // Helper method to map StatTypes to display names
-    private string GetStatName(StatTypes statType)
-    {
-        return statType switch
-        {
-            StatTypes.MAX_HP => "Biologie",
-            StatTypes.DAMAGE => "Matematika",
-            StatTypes.PROJECTILE_COUNT => "Fyzika",
-            StatTypes.XP_GAIN => "Zsv",
-            StatTypes.ATTACK_SPEED => "Cestina",
-            StatTypes.MOVEMENT_SPEED => "Telocvik",
-            _ => statType.ToString()
-        };
-    }
+	// Helper method to map StatTypes to display names
+	private string GetStatName(StatTypes statType)
+	{
+		return statType switch
+		{
+			StatTypes.MAX_HP => "Biologie",
+			StatTypes.DAMAGE => "Matematika",
+			StatTypes.PROJECTILE_COUNT => "Fyzika",
+			StatTypes.XP_GAIN => "Zsv",
+			StatTypes.ATTACK_SPEED => "Cestina",
+			StatTypes.MOVEMENT_SPEED => "Telocvik",
+			_ => statType.ToString()
+		};
+	}
 	public void DrawEffects(SpriteBatch spriteBatch)
 	{
 		// Get current mouse state for hover detection.
@@ -152,7 +152,7 @@ internal class InGameMenuEffect : InGameMenu
 		float tooltipHeight = nameSize.Y + descriptionSize.Y + levelSize.Y + statsSize.Y + verticalPadding * 4;
 
 		// Position the tooltip near the effect's rectangle.
-		Vector2 tooltipPosition = new Vector2(effect.GetRect().Right + 5, Math.Min(effect.GetRect().Top, Viewport.Height- effect.GetRect().Height-5));
+		Vector2 tooltipPosition = new Vector2(effect.GetRect().Right + 5, Math.Min(effect.GetRect().Top, Viewport.Height - effect.GetRect().Height - 5));
 		Rectangle tooltipRect = new Rectangle((int)tooltipPosition.X, (int)tooltipPosition.Y, (int)tooltipWidth, (int)tooltipHeight);
 
 		// Draw the tooltip background.
@@ -160,7 +160,7 @@ internal class InGameMenuEffect : InGameMenu
 
 		// Draw the detailed text inside the tooltip.
 		Vector2 textPos = tooltipPosition + new Vector2(horizontalPadding, verticalPadding);
-		spriteBatch.DrawString(LargerFont, nameText, textPos + new Vector2(tooltipWidth / 2 - nameSize.X/2,0), effect.Positive ? Color.LightGreen : Color.OrangeRed);
+		spriteBatch.DrawString(LargerFont, nameText, textPos + new Vector2(tooltipWidth / 2 - nameSize.X / 2, 0), effect.Positive ? Color.LightGreen : Color.OrangeRed);
 		textPos.Y += nameSize.Y + verticalPadding;
 
 		spriteBatch.DrawString(MiddleFont, levelText, textPos + new Vector2(tooltipWidth / 2 - levelSize.X / 2, 0), effect.Positive ? Color.LightGreen : Color.OrangeRed);

@@ -10,9 +10,9 @@ public class RoomEmpty : Room, IDraw
     //public RoomEmpty(Player p) :
 
 
-    public override void GenerateRoom()
+    public override void Generate()
     {
-        base.GenerateRoomBase(FloorTypes.BASIC, WallTypes.BASIC, DoorTypes.BASIC);
+        base.GenerateBase(FloorTypes.BASIC, WallTypes.BASIC, DoorTypes.BASIC);
         // this.AddDecorationTile(new TileHeal(), new Vector2(5, 5));
         this.GenerateEnemies();
     }
