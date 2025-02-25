@@ -24,10 +24,7 @@ public static class Storyline
         LevelList.Add(
             new Level(Player, new List<Room> {
                 new RoomClassroom(new Vector2(17, 17), p, new List<Entity> {
-                    new BossZeman()
-                    // new EnemyZdena(Vector2.Zero),
-                    // new EnemyZdena(Vector2.Zero),
-                    // new EnemyZdena(Vector2.Zero),
+                    new BossAles()
                 })
             },
             new RoomStart(new Vector2(7, 7), p), 4

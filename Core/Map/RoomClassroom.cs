@@ -98,23 +98,6 @@ public class RoomClassroom : Room
                 }
             }
         }
-		GenerateMilos();
-
-	}
-
-    protected void GenerateMilos()
-    {
-        Random rand = new Random();
-        while (true)
-        {
-            Vector2 spawnPos = new Vector2(rand.Next((int)Dimensions.X), rand.Next((int)Dimensions.Y)) * 50;
-            if (!this.ShouldCollideAt(spawnPos))
-            {
-                this.AddEnemy(new BossOIIAOIIA(spawnPos));
-                break;
-            }
-        }
 
     }
-
 }

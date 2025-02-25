@@ -55,11 +55,11 @@ public static class TextureManager
             "dzojkAles",
             "spritesheetOIIA",
             "milosSpinks",
-			"milosSchlafen",
-			"milosMood",
-			"milosMoodHandless",
-			"milosSpritesheet",
-			"zdenda",
+            "milosSchlafen",
+            "milosMood",
+            "milosMoodHandless",
+            "milosSpritesheet",
+            "zdenda",
 
             // Vitek
             "vitek-nobg",
@@ -69,7 +69,7 @@ public static class TextureManager
             // Projectiles
             "projectile",
             "koren",
-			"jatrovyKnedlicek",
+            "jatrovyKnedlicek",
 
             // UI
             "taunt",
@@ -153,7 +153,8 @@ public static class SoundManager
             "bouchaniDoKorenu",
             "dzojkShorter",
             "OIIAOIIA",
-            "aligator"
+            "aligator",
+            "kaves",
         };
 
         foreach (string name in names)
