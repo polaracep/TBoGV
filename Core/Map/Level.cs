@@ -85,6 +85,7 @@ public class LevelCreator
     private Vector2 StartPos;
     private RoomStart StartRoom;
     private Room BossRoom;
+    private bool bossPlaced;
 
     public LevelCreator(List<Room> rooms, RoomStart startRoom, Room bossRoom, int size, Vector2 startPos)
     {
@@ -92,8 +93,10 @@ public class LevelCreator
         this.Rooms = rooms;
         this.RoomCount = rooms.Count();
         if (bossRoom != null)
+        {
+            this.RoomCount++;
             this.BossRoom = bossRoom;
-
+        }
         if (startRoom != null)
         {
             this.RoomCount++;
@@ -102,8 +105,6 @@ public class LevelCreator
         // this.StartPos = startPos;
         this.StartPos = startPos;
     }
-    public LevelCreator(List<Room> rooms, RoomStart startRoom, int size, Vector2 startPos) : this(rooms, startRoom, null, size, startPos) { }
-    public LevelCreator(List<Room> rooms, int size, Vector2 startPos) : this(rooms, null, null, size, startPos) { }
 
     public Room[,] GenerateLevel(out Vector2 startRoomPos)
     {
@@ -130,13 +131,15 @@ public class LevelCreator
             if (isEntry)
                 startRoomPos = c.Position - trucSize.offset;
 
-            if (BossRoom != null && c.Distance == maxDist)
+            if (BossRoom != null && c.Distance == maxDist && !bossPlaced)
             {
                 // boss room!
                 if (c.DoorDirections.Count == 1)
                     chosen = BossRoom;
                 else
                     throw new Exception("smutny, ted to musis spravit!");
+
+                bossPlaced = true;
             }
             else if (isEntry && StartRoom != null)
                 // start
@@ -174,7 +177,7 @@ public class LevelCreator
 
             foreach (TileDoor door in room.Doors)
             {
-                Vector2 newRoomPos = new Vector2(-1, -1);
+                Vector2 newRoomPos = new Vector2(-1);
                 Directions lookingForDir = Directions.ENTRY;
                 switch (door.Direction)
                 {
@@ -198,9 +201,9 @@ public class LevelCreator
                         continue;
                 }
                 Room linkRoom = roomMap[(int)newRoomPos.X, (int)newRoomPos.Y];
-                // if (linkRoom is RoomBoss)
-                // door.IsBossDoor = true;
                 door.OppositeDoor = linkRoom.Doors.Find(d => d.Direction == lookingForDir);
+                if (linkRoom == BossRoom)
+                    door.SetDoorType(DoorTypes.BOSS);
             }
         }
         return roomMap;

@@ -32,6 +32,7 @@ public static class TextureManager
             
             // Doors
             "door",
+            "doorBoss",
 
             // Decorations 
             "tableClassroom",
