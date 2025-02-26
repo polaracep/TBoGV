@@ -92,6 +92,8 @@ public static class TextureManager
             "wheat4",
             "arrow",
             "jirkaEffect",
+            "check",
+            "cross",
 
             // Items
             "heal",
