@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net.Http;
 using System.Reflection;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -13,7 +12,7 @@ class ScreenSettings : Screen
     private SpriteFont LargerFont = FontManager.GetFont("Arial16");
     private Button escapeButton;
     private FieldInfo[] settings;
-    private List<IUIElement> settingElements;
+    private List<IUIElement> settingElements = new List<IUIElement>();
 
     public override void BeginRun(GraphicsDeviceManager graphics)
     {
@@ -30,7 +29,7 @@ class ScreenSettings : Screen
 
         foreach (var (setting, index) in settings.Select((setting, index) => (setting, index)))
         {
-            if (setting.GetType() == typeof(bool))
+            if (setting.GetValue(null).GetType() == typeof(bool))
             {
                 settingElements.Add(new Checkbox(setting.Name,
                     Vector2.Zero,
@@ -65,16 +64,19 @@ class ScreenSettings : Screen
 
         // settings
 
-        foreach (var (setting, index) in settings.Select((setting, index) => (setting, index)))
+        foreach (var (el, index) in settingElements.Select((el, index) => (el, index)))
         {
-            new Vector2(menuX, (index * hp) + 100);
+            el.Position = new Vector2(menuX - el.GetRect().Width / 2, (index * hp) + 100);
+            ((IDraw)el).Draw(_spriteBatch);
         }
-
         _spriteBatch.End();
     }
 
     public override void Update(GameTime gameTime, GraphicsDeviceManager graphics)
     {
-        escapeButton.Update(Mouse.GetState());
+        MouseState mouseState = Mouse.GetState();
+        escapeButton.Update(mouseState);
+        foreach (var s in settingElements)
+            s.Update(mouseState);
     }
 }

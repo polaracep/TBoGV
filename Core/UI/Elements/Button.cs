@@ -7,8 +7,8 @@ namespace TBoGV;
 
 internal class Button : IDraw, IUIElement
 {
-	private string Text;
 	public Vector2 Position { get; set; }
+	private string Text;
 	private Vector2 Size;
 	private SpriteFont Font;
 	private static Texture2D SpriteBackground = TextureManager.GetTexture("whiteSquare");
@@ -16,7 +16,7 @@ internal class Button : IDraw, IUIElement
 
 	protected Action OnClick;
 	protected MouseState PrevMouseState;
-	protected Color[] color = new Color[2] { new(60, 60, 60, 128), new(20, 20, 20, 128) };
+	protected Color[] color = [new(60, 60, 60, 128), new(20, 20, 20, 128)];
 	protected int ColorIndex = 0;
 
 	public Button(string text, SpriteFont font, Action onClick)
