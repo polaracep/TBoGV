@@ -13,7 +13,7 @@ public class Level
     protected Vector2 ActiveRoomCoords;
     protected Player Player;
 
-    public Level(Player player, List<Room> roomList, RoomStart startRoom, uint maxSize, Vector2 startRoomPos)
+    public Level(Player player, List<Room> roomList, RoomStart startRoom, Room bossRoom, uint maxSize, Vector2 startRoomPos)
     {
         if (startRoomPos.X > maxSize || startRoomPos.Y > maxSize)
             throw new ArgumentOutOfRangeException("The startPos is not in the level");
@@ -21,9 +21,11 @@ public class Level
         this.RoomCount = roomList.Count;
         if (startRoom != null)
             this.RoomCount++;
+        if (bossRoom != null)
+            this.RoomCount++;
         this.Player = player;
 
-        LevelCreator lC = new LevelCreator(roomList, startRoom, 7, startRoomPos, Player);
+        LevelCreator lC = new LevelCreator(roomList, startRoom, bossRoom, 7, startRoomPos);
         this.RoomMap = lC.GenerateLevel(out startRoomPos);
         this.ActiveRoom = this.RoomMap[(int)startRoomPos.X, (int)startRoomPos.Y];
         this.ActiveRoomCoords = startRoomPos;
@@ -33,8 +35,10 @@ public class Level
 
     }
 
-    public Level(Player player, List<Room> roomList, uint maxSize) : this(player, roomList, null, maxSize, new Vector2(maxSize) / 2) { }
-    public Level(Player player, List<Room> roomList, RoomStart roomStart, uint maxSize) : this(player, roomList, roomStart, maxSize, new Vector2(maxSize) / 2) { }
+    public Level(Player player, List<Room> roomList, RoomStart roomStart, Room roomBoss, uint maxSize) : this(player, roomList, roomStart, roomBoss, maxSize, new Vector2(maxSize) / 2) { }
+    public Level(Player player, List<Room> roomList, RoomStart roomStart, uint maxSize) : this(player, roomList, roomStart, null, maxSize, new Vector2(maxSize) / 2) { }
+    public Level(Player player, List<Room> roomList, Room roomBoss, uint maxSize) : this(player, roomList, null, roomBoss, maxSize, new Vector2(maxSize) / 2) { }
+    public Level(Player player, List<Room> roomList, uint maxSize) : this(player, roomList, null, null, maxSize, new Vector2(maxSize) / 2) { }
 
     private void OnRoomChanged(object sender, TileInteractEventArgs e)
     {
@@ -79,14 +83,20 @@ public class LevelCreator
     private int Size;
     private int RoomCount;
     private Vector2 StartPos;
-    private Player Player;
     private RoomStart StartRoom;
+    private Room BossRoom;
+    private bool bossPlaced;
 
-    public LevelCreator(List<Room> rooms, RoomStart startRoom, int size, Vector2 startPos, Player player)
+    public LevelCreator(List<Room> rooms, RoomStart startRoom, Room bossRoom, int size, Vector2 startPos)
     {
         this.Size = size;
         this.Rooms = rooms;
         this.RoomCount = rooms.Count();
+        if (bossRoom != null)
+        {
+            this.RoomCount++;
+            this.BossRoom = bossRoom;
+        }
         if (startRoom != null)
         {
             this.RoomCount++;
@@ -94,9 +104,7 @@ public class LevelCreator
         }
         // this.StartPos = startPos;
         this.StartPos = startPos;
-        this.Player = player;
     }
-    public LevelCreator(List<Room> rooms, int size, Vector2 startPos, Player player) : this(rooms, null, size, startPos, player) { }
 
     public Room[,] GenerateLevel(out Vector2 startRoomPos)
     {
@@ -110,26 +118,40 @@ public class LevelCreator
 
         Random rand = new Random();
         startRoomPos = StartPos - trucSize.offset;
-        // kazdy kandidat
+        int maxDist = candidateMap.Cast<RoomCandidate>().Max(x => x != null ? x.Distance : 0);
+        // kazdy kandidat na mape
         foreach (var c in candidateMap)
         {
             if (c == null)
                 continue;
             Room chosen;
             bool isEntry = c.DoorDirections.Contains(Directions.ENTRY);
+
+            // check if entry
             if (isEntry)
                 startRoomPos = c.Position - trucSize.offset;
 
-            if (isEntry && StartRoom != null)
+            if (BossRoom != null && c.Distance == maxDist && !bossPlaced)
             {
-                chosen = StartRoom;
+                // boss room!
+                if (c.DoorDirections.Count == 1)
+                    chosen = BossRoom;
+                else
+                    throw new Exception("smutny, ted to musis spravit!");
+
+                bossPlaced = true;
             }
+            else if (isEntry && StartRoom != null)
+                // start
+                chosen = StartRoom;
             else
             {
+                // nahodny
                 chosen = Rooms[rand.Next(Rooms.Count())];
                 Rooms.Remove(chosen);
             }
 
+            // Dvere handling
             foreach (Directions dir in c.DoorDirections)
             {
                 chosen.Doors.Add(new TileDoor(DoorTypes.BASIC, dir, Vector2.Zero));
@@ -137,6 +159,7 @@ public class LevelCreator
             chosen.Position = c.Position - trucSize.offset;
             Vector2 newPos = new Vector2((int)c.Position.X - (int)trucSize.offset.X, (int)c.Position.Y - (int)trucSize.offset.Y);
 
+            // assign nahodneho do mapy
             finalMap[(int)newPos.X, (int)newPos.Y] = chosen;
 
             // PrintMap(finalMap);
@@ -154,7 +177,7 @@ public class LevelCreator
 
             foreach (TileDoor door in room.Doors)
             {
-                Vector2 newRoomPos = new Vector2(-1, -1);
+                Vector2 newRoomPos = new Vector2(-1);
                 Directions lookingForDir = Directions.ENTRY;
                 switch (door.Direction)
                 {
@@ -178,9 +201,9 @@ public class LevelCreator
                         continue;
                 }
                 Room linkRoom = roomMap[(int)newRoomPos.X, (int)newRoomPos.Y];
-                // if (linkRoom is RoomBoss)
-                // door.IsBossDoor = true;
                 door.OppositeDoor = linkRoom.Doors.Find(d => d.Direction == lookingForDir);
+                if (linkRoom == BossRoom)
+                    door.SetDoorType(DoorTypes.BOSS);
             }
         }
         return roomMap;
@@ -191,18 +214,19 @@ public class LevelCreator
         RoomCandidate[,] candidateMap = new RoomCandidate[Size, Size];
         int roomsPlaced = 0;
 
-        RoomCandidate startRoom = new RoomCandidate(StartPos, Directions.ENTRY, null, Player);
+        RoomCandidate startRoom = new RoomCandidate(StartPos, Directions.ENTRY, null, 0);
         candidateMap[(int)StartPos.X, (int)StartPos.Y] = startRoom;
         roomsPlaced++;
 
-        AddCandidate(new RoomCandidate(new Vector2(StartPos.X + 1, StartPos.Y), Directions.LEFT, startRoom, Player));
-        AddCandidate(new RoomCandidate(new Vector2(StartPos.X - 1, StartPos.Y), Directions.RIGHT, startRoom, Player));
-        AddCandidate(new RoomCandidate(new Vector2(StartPos.X, StartPos.Y + 1), Directions.UP, startRoom, Player));
-        AddCandidate(new RoomCandidate(new Vector2(StartPos.X, StartPos.Y - 1), Directions.DOWN, startRoom, Player));
+        AddCandidate(new RoomCandidate(new Vector2(StartPos.X + 1, StartPos.Y), Directions.LEFT, startRoom, 1));
+        AddCandidate(new RoomCandidate(new Vector2(StartPos.X - 1, StartPos.Y), Directions.RIGHT, startRoom, 1));
+        AddCandidate(new RoomCandidate(new Vector2(StartPos.X, StartPos.Y + 1), Directions.UP, startRoom, 1));
+        AddCandidate(new RoomCandidate(new Vector2(StartPos.X, StartPos.Y - 1), Directions.DOWN, startRoom, 1));
 
         while (roomsPlaced < RoomCount)
         {
             Random rand = new Random();
+            // nahodny novy candidat
             RoomCandidate rCan = Candidates[rand.Next(Candidates.Count)];
             RoomCandidate rGet = candidateMap[(int)rCan.Position.X, (int)rCan.Position.Y];
 
@@ -213,10 +237,10 @@ public class LevelCreator
             {
                 candidateMap[(int)rCan.Position.X, (int)rCan.Position.Y] = rCan;
                 roomsPlaced++;
-                AddCandidate(new RoomCandidate(new Vector2(rCan.Position.X + 1, rCan.Position.Y), Directions.LEFT, rCan, Player));
-                AddCandidate(new RoomCandidate(new Vector2(rCan.Position.X - 1, rCan.Position.Y), Directions.RIGHT, rCan, Player));
-                AddCandidate(new RoomCandidate(new Vector2(rCan.Position.X, rCan.Position.Y + 1), Directions.UP, rCan, Player));
-                AddCandidate(new RoomCandidate(new Vector2(rCan.Position.X, rCan.Position.Y - 1), Directions.DOWN, rCan, Player));
+                AddCandidate(new RoomCandidate(new Vector2(rCan.Position.X + 1, rCan.Position.Y), Directions.LEFT, rCan, rCan.Distance + 1));
+                AddCandidate(new RoomCandidate(new Vector2(rCan.Position.X - 1, rCan.Position.Y), Directions.RIGHT, rCan, rCan.Distance + 1));
+                AddCandidate(new RoomCandidate(new Vector2(rCan.Position.X, rCan.Position.Y + 1), Directions.UP, rCan, rCan.Distance + 1));
+                AddCandidate(new RoomCandidate(new Vector2(rCan.Position.X, rCan.Position.Y - 1), Directions.DOWN, rCan, rCan.Distance + 1));
             }
             else
             {
@@ -323,12 +347,17 @@ public class LevelCreator
         public RoomCandidate GeneratedFromRoom;
         public List<Directions> DoorDirections = new List<Directions>();
         public Vector2 Position;
-        public RoomCandidate(Vector2 pos, Directions from, RoomCandidate gen, Player p)
+        /// <summary>
+        /// Distance from start room
+        /// </summary>
+        public int Distance = 0;
+        public RoomCandidate(Vector2 pos, Directions from, RoomCandidate gen, int dist)
         {
             Position = pos;
             GeneratedFromDir = from;
             DoorDirections.Add(from);
             GeneratedFromRoom = gen;
+            Distance = dist;
         }
     }
 }

@@ -254,7 +254,8 @@ public abstract class Room : Place
         }
         foreach (TileDoor door in this.Doors)
         {
-            door.SetDoorType(doors);
+            if (door.Sprite.Name != TextureManager.GetTexture(DoorTypes.BOSS.Value).Name)
+                door.SetDoorType(doors);
             switch (door.Direction)
             {
                 case Directions.LEFT:

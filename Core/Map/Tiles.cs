@@ -89,22 +89,17 @@ public class TileDoor : Tile, IInteractable
     public Directions Direction { get; private set; }
     public TileDoor OppositeDoor;
     public Vector2 DoorTpPosition;
-    public bool IsBossDoor = false;
     public static event EventHandler<TileInteractEventArgs> TileInteract;
-    public TileDoor(DoorTypes type, Directions direction, Vector2 doorPos, TileDoor oppositeDoor, SpriteEffects fx)
-        : base(true, ComputeRotation(direction), fx)
+    public TileDoor(DoorTypes type, Directions direction, Vector2 doorPos, TileDoor oppositeDoor, SpriteEffects fx) : base(true, ComputeRotation(direction), fx)
     {
         this.DoorTpPosition = doorPos;
         this.OppositeDoor = oppositeDoor;
         this.Direction = direction;
         SetDoorType(type);
     }
-    public TileDoor(DoorTypes type, Directions direction, Vector2 doorPos, TileDoor oppositeDoor)
-        : this(type, direction, doorPos, oppositeDoor, SpriteEffects.None) { }
-    public TileDoor(DoorTypes door, Directions direction, Vector2 doorPos)
-        : this(door, direction, doorPos, null, SpriteEffects.None) { }
-    public TileDoor(DoorTypes door, Directions direction)
-        : this(door, direction, Vector2.Zero, null, SpriteEffects.None) { }
+    public TileDoor(DoorTypes type, Directions direction, Vector2 doorPos, TileDoor oppositeDoor) : this(type, direction, doorPos, oppositeDoor, SpriteEffects.None) { }
+    public TileDoor(DoorTypes door, Directions direction, Vector2 doorPos) : this(door, direction, doorPos, null, SpriteEffects.None) { }
+    public TileDoor(DoorTypes door, Directions direction) : this(door, direction, Vector2.Zero, null, SpriteEffects.None) { }
     public void Interact(Entity e, Place p)
     {
         // put player in the left-top corne

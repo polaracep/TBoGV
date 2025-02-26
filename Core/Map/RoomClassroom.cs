@@ -98,8 +98,6 @@ public class RoomClassroom : Room
                 }
             }
         }
-		//GenerateMilos();
-
 	}
 
     protected void GenerateMilos()
@@ -116,5 +114,4 @@ public class RoomClassroom : Room
         }
 
     }
-
 }

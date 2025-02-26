@@ -10,12 +10,13 @@ internal class BossAles : EnemyBoss
 {
 	static Texture2D SpriteChill = TextureManager.GetTexture("chillAles");
 	static Texture2D SpriteRage = TextureManager.GetTexture("dzojkAles");
-	static SoundEffect SfxKaves = SoundManager.GetSound("dzojkShorter");
+	static SoundEffect SfxDzojk = SoundManager.GetSound("dzojkShorter");
+	static SoundEffect SfxKaves = SoundManager.GetSound("kaves");
 	static float ScaleChill;
 	static float ScaleRage;
 
 	protected double phaseChangeElapsed = 0;
-	protected int chillDuration = 5000; 
+	protected int chillDuration = 5000;
 	protected int rageDuration = (int)SfxKaves.Duration.TotalMilliseconds;
 	protected bool Rage { get; set; }
 
@@ -86,13 +87,19 @@ internal class BossAles : EnemyBoss
 	}
 	protected void UpdatePhase()
 	{
-		if ((phaseChangeElapsed > rageDuration && Rage)|| (phaseChangeElapsed > chillDuration && !Rage))
-		{	
+		if ((phaseChangeElapsed > rageDuration && Rage) || (phaseChangeElapsed > chillDuration && !Rage))
+		{
 			Rage = !Rage;
 			phaseChangeElapsed = 0;
 			chillDuration = new Random().Next(5000, 15000);
 			if (Rage)
-				SfxKaves.Play();
+			{
+				if (Random.Shared.Next(2) == 0)
+					SfxDzojk.Play();
+				else
+					SfxKaves.Play();
+			}
+
 		}
 	}
 

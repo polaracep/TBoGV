@@ -27,6 +27,7 @@ public sealed class FloorTypes : StringEnum
 public sealed class DoorTypes : StringEnum
 {
     public static readonly DoorTypes BASIC = new DoorTypes("door");
+    public static readonly DoorTypes BOSS = new DoorTypes("doorBoss");
 
     public DoorTypes(string v) : base(v) { }
 }
