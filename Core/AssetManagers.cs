@@ -62,6 +62,7 @@ public static class TextureManager
             "milosSpritesheet",
             "zdenda",
 			"jirka",
+			"vibeCatSpritesheet",
 
             // Vitek
             "vitek-nobg",
