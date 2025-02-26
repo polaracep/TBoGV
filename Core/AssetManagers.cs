@@ -61,7 +61,7 @@ public static class TextureManager
             "milosMoodHandless",
             "milosSpritesheet",
             "zdenda",
-			"jirka",
+            "jirka",
 
             // Vitek
             "vitek-nobg",
@@ -72,7 +72,7 @@ public static class TextureManager
             "projectile",
             "koren",
             "jatrovyKnedlicek",
-			"jirkovaNokie",
+            "jirkovaNokie",
 
             // UI
             "taunt",
@@ -88,7 +88,7 @@ public static class TextureManager
             "cooked",
             "wheat4",
             "arrow",
-			"jirkaEffect",
+            "jirkaEffect",
 
             // Items
             "heal",
@@ -112,6 +112,7 @@ public static class TextureManager
             "boom",
             "gold",
             "exit",
+            "tbogv",
         };
 
         foreach (string name in names)
