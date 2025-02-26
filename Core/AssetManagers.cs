@@ -63,6 +63,7 @@ public static class TextureManager
             "zdenda",
 			"jirka",
 			"vibeCatSpritesheet",
+			"toiletSpritesheet",
 
             // Vitek
             "vitek-nobg",
@@ -161,6 +162,7 @@ public static class SoundManager
             "aligator",
             "kaves",
 			"vibe",
+			"toilet",
         };
 
         foreach (string name in names)
