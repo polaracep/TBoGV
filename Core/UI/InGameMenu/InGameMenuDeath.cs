@@ -9,8 +9,8 @@ internal class InGameMenuDeath : InGameMenu
 {
 	private static Viewport Viewport;
 	private static SpriteFont MiddleFont = FontManager.GetFont("Arial12");
-	private static SpriteFont LargerFont;
-	private static Texture2D SpriteCooked;
+	private static SpriteFont LargerFont = FontManager.GetFont("Arial16");
+	private static Texture2D SpriteCooked = TextureManager.GetTexture("wheat4");
 	private string chosenDeathMessage = "";
 	private MinigameKomisionalky minigame;
 	private bool minigameCompleted = false;
@@ -40,8 +40,6 @@ internal class InGameMenuDeath : InGameMenu
 	{
 		Viewport = viewport;
 		SpriteBackground = TextureManager.GetTexture("blackSquare");
-		LargerFont = FontManager.GetFont("Arial16");
-		SpriteCooked = TextureManager.GetTexture("wheat4");
 		Active = false;
 
 		buttonResetLevel = new Button("Opakovat rocnik", MiddleFont, () => ResetLevel());
