@@ -5,10 +5,10 @@ using Microsoft.Xna.Framework.Input;
 
 namespace TBoGV;
 
-internal class Button : IDraw
+internal class Button : IDraw, IUIElement
 {
+	public Vector2 Position { get; set; }
 	private string Text;
-	public Vector2 Position {  get; set; }
 	private Vector2 Size;
 	private SpriteFont Font;
 	private static Texture2D SpriteBackground = TextureManager.GetTexture("whiteSquare");
@@ -16,10 +16,10 @@ internal class Button : IDraw
 
 	protected Action OnClick;
 	protected MouseState PrevMouseState;
-	protected Color[] color = new Color[2] {new(60,60,60,128), new(20, 20, 20, 128)};
+	protected Color[] color = [new(60, 60, 60, 128), new(20, 20, 20, 128)];
 	protected int ColorIndex = 0;
 
-	public Button(string text, SpriteFont font, Action onClick) 
+	public Button(string text, SpriteFont font, Action onClick)
 	{
 		Font = font;
 		Size = font.MeasureString(text);
@@ -40,13 +40,13 @@ internal class Button : IDraw
 	public Rectangle GetRect()
 	{
 		return new Rectangle(
-			(int)Position.X-BorderOffset, (int)Position.Y - BorderOffset, 
-			(int)Size.X + 2*BorderOffset, (int)Size.Y + 2*BorderOffset);
+			(int)Position.X - BorderOffset, (int)Position.Y - BorderOffset,
+			(int)Size.X + 2 * BorderOffset, (int)Size.Y + 2 * BorderOffset);
 	}
 
 	public void Draw(SpriteBatch spriteBatch)
 	{
-		spriteBatch.Draw(SpriteBackground,GetRect(), color[ColorIndex]);
+		spriteBatch.Draw(SpriteBackground, GetRect(), color[ColorIndex]);
 		spriteBatch.DrawString(Font, Text, new Vector2(Position.X, Position.Y), Color.White);
 	}
 }
