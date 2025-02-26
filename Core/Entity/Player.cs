@@ -228,7 +228,7 @@ public class Player : Entity, IRecieveDmg, IDealDmg
 			}
 		}
 
-		Inventory.Update(viewport, this, mouseState);
+		Inventory.Update(viewport, this, mouseState, dt);
 
 		// Calculate the direction from the player to the world mouse position
 		Vector2 screenMousePos = new Vector2(mouseState.X, mouseState.Y);
@@ -309,6 +309,8 @@ public class Player : Entity, IRecieveDmg, IDealDmg
 				Inventory.AddEffect(new EffectCooked(1));
 				if (projectile.GetType() == typeof(ProjectileRoot))
 					Inventory.AddEffect(new EffectRooted(1));
+				if (projectile.GetType() == typeof(ProjectileNokia))
+					Inventory.AddEffect(new EffectDelej(1));
 			}
 			return 0;
 		}

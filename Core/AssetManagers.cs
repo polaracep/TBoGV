@@ -61,6 +61,7 @@ public static class TextureManager
             "milosMoodHandless",
             "milosSpritesheet",
             "zdenda",
+			"jirka",
 
             // Vitek
             "vitek-nobg",
@@ -71,6 +72,7 @@ public static class TextureManager
             "projectile",
             "koren",
             "jatrovyKnedlicek",
+			"jirkovaNokie",
 
             // UI
             "taunt",
@@ -86,6 +88,7 @@ public static class TextureManager
             "cooked",
             "wheat4",
             "arrow",
+			"jirkaEffect",
 
             // Items
             "heal",

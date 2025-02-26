@@ -11,6 +11,8 @@ public abstract class Effect : IDraw
 	public string Description { get; set; }
 	public bool Positive { get; set; }
 	public int Level { get; set; }
+	protected double effectTime = -1;
+	protected double timeElapsed { get; set; }
 	public Dictionary<StatTypes, int> Stats = new Dictionary<StatTypes, int>();
 	public List<EffectTypes> Effects  = new List<EffectTypes>();
 	public Vector2 Position { get; set; }
@@ -51,6 +53,16 @@ public abstract class Effect : IDraw
 	public virtual Rectangle GetRect()
 	{
 		return new Rectangle((int)Position.X, (int)Position.Y, (int)Size.X, (int)Size.Y);
+	}
+	public virtual void UpdateTime(double dt)
+	{
+		timeElapsed += dt;
+	}
+	public virtual bool IsExpired()
+	{
+		if(effectTime < 0)
+			return false;
+		return timeElapsed > effectTime;
 	}
 	public abstract Texture2D GetSprite();
 }

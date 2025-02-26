@@ -54,11 +54,29 @@
 /processorParam:Quality=Best
 /build:Sounds/alesSmich.wav
 
+#begin Sounds/alesSmich.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sounds/alesSmich.wav
+
 #begin Sounds/aligator.wav
 /importer:WavImporter
 /processor:SoundEffectProcessor
 /processorParam:Quality=Best
 /build:Sounds/aligator.wav
+
+#begin Sounds/aligator.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sounds/aligator.wav
+
+#begin Sounds/bouchaniDoKorenu.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sounds/bouchaniDoKorenu.wav
 
 #begin Sounds/bouchaniDoKorenu.wav
 /importer:WavImporter
@@ -72,11 +90,29 @@
 /processorParam:Quality=Best
 /build:Sounds/bouchaniDoKorenuNebyloSlyset.mp3
 
+#begin Sounds/bouchaniDoKorenuNebyloSlyset.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:Sounds/bouchaniDoKorenuNebyloSlyset.mp3
+
 #begin Sounds/dzojk.wav
 /importer:WavImporter
 /processor:SoundEffectProcessor
 /processorParam:Quality=Best
 /build:Sounds/dzojk.wav
+
+#begin Sounds/dzojk.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sounds/dzojk.wav
+
+#begin Sounds/dzojkShorter.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sounds/dzojkShorter.wav
 
 #begin Sounds/dzojkShorter.wav
 /importer:WavImporter
@@ -96,6 +132,18 @@
 /processorParam:Quality=Best
 /build:Sounds/nebyloTadyDoSmichu.mp3
 
+#begin Sounds/nebyloTadyDoSmichu.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:Sounds/nebyloTadyDoSmichu.mp3
+
+#begin Sounds/OIIAOIIA.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sounds/OIIAOIIA.wav
+
 #begin Sounds/OIIAOIIA.wav
 /importer:WavImporter
 /processor:SoundEffectProcessor
@@ -107,6 +155,18 @@
 /processor:SongProcessor
 /processorParam:Quality=Best
 /build:Sounds/soundtrack.mp3
+
+#begin Sounds/soundtrack.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:Sounds/soundtrack.mp3
+
+#begin Sounds/susn.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sounds/susn.wav
 
 #begin Sounds/susn.wav
 /importer:WavImporter
@@ -1037,6 +1097,42 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Textures/jatrovyKnedlicek.png
+
+#begin Textures/jirka.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Textures/jirka.png
+
+#begin Textures/jirkaEffect.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Textures/jirkaEffect.png
+
+#begin Textures/jirkovaNokie.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Textures/jirkovaNokie.png
 
 #begin Textures/kaves.png
 /importer:TextureImporter

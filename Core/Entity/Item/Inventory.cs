@@ -151,7 +151,7 @@ public class Inventory
 	{
 		return ItemContainers[0].IsEmpty() ? TextureManager.GetTexture("projectile") : ItemContainers[0].Item.GetSprite();
 	}
-	public void Update(Viewport viewport, Player player, MouseState mouseState)
+	public void Update(Viewport viewport, Player player, MouseState mouseState, double dt)
 	{
 		hoveredItem = null; // Reset hovered item
 		int separatorWidth = 10;
@@ -201,6 +201,12 @@ public class Inventory
 					SetActiveItemContainer();
 				}
 			}
+		}
+		for (int i = 0; i < Effects.Count; i++)
+		{
+			Effects[i].UpdateTime(dt);
+			if(Effects[i].IsExpired())
+				Effects.RemoveAt(i);
 		}
 	}
 	private void SetActiveItemContainer()
