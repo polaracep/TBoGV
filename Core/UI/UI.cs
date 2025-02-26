@@ -16,7 +16,7 @@ internal class UI : IDraw
     int Xp;
     int MaxXp;
     const int MaxHeartsPerRow = 5;
-    protected List<Effect> Effects;
+    protected List<Effect> Effects = new List<Effect>();
 
     public UI()
     {

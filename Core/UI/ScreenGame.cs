@@ -18,17 +18,15 @@ public class ScreenGame : Screen
     private InGameMenuDeath deathMenu;
     private InGameMenuItemJournal itemJournalMenu;
     private InGameMenuShop shopMenu;
-
+    public bool openShop = false;
     private List<Minigame> miniGames = new List<Minigame>();
 
     private UI UI;
     private MouseState mouseState;
     private KeyboardState keyboardState;
     private KeyboardState previousKeyboardState;
-
     private Song Song;
 
-    public bool openShop = false;
     public override void BeginRun(GraphicsDeviceManager graphics)
     {
         player = new Player();
@@ -42,8 +40,7 @@ public class ScreenGame : Screen
         activePlace = lobby;
 
         UI = new UI();
-        _camera = new Camera(graphics.GraphicsDevice.Viewport, (int)(activePlace.Dimensions.X * Tile.GetSize().X), (int)(activePlace.Dimensions.Y * Tile.GetSize().Y));
-        _camera.SetCenter(activePlace.Dimensions * Tile.GetSize() / 2);
+        _camera = new Camera();
         inGameMenu = effectMenu = new InGameMenuEffect(graphics.GraphicsDevice.Viewport);
         levelUpMenu = new InGameMenuLevelUp(graphics.GraphicsDevice.Viewport);
         deathMenu = new InGameMenuDeath(graphics.GraphicsDevice.Viewport);
@@ -65,11 +62,7 @@ public class ScreenGame : Screen
 
     public override void Draw(SpriteBatch _spriteBatch, GraphicsDeviceManager graphics)
     {
-        //_spriteBatch.Begin(blendState: BlendState.Opaque);
-        //// _spriteBatch.Draw(TextureManager.GetTexture("gymvod"), Vector2.Zero, Color.White);
-        //_spriteBatch.Draw(TextureManager.GetTexture("gymvod"),
-        //    new Rectangle(0, 0, graphics.GraphicsDevice.Viewport.Width, graphics.GraphicsDevice.Viewport.Height), Color.White);
-        //_spriteBatch.End();
+        // _camera.SetCenter(graphics.GraphicsDevice.Viewport, activePlace.Dimensions * Tile.GetSize() / 2);
 
         _spriteBatch.Begin(transformMatrix: _camera.Transform);
         activePlace.Draw(_spriteBatch);
@@ -87,11 +80,11 @@ public class ScreenGame : Screen
             miniGame.Draw(_spriteBatch);
         _spriteBatch.End();
     }
-	GameTime prevGameTime = new GameTime();
+    GameTime prevGameTime = new GameTime();
     public override void Update(GameTime gameTime, GraphicsDeviceManager graphics)
     {
-		double dt = gameTime.ElapsedGameTime.TotalMilliseconds;
-		prevGameTime = gameTime;
+        double dt = gameTime.ElapsedGameTime.TotalMilliseconds;
+        prevGameTime = gameTime;
         if (Storyline.CurrentLevel?.ActiveRoom != activePlace && player.IsPlaying)
             activePlace = Storyline.CurrentLevel.ActiveRoom;
 
@@ -171,8 +164,11 @@ public class ScreenGame : Screen
             player.Update(keyboardState, mouseState, _camera.Transform, activePlace, graphics.GraphicsDevice.Viewport, dt);
             activePlace.Update(dt);
             UI.Update(player, graphics);
-            _camera.SetCenter(activePlace.Dimensions * Tile.GetSize() / 2);
-            _camera.Update(player.Position + player.Size / 2);
+            if (Settings.FixedCamera)
+                _camera.SetCenter(graphics.GraphicsDevice.Viewport, player.Position);
+            else
+                _camera.SetCenter(graphics.GraphicsDevice.Viewport, activePlace.Dimensions * Tile.GetSize() / 2);
+            _camera.Update(graphics.GraphicsDevice.Viewport, player.Position + player.Size / 2);
             if (MediaPlayer.State == MediaState.Paused)
                 MediaPlayer.Resume();
             else if (MediaPlayer.State == MediaState.Stopped)

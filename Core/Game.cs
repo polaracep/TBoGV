@@ -13,8 +13,6 @@ public class TBoGVGame : Game
     {
         _graphics = new GraphicsDeviceManager(this);
 
-        screenCurrent = new ScreenGame();
-
         Content.RootDirectory = "Content";
         IsMouseVisible = true;
 
@@ -37,6 +35,8 @@ public class TBoGVGame : Game
     // Run after LoadContent
     protected override void BeginRun()
     {
+
+        screenCurrent = new ScreenStart();
 
         screenCurrent.BeginRun(_graphics);
         base.BeginRun();
