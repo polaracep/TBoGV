@@ -160,6 +160,7 @@ public static class SoundManager
             "OIIAOIIA",
             "aligator",
             "kaves",
+			"vibe",
         };
 
         foreach (string name in names)

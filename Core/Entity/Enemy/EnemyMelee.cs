@@ -26,7 +26,7 @@ public abstract class EnemyMelee : Enemy
 		lastPathUpdateElapsed += dt;
 		UpdateMoving(dt);
 	}
-	protected void UpdateMoving(double dt)
+	protected virtual void UpdateMoving(double dt)
 	{
 		if ((phaseChangeElapsed > movingDuration && Moving) ||
 			(phaseChangeElapsed > chillDuration && !Moving))
