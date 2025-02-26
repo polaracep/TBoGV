@@ -63,8 +63,6 @@ public class ScreenGame : Screen
     public override void Draw(SpriteBatch _spriteBatch, GraphicsDeviceManager graphics)
     {
         // _camera.SetCenter(graphics.GraphicsDevice.Viewport, activePlace.Dimensions * Tile.GetSize() / 2);
-        if (Settings.FixedCamera)
-            _camera.SetCenter(graphics.GraphicsDevice.Viewport, player.Position);
 
         _spriteBatch.Begin(transformMatrix: _camera.Transform);
         activePlace.Draw(_spriteBatch);
@@ -166,8 +164,10 @@ public class ScreenGame : Screen
             player.Update(keyboardState, mouseState, _camera.Transform, activePlace, graphics.GraphicsDevice.Viewport, dt);
             activePlace.Update(dt);
             UI.Update(player, graphics);
-            _camera.SetCenter(graphics.GraphicsDevice.Viewport, activePlace.Dimensions * Tile.GetSize() / 2);
-            // _camera.SetCenter(graphics.GraphicsDevice.Viewport, player.Position);
+            if (Settings.FixedCamera)
+                _camera.SetCenter(graphics.GraphicsDevice.Viewport, player.Position);
+            else
+                _camera.SetCenter(graphics.GraphicsDevice.Viewport, activePlace.Dimensions * Tile.GetSize() / 2);
             _camera.Update(graphics.GraphicsDevice.Viewport, player.Position + player.Size / 2);
             if (MediaPlayer.State == MediaState.Paused)
                 MediaPlayer.Resume();
