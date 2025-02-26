@@ -52,7 +52,7 @@ public class Player : Entity, IRecieveDmg, IDealDmg
 			{ StatTypes.ATTACK_SPEED, 0 },
 			{ StatTypes.MOVEMENT_SPEED, 0 }
 		};
-		Hp = 9;
+
 		XpGain = 1;
 		Position = position;
 		Size = new Vector2(50, 50);
@@ -62,7 +62,8 @@ public class Player : Entity, IRecieveDmg, IDealDmg
 		ItemCapacity = 3;
 		Inventory = new();
 		SetStats();
-	}
+        Hp = MaxHp;
+    }
 
 	public Player() : this(Vector2.One) { }
 
