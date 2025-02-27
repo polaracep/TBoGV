@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using TBoGV;
@@ -20,9 +21,9 @@ public static class Storyline
     public static void GenerateStoryline()
     {
         LevelList = new List<Level>();
-        // Test level
-        LevelList.Add(
-            new Level(Player, new List<Room> {
+		// Test level
+		LevelList.Add(
+			new Level(Player, new List<Room> {
                 /*new RoomClassroom(new Vector2(9, 9), p, new List<Entity> { }),
                 new RoomClassroom(new Vector2(9, 9), p, new List<Entity> { }),
                 new RoomClassroom(new Vector2(9, 9), p, new List<Entity> { }),
@@ -31,12 +32,14 @@ public static class Storyline
                 new RoomHallway(new Vector2(7), p, new List<Entity> { }),
                 */
                 new RoomHallway(new Vector2(19), p, new List<Entity> { }),
-            },
-            new RoomStart(new Vector2(7, 7), p), // start room
-            new RoomClassroom(new Vector2(11), p, new List<Entity> { new EnemyTriangle() }), // boss room
-            7
-            )
-        );
+				
+			new RoomClassroom(new Vector2(11), p, new List<Entity> { new EnemyTriangle() })
+			},
+			new RoomStart(new Vector2(7, 7), p), // start room
+			new RoomBossCat(p), // boss room
+			7
+			)
+		);
 
         /* Level 1 */
         /*

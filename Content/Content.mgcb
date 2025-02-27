@@ -120,6 +120,12 @@
 /processorParam:Quality=Best
 /build:Sounds/dzojkShorter.wav
 
+#begin Sounds/dzojkShorter.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sounds/dzojkShorter.wav
+
 #begin Sounds/kaves.wav
 /importer:WavImporter
 /processor:SoundEffectProcessor
@@ -444,6 +450,18 @@
 /processorParam:TextureFormat=Color
 /build:Textures/chairClassroom.png
 
+#begin Textures/check.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Textures/check.png
+
 #begin Textures/chillAles.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -707,6 +725,18 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Textures/crocs.png
+
+#begin Textures/cross.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Textures/cross.png
 
 #begin Textures/dagger.png
 /importer:TextureImporter
@@ -1800,6 +1830,18 @@
 /processorParam:TextureFormat=Color
 /build:Textures/tbogv.png
 
+#begin Textures/tbogv.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Textures/tbogv.png
+
 #begin Textures/teeth.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -1895,6 +1937,18 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Textures/trackShoes.png
+
+#begin Textures/triangleSpritesheet.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Textures/triangleSpritesheet.png
 
 #begin Textures/vibeCatSpritesheet.png
 /importer:TextureImporter
