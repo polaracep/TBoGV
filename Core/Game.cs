@@ -37,7 +37,10 @@ public class TBoGVGame : Game
 
         screenCurrent = ScreenManager.ScreenStart;
 
-        screenCurrent.BeginRun(_graphics);
+        ScreenManager.ScreenGame.BeginRun(_graphics);
+        ScreenManager.ScreenSettings.BeginRun(_graphics);
+        ScreenManager.ScreenStart.BeginRun(_graphics);
+
         base.BeginRun();
     }
 

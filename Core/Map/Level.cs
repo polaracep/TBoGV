@@ -60,11 +60,13 @@ public class Level
             default:
                 break;
         }
+        ActiveRoom.ClearProjectiles();
         ActiveRoom = RoomMap[(int)ActiveRoomCoords.X, (int)ActiveRoomCoords.Y];
 
         if (!ActiveRoom.IsGenerated)
             ActiveRoom.Generate();
 
+        ActiveRoom.ClearProjectiles();
         Player.Position = e.OppositeDoor.DoorTpPosition * 50;
         // Console.WriteLine("DIR:" + e.Directions);
     }

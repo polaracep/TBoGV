@@ -16,12 +16,11 @@ public class ScreenStart : Screen
         startButton = new Button("Jedeeem!", LargerFont, () =>
         {
             TBoGVGame.screenCurrent = ScreenManager.ScreenGame;
-            TBoGVGame.screenCurrent.BeginRun(graphics);
         });
         settingsButton = new Button("Šteluj", LargerFont, () =>
         {
+            ScreenManager.ScreenSettings.LastScreen = TBoGVGame.screenCurrent;
             TBoGVGame.screenCurrent = ScreenManager.ScreenSettings;
-            TBoGVGame.screenCurrent.BeginRun(graphics);
         });
     }
 

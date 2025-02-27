@@ -76,7 +76,8 @@ public abstract class Room : Place
 
     public override void Reset()
     {
-        this.ClearRoom();
+        this.ClearEnemies();
+        this.ClearProjectiles();
         this.Generate();
         this.GenerateEnemies();
     }
@@ -215,7 +216,8 @@ public abstract class Room : Place
     protected virtual void GenerateBase() { GenerateBase(FloorTypes.BASIC, WallTypes.BASIC, DoorTypes.BASIC); }
     protected virtual void GenerateBase(FloorTypes floors, WallTypes walls, DoorTypes doors)
     {
-        this.ClearRoom();
+        this.ClearEnemies();
+        this.ClearProjectiles();
 
         Floor.GenerateFilledRectangle(
             new Rectangle(0, 0, (int)Dimensions.X, (int)Dimensions.Y),
@@ -251,7 +253,7 @@ public abstract class Room : Place
         }
         foreach (TileDoor door in this.Doors)
         {
-            if (!EnemyPool.Any(x => x is EnemyBoss))
+            if (door.Sprite != TextureManager.GetTexture("doorBoss"))
                 door.SetDoorType(doors);
             switch (door.Direction)
             {
@@ -275,11 +277,19 @@ public abstract class Room : Place
         }
     }
 
-    protected virtual void ClearRoom()
+    public virtual void ClearEnemies()
+    {
+        this.Enemies.Clear();
+    }
+    public virtual void ClearProjectiles()
     {
         this.Projectiles.Clear();
-        this.Enemies.Clear();
-        //this.Drops.Clear();
+        this.player.Projectiles.Clear();
+    }
+    public virtual void ClearRoom()
+    {
+        ClearProjectiles();
+        ClearEnemies();
     }
     public virtual void AddEnemy(Enemy enemy)
     {

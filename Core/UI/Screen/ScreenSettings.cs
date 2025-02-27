@@ -13,13 +13,12 @@ public class ScreenSettings : Screen
     private Button escapeButton;
     private FieldInfo[] settings;
     private List<IUIElement> settingElements = new List<IUIElement>();
-
+    public Screen LastScreen;
     public override void BeginRun(GraphicsDeviceManager graphics)
     {
         escapeButton = new Button("Zpět", LargerFont, () =>
         {
-            TBoGVGame.screenCurrent = ScreenManager.ScreenStart;
-            TBoGVGame.screenCurrent.BeginRun(graphics);
+            TBoGVGame.screenCurrent = LastScreen;
         });
 
         Type type = typeof(Settings);
