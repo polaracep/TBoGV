@@ -10,6 +10,7 @@ internal class BossOIIAOIIA : EnemyBoss
 {
 	static Texture2D Spritesheet = TextureManager.GetTexture("spritesheetOIIA");
 	static SoundEffect SfxOIIA = SoundManager.GetSound("OIIAOIIA");
+	static SoundEffectInstance SfxOIIAInstance = SfxOIIA.CreateInstance();
 	protected double phaseChangeElapsed = 0;
 	protected int chillDuration = 3000;
 	protected int rageDuration = (int)SfxOIIA.Duration.TotalMilliseconds;
@@ -69,6 +70,7 @@ internal class BossOIIAOIIA : EnemyBoss
 	{
 		phaseChangeElapsed += dt;
 		lastFrameChangeElapsed += dt;
+		SfxOIIAInstance.Volume = Settings.SfxVolume;
 		UpdatePhase(playerPosition);
 		UpdateAnimation();
 	}
@@ -92,7 +94,7 @@ internal class BossOIIAOIIA : EnemyBoss
 				else
 				{
 					rageDuration = (int)SfxOIIA.Duration.TotalMilliseconds; // Reset to normal
-					SfxOIIA.Play();
+					SfxOIIAInstance.Play();
 				}
 
 				PickNewDirection(playerPosition);
@@ -104,7 +106,7 @@ internal class BossOIIAOIIA : EnemyBoss
 	{
 		for (int i = 0; i < times; i++)
 		{
-			SfxOIIA.Play();
+			SfxOIIAInstance.Play();
 			await Task.Delay((int)SfxOIIA.Duration.TotalMilliseconds);
 		}
 	}

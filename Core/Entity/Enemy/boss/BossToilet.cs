@@ -3,13 +3,13 @@ using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace TBoGV;
 internal class BossToilet : EnemyBoss
 {
 	static Texture2D Spritesheet = TextureManager.GetTexture("toiletSpritesheet");
 	static SoundEffect Sfx = SoundManager.GetSound("toilet");
+	static SoundEffectInstance SfxInstance = Sfx.CreateInstance();
 	protected double phaseChangeElapsed = 0;
 	protected int chillDuration = 3000;
 	protected int rageDuration = (int)Sfx.Duration.TotalMilliseconds;
@@ -23,8 +23,6 @@ internal class BossToilet : EnemyBoss
 	static double frameSpeed = Sfx.Duration.TotalMilliseconds / frameCount;
 
 	protected bool Rage { get; set; }
-
-	private Random random = new Random();
 
 	protected new enum BossPhases : int
 	{
@@ -79,6 +77,7 @@ internal class BossToilet : EnemyBoss
 		LastAttackElapsed += dt;
 		Direction = new Vector2(playerPosition.X, playerPosition.Y) - Position - Size / 2;
 		Direction.Normalize();
+		SfxInstance.Volume = Settings.SfxVolume;
 		UpdatePhase(playerPosition);
 		UpdateAnimation();
 	}
@@ -93,7 +92,7 @@ internal class BossToilet : EnemyBoss
 			if (Rage)
 			{
 				rageDuration = (int)Sfx.Duration.TotalMilliseconds; // Reset to normal
-				Sfx.Play();
+				SfxInstance.Play();
 			}
 		}
 	}

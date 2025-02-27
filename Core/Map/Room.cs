@@ -204,7 +204,7 @@ public abstract class Room : Place
             while (true)
             {
                 Vector2 spawnPos = new Vector2(rand.Next((int)Dimensions.X - 2) + 1, rand.Next((int)Dimensions.Y - 2) + 1) * 50;
-                if (!this.ShouldCollideAt(spawnPos))
+                if (!this.ShouldCollideAt(new Rectangle(spawnPos.ToPoint(), enemy.Size.ToPoint())))
                 {
                     enemy.Position = spawnPos;
                     this.AddEnemy(enemy);
