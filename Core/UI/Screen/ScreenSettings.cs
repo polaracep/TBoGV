@@ -14,6 +14,7 @@ public class ScreenSettings : Screen
     private FieldInfo[] settings;
     private List<IUIElement> settingElements = new List<IUIElement>();
     public Screen LastScreen;
+    private KeyboardState previousKeyboardState;
     public override void BeginRun(GraphicsDeviceManager graphics)
     {
         Viewport v = graphics.GraphicsDevice.Viewport;
@@ -85,9 +86,15 @@ public class ScreenSettings : Screen
 
     public override void Update(GameTime gameTime, GraphicsDeviceManager graphics)
     {
+        KeyboardState keyboardState = Keyboard.GetState();
+        if (previousKeyboardState.IsKeyDown(Keys.Escape) && keyboardState.IsKeyUp(Keys.Escape))
+            escapeButton.OnClick();
+
         MouseState mouseState = Mouse.GetState();
         escapeButton.Update(mouseState);
         foreach (var s in settingElements)
             s.Update(mouseState);
+
+        previousKeyboardState = keyboardState;
     }
 }
