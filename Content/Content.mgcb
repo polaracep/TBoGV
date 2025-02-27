@@ -84,6 +84,12 @@
 /processorParam:Quality=Best
 /build:Sounds/dzojkShorter.wav
 
+#begin Sounds/dzojkShorter.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sounds/dzojkShorter.wav
+
 #begin Sounds/kaves.wav
 /importer:WavImporter
 /processor:SoundEffectProcessor

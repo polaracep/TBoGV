@@ -13,6 +13,11 @@ public abstract class Enemy : Entity, IRecieveDmg, IDealDmg
   public int XpValue { get; set; }
   public List<Projectile> projectilesRecieved = new List<Projectile>();
   public Vector2 HeadedDirection { get; set; }
+	protected Random random = new Random();
+	public virtual void Spawn()
+	{
+		LastAttackElapsed = -random.Next(50, 800);
+	}
   public abstract bool ReadyToAttack();
   public abstract void Update(Vector2 playerPosition, double dt);
 	public abstract void Move(Place place);

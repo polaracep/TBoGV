@@ -14,7 +14,6 @@ internal class BossZeman : EnemyBoss
 	private float Scale;
 	private int frameWidth = 147;
 	private int frameHeight = 113;
-	private int frameCount = 4;
 	private int currentFrame = 0;
 	private bool lookingLeft = true;
 

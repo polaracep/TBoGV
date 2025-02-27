@@ -18,6 +18,7 @@ internal class EnemyZdena : EnemyRanged
 		Sprite = TextureManager.GetTexture("korenovy_vezen");
 		Size = new Vector2(Sprite.Width, Sprite.Height);
 		XpValue = 1;
+		Spawn();
 	}
 	public EnemyZdena() : this(Vector2.Zero) { }
 	public override void Draw(SpriteBatch spriteBatch)

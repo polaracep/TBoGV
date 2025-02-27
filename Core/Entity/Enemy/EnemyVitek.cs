@@ -25,6 +25,7 @@ internal class EnemyVitek : EnemyRanged
 		Size = new Vector2(Sprite.Width * Scale, Sprite.Height * Scale);
 		XpValue = 1;
 		PickNewDirection();
+		Spawn();
 	}
 	public EnemyVitek() : this(Vector2.Zero) { }
 

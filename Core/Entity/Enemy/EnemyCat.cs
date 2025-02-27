@@ -32,6 +32,7 @@ internal class EnemyCat : EnemyMelee
 		Scale = 50f / Math.Max(frameWidth, frameHeight);
 		Size = new Vector2(frameWidth * Scale, frameHeight * Scale);
 		XpValue = 1;
+		Spawn();
 	}
 	public EnemyCat() : this(Vector2.Zero) { }
 
