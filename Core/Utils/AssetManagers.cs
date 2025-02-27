@@ -66,6 +66,9 @@ public static class TextureManager
             "toiletSpritesheet",
             "triangleSpritesheet",
 			"amogusSpritesheet",
+			"svartaChill",
+			"svartaJump",
+			"svartaSpinks",
 
             // Vitek
             "vitek-nobg",
@@ -169,7 +172,9 @@ public static class SoundManager
             "vibe",
             "toilet",
 			"AMOGUS",
-        };
+			"takToJsemNevidel",
+			"svartaDelej",
+		};
 
         foreach (string name in names)
         {

@@ -78,6 +78,12 @@
 /processorParam:Quality=Best
 /build:Sounds/AMOGUS.wav
 
+#begin Sounds/AMOGUS.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sounds/AMOGUS.wav
+
 #begin Sounds/bouchaniDoKorenu.wav
 /importer:WavImporter
 /processor:SoundEffectProcessor
@@ -186,6 +192,18 @@
 /processorParam:Quality=Best
 /build:Sounds/susn.wav
 
+#begin Sounds/svartaDelej.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sounds/svartaDelej.wav
+
+#begin Sounds/takToJsemNevidel.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sounds/takToJsemNevidel.wav
+
 #begin Sounds/toilet.wav
 /importer:WavImporter
 /processor:SoundEffectProcessor
@@ -257,6 +275,18 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Textures/admiration.png
+
+#begin Textures/amogusSpritesheet.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Textures/amogusSpritesheet.png
 
 #begin Textures/amogusSpritesheet.png
 /importer:TextureImporter
@@ -1757,6 +1787,42 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Textures/stairs.png
+
+#begin Textures/svartaChill.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Textures/svartaChill.png
+
+#begin Textures/svartaJump.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Textures/svartaJump.png
+
+#begin Textures/svartaSpinks.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Textures/svartaSpinks.png
 
 #begin Textures/tableCafeteria.png
 /importer:TextureImporter
