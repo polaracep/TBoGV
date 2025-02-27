@@ -24,6 +24,7 @@ internal class EnemyJirka : EnemyRanged
 		Size = new Vector2(Sprite.Width * Scale, Sprite.Height * Scale);
 		XpValue = 1;
 		PickNewDirection();
+		Spawn();
 	}
 	public EnemyJirka() : this(Vector2.Zero) { }
 
