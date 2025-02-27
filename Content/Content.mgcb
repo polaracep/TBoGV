@@ -54,29 +54,11 @@
 /processorParam:Quality=Best
 /build:Sounds/alesSmich.wav
 
-#begin Sounds/alesSmich.wav
-/importer:WavImporter
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:Sounds/alesSmich.wav
-
 #begin Sounds/aligator.wav
 /importer:WavImporter
 /processor:SoundEffectProcessor
 /processorParam:Quality=Best
 /build:Sounds/aligator.wav
-
-#begin Sounds/aligator.wav
-/importer:WavImporter
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:Sounds/aligator.wav
-
-#begin Sounds/bouchaniDoKorenu.wav
-/importer:WavImporter
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:Sounds/bouchaniDoKorenu.wav
 
 #begin Sounds/bouchaniDoKorenu.wav
 /importer:WavImporter
@@ -90,29 +72,11 @@
 /processorParam:Quality=Best
 /build:Sounds/bouchaniDoKorenuNebyloSlyset.mp3
 
-#begin Sounds/bouchaniDoKorenuNebyloSlyset.mp3
-/importer:Mp3Importer
-/processor:SongProcessor
-/processorParam:Quality=Best
-/build:Sounds/bouchaniDoKorenuNebyloSlyset.mp3
-
 #begin Sounds/dzojk.wav
 /importer:WavImporter
 /processor:SoundEffectProcessor
 /processorParam:Quality=Best
 /build:Sounds/dzojk.wav
-
-#begin Sounds/dzojk.wav
-/importer:WavImporter
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:Sounds/dzojk.wav
-
-#begin Sounds/dzojkShorter.wav
-/importer:WavImporter
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:Sounds/dzojkShorter.wav
 
 #begin Sounds/dzojkShorter.wav
 /importer:WavImporter
@@ -126,29 +90,11 @@
 /processorParam:Quality=Best
 /build:Sounds/kaves.wav
 
-#begin Sounds/kaves.wav
-/importer:WavImporter
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:Sounds/kaves.wav
-
 #begin Sounds/nebyloTadyDoSmichu.mp3
 /importer:Mp3Importer
 /processor:SongProcessor
 /processorParam:Quality=Best
 /build:Sounds/nebyloTadyDoSmichu.mp3
-
-#begin Sounds/nebyloTadyDoSmichu.mp3
-/importer:Mp3Importer
-/processor:SongProcessor
-/processorParam:Quality=Best
-/build:Sounds/nebyloTadyDoSmichu.mp3
-
-#begin Sounds/OIIAOIIA.wav
-/importer:WavImporter
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:Sounds/OIIAOIIA.wav
 
 #begin Sounds/OIIAOIIA.wav
 /importer:WavImporter
@@ -162,18 +108,6 @@
 /processorParam:Quality=Best
 /build:Sounds/soundtrack.mp3
 
-#begin Sounds/soundtrack.mp3
-/importer:Mp3Importer
-/processor:SongProcessor
-/processorParam:Quality=Best
-/build:Sounds/soundtrack.mp3
-
-#begin Sounds/susn.wav
-/importer:WavImporter
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:Sounds/susn.wav
-
 #begin Sounds/susn.wav
 /importer:WavImporter
 /processor:SoundEffectProcessor
@@ -185,18 +119,6 @@
 /processor:SoundEffectProcessor
 /processorParam:Quality=Best
 /build:Sounds/toilet.wav
-
-#begin Sounds/toilet.wav
-/importer:WavImporter
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:Sounds/toilet.wav
-
-#begin Sounds/vibe.wav
-/importer:WavImporter
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:Sounds/vibe.wav
 
 #begin Sounds/vibe.wav
 /importer:WavImporter
@@ -443,6 +365,18 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Textures/chairClassroom.png
+
+#begin Textures/check.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Textures/check.png
 
 #begin Textures/chillAles.png
 /importer:TextureImporter
@@ -707,6 +641,18 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Textures/crocs.png
+
+#begin Textures/cross.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Textures/cross.png
 
 #begin Textures/dagger.png
 /importer:TextureImporter
@@ -1800,6 +1746,18 @@
 /processorParam:TextureFormat=Color
 /build:Textures/tbogv.png
 
+#begin Textures/tbogv.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Textures/tbogv.png
+
 #begin Textures/teeth.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -1895,6 +1853,18 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Textures/trackShoes.png
+
+#begin Textures/triangleSpritesheet.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Textures/triangleSpritesheet.png
 
 #begin Textures/vibeCatSpritesheet.png
 /importer:TextureImporter

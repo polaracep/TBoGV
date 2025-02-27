@@ -13,32 +13,28 @@ public class Level
     protected Vector2 ActiveRoomCoords;
     protected Player Player;
 
-    public Level(Player player, List<Room> roomList, RoomStart startRoom, Room bossRoom, uint maxSize, Vector2 startRoomPos)
+    public Level(Player player, List<Room> roomList, RoomStart startRoom, Room endRoom, uint maxSize, Vector2 startRoomPos)
     {
         if (startRoomPos.X > maxSize || startRoomPos.Y > maxSize)
             throw new ArgumentOutOfRangeException("The startPos is not in the level");
+        if (startRoom == null || endRoom == null)
+            throw new ArgumentNullException();
         this.Size = (int)maxSize;
-        this.RoomCount = roomList.Count;
-        if (startRoom != null)
-            this.RoomCount++;
-        if (bossRoom != null)
-            this.RoomCount++;
+        this.RoomCount = roomList.Count + 2;
+
         this.Player = player;
 
-        LevelCreator lC = new LevelCreator(roomList, startRoom, bossRoom, 7, startRoomPos);
+        endRoom.IsEndRoom = true;
+        LevelCreator lC = new LevelCreator(roomList, startRoom, endRoom, 7, startRoomPos);
         this.RoomMap = lC.GenerateLevel(out startRoomPos);
         this.ActiveRoom = this.RoomMap[(int)startRoomPos.X, (int)startRoomPos.Y];
         this.ActiveRoomCoords = startRoomPos;
 
         TileDoor.TileInteract += OnRoomChanged;
         LevelCreator.PrintMap(this.RoomMap);
-
     }
 
     public Level(Player player, List<Room> roomList, RoomStart roomStart, Room roomBoss, uint maxSize) : this(player, roomList, roomStart, roomBoss, maxSize, new Vector2(maxSize) / 2) { }
-    public Level(Player player, List<Room> roomList, RoomStart roomStart, uint maxSize) : this(player, roomList, roomStart, null, maxSize, new Vector2(maxSize) / 2) { }
-    public Level(Player player, List<Room> roomList, Room roomBoss, uint maxSize) : this(player, roomList, null, roomBoss, maxSize, new Vector2(maxSize) / 2) { }
-    public Level(Player player, List<Room> roomList, uint maxSize) : this(player, roomList, null, null, maxSize, new Vector2(maxSize) / 2) { }
 
     private void OnRoomChanged(object sender, TileInteractEventArgs e)
     {

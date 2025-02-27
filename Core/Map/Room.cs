@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -28,6 +29,7 @@ public abstract class Room : Place
     public List<TileDoor> Doors = new List<TileDoor>();
     protected List<Projectile> Projectiles = new List<Projectile>();
 
+    public bool IsEndRoom = false;
     /// <summary>
     /// List of spawnable enemies
     /// </summary>
@@ -72,12 +74,6 @@ public abstract class Room : Place
     public Room(Vector2 dimensions, Player p) : this(dimensions, Vector2.Zero, p, null) { }
     public Room(Vector2 dimensions, Player p, List<Entity> entityList) : this(dimensions, Vector2.Zero, p, entityList) { }
 
-    /// <summary>
-    /// Returns the left-top world position for any tile position
-    /// </summary>
-    /// <param name="coords"></param>
-    /// <returns></returns>
-    /// <exception cref="ArgumentOutOfRangeException"></exception>
     public override void Reset()
     {
         this.ClearRoom();
@@ -134,8 +130,9 @@ public abstract class Room : Place
                     float excessDmg = Enemies[j].RecieveDmg(player.Projectiles[i]);
                     if (Enemies[j].IsDead())
                     {
-                        if (Enemies[j] is EnemyBoss)
+                        if (Enemies[j] is EnemyBoss || (Enemies.Count == 1 && IsEndRoom))
                             GenerateExit();
+
                         player.Kill(Enemies[j].XpValue);
                         foreach (Item item in Enemies[j].Drop(1))
                             Drops.Add(item);
@@ -254,7 +251,7 @@ public abstract class Room : Place
         }
         foreach (TileDoor door in this.Doors)
         {
-            if (door.Sprite.Name != TextureManager.GetTexture(DoorTypes.BOSS.Value).Name)
+            if (!EnemyPool.Any(x => x is EnemyBoss))
                 door.SetDoorType(doors);
             switch (door.Direction)
             {

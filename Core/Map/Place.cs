@@ -48,6 +48,12 @@ public abstract class Place : IDraw
     public bool IsGenerated { get; protected set; } = false;
     public Player player;
 
+    /// <summary>
+    /// Returns the left-top world position for any tile position
+    /// </summary>
+    /// <param name="coords"></param>
+    /// <returns></returns>
+    /// <exception cref="ArgumentOutOfRangeException"></exception>
     public Vector2 GetTileWorldPos(Vector2 coords)
     {
         if (float.IsNaN(coords.X) || float.IsNaN(coords.Y))
