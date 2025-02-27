@@ -18,6 +18,7 @@ public class InGameMenuEffect : InGameMenu
 	public List<Effect> Effects { get; set; }
 
 	private Button settingsButton;
+
 	public InGameMenuEffect(Viewport viewport)
 	{
 		SpriteBackground = TextureManager.GetTexture("blackSquare");
@@ -31,6 +32,7 @@ public class InGameMenuEffect : InGameMenu
 			ScreenManager.ScreenSettings.LastScreen = TBoGVGame.screenCurrent;
 			TBoGVGame.screenCurrent = ScreenManager.ScreenSettings;
 		});
+
 		Active = false;
 	}
 	public override void Update(Viewport viewport, Player player, MouseState mouseState, KeyboardState keyboardState, double dt)
@@ -94,6 +96,7 @@ public class InGameMenuEffect : InGameMenu
 
 		settingsButton.Position = new Vector2((Viewport.Width - settingsButton.GetRect().Width) / 2, startY + ((3 + statEntries.Count) * MiddleFont.LineSpacing));
 		settingsButton.Draw(spriteBatch);
+
 		DrawEffects(spriteBatch);
 
 

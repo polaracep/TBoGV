@@ -16,6 +16,7 @@ public class ScreenSettings : Screen
     public Screen LastScreen;
     public override void BeginRun(GraphicsDeviceManager graphics)
     {
+        Viewport v = graphics.GraphicsDevice.Viewport;
         escapeButton = new Button("Zpět", LargerFont, () =>
         {
             TBoGVGame.screenCurrent = LastScreen;
@@ -24,17 +25,27 @@ public class ScreenSettings : Screen
         Type type = typeof(Settings);
         // MemberInfo[] a = ;
         settings = type.GetFields(BindingFlags.Public | BindingFlags.Static).ToArray();
-        int hp = graphics.GraphicsDevice.Viewport.Height / (settings.Length + 4); // Pad 2 top and 2 bottom
+        int hp = v.Height / (settings.Length + 4); // Pad 2 top and 2 bottom
 
         foreach (var (setting, index) in settings.Select((setting, index) => (setting, index)))
         {
-            if (setting.GetValue(null).GetType() == typeof(bool))
+            Type t = setting.GetValue(null).GetType();
+            if (t == typeof(bool))
             {
                 settingElements.Add(new Checkbox(setting.Name,
                     Vector2.Zero,
                     (bool)setting.GetValue(null),
                     x => setting.SetValue(null, x)));
             }
+            else if (t == typeof(float))
+            {
+                settingElements.Add(new Slider(0f, 1f,
+                    (float)setting.GetValue(null), v.Width / 10, 10,
+                    setting.Name,
+                    LargerFont,
+                    x => setting.SetValue(null, x)));
+            }
+
         }
     }
 
@@ -68,6 +79,7 @@ public class ScreenSettings : Screen
             el.Position = new Vector2(menuX - el.GetRect().Width / 2, (index * hp) + 100);
             ((IDraw)el).Draw(_spriteBatch);
         }
+
         _spriteBatch.End();
     }
 
