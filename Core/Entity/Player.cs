@@ -312,6 +312,8 @@ public class Player : Entity, IRecieveDmg, IDealDmg
 					Inventory.AddEffect(new EffectRooted(1));
 				if (projectile.GetType() == typeof(ProjectileNokia))
 					Inventory.AddEffect(new EffectDelej(1));
+				if (projectile.GetType() == typeof(ProjectileNote))
+					Inventory.AddEffect(new EffectRickroll(1));
 			}
 			return 0;
 		}

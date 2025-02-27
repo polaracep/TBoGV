@@ -69,6 +69,7 @@ public static class TextureManager
 			"svartaChill",
 			"svartaJump",
 			"svartaSpinks",
+			"richardSpritesheet",
 
             // Vitek
             "vitek-nobg",
@@ -80,6 +81,7 @@ public static class TextureManager
             "koren",
             "jatrovyKnedlicek",
             "jirkovaNokie",
+			"note",
 
             // UI
             "taunt",
@@ -122,6 +124,7 @@ public static class TextureManager
             "gold",
             "exit",
             "tbogv",
+			"richard",
         };
 
         foreach (string name in names)
@@ -174,6 +177,8 @@ public static class SoundManager
 			"AMOGUS",
 			"takToJsemNevidel",
 			"svartaDelej",
+			"rickroll",
+			"neverGonnaGiveUUp",
 		};
 
         foreach (string name in names)

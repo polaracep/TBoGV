@@ -35,6 +35,7 @@ public enum EffectTypes : int
 	DODGE = 5,
 	AIM = 6,
 	ROOTED = 7,
+	RICKROLL = 8,
 }
 public enum ItemTypes : int
 {
