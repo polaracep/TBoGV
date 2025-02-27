@@ -174,7 +174,7 @@ public class ScreenGame : Screen
         previousKeyboardState = keyboardState;
         keyboardState = Keyboard.GetState();
 
-        if (KeyReleased(Keys.Tab))
+        if (KeyReleased(Keys.Escape))
         {
             if (!levelUpMenu.Active && !deathMenu.Active)
             {
@@ -201,10 +201,6 @@ public class ScreenGame : Screen
             }
         }
 
-        if (keyboardState.IsKeyDown(Keys.Escape) && previousKeyboardState.IsKeyUp(Keys.Escape))
-        {
-
-        }
     }
 
     public bool KeyReleased(Keys key)
