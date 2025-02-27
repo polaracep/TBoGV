@@ -65,11 +65,11 @@ public static class TextureManager
             "vibeCatSpritesheet",
             "toiletSpritesheet",
             "triangleSpritesheet",
-			"amogusSpritesheet",
-			"svartaChill",
-			"svartaJump",
-			"svartaSpinks",
-			"richardSpritesheet",
+            "amogusSpritesheet",
+            "svartaChill",
+            "svartaJump",
+            "svartaSpinks",
+            "richardSpritesheet",
 
             // Vitek
             "vitek-nobg",
@@ -81,7 +81,7 @@ public static class TextureManager
             "koren",
             "jatrovyKnedlicek",
             "jirkovaNokie",
-			"note",
+            "note",
 
             // UI
             "taunt",
@@ -124,7 +124,7 @@ public static class TextureManager
             "gold",
             "exit",
             "tbogv",
-			"richard",
+            "richard",
         };
 
         foreach (string name in names)
@@ -174,12 +174,12 @@ public static class SoundManager
             "kaves",
             "vibe",
             "toilet",
-			"AMOGUS",
-			"takToJsemNevidel",
-			"svartaDelej",
-			"rickroll",
-			"neverGonnaGiveUUp",
-		};
+            "AMOGUS",
+            "takToJsemNevidel",
+            "svartaDelej",
+            "rickroll",
+            "neverGonnaGiveUUp",
+        };
 
         foreach (string name in names)
         {
