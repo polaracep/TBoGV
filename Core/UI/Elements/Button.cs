@@ -14,7 +14,7 @@ internal class Button : IDraw, IUIElement
 	private static Texture2D SpriteBackground = TextureManager.GetTexture("whiteSquare");
 	private int BorderOffset = 5;
 
-	protected Action OnClick;
+	public Action OnClick { get; private set; }
 	protected MouseState PrevMouseState;
 	protected Color[] color = [new(60, 60, 60, 128), new(20, 20, 20, 128)];
 	protected int ColorIndex = 0;
