@@ -36,7 +36,7 @@ public class Player : Entity, IRecieveDmg, IDealDmg
 	{
 		BaseStats = new Dictionary<StatTypes, float>()
 		{
-			{ StatTypes.MAX_HP, 20},
+			{ StatTypes.MAX_HP, 20 },
 			{ StatTypes.DAMAGE, 1 },
 			{ StatTypes.PROJECTILE_COUNT, 1 },
 			{ StatTypes.XP_GAIN, 1 },
@@ -52,7 +52,7 @@ public class Player : Entity, IRecieveDmg, IDealDmg
 			{ StatTypes.ATTACK_SPEED, 0 },
 			{ StatTypes.MOVEMENT_SPEED, 0 }
 		};
-		Hp = 9;
+
 		XpGain = 1;
 		Position = position;
 		Size = new Vector2(50, 50);
@@ -62,7 +62,8 @@ public class Player : Entity, IRecieveDmg, IDealDmg
 		ItemCapacity = 3;
 		Inventory = new();
 		SetStats();
-	}
+        Hp = MaxHp;
+    }
 
 	public Player() : this(Vector2.One) { }
 

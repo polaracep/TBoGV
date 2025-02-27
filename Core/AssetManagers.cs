@@ -61,9 +61,10 @@ public static class TextureManager
             "milosMoodHandless",
             "milosSpritesheet",
             "zdenda",
-			"jirka",
-			"vibeCatSpritesheet",
-			"toiletSpritesheet",
+            "jirka",
+            "vibeCatSpritesheet",
+            "toiletSpritesheet",
+            "triangleSpritesheet",
 
             // Vitek
             "vitek-nobg",
@@ -74,7 +75,7 @@ public static class TextureManager
             "projectile",
             "koren",
             "jatrovyKnedlicek",
-			"jirkovaNokie",
+            "jirkovaNokie",
 
             // UI
             "taunt",
@@ -90,7 +91,9 @@ public static class TextureManager
             "cooked",
             "wheat4",
             "arrow",
-			"jirkaEffect",
+            "jirkaEffect",
+            "check",
+            "cross",
 
             // Items
             "heal",
@@ -114,6 +117,7 @@ public static class TextureManager
             "boom",
             "gold",
             "exit",
+            "tbogv",
         };
 
         foreach (string name in names)
@@ -161,8 +165,8 @@ public static class SoundManager
             "OIIAOIIA",
             "aligator",
             "kaves",
-			"vibe",
-			"toilet",
+            "vibe",
+            "toilet",
         };
 
         foreach (string name in names)

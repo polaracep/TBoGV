@@ -33,7 +33,7 @@ public static class Storyline
                 new RoomHallway(new Vector2(19), p, new List<Entity> { }),
             },
             new RoomStart(new Vector2(7, 7), p), // start room
-            new RoomClassroom(new Vector2(11), p, new List<Entity> { new EnemyCat() }), // boss room
+            new RoomClassroom(new Vector2(11), p, new List<Entity> { new EnemyTriangle() }), // boss room
             7
             )
         );
