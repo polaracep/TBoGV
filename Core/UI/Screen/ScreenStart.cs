@@ -1,10 +1,9 @@
-using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using TBoGV;
 
-class ScreenStart : Screen
+public class ScreenStart : Screen
 {
     private SpriteFont LargerFont = FontManager.GetFont("Arial16");
     private Viewport viewport;
@@ -16,12 +15,12 @@ class ScreenStart : Screen
     {
         startButton = new Button("Jedeeem!", LargerFont, () =>
         {
-            TBoGVGame.screenCurrent = new ScreenGame();
+            TBoGVGame.screenCurrent = ScreenManager.ScreenGame;
             TBoGVGame.screenCurrent.BeginRun(graphics);
         });
         settingsButton = new Button("Šteluj", LargerFont, () =>
         {
-            TBoGVGame.screenCurrent = new ScreenSettings();
+            TBoGVGame.screenCurrent = ScreenManager.ScreenSettings;
             TBoGVGame.screenCurrent.BeginRun(graphics);
         });
     }

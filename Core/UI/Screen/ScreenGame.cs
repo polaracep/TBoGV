@@ -88,9 +88,7 @@ public class ScreenGame : Screen
         if (Storyline.CurrentLevel?.ActiveRoom != activePlace && player.IsPlaying)
             activePlace = Storyline.CurrentLevel.ActiveRoom;
 
-        previousKeyboardState = keyboardState;
         mouseState = Mouse.GetState();
-        keyboardState = Keyboard.GetState();
         int levelStatsCount = 0;
         itemJournalMenu.Update(graphics.GraphicsDevice.Viewport, player, mouseState, keyboardState, dt);
         foreach (var item in player.LevelUpStats)
@@ -115,32 +113,8 @@ public class ScreenGame : Screen
             shopMenu.OpenMenu();
             openShop = false;
         }
-        if (KeyReleased(Keys.Tab))
-        {
-            if (!levelUpMenu.Active && !deathMenu.Active)
-            {
-                inGameMenu = effectMenu;
-                effectMenu.Active = !effectMenu.Active;
-            }
-        }
-        if (KeyReleased(Keys.J) && MinigameRooted.State != minigameState.ONGOING)
-        {
-            if (!levelUpMenu.Active && !deathMenu.Active)
-            {
-                itemJournalMenu.ShowAll();
-                inGameMenu = itemJournalMenu;
-                itemJournalMenu.Active = !itemJournalMenu.Active;
-            }
-        }
 
-        if (keyboardState.IsKeyDown(Keys.P) && previousKeyboardState.IsKeyUp(Keys.P))
-        {
-            player.LevelChanged = true;
-            if (!player.IsPlaying)
-            {
-                Storyline.NextLevel();
-            }
-        }
+        UpdateKeyboard();
 
         // Level checker
         if (player.LevelChanged)
@@ -193,6 +167,44 @@ public class ScreenGame : Screen
             if (miniGames[i].GetState() != minigameState.ONGOING)
                 miniGames.RemoveAt(i);
 
+    }
+
+    protected void UpdateKeyboard()
+    {
+        previousKeyboardState = keyboardState;
+        keyboardState = Keyboard.GetState();
+
+        if (KeyReleased(Keys.Tab))
+        {
+            if (!levelUpMenu.Active && !deathMenu.Active)
+            {
+                inGameMenu = effectMenu;
+                effectMenu.Active = !effectMenu.Active;
+            }
+        }
+        if (KeyReleased(Keys.J) && MinigameRooted.State != minigameState.ONGOING)
+        {
+            if (!levelUpMenu.Active && !deathMenu.Active)
+            {
+                itemJournalMenu.ShowAll();
+                inGameMenu = itemJournalMenu;
+                itemJournalMenu.Active = !itemJournalMenu.Active;
+            }
+        }
+
+        if (keyboardState.IsKeyDown(Keys.P) && previousKeyboardState.IsKeyUp(Keys.P))
+        {
+            player.LevelChanged = true;
+            if (!player.IsPlaying)
+            {
+                Storyline.NextLevel();
+            }
+        }
+
+        if (keyboardState.IsKeyDown(Keys.Escape) && previousKeyboardState.IsKeyUp(Keys.Escape))
+        {
+
+        }
     }
 
     public bool KeyReleased(Keys key)

@@ -15,7 +15,6 @@ public class TBoGVGame : Game
 
         Content.RootDirectory = "Content";
         IsMouseVisible = true;
-
     }
 
     protected override void Initialize()
@@ -36,7 +35,7 @@ public class TBoGVGame : Game
     protected override void BeginRun()
     {
 
-        screenCurrent = new ScreenStart();
+        screenCurrent = ScreenManager.ScreenStart;
 
         screenCurrent.BeginRun(_graphics);
         base.BeginRun();

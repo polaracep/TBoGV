@@ -7,7 +7,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using TBoGV;
 
-class ScreenSettings : Screen
+public class ScreenSettings : Screen
 {
     private SpriteFont LargerFont = FontManager.GetFont("Arial16");
     private Button escapeButton;
@@ -18,7 +18,7 @@ class ScreenSettings : Screen
     {
         escapeButton = new Button("Zpět", LargerFont, () =>
         {
-            TBoGVGame.screenCurrent = new ScreenStart();
+            TBoGVGame.screenCurrent = ScreenManager.ScreenStart;
             TBoGVGame.screenCurrent.BeginRun(graphics);
         });
 
