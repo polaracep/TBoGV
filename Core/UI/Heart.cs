@@ -19,7 +19,7 @@ internal class Heart : IDraw
     }
     public void Draw(SpriteBatch spriteBatch)
     {
-        spriteBatch.Draw(!Broken ? SpriteFull : SpriteBroken, new Rectangle(Convert.ToInt32(Position.X), Convert.ToInt32(Position.Y), Convert.ToInt32(Size.X), Convert.ToInt32(Size.Y)), !Broken ? Color.White : new Color(200,200,200));
+        spriteBatch.Draw(!Broken ? SpriteFull : SpriteBroken, new Rectangle(Convert.ToInt32(Position.X), Convert.ToInt32(Position.Y), Convert.ToInt32(Size.X), Convert.ToInt32(Size.Y)), !Broken ? Color.White : new Color(200, 200, 200));
     }
 }
 

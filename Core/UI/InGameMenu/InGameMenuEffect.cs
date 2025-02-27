@@ -7,32 +7,43 @@ using Microsoft.Xna.Framework;
 using System.Text;
 namespace TBoGV;
 
-internal class InGameMenuEffect : InGameMenu
+public class InGameMenuEffect : InGameMenu
 {
 	static Viewport Viewport;
 	static SpriteFont MiddleFont;
 	static SpriteFont LargerFont;
+	static SpriteFont LargestFont;
 	static Texture2D SpriteForeground;
 	public Dictionary<StatTypes, int> Stats { get; set; }
 	public List<Effect> Effects { get; set; }
+
+	private Button settingsButton;
+
 	public InGameMenuEffect(Viewport viewport)
 	{
-		Viewport = viewport;
 		SpriteBackground = TextureManager.GetTexture("blackSquare");
 		MiddleFont = FontManager.GetFont("Arial12");
 		SpriteForeground = TextureManager.GetTexture("whiteSquare");
 		LargerFont = FontManager.GetFont("Arial16");
+		LargestFont = FontManager.GetFont("Arial16");
+
+		settingsButton = new Button("Šteluj", LargerFont, () =>
+		{
+			ScreenManager.ScreenSettings.LastScreen = TBoGVGame.screenCurrent;
+			TBoGVGame.screenCurrent = ScreenManager.ScreenSettings;
+		});
 
 		Active = false;
-    }
-    public override void Update(Viewport viewport, Player player, MouseState mouseState, KeyboardState keyboardState, double dt)
-    {
-        base.Update(viewport, player, mouseState, keyboardState, dt);
-
+	}
+	public override void Update(Viewport viewport, Player player, MouseState mouseState, KeyboardState keyboardState, double dt)
+	{
+		base.Update(viewport, player, mouseState, keyboardState, dt);
 
 		Stats = player.Inventory.SetStats(player.LevelUpStats);
 		Effects = player.Inventory.Effects;
 		Viewport = viewport;
+
+		settingsButton.Update(mouseState);
 	}
 	public override void Draw(SpriteBatch spriteBatch)
 	{
@@ -62,6 +73,12 @@ internal class InGameMenuEffect : InGameMenu
 		Rectangle backgroundRect = new Rectangle((int)startX - 10, (int)startY - 10, (int)totalWidth + 20, (int)totalHeight + 20);
 		spriteBatch.Draw(SpriteBackground, backgroundRect, Color.Black * 0.5f);
 
+		string paused = "Paused";
+		Vector2 pSize = LargestFont.MeasureString(paused);
+		Rectangle pRect = new Rectangle((int)((Viewport.Width - pSize.X) / 2) - 10, (int)(startY - (2 * pSize.Y)) - 10, (int)pSize.X + 10, (int)pSize.Y + 10);
+		spriteBatch.Draw(SpriteBackground, pRect, Color.White * 0.5f);
+		spriteBatch.DrawString(LargestFont, paused, new Vector2(pRect.X + 5, pRect.Y + 5), Color.White);
+
 		for (int i = 0; i < statEntries.Count; i++)
 		{
 			string label = statEntries[i].label;
@@ -76,7 +93,13 @@ internal class InGameMenuEffect : InGameMenu
 			spriteBatch.DrawString(MiddleFont, value, valuePosition, Color.White);
 			spriteBatch.DrawString(MiddleFont, effect, effectPosition, Color.LightCyan);
 		}
+
+		settingsButton.Position = new Vector2((Viewport.Width - settingsButton.GetRect().Width) / 2, startY + ((3 + statEntries.Count) * MiddleFont.LineSpacing));
+		settingsButton.Draw(spriteBatch);
+
 		DrawEffects(spriteBatch);
+
+
 	}
 
 	private string GetEffectString(StatTypes statType, float value)
