@@ -31,12 +31,12 @@ public static class Storyline
                 new RoomHallway(new Vector2(7), p, new List<Entity> { }),
                 new RoomHallway(new Vector2(7), p, new List<Entity> { }),
                 */
-                new RoomHallway(new Vector2(19), p, new List<Entity> { }),
+                //new RoomHallway(new Vector2(19), p, new List<Entity> { }),
 				
 			new RoomClassroom(new Vector2(11), p, new List<Entity> { new EnemyTriangle() })
 			},
 			new RoomStart(new Vector2(7, 7), p), // start room
-			new RoomBossCat(p), // boss room
+			new RoomBossAmogus(p), // boss room
 			7
 			)
 		);
