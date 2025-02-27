@@ -30,7 +30,7 @@ public static class Storyline
                 // new RoomClassroom(new Vector2(11), p, new List<Entity> {})
             },
             new RoomStart(new Vector2(7, 7), p), // start room
-            new RoomBossRichard(p), // boss room
+            new RoomBossAmogus(p), // boss room
             7
             )
         );

@@ -9,12 +9,16 @@ using TBoGV;
 internal class BossAmogus : EnemyBoss
 {
 	static Texture2D Spritesheet = TextureManager.GetTexture("amogusSpritesheet");
-	static SoundEffect AligatorSfx = SoundManager.GetSound("AMOGUS");
+	static Texture2D VentSpritesheet = TextureManager.GetTexture("ventSpritesheet");
+    static SoundEffect AligatorSfx = SoundManager.GetSound("AMOGUS");
 
-	private float Scale;
+    private static int frameWidthVent = 16;
+    private static int frameHeightVent = 21;
+    private static float ScaleVent = 40f / Math.Max(frameWidthVent, frameHeightVent);
+    int ventFrame = -1;
+    private float Scale;
 	private int frameWidth = 100;
 	private int frameHeight = 100;
-	private int framePadding = 0;
 	private int currentFrame = 0;
 	private bool lookingLeft = true;
 	private double animationElapsed = 0;
@@ -85,7 +89,13 @@ internal class BossAmogus : EnemyBoss
 	{
 		ventingTimer += dt;
 
-		if (State == amogusState.VENTINGOUT)
+        if (IsVenting())
+            ventFrame = 1;
+        if (ventingFrame == 8 && State == amogusState.VENTINGIN) // Fully inside the vent
+            ventFrame = 0;
+        
+
+        if (State == amogusState.VENTINGOUT)
 		{
 			if (ventingTimer >= 400 / 4)
 			{
@@ -298,21 +308,38 @@ internal class BossAmogus : EnemyBoss
 		hpBeforeVenting = Hp;
 		AligatorSfx.Play();
 	}
-	public override void Draw(SpriteBatch spriteBatch)
-	{
-		int frameIndex = !IsVenting() ? State == amogusState.STANDING ? 0 : currentFrame : ventingFrame;
-		Rectangle sourceRect = new Rectangle(123, frameIndex * frameHeight, frameWidth, frameHeight);
-		SpriteEffects effects = lookingLeft ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
+    public override void Draw(SpriteBatch spriteBatch)
+    {
+        // Draw the vent if applicable
+        if (IsVenting())
+        {
+            Rectangle ventSourceRect = new Rectangle(ventFrame * frameWidthVent, 0, frameWidthVent, frameHeightVent);
+            spriteBatch.Draw(VentSpritesheet,
+                new Rectangle((int)Position.X, (int)Position.Y, (int)(frameWidthVent * ScaleVent), (int)(frameHeightVent * ScaleVent)),
+                ventSourceRect,
+                Color.White,
+                0,
+                Vector2.Zero,
+                SpriteEffects.None,
+                0);
+        }
 
-		spriteBatch.Draw(Spritesheet,
-			new Rectangle((int)Position.X, (int)Position.Y, (int)(Size.X), (int)(Size.Y)),
-			sourceRect,
-			Color.White,
-			0,
-			Vector2.Zero,
-			effects,
-			0);
-	}
+        // Determine Amogus frame
+        int frameIndex = !IsVenting() ? (State == amogusState.STANDING ? 0 : currentFrame) : ventingFrame;
+        Rectangle sourceRect = new Rectangle(123, frameIndex * frameHeight, frameWidth, frameHeight);
+        SpriteEffects effects = lookingLeft ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
+
+        // Draw Amogus on top
+        spriteBatch.Draw(Spritesheet,
+            new Rectangle((int)Position.X, (int)Position.Y, (int)(Size.X), (int)(Size.Y)),
+            sourceRect,
+            Color.White,
+            0,
+            Vector2.Zero,
+            effects,
+            0);
+    }
+
 
 
 }

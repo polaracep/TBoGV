@@ -70,6 +70,7 @@ public static class TextureManager
             "svartaJump",
             "svartaSpinks",
             "richardSpritesheet",
+            "ventSpritesheet",
 
             // Vitek
             "vitek-nobg",

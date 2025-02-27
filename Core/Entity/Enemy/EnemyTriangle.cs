@@ -17,9 +17,6 @@ internal class EnemyTriangle : EnemyMelee
     int currentFrame = 0;
     double lastFrameChangeElapsed = 0;
     double frameSpeed = 3200 / 32;
-
-
-    protected Random random = new Random();
     public EnemyTriangle(Vector2 position)
     {
         movingDuration = 3200;
