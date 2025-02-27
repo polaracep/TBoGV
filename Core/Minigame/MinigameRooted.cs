@@ -15,6 +15,7 @@ public class MinigameRooted : Minigame
 	static SpriteFont MiddleFont;
 	static SpriteFont LargerFont;
 	static SoundEffect rootTap = SoundManager.GetSound("bouchaniDoKorenu");
+	static SoundEffectInstance rootTapInstance = rootTap.CreateInstance();
 	public static minigameState State;
 	private Color hintColor = Color.White;
 	private double timeSinceLastHint = 0;
@@ -54,6 +55,7 @@ public class MinigameRooted : Minigame
 		UpdateState(keyboardState);
 		prevKeyboardState = keyboardState;
 		timeSinceLastHint += dt;
+		rootTapInstance.Volume = Settings.SfxVolume;
 		if (timeSinceLastHint > 0.5)
 		{
 			timeSinceLastHint = 0;
@@ -66,7 +68,7 @@ public class MinigameRooted : Minigame
 		if (DetectKeySmash(keyboardState))
 		{
 			smashCount++;
-			rootTap.Play();
+			rootTapInstance.Play();
 		}
 		if (smashCount >= RequiredSmashCount)
 			State = minigameState.SUCCESS;
@@ -75,7 +77,7 @@ public class MinigameRooted : Minigame
 
 	private bool DetectKeySmash(KeyboardState keyboardState)
 	{
-		if(prevKeyboardState.GetPressedKeyCount() < 3) 
+		if (prevKeyboardState.GetPressedKeyCount() < 3)
 			return keyboardState.GetPressedKeyCount() >= RequiredKeys;
 		return false;
 	}

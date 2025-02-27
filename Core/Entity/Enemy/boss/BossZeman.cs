@@ -10,6 +10,7 @@ internal class BossZeman : EnemyBoss
 {
 	static Texture2D Spritesheet = TextureManager.GetTexture("milosSpritesheet");
 	static SoundEffect AligatorSfx = SoundManager.GetSound("aligator");
+	static SoundEffectInstance AligatorSfxInstance = AligatorSfx.CreateInstance();
 
 	private float Scale;
 	private int frameWidth = 147;
@@ -44,6 +45,7 @@ internal class BossZeman : EnemyBoss
 	{
 		PlayerPosition = playerPosition;
 		lookingLeft = playerPosition.X - Position.X < 0;
+		AligatorSfxInstance.Volume = Settings.SfxVolume;
 		UpdatePhase(dt);
 	}
 	protected void UpdatePhase(double dt)
@@ -58,7 +60,7 @@ internal class BossZeman : EnemyBoss
 			phaseChangeElapsed = 0;
 			chillDuration = new Random().Next(2000, 3500);
 			if (Rage)
-				AligatorSfx.Play();
+				AligatorSfxInstance.Play();
 		}
 	}
 

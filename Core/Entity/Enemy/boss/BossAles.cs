@@ -6,14 +6,15 @@ using System.Collections.Generic;
 
 namespace TBoGV;
 
-internal class BossAles : EnemyBoss
+public class BossAles : EnemyBoss
 {
-	static Texture2D SpriteChill = TextureManager.GetTexture("chillAles");
-	static Texture2D SpriteRage = TextureManager.GetTexture("dzojkAles");
-	static SoundEffect SfxDzojk = SoundManager.GetSound("dzojkShorter");
-	static SoundEffect SfxKaves = SoundManager.GetSound("kaves");
-	static float ScaleChill;
-	static float ScaleRage;
+	private static Texture2D SpriteChill = TextureManager.GetTexture("chillAles");
+	private static Texture2D SpriteRage = TextureManager.GetTexture("dzojkAles");
+	private static SoundEffectInstance SfxDzojkInstance = SoundManager.GetSound("dzojkShorter").CreateInstance();
+	private static SoundEffect SfxKaves = SoundManager.GetSound("kaves");
+	private static SoundEffectInstance SfxKavesInstance = SfxKaves.CreateInstance();
+	private static float ScaleChill;
+	private static float ScaleRage;
 
 	protected double phaseChangeElapsed = 0;
 	protected int chillDuration = 5000;
@@ -83,6 +84,8 @@ internal class BossAles : EnemyBoss
 	{
 		LastAttackElapsed += dt;
 		phaseChangeElapsed += dt;
+		SfxDzojkInstance.Volume = Settings.SfxVolume;
+		SfxKavesInstance.Volume = Settings.SfxVolume;
 		UpdatePhase();
 	}
 	protected void UpdatePhase()
@@ -95,9 +98,9 @@ internal class BossAles : EnemyBoss
 			if (Rage)
 			{
 				if (Random.Shared.Next(2) == 0)
-					SfxDzojk.Play();
+					SfxDzojkInstance.Play();
 				else
-					SfxKaves.Play();
+					SfxKavesInstance.Play();
 			}
 
 		}
