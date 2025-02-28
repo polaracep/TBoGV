@@ -28,7 +28,8 @@ public class BossAles : EnemyBoss
 		KAVES = 1,
 	}
 	protected BossPhases Phase { get; set; }
-
+	private Vector2 center = new Vector2(450, 450); // Example center position
+	private List<Vector2> corners;
 	public BossAles(Vector2 position)
 	{
 		InitStats(Storyline.Difficulty);
@@ -38,6 +39,15 @@ public class BossAles : EnemyBoss
 		ScaleChill = 100f / Math.Max(SpriteChill.Width, SpriteChill.Height);
 		Size = new Vector2(SpriteChill.Width * ScaleChill, SpriteChill.Height * ScaleChill);
 		phaseChangeElapsed = 0;
+		int radius = 250;
+		corners = new List<Vector2>
+	{
+		center + new Vector2(-radius, -radius),
+		center + new Vector2(radius, -radius),
+		center + new Vector2(-radius, radius),
+		center + new Vector2(radius, radius),
+		center 
+    };
 	}
 	public BossAles() : this(Vector2.Zero) { }
 	public override void Draw(SpriteBatch spriteBatch)
@@ -77,6 +87,8 @@ public class BossAles : EnemyBoss
 
 	public override void Update(Vector2 playerPosition, double dt)
 	{
+		if (!corners.Contains(Position))
+			Teleport();
 		LastAttackElapsed += dt;
 		phaseChangeElapsed += dt;
 		SfxDzojkInstance.Volume = Settings.SfxVolume;
@@ -93,14 +105,26 @@ public class BossAles : EnemyBoss
 			if (Rage)
 			{
 				if (Random.Shared.Next(2) == 0)
+				{
 					SfxDzojkInstance.Play();
+					Teleport(); 
+				}
 				else
 					SfxKavesInstance.Play();
 			}
 
 		}
 	}
+	private void Teleport()
+	{
+		List<Vector2> possibleSpots = new List<Vector2>(corners);
+		possibleSpots.Remove(Position); // Remove current position
 
+		if (possibleSpots.Count > 0)
+		{
+			Position = possibleSpots[Random.Shared.Next(possibleSpots.Count)];
+		}
+	}
 	public override bool ReadyToAttack()
 	{
 		return Rage && LastAttackElapsed >= AttackSpeed;
