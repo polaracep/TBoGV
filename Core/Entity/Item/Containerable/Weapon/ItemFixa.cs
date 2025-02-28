@@ -5,24 +5,22 @@ using Microsoft.Xna.Framework;
 
 namespace TBoGV;
 
-public class ItemBookBio : ItemContainerable
+class ItemFixa : ItemContainerable
 {
 	static Texture2D Sprite;
-	public ItemBookBio(Vector2 position)
+	public ItemFixa(Vector2 position)
 	{
-		Rarity = 2;
+		Rarity = 4;
 		Position = position;
 		Size = new Vector2(50, 50);
-		Name = "Učebnice biologie";
-		Description = "Když počet stránek nahradí hmotnost knihy." +
-			"Enjoy";
-		Stats = new Dictionary<StatTypes, int>() { { StatTypes.MAX_HP, 6 } };
+		Name = "Ukradená fialová fixa";
+		Description = "Hlavně ať to nezjistí Schovánek. \nNepřeháněj to, ať ti chvíli vydrží.";
+		Stats = new Dictionary<StatTypes, int>() { { StatTypes.DAMAGE, 5 }, { StatTypes.ATTACK_SPEED, 1150 }, { StatTypes.MAX_HP, -2 }};
 		Effects = new List<EffectTypes>();
-		Sprite = TextureManager.GetTexture("bookBio");
-		ItemType = ItemTypes.BASIC;
+		Sprite = TextureManager.GetTexture("fialovaFixa");
+		ItemType = ItemTypes.WEAPON;
 	}
-	public ItemBookBio() : this(Vector2.Zero) { }
-
+	public ItemFixa() : this(Vector2.Zero) { }
 	public override void Draw(SpriteBatch spriteBatch)
 	{
 		spriteBatch.Draw(Sprite, new Rectangle(Convert.ToInt32(Position.X), Convert.ToInt32(Position.Y), Convert.ToInt32(Size.X), Convert.ToInt32(Size.Y)), IsKnown ? Color.White : Color.Black);

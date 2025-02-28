@@ -5,7 +5,12 @@ public abstract class ItemContainerable : Item
 {
 	public string Name { get; set; }
 	public string Description { get; set; }
-	public ItemTypes ItemType { get; set; }
+	public int Rarity { get; set; }
+	// rarity 1 - useless
+	// rarity 2 - common
+	// rarity 3 - epic
+	// rarity 4 - legendary
+ 	public ItemTypes ItemType { get; set; }
 	public Dictionary<StatTypes, int> Stats { get; set; }
 	public List<EffectTypes> Effects { get; set; }
 	public bool IsKnown = true;
@@ -13,6 +18,10 @@ public abstract class ItemContainerable : Item
 	{
 		if (!p.player.Inventory.PickUpItem(this))
 			p.Drops.Add(p.player.Inventory.SwapItem(this));
+	}
+	public virtual int GetCost()
+	{ 
+		return Rarity*3 + Effects.Count*2; 
 	}
 }
 

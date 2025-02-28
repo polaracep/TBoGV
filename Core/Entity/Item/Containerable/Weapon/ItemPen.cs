@@ -10,6 +10,7 @@ class ItemPen : ItemContainerable
 	static Texture2D Sprite;
 	public ItemPen(Vector2 position)
 	{
+		Rarity = 3;
 		Position = position;
 		Size = new Vector2(50, 50);
 		Name = "Propiska";
@@ -19,7 +20,7 @@ class ItemPen : ItemContainerable
 		Sprite = TextureManager.GetTexture("pen");
 		ItemType = ItemTypes.WEAPON;
 	}
-
+	public ItemPen() : this(Vector2.Zero) { }
 	public override void Draw(SpriteBatch spriteBatch)
 	{
 		spriteBatch.Draw(Sprite, new Rectangle(Convert.ToInt32(Position.X), Convert.ToInt32(Position.Y), Convert.ToInt32(Size.X), Convert.ToInt32(Size.Y)), IsKnown ? Color.White : Color.Black);

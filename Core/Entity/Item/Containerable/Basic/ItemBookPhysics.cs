@@ -10,6 +10,7 @@ public class ItemBookPhysics : ItemContainerable
 	static Texture2D Sprite;
 	public ItemBookPhysics(Vector2 position)
 	{
+		Rarity = 3;
 		Position = position;
 		Size = new Vector2(50, 50);
 		Name = "Matematicko fyzikální tabulky";
@@ -19,7 +20,7 @@ public class ItemBookPhysics : ItemContainerable
 		Sprite = TextureManager.GetTexture("bookTabulky");
 		ItemType = ItemTypes.BASIC;
 	}
-
+	public ItemBookPhysics() : this(Vector2.Zero) { }
 	public override void Draw(SpriteBatch spriteBatch)
 	{
 		spriteBatch.Draw(Sprite, new Rectangle(Convert.ToInt32(Position.X), Convert.ToInt32(Position.Y), Convert.ToInt32(Size.X), Convert.ToInt32(Size.Y)), IsKnown ? Color.White : Color.Black);

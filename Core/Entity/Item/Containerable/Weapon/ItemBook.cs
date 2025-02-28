@@ -10,16 +10,17 @@ public class ItemBook : ItemContainerable
 	static Texture2D Sprite;
 	public ItemBook(Vector2 position)
 	{
+		Rarity = 3;
 		Position = position;
 		Size = new Vector2(50, 50);
-		Name = "Neumelecka literatura";
+		Name = "Neumělecká literatura";
 		Description = "Moc se nedovíš, ale jako zbraň dobrá";
-		Stats = new Dictionary<StatTypes, int>() { { StatTypes.DAMAGE, 2 }, { StatTypes.ATTACK_SPEED, 750 } };
+		Stats = new Dictionary<StatTypes, int>() { { StatTypes.DAMAGE, 4 }, { StatTypes.ATTACK_SPEED, 800 } };
 		Effects = new List<EffectTypes>();
 		Sprite = TextureManager.GetTexture("bookWeapon");
 		ItemType = ItemTypes.WEAPON;
 	}
-
+	public ItemBook() : this(Vector2.Zero) { }
 	public override void Draw(SpriteBatch spriteBatch)
 	{
 		spriteBatch.Draw(Sprite, new Rectangle(Convert.ToInt32(Position.X), Convert.ToInt32(Position.Y), Convert.ToInt32(Size.X), Convert.ToInt32(Size.Y)), IsKnown ? Color.White : Color.Black);

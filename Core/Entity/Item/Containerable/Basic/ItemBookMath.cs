@@ -10,6 +10,7 @@ public class ItemBookMath : ItemContainerable
 	static Texture2D Sprite;
 	public ItemBookMath(Vector2 position)
 	{
+		Rarity = 4;
 		Position = position;
 		Size = new Vector2(50, 50);
 		Name = "Petakova";
@@ -19,7 +20,7 @@ public class ItemBookMath : ItemContainerable
 		Sprite = TextureManager.GetTexture("bookPetakova");
 		ItemType = ItemTypes.BASIC;
 	}
-
+	public ItemBookMath() : this(Vector2.Zero) { }
 	public override void Draw(SpriteBatch spriteBatch)
 	{
 		spriteBatch.Draw(Sprite, new Rectangle(Convert.ToInt32(Position.X), Convert.ToInt32(Position.Y), Convert.ToInt32(Size.X), Convert.ToInt32(Size.Y)), IsKnown ? Color.White : Color.Black);

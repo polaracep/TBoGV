@@ -51,36 +51,46 @@ class InGameMenuItemJournal : InGameMenu
 
 	private void AddAllItems()
 	{
-		// Example items
-		Items.Add(new ItemCalculator(Vector2.Zero));
-		Items.Add(new ItemDoping(Vector2.Zero));
-		Items.Add(new ItemMonster(Vector2.Zero));
+		// Define an array of item types
+		var itemTypes = new Type[]
+		{
+	typeof(ItemCalculator),
+	typeof(ItemDoping),
+	typeof(ItemMonster),
+	typeof(ItemFancyShoes),
+	typeof(ItemFlipFlop),
+	typeof(ItemTrackShoes),
+	typeof(ItemMap),
+	typeof(ItemMathProblem),
+	typeof(ItemTeeth),
+	typeof(ItemAdBlock),
+	typeof(ItemExplosive),
+	typeof(ItemDagger),
+	typeof(ItemPencil),
+	typeof(ItemBookBio),
+	typeof(ItemBookCzech),
+	typeof(ItemBookMath),
+	typeof(ItemBookZsv),
+	typeof(ItemBookPhysics),
+	typeof(ItemCross),
+	typeof(ItemBryle),
+	typeof(ItemBook),
+	typeof(ItemBookPE),
+	typeof(ItemPen),
+	typeof(ItemScissors),
+	typeof(ItemRubbedBoots),
+	typeof(ItemFixa)
+		};
 
-		Items.Add(new ItemFancyShoes(Vector2.Zero));
-		Items.Add(new ItemFlipFlop(Vector2.Zero));
-		Items.Add(new ItemTrackShoes(Vector2.Zero));
-
-		Items.Add(new ItemMap(Vector2.Zero));
-		Items.Add(new ItemMathProblem(Vector2.Zero));
-		Items.Add(new ItemTeeth(Vector2.Zero));
-		Items.Add(new ItemAdBlock(Vector2.Zero));
-		Items.Add(new ItemExplosive(Vector2.Zero));
+		// Use a foreach loop to add items to the list
+		foreach (var itemType in itemTypes)
+		{
+			// Use reflection to create the item instance
+			var item = Activator.CreateInstance(itemType, new object[] { Vector2.Zero });
+			Items.Add((ItemContainerable)item);
+		}
 
 
-		Items.Add(new ItemDagger(Vector2.Zero));
-		Items.Add(new ItemPencil(Vector2.Zero));
-		Items.Add(new ItemBookBio(Vector2.Zero));
-		Items.Add(new ItemBookCzech(Vector2.Zero));
-		Items.Add(new ItemBookMath(Vector2.Zero));
-		Items.Add(new ItemBookZsv(Vector2.Zero));
-		Items.Add(new ItemBookPhysics(Vector2.Zero));
-		Items.Add(new ItemCross(Vector2.Zero));
-		Items.Add(new ItemBryle(Vector2.Zero));
-		Items.Add(new ItemBook(Vector2.Zero));
-		Items.Add(new ItemBookPE(Vector2.Zero));
-		Items.Add(new ItemPen(Vector2.Zero));
-		Items.Add(new ItemScissors(Vector2.Zero));
-		Items.Add(new ItemBook(Vector2.Zero));
 
 
 

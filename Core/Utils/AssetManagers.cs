@@ -129,6 +129,7 @@ public static class TextureManager
 			"monster",
 			"pen",
 			"scissors",
+			"fialovaFixa",
 
             // Misc
             "gymvod",
