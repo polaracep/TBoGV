@@ -12,7 +12,7 @@ class ItemExplosive : ItemContainerable
 		Size = new Vector2(50, 50);
 		Name = "Lorentzova transformace";
 		Description = "O tomhle nam Schovanek nerekl";
-		Stats = new Dictionary<StatTypes, int>() { { StatTypes.DAMAGE, -6 } };
+		Stats = new Dictionary<StatTypes, int>() { { StatTypes.DAMAGE, 5 }, { StatTypes.DAMAGE, -3 } };
 		Effects = new List<EffectTypes>() { EffectTypes.EXPLOSIVE };
 		Sprite = TextureManager.GetTexture("lorentzovaTransformace");
 		ItemType = ItemTypes.EFFECT;

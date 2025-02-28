@@ -2,20 +2,22 @@
 using Microsoft.Xna.Framework;
 using System.Collections.Generic;
 using System;
+
 namespace TBoGV;
-class ItemMonster : ItemContainerable
+
+class ItemScissors : ItemContainerable
 {
 	static Texture2D Sprite;
-	public ItemMonster(Vector2 position)
+	public ItemScissors(Vector2 position)
 	{
 		Position = position;
 		Size = new Vector2(50, 50);
-		Name = "Monster";
-		Description = "Asi bys to nemel prehanet";
-		Stats = new Dictionary<StatTypes, int>() { { StatTypes.MOVEMENT_SPEED, -10 }, { StatTypes.DAMAGE, 3 }, { StatTypes.ATTACK_SPEED, 3 }, { StatTypes.XP_GAIN, 3 }, { StatTypes.PROJECTILE_COUNT, 3 }, { StatTypes.MAX_HP, 3 } };
-		Effects = new List<EffectTypes>() { };
-		Sprite = TextureManager.GetTexture("monster");
-		ItemType = ItemTypes.BASIC;
+		Name = "Nuzky";
+		Description = "Jestli si je zapomeneš, Jirušová tě nechá propadnout";
+		Stats = new Dictionary<StatTypes, int>() { { StatTypes.DAMAGE, 1 }, { StatTypes.ATTACK_SPEED, 100 } };
+		Effects = new List<EffectTypes>();
+		Sprite = TextureManager.GetTexture("scissors");
+		ItemType = ItemTypes.WEAPON;
 	}
 
 	public override void Draw(SpriteBatch spriteBatch)
@@ -26,6 +28,4 @@ class ItemMonster : ItemContainerable
 	{
 		return Sprite;
 	}
-
 }
-

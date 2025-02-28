@@ -69,6 +69,20 @@ class InGameMenuItemJournal : InGameMenu
 
 		Items.Add(new ItemDagger(Vector2.Zero));
 		Items.Add(new ItemPencil(Vector2.Zero));
+		Items.Add(new ItemBookBio(Vector2.Zero));
+		Items.Add(new ItemBookCzech(Vector2.Zero));
+		Items.Add(new ItemBookMath(Vector2.Zero));
+		Items.Add(new ItemBookZsv(Vector2.Zero));
+		Items.Add(new ItemBookPhysics(Vector2.Zero));
+		Items.Add(new ItemCross(Vector2.Zero));
+		Items.Add(new ItemBryle(Vector2.Zero));
+		Items.Add(new ItemBook(Vector2.Zero));
+		Items.Add(new ItemBookPE(Vector2.Zero));
+		Items.Add(new ItemPen(Vector2.Zero));
+		Items.Add(new ItemScissors(Vector2.Zero));
+		Items.Add(new ItemBook(Vector2.Zero));
+
+
 
 		// Initialize known status for each item
 		foreach (var item in Items)

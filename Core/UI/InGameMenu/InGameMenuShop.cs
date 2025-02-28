@@ -49,8 +49,8 @@ namespace TBoGV
         private void InitializeShopItems()
         {
             // Using items similar to those in the item journal.
-            shopItemsPool.Add(new ShopItem(new ItemCalculator(Vector2.Zero), 100));
-            shopItemsPool.Add(new ShopItem(new ItemDoping(Vector2.Zero), 150));
+            shopItemsPool.Add(new ShopItem(new ItemCalculator(Vector2.Zero), 10));
+            shopItemsPool.Add(new ShopItem(new ItemDoping(Vector2.Zero), 15));
             shopItemsPool.Add(new ShopItem(new ItemMonster(Vector2.Zero), 200));
             shopItemsPool.Add(new ShopItem(new ItemFancyShoes(Vector2.Zero), 120));
             shopItemsPool.Add(new ShopItem(new ItemFlipFlop(Vector2.Zero), 80));

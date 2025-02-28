@@ -117,6 +117,18 @@ public static class TextureManager
             "dagger",
             "maso",
             "teeth",
+			"bookWeapon",
+			"bookBio",
+			"bookCj",
+			"bookPetakova",
+			"bookZsv",
+			"bookTabulky",
+			"bookPE",
+			"bryle",
+			"kriz",
+			"monster",
+			"pen",
+			"scissors",
 
             // Misc
             "gymvod",
