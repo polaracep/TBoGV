@@ -48,24 +48,48 @@ namespace TBoGV
         // Fill the shop item pool with example items and their prices.
         private void InitializeShopItems()
         {
-            // Using items similar to those in the item journal.
-            shopItemsPool.Add(new ShopItem(new ItemCalculator(Vector2.Zero), 100));
-            shopItemsPool.Add(new ShopItem(new ItemDoping(Vector2.Zero), 150));
-            shopItemsPool.Add(new ShopItem(new ItemMonster(Vector2.Zero), 200));
-            shopItemsPool.Add(new ShopItem(new ItemFancyShoes(Vector2.Zero), 120));
-            shopItemsPool.Add(new ShopItem(new ItemFlipFlop(Vector2.Zero), 80));
-            shopItemsPool.Add(new ShopItem(new ItemTrackShoes(Vector2.Zero), 110));
-            shopItemsPool.Add(new ShopItem(new ItemMap(Vector2.Zero), 90));
-            shopItemsPool.Add(new ShopItem(new ItemMathProblem(Vector2.Zero), 130));
-            shopItemsPool.Add(new ShopItem(new ItemTeeth(Vector2.Zero), 50));
-            shopItemsPool.Add(new ShopItem(new ItemAdBlock(Vector2.Zero), 70));
-            shopItemsPool.Add(new ShopItem(new ItemExplosive(Vector2.Zero), 300));
-            shopItemsPool.Add(new ShopItem(new ItemDagger(Vector2.Zero), 95));
-            shopItemsPool.Add(new ShopItem(new ItemPencil(Vector2.Zero), 40));
-        }
+			// List to hold all the items (add your actual items here)
+			List<ItemContainerable> allItems = new List<ItemContainerable>
+{
+	new ItemCalculator(),
+	new ItemDoping(),
+	new ItemMonster(),
+	new ItemFancyShoes(),
+	new ItemFlipFlop(),
+	new ItemTrackShoes(),
+	new ItemMap(),
+	new ItemMathProblem(),
+	new ItemTeeth(),
+	new ItemAdBlock(),
+	new ItemExplosive(),
+	new ItemDagger(),
+	new ItemPencil(),
+	new ItemBookBio(),
+	new ItemBookCzech(),
+	new ItemBookMath(),
+	new ItemBookZsv(),
+	new ItemBookPhysics(),
+	new ItemCross(),
+	new ItemBryle(),
+	new ItemBook(),
+	new ItemBookPE(),
+	new ItemPen(),
+	new ItemScissors(),
+	new ItemRubbedBoots(),
+	new ItemFixa(),
+};
 
-        // Opens the shop by randomly selecting 3 items from the pool.
-        public void OpenMenu()
+			// Now using a foreach loop to add items to the shopItemsPool
+			foreach (var item in allItems)
+			{
+				// Add the item to the shopItemsPool with its cost from GetCost()
+				shopItemsPool.Add(new ShopItem(item, item.GetCost()));
+			}
+
+		}
+
+		// Opens the shop by randomly selecting 3 items from the pool.
+		public void OpenMenu()
         {
             if (itemCache.Count != 0)
                 currentShopItems = itemCache;

@@ -1,25 +1,26 @@
 ﻿using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
-using System;
 using System.Collections.Generic;
-
+using System;
 
 namespace TBoGV;
 
-class ItemTrackShoes : ItemContainerable
+class ItemScissors : ItemContainerable
 {
 	static Texture2D Sprite;
-	public ItemTrackShoes(Vector2 position)
+	public ItemScissors(Vector2 position)
 	{
+		Rarity = 3;
 		Position = position;
 		Size = new Vector2(50, 50);
-		Name = "Vojenske trekovky";
-		Description = "Tohle asi nebudou prezuvky...";
-		Stats = new Dictionary<StatTypes, int>() { { StatTypes.MOVEMENT_SPEED, 5 } };
-		Effects = new List<EffectTypes>() { };
-		Sprite = TextureManager.GetTexture("trackShoes");
-		ItemType = ItemTypes.ARMOR;
+		Name = "Nůžky";
+		Description = "Jestli si je zapomeneš, Jirušová tě nechá propadnout";
+		Stats = new Dictionary<StatTypes, int>() { { StatTypes.DAMAGE, 2 }, { StatTypes.ATTACK_SPEED, 1000 } };
+		Effects = new List<EffectTypes>();
+		Sprite = TextureManager.GetTexture("scissors");
+		ItemType = ItemTypes.WEAPON;
 	}
+	public ItemScissors() : this(Vector2.Zero) { }
 	public override void Draw(SpriteBatch spriteBatch)
 	{
 		spriteBatch.Draw(Sprite, new Rectangle(Convert.ToInt32(Position.X), Convert.ToInt32(Position.Y), Convert.ToInt32(Size.X), Convert.ToInt32(Size.Y)), IsKnown ? Color.White : Color.Black);
@@ -28,6 +29,4 @@ class ItemTrackShoes : ItemContainerable
 	{
 		return Sprite;
 	}
-
 }
-
