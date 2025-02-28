@@ -54,25 +54,25 @@ public abstract class Place : IDraw
     /// <param name="coords"></param>
     /// <returns></returns>
     /// <exception cref="ArgumentOutOfRangeException"></exception>
-    public Vector2 GetTileWorldPos(Vector2 coords)
+    public Vector2 GetTileWorldPos(Vector2 wCoords)
     {
-        if (float.IsNaN(coords.X) || float.IsNaN(coords.Y))
+        if (float.IsNaN(wCoords.X) || float.IsNaN(wCoords.Y))
             throw new ArgumentOutOfRangeException();
-        if (coords.X >= Dimensions.X * Tile.GetSize().X || coords.Y >= Dimensions.Y * Tile.GetSize().Y || coords.X < 0 || coords.Y < 0)
+        if (wCoords.X >= Dimensions.X * Tile.GetSize().X || wCoords.Y >= Dimensions.Y * Tile.GetSize().Y || wCoords.X < 0 || wCoords.Y < 0)
             throw new ArgumentOutOfRangeException();
-        return new Vector2((int)(coords.X * Tile.GetSize().X), (int)(coords.Y * Tile.GetSize().Y));
+        return new Vector2((int)(wCoords.X * Tile.GetSize().X), (int)(wCoords.Y * Tile.GetSize().Y));
     }
-    public Tile GetTileFloor(Vector2 coords)
+    public Tile GetTileFloor(Vector2 wCoords)
     {
-        return GetTile(coords).floor;
+        return GetTile(wCoords).floor;
     }
-    public Tile GetTileDecoration(Vector2 coords)
+    public Tile GetTileDecoration(Vector2 wCoords)
     {
-        return GetTile(coords).decor;
+        return GetTile(wCoords).decor;
     }
-    public IInteractable GetTileInteractable(Vector2 coords)
+    public IInteractable GetTileInteractable(Vector2 wCoords)
     {
-        (Tile, Tile) t = GetTile(coords);
+        (Tile, Tile) t = GetTile(wCoords);
         if (t.Item2 is IInteractable)
             return (IInteractable)t.Item2;
         else if (t.Item1 is IInteractable)
@@ -80,57 +80,53 @@ public abstract class Place : IDraw
 
         return null;
     }
-    public Item GetItemInteractable(Vector2 coords)
+    public Item GetItemInteractable(Vector2 wCoords)
     {
         if (!IsGenerated)
             return null;
         foreach (var item in Drops)
         {
-            if (ObjectCollision.RectCircleCollision(item.GetRectangle(), coords, 5))
+            if (ObjectCollision.RectCircleCollision(item.GetRectangle(), wCoords, 5))
                 return item;
         }
         return null;
     }
 
-    public IInteractable GetEntityInteractable(Vector2 coords)
+    public IInteractable GetEntityInteractable(Vector2 wCoords)
     {
         if (!IsGenerated)
             return null;
 
         foreach (var entity in this.Entities)
         {
-            if (entity is IInteractable && ObjectCollision.RectCircleCollision(entity.GetRectangle(), coords, 5))
+            if (entity is IInteractable && ObjectCollision.RectCircleCollision(entity.GetRectangle(), wCoords, 5))
             {
                 return (IInteractable)entity;
             }
         }
         return null;
     }
-    public (Tile floor, Tile decor) GetTile(Vector2 coords)
+    public (Tile floor, Tile decor) GetTile(Vector2 worldCoords)
     {
         if (!IsGenerated)
             return (null, null);
 
-        if (float.IsNaN(coords.X) || float.IsNaN(coords.Y))
+        if (float.IsNaN(worldCoords.X) || float.IsNaN(worldCoords.Y))
             return (null, null);
-        if (coords.X >= Dimensions.X * Tile.GetSize().X || coords.Y >= Dimensions.Y * Tile.GetSize().Y || coords.X < 0 || coords.Y < 0)
+        if (worldCoords.X >= Dimensions.X * Tile.GetSize().X || worldCoords.Y >= Dimensions.Y * Tile.GetSize().Y || worldCoords.X < 0 || worldCoords.Y < 0)
             return (null, null);
 
-        return (Floor[(int)(coords.X / Tile.GetSize().X), (int)(coords.Y / Tile.GetSize().Y)],
-                Decorations[(int)(coords.X / Tile.GetSize().X), (int)(coords.Y / Tile.GetSize().Y)]);
+        return (Floor[(int)(worldCoords.X / Tile.GetSize().X), (int)(worldCoords.Y / Tile.GetSize().Y)],
+                Decorations[(int)(worldCoords.X / Tile.GetSize().X), (int)(worldCoords.Y / Tile.GetSize().Y)]);
     }
-    public bool ShouldCollideAt(Vector2 coords) { return ShouldCollideAt(coords, false); }
-    public bool ShouldCollideAt(Vector2 coords, bool projectilesOnly)
+    public bool ShouldCollideAt(Vector2 wCoords) { return ShouldCollideAt(wCoords, false); }
+    public bool ShouldCollideAt(Vector2 wCoords, bool projectilesOnly)
     {
+        (Tile, Tile) t = GetTile(wCoords);
         if (projectilesOnly)
-        {
-            return this.GetTileFloor(coords)?.DoCollision ?? false;
-        }
+            return t.Item2?.DoCollision ?? false;
         else
-        {
-            return (this.GetTileFloor(coords)?.DoCollision ?? false) ||
-                    (this.GetTileDecoration(coords)?.DoCollision ?? false);
-        }
+            return (t.Item1?.DoCollision ?? false) || (t.Item2?.DoCollision ?? false);
     }
     public bool ShouldCollideAt(Rectangle rect)
     {

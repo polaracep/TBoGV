@@ -7,10 +7,14 @@ public class RoomBoss : Room
 	public RoomBoss(Vector2 dimensions, Player p) : base(dimensions, p) { }
 	public RoomBoss(Vector2 dimensions, Player p, List<Entity> entityList) : base(dimensions, p, entityList) { }
 
+	protected override List<Enemy> validEnemies { get; set; } = new List<Enemy>{
+		new EnemyPolhreich(),
+	};
+
 	public override void Generate()
 	{
 		GenerateBase();
-		GenerateEnemies();
+		GenerateEnemies(20);
 		IsGenerated = true;
 	}
 

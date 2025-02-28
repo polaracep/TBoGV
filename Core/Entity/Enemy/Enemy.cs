@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 
 namespace TBoGV;
-public abstract class Enemy : Entity, IRecieveDmg, IDealDmg
+public abstract class Enemy : Entity, IRecieveDmg, IDealDmg, ICloneable
 {
   public double LastAttackElapsed { get; set; }
   public float AttackSpeed { get; set; }
@@ -36,5 +36,10 @@ public abstract class Enemy : Entity, IRecieveDmg, IDealDmg
       projectilesRecieved.Add(projectile);
     }
     return Hp < 0 ? -Hp : 0;
+  }
+
+  public object Clone()
+  {
+    return this.MemberwiseClone();
   }
 }

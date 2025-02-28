@@ -11,19 +11,32 @@ using TBoGV;
 /// </summary>
 public class RoomClassroom : Room
 {
-    public RoomClassroom(Vector2 dimensions, Player p) : base(dimensions, p) { }
+
+    protected override List<Enemy> validEnemies { get; set; } = new List<Enemy> {
+        new EnemyTriangle(),
+        new EnemyCat(),
+        new EnemyVitek(),
+        new EnemyPolhreich(),
+    };
+
+    public RoomClassroom(Player p, List<Entity> entityList) : base(p, entityList) { }
     public RoomClassroom(Vector2 dimensions, Player p, List<Entity> entityList) : base(dimensions, p, entityList) { }
+    public RoomClassroom(Player p) : base(p)
+    {
+    }
 
     public override void Generate()
     {
+        if (direction == null)
+            direction = (Directions)Random.Shared.Next(4);
+
         GenerateBase(FloorTypes.BASIC, WallTypes.WHITE, DoorTypes.BASIC);
         GenerateDecor();
-        GenerateEnemies();
+        GenerateEnemies(18);
     }
 
     protected override void GenerateBase(FloorTypes floors, WallTypes walls, DoorTypes doors)
     {
-
         this.ClearRoom();
         this.Floor = new Tile[(int)Dimensions.X, (int)Dimensions.Y];
         this.Decorations = new Tile[(int)Dimensions.X, (int)Dimensions.Y];
@@ -42,11 +55,11 @@ public class RoomClassroom : Room
 
     protected override void GenerateDecor()
     {
-        if (Random.Shared.Next(2) == 0)
+        if (direction == Directions.LEFT || direction == Directions.RIGHT)
         {
             // Horizontal layout
             int cntX = (int)Math.Floor((Dimensions.X - 6) / 3);
-            int cntY = (int)Math.Floor((Dimensions.Y - 4) / 2);
+            int cntY = (int)Math.Ceiling((Dimensions.Y - 4) / 2);
 
             for (int y = 0; y < cntX; y++)
                 for (int i = 0; i < cntY; i++)
@@ -60,11 +73,11 @@ public class RoomClassroom : Room
             AddDecoTile(new Vector2(Dimensions.X - 1, Dimensions.Y / 2), new TileDecoration(false, DecorationTypes.BLACKBOARD));
 
         }
-        else
+        else if (direction == Directions.UP || direction == Directions.DOWN)
         {
             // Vertical layout
             int cntY = (int)Math.Floor((Dimensions.Y - 6) / 3);
-            int cntX = (int)Math.Floor((Dimensions.X - 4) / 2);
+            int cntX = (int)Math.Ceiling((Dimensions.X - 4) / 2);
 
             for (int x = 0; x < cntX; x++)
                 for (int y = 0; y < cntY; y++)
@@ -78,23 +91,9 @@ public class RoomClassroom : Room
             AddDecoTile(new Vector2(3, Dimensions.Y - 3), new TileDecoration(false, DecorationTypes.CHAIR_CLASSROOM, -MathHelper.PiOver2));
             AddDecoTile(new Vector2(Dimensions.X / 2, Dimensions.Y - 1), new TileDecoration(true, DecorationTypes.BLACKBOARD, MathHelper.PiOver2));
 
+
+
         }
     }
-    protected override void GenerateEnemies()
-    {
-        Random rand = new Random();
-        foreach (var enemy in EnemyPool)
-        {
-            while (true)
-            {
-                Vector2 spawnPos = new Vector2(rand.Next((int)Dimensions.X), rand.Next((int)Dimensions.Y)) * 50;
-                if (!this.ShouldCollideAt(spawnPos))
-                {
-                    enemy.Position = spawnPos;
-                    this.AddEnemy(enemy);
-                    break;
-                }
-            }
-        }
-    }
+    // protected override void GenerateEnemies(int concentration) { }
 }

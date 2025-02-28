@@ -33,6 +33,8 @@ public abstract class Room : Place
     /// List of spawnable enemies
     /// </summary>
     protected List<Enemy> EnemyPool = new List<Enemy>();
+    protected abstract List<Enemy> validEnemies { get; set; }
+    protected Directions? direction = null;
 
     public Room(Vector2 dimensions, Player p, List<Entity> entityList)
     {
@@ -58,25 +60,29 @@ public abstract class Room : Place
             else
                 throw new Exception("Invalid entity type provided.");
         });
+    }
+    public Room(Player p, List<Entity> entityList) : this(Vector2.Zero, p, entityList)
+    {
+        direction = (Directions)Random.Shared.Next(4);
+        int smaller = Random.Shared.Next(9, 17);
+        int bigger = Random.Shared.Next(smaller, 21);
 
-        /*
-        this.Drops.Add(new ItemDoping(new Vector2(200, 200)));
-        this.Drops.Add(new ItemTeeth(new Vector2(100, 200)));
-        this.Drops.Add(new ItemCalculator(new Vector2(150, 200)));
-        this.Drops.Add(new ItemPencil(new Vector2(100, 100)));
-        this.Drops.Add(new ItemAdBlock(new Vector2(50, 50)));
-        this.Drops.Add(new ItemMathProblem(new Vector2(50, 100)));
-        this.Drops.Add(new ItemExplosive(new Vector2(50, 150)));
-        */
+        if (direction == Directions.LEFT || direction == Directions.RIGHT)
+            // Horizontal
+            Dimensions = new Vector2(bigger, smaller);
+        else
+            // vertical
+            Dimensions = new Vector2(smaller, bigger);
     }
     public Room(Vector2 dimensions, Player p) : this(dimensions, p, null) { }
+    public Room(Player p) : this(p, null) { }
 
     public override void Reset()
     {
         ClearEnemies();
         ClearProjectiles();
         Generate();
-        GenerateEnemies();
+        GenerateEnemies(20);
     }
 
     /* === Update methods === */
@@ -193,8 +199,15 @@ public abstract class Room : Place
     }
 
     /* === Generation methods === */
-    protected virtual void GenerateEnemies()
+    protected virtual void GenerateEnemies(int concentration)
     {
+        if (EnemyPool.Count == 0)
+        {
+            // 1 enemy for 18 tiles
+            for (int i = 0; i < GetValidPositionCount() / concentration; i++)
+                EnemyPool.Add((Enemy)validEnemies[Random.Shared.Next(validEnemies.Count)].Clone());
+        }
+
         Random rand = new Random();
         foreach (var enemy in EnemyPool)
         {
@@ -334,5 +347,16 @@ public abstract class Room : Place
                 AddDecoTile(new Vector2(_x, Dimensions.Y - 1), new TileExit());
                 break;
         }
+    }
+
+    protected int GetValidPositionCount()
+    {
+        // Generate random enemies
+        int validPositions = 0;
+
+        for (int x = 0; x < Dimensions.X; x++)
+            for (int y = 0; y < Dimensions.Y; y++)
+                validPositions += ShouldCollideAt(GetTileWorldPos(new Vector2(x, y))) ? 0 : 1;
+        return validPositions;
     }
 }
