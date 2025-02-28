@@ -14,7 +14,7 @@ class BossAmogus : EnemyBoss
 
 	private static int frameWidthVent = 16;
 	private static int frameHeightVent = 21;
-	private static float ScaleVent = 40f / Math.Max(frameWidthVent, frameHeightVent);
+	private static float ScaleVent = 54f / Math.Max(frameWidthVent, frameHeightVent);
 	int ventFrame = -1;
 	private float Scale;
 	private int frameWidth = 100;
@@ -312,7 +312,7 @@ class BossAmogus : EnemyBoss
 		{
 			Rectangle ventSourceRect = new Rectangle(ventFrame * frameWidthVent, 0, frameWidthVent, frameHeightVent);
 			spriteBatch.Draw(VentSpritesheet,
-				new Rectangle((int)Position.X, (int)Position.Y, (int)(frameWidthVent * ScaleVent), (int)(frameHeightVent * ScaleVent)),
+				new Rectangle((int)Position.X-2, (int)(Position.Y+Size.Y- frameHeightVent * ScaleVent+8), (int)(frameWidthVent * ScaleVent), (int)(frameHeightVent * ScaleVent)),
 				ventSourceRect,
 				Color.White,
 				0,
