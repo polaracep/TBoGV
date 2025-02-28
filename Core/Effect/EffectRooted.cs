@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace TBoGV;
 
-internal class EffectRooted : Effect
+class EffectRooted : Effect
 {
 	protected static Texture2D Sprite = TextureManager.GetTexture("koren");
 	public EffectRooted(int level)
@@ -14,7 +14,7 @@ internal class EffectRooted : Effect
 		Description = "Bouchani nikdo neslysel, \nOdskocit jsi si nemohl, takze te zahriva tepla moc";
 		Positive = false;
 		Stats = new Dictionary<StatTypes, int>() { };
-		Effects = new List<EffectTypes> { EffectTypes.ROOTED};
+		Effects = new List<EffectTypes> { EffectTypes.ROOTED };
 		Level = 0;
 		ChangeLevel(level);
 		// Get original sprite dimensions
@@ -22,7 +22,7 @@ internal class EffectRooted : Effect
 		float originalHeight = Sprite.Height;
 
 		// Calculate scaling factor
-		scale= 45f / Math.Max(originalWidth, originalHeight);
+		scale = 45f / Math.Max(originalWidth, originalHeight);
 	}
 	public override void ChangeLevel(int delta)
 	{

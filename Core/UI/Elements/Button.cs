@@ -5,7 +5,7 @@ using Microsoft.Xna.Framework.Input;
 
 namespace TBoGV;
 
-internal class Button : IDraw, IUIElement
+class Button : IDraw, IUIElement
 {
 	public Vector2 Position { get; set; }
 	private string Text;

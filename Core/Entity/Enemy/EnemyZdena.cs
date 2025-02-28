@@ -5,19 +5,15 @@ using System.Collections.Generic;
 
 namespace TBoGV;
 
-internal class EnemyZdena : EnemyRanged
+class EnemyZdena : EnemyRanged
 {
 	static Texture2D Sprite;
 	public EnemyZdena(Vector2 position)
 	{
+		InitStats(0);
 		Position = position;
-		Hp = 3;
-		MovementSpeed = 4;
-		AttackSpeed = 2500;
-		AttackDmg = 1;
 		Sprite = TextureManager.GetTexture("korenovy_vezen");
 		Size = new Vector2(Sprite.Width, Sprite.Height);
-		XpValue = 1;
 		Spawn();
 	}
 	public EnemyZdena() : this(Vector2.Zero) { }
@@ -40,5 +36,14 @@ internal class EnemyZdena : EnemyRanged
 	public override void Move(Place place)
 	{
 		return;
+	}
+
+	protected override void InitStats(int difficulty)
+	{
+		Hp = 3;
+		MovementSpeed = 4;
+		AttackSpeed = 2500;
+		AttackDmg = 1;
+		XpValue = 1;
 	}
 }

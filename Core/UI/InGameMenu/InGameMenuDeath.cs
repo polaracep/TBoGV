@@ -5,7 +5,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
 namespace TBoGV;
-internal class InGameMenuDeath : InGameMenu
+class InGameMenuDeath : InGameMenu
 {
 	private static Viewport Viewport;
 	private static SpriteFont MiddleFont = FontManager.GetFont("Arial12");

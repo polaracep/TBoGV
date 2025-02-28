@@ -4,11 +4,10 @@ using Microsoft.Xna.Framework;
 using System.Collections.Generic;
 namespace TBoGV;
 
-internal class EnemyJirka : EnemyRanged
+class EnemyJirka : EnemyRanged
 {
 	static Texture2D Sprite = TextureManager.GetTexture("jirka");
 	static float Scale;
-	protected Random random = new Random();
 	protected Vector2 PrioDirection;
 
 	protected DateTime DirectionChanged;
@@ -16,13 +15,8 @@ internal class EnemyJirka : EnemyRanged
 	public EnemyJirka(Vector2 position)
 	{
 		Position = position;
-		Hp = 5;
-		MovementSpeed = 1;
-		AttackSpeed = 444;
-		AttackDmg = 1;
 		Scale = 50f / Math.Max(Sprite.Width, Sprite.Height);
 		Size = new Vector2(Sprite.Width * Scale, Sprite.Height * Scale);
-		XpValue = 1;
 		PickNewDirection();
 		Spawn();
 	}
@@ -94,6 +88,15 @@ internal class EnemyJirka : EnemyRanged
 		projectiles.Add(new ProjectileNokia(Position + Size / 2, Direction, AttackDmg));
 		LastAttackElapsed = 0;
 		return projectiles;
+	}
+
+	protected override void InitStats(int difficulty)
+	{
+		Hp = 5;
+		MovementSpeed = 1;
+		AttackSpeed = 444;
+		AttackDmg = 1;
+		XpValue = 1;
 	}
 }
 

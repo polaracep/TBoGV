@@ -7,7 +7,7 @@ using Microsoft.Xna.Framework.Input;
 
 namespace TBoGV;
 
-internal class InGameMenuLevelUp : InGameMenu
+class InGameMenuLevelUp : InGameMenu
 {
     private static Viewport Viewport;
     static SpriteFont SmallFont;
@@ -100,13 +100,13 @@ internal class InGameMenuLevelUp : InGameMenu
 
         base.Draw(spriteBatch);
         string headline = "Vyber";
-        Vector2 hintSize = SmallFont.MeasureString(understandingHint);        
+        Vector2 hintSize = SmallFont.MeasureString(understandingHint);
         Vector2 descSize = MiddleFont.MeasureString(chosenDescription);
         Vector2 headlineSize = LargerFont.MeasureString(headline);
         int menuHeight = (int)Math.Max(descSize.Y, Viewport.Height / 2);
         int menuWidth = (int)Math.Max(descSize.X + 30, Viewport.Width / 2);
         Rectangle menuBackground = new Rectangle(
-            Viewport.Width / 4 - (menuWidth - Viewport.Width/2)/2, Viewport.Height / 4,
+            Viewport.Width / 4 - (menuWidth - Viewport.Width / 2) / 2, Viewport.Height / 4,
             menuWidth, menuHeight
         );
         // Draw full menu background

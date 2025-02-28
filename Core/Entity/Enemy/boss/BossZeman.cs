@@ -6,7 +6,7 @@ using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using TBoGV;
 
-internal class BossZeman : EnemyBoss
+class BossZeman : EnemyBoss
 {
 	static Texture2D Spritesheet = TextureManager.GetTexture("milosSpritesheet");
 	static SoundEffect AligatorSfx = SoundManager.GetSound("aligator");
@@ -31,12 +31,8 @@ internal class BossZeman : EnemyBoss
 	public BossZeman(Vector2 position)
 	{
 		Position = position;
-		Hp = 80;
-		MovementSpeed = 7;
-		AttackDmg = 2;
 		Scale = 50f / Math.Max(frameWidth, frameHeight);
 		Size = new Vector2(frameWidth * Scale, frameHeight * Scale);
-		XpValue = 70;
 		phaseChangeElapsed = 0;
 	}
 	public BossZeman() : this(Vector2.Zero) { }
@@ -219,5 +215,14 @@ internal class BossZeman : EnemyBoss
 		Rectangle sourceRect = new Rectangle(currentFrame * frameWidth, 0, frameWidth, frameHeight);
 		spriteBatch.Draw(Spritesheet, new Rectangle((int)Position.X, (int)Position.Y, (int)(Size.X), (int)(Size.Y)), sourceRect, Color.White);
 
+	}
+
+	protected override void InitStats(int difficulty)
+	{
+		Hp = 80;
+		MovementSpeed = 7;
+		AttackDmg = 2;
+		AttackSpeed = 0;
+		XpValue = 70;
 	}
 }

@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace TBoGV;
-internal class BossOIIAOIIA : EnemyBoss
+class BossOIIAOIIA : EnemyBoss
 {
 	static Texture2D Spritesheet = TextureManager.GetTexture("spritesheetOIIA");
 	static SoundEffect SfxOIIA = SoundManager.GetSound("OIIAOIIA");
@@ -27,7 +27,6 @@ internal class BossOIIAOIIA : EnemyBoss
 	protected int rageCount = 0;
 
 	private Vector2 direction;
-	private Random random = new Random();
 
 	protected new enum BossPhases : int
 	{
@@ -38,14 +37,11 @@ internal class BossOIIAOIIA : EnemyBoss
 
 	public BossOIIAOIIA(Vector2 position)
 	{
+		InitStats(0);
 		Rage = false;
 		Position = position;
-		Hp = 60;
-		MovementSpeed = 2;
-		AttackDmg = 1;
 		Scale = 100f / Math.Max(frameWidth, frameHeight);
 		Size = new Vector2(frameWidth * Scale, frameHeight * Scale);
-		XpValue = 50;
 		phaseChangeElapsed = 0;
 	}
 	public BossOIIAOIIA() : this(Vector2.Zero) { }
@@ -192,5 +188,14 @@ internal class BossOIIAOIIA : EnemyBoss
 			projectilesRecieved.Add(projectile);
 		}
 		return Rage ? projectile.Damage : 0;
+	}
+
+	protected override void InitStats(int difficulty)
+	{
+		Hp = 60;
+		MovementSpeed = 2;
+		AttackSpeed = 0;
+		AttackDmg = 1;
+		XpValue = 50;
 	}
 }

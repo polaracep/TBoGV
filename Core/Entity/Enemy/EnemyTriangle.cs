@@ -5,7 +5,7 @@ using Microsoft.Xna.Framework.Audio;
 
 
 namespace TBoGV;
-internal class EnemyTriangle : EnemyMelee
+class EnemyTriangle : EnemyMelee
 {
     static Texture2D Spritesheet = TextureManager.GetTexture("triangleSpritesheet");
     //static SoundEffect vibeSfx = SoundManager.GetSound("vibe");
@@ -17,18 +17,15 @@ internal class EnemyTriangle : EnemyMelee
     int currentFrame = 0;
     double lastFrameChangeElapsed = 0;
     double frameSpeed = 3200 / 32;
+
     public EnemyTriangle(Vector2 position)
     {
+        InitStats(0);
         movingDuration = 3200;
         chillDuration = 0;
         Position = position;
-        Hp = 15;
-        MovementSpeed = 1f;
-        AttackSpeed = 444;
-        AttackDmg = 1;
         Scale = 50f / Math.Max(frameWidth, frameHeight);
         Size = new Vector2(frameWidth * Scale, frameHeight * Scale);
-        XpValue = 1;
     }
     public EnemyTriangle() : this(Vector2.Zero) { }
 
@@ -65,6 +62,15 @@ internal class EnemyTriangle : EnemyMelee
         }
         if (!Moving)
             currentFrame = 0;
+    }
+
+    protected override void InitStats(int difficulty)
+    {
+        Hp = 15;
+        MovementSpeed = 1f;
+        AttackSpeed = 444;
+        AttackDmg = 1;
+        XpValue = 1;
     }
 }
 

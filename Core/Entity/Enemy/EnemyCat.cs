@@ -2,11 +2,10 @@
 using Microsoft.Xna.Framework;
 using System;
 using Microsoft.Xna.Framework.Audio;
-using System.IO;
 
 
 namespace TBoGV;
-internal class EnemyCat : EnemyMelee
+class EnemyCat : EnemyMelee
 {
 	static Texture2D Spritesheet = TextureManager.GetTexture("vibeCatSpritesheet");
 	static SoundEffect vibeSfx = SoundManager.GetSound("vibe");
@@ -22,16 +21,12 @@ internal class EnemyCat : EnemyMelee
 
 	public EnemyCat(Vector2 position)
 	{
+		InitStats(0);
 		movingDuration = (int)vibeSfx.Duration.TotalMilliseconds;
 		chillDuration = 500;
 		Position = position;
-		Hp = 5;
-		MovementSpeed = 1.5f;
-		AttackSpeed = 444;
-		AttackDmg = 1;
 		Scale = 50f / Math.Max(frameWidth, frameHeight);
 		Size = new Vector2(frameWidth * Scale, frameHeight * Scale);
-		XpValue = 1;
 		Spawn();
 	}
 	public EnemyCat() : this(Vector2.Zero) { }
@@ -73,5 +68,14 @@ internal class EnemyCat : EnemyMelee
 		}
 		if (!Moving)
 			currentFrame = 0;
+	}
+
+	protected override void InitStats(int difficulty)
+	{
+		Hp = 5;
+		MovementSpeed = 1.5f;
+		AttackSpeed = 444;
+		AttackDmg = 1;
+		XpValue = 1;
 	}
 }

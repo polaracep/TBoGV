@@ -3,10 +3,9 @@ using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace TBoGV;
-internal class BossSvarta : EnemyBoss
+class BossSvarta : EnemyBoss
 {
 	static Texture2D SpriteChill = TextureManager.GetTexture("svartaChill");
 	static Texture2D SpriteJump = TextureManager.GetTexture("svartaJump");
@@ -33,11 +32,8 @@ internal class BossSvarta : EnemyBoss
 
 	public BossSvarta(Vector2 position)
 	{
+		InitStats(0);
 		Position = position;
-		Hp = 60;
-		MovementSpeed = 12;
-		AttackDmg = 1;
-		XpValue = 50;
 		phaseChangeElapsed = spinksDuration;
 	}
 	public BossSvarta() : this(Vector2.Zero) { }
@@ -89,11 +85,11 @@ internal class BossSvarta : EnemyBoss
 	}
 	private void UpdateSize()
 	{
-		Size = new Vector2(currentSprite.Width*currentScale, currentSprite.Height * currentScale);
+		Size = new Vector2(currentSprite.Width * currentScale, currentSprite.Height * currentScale);
 	}
 	private void PickNewDirection(Vector2 playerPosition)
 	{
-		Direction = Vector2.Normalize(playerPosition - Position - Size/2);
+		Direction = Vector2.Normalize(playerPosition - Position - Size / 2);
 	}
 
 	public override bool ReadyToAttack()
@@ -126,7 +122,7 @@ internal class BossSvarta : EnemyBoss
 
 		float stepSize = 1.0f;
 		int steps = (int)Math.Ceiling(MovementSpeed / stepSize);
-		Vector2 stepDirection = Vector2.Normalize(Direction) * stepSize; 
+		Vector2 stepDirection = Vector2.Normalize(Direction) * stepSize;
 
 		for (int i = 0; i < steps; i++)
 		{
@@ -151,11 +147,20 @@ internal class BossSvarta : EnemyBoss
 	}
 	private bool CollidesWithWall(Vector2 testPosition, Place place)
 	{
-		return place.ShouldCollideAt(new Rectangle((int)testPosition.X, (int)testPosition.Y, (int)(Size.X*0.6), (int)(Size.Y * 0.6)));
+		return place.ShouldCollideAt(new Rectangle((int)testPosition.X, (int)testPosition.Y, (int)(Size.X * 0.6), (int)(Size.Y * 0.6)));
 	}
 
 	public override Texture2D GetSprite()
 	{
 		throw new NotImplementedException();
+	}
+
+	protected override void InitStats(int difficulty)
+	{
+		Hp = 60;
+		MovementSpeed = 12;
+		AttackSpeed = 0;
+		AttackDmg = 1;
+		XpValue = 50;
 	}
 }

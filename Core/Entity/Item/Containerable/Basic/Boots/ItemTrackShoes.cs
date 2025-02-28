@@ -6,7 +6,7 @@ using System.Collections.Generic;
 
 namespace TBoGV;
 
-internal class ItemTrackShoes : ItemContainerable
+class ItemTrackShoes : ItemContainerable
 {
 	static Texture2D Sprite;
 	public ItemTrackShoes(Vector2 position)
@@ -15,7 +15,7 @@ internal class ItemTrackShoes : ItemContainerable
 		Size = new Vector2(50, 50);
 		Name = "Vojenske trekovky";
 		Description = "Tohle asi nebudou prezuvky...";
-		Stats = new Dictionary<StatTypes, int>() { { StatTypes.MOVEMENT_SPEED, 5 }};
+		Stats = new Dictionary<StatTypes, int>() { { StatTypes.MOVEMENT_SPEED, 5 } };
 		Effects = new List<EffectTypes>() { };
 		Sprite = TextureManager.GetTexture("trackShoes");
 		ItemType = ItemTypes.ARMOR;

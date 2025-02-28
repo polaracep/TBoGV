@@ -5,7 +5,7 @@ using System;
 using System.Collections.Generic;
 
 namespace TBoGV;
-internal class BossToilet : EnemyBoss
+class BossToilet : EnemyBoss
 {
 	static Texture2D Spritesheet = TextureManager.GetTexture("toiletSpritesheet");
 	static SoundEffect Sfx = SoundManager.GetSound("toilet");
@@ -33,15 +33,11 @@ internal class BossToilet : EnemyBoss
 
 	public BossToilet(Vector2 position)
 	{
+		InitStats(0);
 		Rage = false;
 		Position = position;
-		Hp = 60;
-		MovementSpeed = 2;
-		AttackSpeed = 25;
-		AttackDmg = 1;
 		Scale = 150f / Math.Max(frameWidth, frameHeight);
 		Size = new Vector2(frameWidth * Scale, frameHeight * Scale);
-		XpValue = 50;
 		phaseChangeElapsed = 0;
 	}
 	public BossToilet() : this(Vector2.Zero) { }
@@ -131,6 +127,15 @@ internal class BossToilet : EnemyBoss
 
 	public override void Move(Place place)
 	{
+	}
+
+	protected override void InitStats(int difficulty)
+	{
+		Hp = 60;
+		MovementSpeed = 2;
+		AttackSpeed = 25;
+		AttackDmg = 1;
+		XpValue = 50;
 	}
 }
 

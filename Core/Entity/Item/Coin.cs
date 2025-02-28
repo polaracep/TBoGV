@@ -4,7 +4,7 @@ using System;
 
 namespace TBoGV;
 
-internal class Coin : Item
+class Coin : Item
 {
 	static Texture2D Sprite;
 	public Coin(Vector2 position)

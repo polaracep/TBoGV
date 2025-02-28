@@ -3,7 +3,7 @@ using Microsoft.Xna.Framework;
 using System.Collections.Generic;
 using System;
 namespace TBoGV;
-internal class ItemExplosive : ItemContainerable
+class ItemExplosive : ItemContainerable
 {
 	static Texture2D Sprite;
 	public ItemExplosive(Vector2 position)
@@ -12,7 +12,7 @@ internal class ItemExplosive : ItemContainerable
 		Size = new Vector2(50, 50);
 		Name = "Lorentzova transformace";
 		Description = "O tomhle nam Schovanek nerekl";
-		Stats = new Dictionary<StatTypes, int>() { { StatTypes.DAMAGE, -6 }};
+		Stats = new Dictionary<StatTypes, int>() { { StatTypes.DAMAGE, -6 } };
 		Effects = new List<EffectTypes>() { EffectTypes.EXPLOSIVE };
 		Sprite = TextureManager.GetTexture("lorentzovaTransformace");
 		ItemType = ItemTypes.EFFECT;

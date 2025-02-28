@@ -31,17 +31,12 @@ public class BossAles : EnemyBoss
 
 	public BossAles(Vector2 position)
 	{
+		InitStats(0);
 		Rage = false;
-
 		Position = position;
-		Hp = 200;
-		MovementSpeed = 4;
-		AttackSpeed = 350;
-		AttackDmg = 1;
 		ScaleRage = 100f / Math.Max(SpriteRage.Width, SpriteRage.Height);
 		ScaleChill = 100f / Math.Max(SpriteChill.Width, SpriteChill.Height);
 		Size = new Vector2(SpriteChill.Width * ScaleChill, SpriteChill.Height * ScaleChill);
-		XpValue = 50;
 		phaseChangeElapsed = 0;
 	}
 	public BossAles() : this(Vector2.Zero) { }
@@ -124,5 +119,14 @@ public class BossAles : EnemyBoss
 	public override void Move(Place place)
 	{
 		return;
+	}
+
+	protected override void InitStats(int difficulty)
+	{
+		Hp = 200;
+		MovementSpeed = 4;
+		AttackSpeed = 350;
+		AttackDmg = 1;
+		XpValue = 50;
 	}
 }

@@ -5,7 +5,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace TBoGV;
 
-internal class UI : IDraw
+class UI : IDraw
 {
     List<Heart> hearts;
     static SpriteFont Font;

@@ -4,7 +4,7 @@ using System;
 
 namespace TBoGV;
 
-internal class ParticleExplosion : Particle
+class ParticleExplosion : Particle
 {
 	static Texture2D Sprite;
 	private float rotation;

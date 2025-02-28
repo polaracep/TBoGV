@@ -7,7 +7,7 @@ using Microsoft.Xna.Framework.Input;
 
 namespace TBoGV;
 
-internal class InGameMenuItemJournal : InGameMenu
+class InGameMenuItemJournal : InGameMenu
 {
 	private static Viewport Viewport;
 	private static SpriteFont MiddleFont;
@@ -39,7 +39,7 @@ internal class InGameMenuItemJournal : InGameMenu
 	{
 		Viewport = viewport;
 		JournalBackground = TextureManager.GetTexture("blackSquare");
-		TooltipTexture = TextureManager.GetTexture("blackSquare"); 
+		TooltipTexture = TextureManager.GetTexture("blackSquare");
 		MiddleFont = FontManager.GetFont("Arial12");
 		LargerFont = FontManager.GetFont("Arial16");
 
@@ -232,7 +232,7 @@ internal class InGameMenuItemJournal : InGameMenu
 		Vector2 descriptionSize = MiddleFont.MeasureString(description);
 		Vector2 statsSize = MiddleFont.MeasureString(stats);
 		float tooltipWidth = Math.Max(Math.Max(nameSize.X, descriptionSize.X), statsSize.X) + 20;
-		float tooltipHeight = nameSize.Y + descriptionSize.Y + 10 + statsSize.Y ;
+		float tooltipHeight = nameSize.Y + descriptionSize.Y + 10 + statsSize.Y;
 		Vector2 tooltipPosition = new Vector2(Math.Max(Mouse.GetState().X + 10 - tooltipWidth, 0), Math.Max(Mouse.GetState().Y + 10 - tooltipHeight, 0));
 		Rectangle backgroundRect = new Rectangle(tooltipPosition.ToPoint(), new Point((int)tooltipWidth, (int)tooltipHeight));
 

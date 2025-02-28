@@ -5,7 +5,7 @@ using System;
 
 namespace TBoGV;
 
-internal class ItemDagger : ItemContainerable
+class ItemDagger : ItemContainerable
 {
 	static Texture2D Sprite;
 	public ItemDagger(Vector2 position)

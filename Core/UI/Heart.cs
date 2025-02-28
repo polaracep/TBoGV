@@ -3,7 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 namespace TBoGV;
 
-internal class Heart : IDraw
+class Heart : IDraw
 {
     public bool Broken;
     static Texture2D SpriteFull;

@@ -5,7 +5,7 @@ using Microsoft.Xna.Framework;
 
 namespace TBoGV;
 
-internal class ItemCalculator : ItemContainerable
+class ItemCalculator : ItemContainerable
 {
     static Texture2D Sprite;
     public ItemCalculator(Vector2 position)
@@ -14,19 +14,19 @@ internal class ItemCalculator : ItemContainerable
         Size = new Vector2(50, 50);
         Name = "Kalkulacka";
         Description = "Rychla jako schovankovo opravovani testu";
-        Stats = new Dictionary<StatTypes, int>() { { StatTypes.DAMAGE, 4 }};
+        Stats = new Dictionary<StatTypes, int>() { { StatTypes.DAMAGE, 4 } };
         Effects = new List<EffectTypes>();
         Sprite = TextureManager.GetTexture("calculator");
         ItemType = ItemTypes.BASIC;
     }
     public override void Draw(SpriteBatch spriteBatch)
     {
-		spriteBatch.Draw(Sprite, new Rectangle(Convert.ToInt32(Position.X), Convert.ToInt32(Position.Y), Convert.ToInt32(Size.X), Convert.ToInt32(Size.Y)), IsKnown ? Color.White : Color.Black);
-	}
-	public override Texture2D GetSprite()
-	{
-		return Sprite;
-	}
+        spriteBatch.Draw(Sprite, new Rectangle(Convert.ToInt32(Position.X), Convert.ToInt32(Position.Y), Convert.ToInt32(Size.X), Convert.ToInt32(Size.Y)), IsKnown ? Color.White : Color.Black);
+    }
+    public override Texture2D GetSprite()
+    {
+        return Sprite;
+    }
 
 }
 

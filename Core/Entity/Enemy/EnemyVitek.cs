@@ -4,26 +4,21 @@ using Microsoft.Xna.Framework;
 using System.Collections.Generic;
 namespace TBoGV;
 
-internal class EnemyVitek : EnemyRanged
+class EnemyVitek : EnemyRanged
 {
 	static Texture2D Sprite;
 	static float Scale;
-	protected Random random = new Random();
 	protected Vector2 PrioDirection;
 
 	protected DateTime DirectionChanged;
 	protected int DirectionChangeTime = 4000;
 	public EnemyVitek(Vector2 position)
 	{
+		InitStats(0);
 		Position = position;
-		Hp = 3;
-		MovementSpeed = 3;
-		AttackSpeed = 500;
-		AttackDmg = 1;
 		Sprite = TextureManager.GetTexture("taunt");
 		Scale = 50f / Math.Max(Sprite.Width, Sprite.Height);
 		Size = new Vector2(Sprite.Width * Scale, Sprite.Height * Scale);
-		XpValue = 1;
 		PickNewDirection();
 		Spawn();
 	}
@@ -40,7 +35,7 @@ internal class EnemyVitek : EnemyRanged
 
 	public override void Move(Place place)
 	{
-		if (LastAttackElapsed >= AttackSpeed+0.8)
+		if (LastAttackElapsed >= AttackSpeed + 0.8)
 			return;
 
 		// Break movement into smaller increments
@@ -92,6 +87,15 @@ internal class EnemyVitek : EnemyRanged
 	{
 		PickNewDirection();
 		return base.Attack();
+	}
+
+	protected override void InitStats(int difficulty)
+	{
+		Hp = 3;
+		MovementSpeed = 3;
+		AttackSpeed = 500;
+		AttackDmg = 1;
+		XpValue = 1;
 	}
 }
 

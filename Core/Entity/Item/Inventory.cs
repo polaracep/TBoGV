@@ -19,8 +19,8 @@ public class Inventory
 	public List<Effect> Effects = new List<Effect>();
 	public int selectedItemIndex = 0;
 	private int PrevScrollWheelValue;
-	ItemContainer? hoveredItem;
-	Vector2 Position {  get; set; }
+	ItemContainer hoveredItem;
+	Vector2 Position { get; set; }
 	public Inventory()
 	{
 		ItemContainer weapon = new();
@@ -32,8 +32,8 @@ public class Inventory
 		ItemContainer kalkulacka = new();
 		kalkulacka.Item = new ItemCalculator(Vector2.Zero);
 		kalkulacka.Selected = true;
-        weapon.Item = new ItemDagger(Vector2.Zero);
-		ItemContainers = new List<ItemContainer>() { weapon, armor, effect, kalkulacka, new ItemContainer(), new ItemContainer()};
+		weapon.Item = new ItemDagger(Vector2.Zero);
+		ItemContainers = new List<ItemContainer>() { weapon, armor, effect, kalkulacka, new ItemContainer(), new ItemContainer() };
 		SpriteForeground = TextureManager.GetTexture("whiteSquare");
 		SpriteToolTip = TextureManager.GetTexture("containerBorder");
 		Font = FontManager.GetFont("Arial8");
@@ -50,7 +50,7 @@ public class Inventory
 				return;
 			}
 		}
-		Effects.Add(effect);		
+		Effects.Add(effect);
 	}
 	public void RemoveEffect(Effect effect)
 	{
@@ -75,22 +75,22 @@ public class Inventory
 			DrawTooltip(spriteBatch, hoveredItem);
 		}
 	}
-    public Dictionary<StatTypes, int> SetStats()
-	{ 
-		return SetStats(new Dictionary<StatTypes, int>()
-        {
-            { StatTypes.MAX_HP, 0 },
-            { StatTypes.DAMAGE, 0 },
-            { StatTypes.PROJECTILE_COUNT, 0 },
-            { StatTypes.XP_GAIN, 0 },        // Získávání XP v %  
-			{ StatTypes.ATTACK_SPEED, 0 },
-            { StatTypes.MOVEMENT_SPEED, 0 }
-        });
-    }
-
-    public Dictionary<StatTypes, int> SetStats(Dictionary<StatTypes, int> BaseStats)
+	public Dictionary<StatTypes, int> SetStats()
 	{
-		Dictionary<StatTypes, int> finalStats = new Dictionary<StatTypes, int> (BaseStats);
+		return SetStats(new Dictionary<StatTypes, int>()
+		{
+			{ StatTypes.MAX_HP, 0 },
+			{ StatTypes.DAMAGE, 0 },
+			{ StatTypes.PROJECTILE_COUNT, 0 },
+			{ StatTypes.XP_GAIN, 0 },        // Získávání XP v %  
+			{ StatTypes.ATTACK_SPEED, 0 },
+			{ StatTypes.MOVEMENT_SPEED, 0 }
+		});
+	}
+
+	public Dictionary<StatTypes, int> SetStats(Dictionary<StatTypes, int> BaseStats)
+	{
+		Dictionary<StatTypes, int> finalStats = new Dictionary<StatTypes, int>(BaseStats);
 
 		foreach (var container in ItemContainers)
 		{
@@ -132,21 +132,21 @@ public class Inventory
 		List<EffectTypes> effects = new List<EffectTypes>();
 		foreach (var container in ItemContainers)
 			if (!container.IsEmpty())
-				foreach (var effect in container.Item.Effects)			
+				foreach (var effect in container.Item.Effects)
 					effects.Add(effect);
 		foreach (var effect in Effects)
 			foreach (var e in effect.Effects)
 				effects.Add(e);
-		return effects;	
+		return effects;
 	}
 	public float GetWeaponDmg()
 	{
 		return ItemContainers[0].IsEmpty() ? 1 : ItemContainers[0].Item.Stats[StatTypes.DAMAGE];
-    }
-    public float GetWeaponAttackSpeed()
-    {
-        return ItemContainers[0].IsEmpty() ? 1500 : ItemContainers[0].Item.Stats[StatTypes.ATTACK_SPEED];
-    }
+	}
+	public float GetWeaponAttackSpeed()
+	{
+		return ItemContainers[0].IsEmpty() ? 1500 : ItemContainers[0].Item.Stats[StatTypes.ATTACK_SPEED];
+	}
 	public Texture2D GetWeaponSprite()
 	{
 		return ItemContainers[0].IsEmpty() ? TextureManager.GetTexture("projectile") : ItemContainers[0].Item.GetSprite();
@@ -205,7 +205,7 @@ public class Inventory
 		for (int i = 0; i < Effects.Count; i++)
 		{
 			Effects[i].UpdateTime(dt);
-			if(Effects[i].IsExpired())
+			if (Effects[i].IsExpired())
 				Effects.RemoveAt(i);
 		}
 	}
@@ -218,11 +218,11 @@ public class Inventory
 	}
 	private ItemContainer GetSelectedItemContainer()
 	{
-        for (int i = 0; i < ItemContainers.Count; i++)
+		for (int i = 0; i < ItemContainers.Count; i++)
 			if (ItemContainers[i].Selected)
 				return ItemContainers[i];
 		return null;
-    }
+	}
 	private void DrawTooltip(SpriteBatch spriteBatch, ItemContainer item)
 	{
 		// Get formatted text
@@ -237,12 +237,12 @@ public class Inventory
 
 		// Determine tooltip width & height
 		float tooltipWidth = Math.Max(Math.Max(nameSize.X, descriptionSize.X), statsSize.X) + 20;
-		float tooltipHeight = nameSize.Y + descriptionSize.Y + 10 + statsSize.Y ; // Extra 10px space after description
+		float tooltipHeight = nameSize.Y + descriptionSize.Y + 10 + statsSize.Y; // Extra 10px space after description
 		Vector2 tooltipPosition = new Vector2(Math.Max(Mouse.GetState().X + 10 - tooltipWidth, 0), Math.Max(Mouse.GetState().Y + 10 - tooltipHeight, 0));
 		Rectangle backgroundRect = new Rectangle(tooltipPosition.ToPoint(), new Point((int)tooltipWidth, (int)tooltipHeight));
 
 		// Draw background
-		spriteBatch.Draw(SpriteForeground, backgroundRect, new Color(60,60,60, 200));
+		spriteBatch.Draw(SpriteForeground, backgroundRect, new Color(60, 60, 60, 200));
 
 		// Draw text
 		Vector2 textPosition = tooltipPosition + new Vector2(10, 5);
@@ -271,20 +271,20 @@ public class Inventory
 				}
 				return false;
 			case ItemTypes.WEAPON:
-                if (ItemContainers[0].IsEmpty())
+				if (ItemContainers[0].IsEmpty())
 				{
 					ItemContainers[0].Item = item;
 					return true;
 				}
 				return false;
 			case ItemTypes.ARMOR:
-                if (ItemContainers[1].IsEmpty())
+				if (ItemContainers[1].IsEmpty())
 				{
 					ItemContainers[1].Item = item;
 					return true;
 				}
 				return false;
-            case ItemTypes.BASIC:
+			case ItemTypes.BASIC:
 				for (int i = 3; i < ItemContainers.Count; i++)
 				{
 					if (ItemContainers[i].IsEmpty())
@@ -292,66 +292,66 @@ public class Inventory
 						ItemContainers[i].Item = item;
 						return true;
 					}
-                }
+				}
 				return false;
 			default:
 				return false;
 		}
 	}
-    public ItemContainerable SwapItem(ItemContainerable item)
-    {
+	public ItemContainerable SwapItem(ItemContainerable item)
+	{
 		ItemContainerable itemToDrop;
-        switch (item.ItemType)
-        {
-            case ItemTypes.EFFECT:
+		switch (item.ItemType)
+		{
+			case ItemTypes.EFFECT:
 				itemToDrop = ItemContainers[2].Item;
-                ItemContainers[2].Item = item;
+				ItemContainers[2].Item = item;
 				break;
-            case ItemTypes.WEAPON:
-                itemToDrop = ItemContainers[0].Item;
-                ItemContainers[0].Item = item;
-                break;
-            case ItemTypes.ARMOR:
-                itemToDrop = ItemContainers[1].Item;
-                ItemContainers[1].Item = item;
-                break;
-            case ItemTypes.BASIC:
+			case ItemTypes.WEAPON:
+				itemToDrop = ItemContainers[0].Item;
+				ItemContainers[0].Item = item;
+				break;
+			case ItemTypes.ARMOR:
+				itemToDrop = ItemContainers[1].Item;
+				ItemContainers[1].Item = item;
+				break;
+			case ItemTypes.BASIC:
 				itemToDrop = GetSelectedItemContainer().Item;
-                GetSelectedItemContainer().Item = item;
+				GetSelectedItemContainer().Item = item;
 				break;
-            default:
-                return item;
-        }
-        itemToDrop.Position = item.Position;
+			default:
+				return item;
+		}
+		itemToDrop.Position = item.Position;
 		return itemToDrop;
-    }
+	}
 
-    private string FormatStats(Dictionary<StatTypes, int> stats, bool weapon)
-    {
-        if (stats == null || stats.Count == 0) return "No stats available";
+	private string FormatStats(Dictionary<StatTypes, int> stats, bool weapon)
+	{
+		if (stats == null || stats.Count == 0) return "No stats available";
 
-        StringBuilder sb = new StringBuilder();
-        foreach (var stat in stats)
-        {
-            string displayName = stat.Key switch
-            {
-                StatTypes.MAX_HP => "Biologie",
-                StatTypes.DAMAGE => weapon ? "Sila zbrane" :"Matematika",
-                StatTypes.PROJECTILE_COUNT => "Fyzika",
-                StatTypes.XP_GAIN => "Zsv",
-                StatTypes.ATTACK_SPEED => weapon ? "Rychlost utoku" : "Cestina",
-                StatTypes.MOVEMENT_SPEED => "Telocvik",
-                _ => stat.Key.ToString()
-            };
+		StringBuilder sb = new StringBuilder();
+		foreach (var stat in stats)
+		{
+			string displayName = stat.Key switch
+			{
+				StatTypes.MAX_HP => "Biologie",
+				StatTypes.DAMAGE => weapon ? "Sila zbrane" : "Matematika",
+				StatTypes.PROJECTILE_COUNT => "Fyzika",
+				StatTypes.XP_GAIN => "Zsv",
+				StatTypes.ATTACK_SPEED => weapon ? "Rychlost utoku" : "Cestina",
+				StatTypes.MOVEMENT_SPEED => "Telocvik",
+				_ => stat.Key.ToString()
+			};
 
-            string valueString = stat.Key == StatTypes.ATTACK_SPEED && weapon
-                ? $"{stat.Value / 1000.0} s"
-                : stat.Value.ToString();
+			string valueString = stat.Key == StatTypes.ATTACK_SPEED && weapon
+				? $"{stat.Value / 1000.0} s"
+				: stat.Value.ToString();
 
-            sb.AppendLine($"{displayName}: {valueString}");
-        }
-        return sb.ToString();
-    }
-	
+			sb.AppendLine($"{displayName}: {valueString}");
+		}
+		return sb.ToString();
+	}
+
 }
 

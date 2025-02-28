@@ -5,8 +5,8 @@ using Microsoft.Xna.Framework;
 
 namespace TBoGV;
 
-    internal class ItemPencil: ItemContainerable
-    {
+class ItemPencil : ItemContainerable
+{
     static Texture2D Sprite;
     public ItemPencil(Vector2 position)
     {
@@ -24,10 +24,10 @@ namespace TBoGV;
     {
         spriteBatch.Draw(Sprite, new Rectangle(Convert.ToInt32(Position.X), Convert.ToInt32(Position.Y), Convert.ToInt32(Size.X), Convert.ToInt32(Size.Y)), IsKnown ? Color.White : Color.Black);
     }
-	public override Texture2D GetSprite()
-	{
-		return Sprite;
-	}
+    public override Texture2D GetSprite()
+    {
+        return Sprite;
+    }
 
 }
 

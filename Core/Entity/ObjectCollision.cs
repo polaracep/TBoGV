@@ -3,7 +3,7 @@ using System;
 
 namespace TBoGV;
 
-internal class ObjectCollision
+class ObjectCollision
 {
 	// 📌 Rectangle vs. Rectangle (Entity)
 	public static bool RectRectCollision(Entity entity1, Entity entity2)

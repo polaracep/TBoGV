@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using Microsoft.Xna.Framework.Audio;
 namespace TBoGV;
 
-internal class BossRichard : EnemyBoss
+class BossRichard : EnemyBoss
 {
 
 	protected Vector2 PrioDirection;
@@ -31,15 +31,11 @@ internal class BossRichard : EnemyBoss
 
 	public BossRichard(Vector2 position)
 	{
+		InitStats(0);
 		Position = position;
-		Hp = 60;
-		MovementSpeed = 2;
-		AttackDmg = 1;
-		AttackSpeed = 300;
+		phaseChangeElapsed = 0;
 		Scale = 100f / Math.Max(frameWidth, frameHeight);
 		Size = new Vector2(frameWidth * Scale, frameHeight * Scale);
-		XpValue = 50;
-		phaseChangeElapsed = 0;
 		PickNewDirection();
 		Spawn();
 	}
@@ -153,6 +149,15 @@ internal class BossRichard : EnemyBoss
 		projectiles.Add(new ProjectileNote(Position + Size / 2, Direction, AttackDmg));
 		LastAttackElapsed = 0;
 		return projectiles;
+	}
+
+	protected override void InitStats(int difficulty)
+	{
+		Hp = 60;
+		MovementSpeed = 2;
+		AttackDmg = 1;
+		AttackSpeed = 300;
+		XpValue = 50;
 	}
 }
 

@@ -6,7 +6,7 @@ using System.Collections.Generic;
 
 namespace TBoGV;
 
-internal class ItemMap : ItemContainerable
+class ItemMap : ItemContainerable
 {
 	static Texture2D Sprite;
 	public ItemMap(Vector2 position)

@@ -4,7 +4,7 @@ using System;
 
 namespace TBoGV;
 
-internal class ProjectilePee : Projectile
+class ProjectilePee : Projectile
 {
 	public static Texture2D Sprite { get; protected set; }
 	public ProjectilePee(Vector2 position, Vector2 direction, float damage)

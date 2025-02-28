@@ -8,22 +8,17 @@ internal class EnemyPolhreich : EnemyRanged
 {
 	static Texture2D Sprite;
 	static float Scale;
-	protected Random random = new Random();
 	protected Vector2 PrioDirection;
 
 	protected DateTime DirectionChanged;
 	protected int DirectionChangeTime = 4000;
 	public EnemyPolhreich(Vector2 position)
 	{
+		InitStats(0);
 		Position = position;
-		Hp = 3;
-		MovementSpeed = 2;
-		AttackSpeed = 800;
-		AttackDmg = 1;
 		Sprite = TextureManager.GetTexture("zdenda");
 		Scale = 50f / Math.Max(Sprite.Width, Sprite.Height);
 		Size = new Vector2(Sprite.Width * Scale, Sprite.Height * Scale);
-		XpValue = 1;
 		PickNewDirection();
 		Spawn();
 	}
@@ -95,6 +90,15 @@ internal class EnemyPolhreich : EnemyRanged
 		projectiles.Add(new ProjectileJatrovyKnedlicek(Position + Size / 2, Direction, AttackDmg));
 		LastAttackElapsed = 0;
 		return projectiles;
+	}
+
+	protected override void InitStats(int difficulty)
+	{
+		Hp = 3;
+		MovementSpeed = 2;
+		AttackSpeed = 800;
+		AttackDmg = 1;
+		XpValue = 1;
 	}
 }
 

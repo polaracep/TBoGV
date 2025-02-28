@@ -13,19 +13,20 @@ public abstract class Enemy : Entity, IRecieveDmg, IDealDmg
   public int XpValue { get; set; }
   public List<Projectile> projectilesRecieved = new List<Projectile>();
   public Vector2 HeadedDirection { get; set; }
-	protected Random random = new Random();
-	public virtual void Spawn()
-	{
-		LastAttackElapsed = -random.Next(50, 800);
-	}
+  protected readonly Random random = new Random();
+  public virtual void Spawn()
+  {
+    LastAttackElapsed = -random.Next(50, 800);
+  }
   public abstract bool ReadyToAttack();
   public abstract void Update(Vector2 playerPosition, double dt);
-	public abstract void Move(Place place);
+  public abstract void Move(Place place);
   public abstract bool IsDead();
   public virtual List<Projectile> Attack()
   {
     return new List<Projectile>() { new ProjectileMelee(Position + Size / 2, Size * new Vector2(0.6f)) };
   }
+  protected abstract void InitStats(int difficulty);
   public abstract List<Item> Drop(int looting);
   public virtual float RecieveDmg(Projectile projectile)
   {

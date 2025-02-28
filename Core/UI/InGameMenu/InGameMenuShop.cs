@@ -7,7 +7,7 @@ using Microsoft.Xna.Framework.Input;
 
 namespace TBoGV
 {
-    internal class InGameMenuShop : InGameMenu
+    class InGameMenuShop : InGameMenu
     {
         private static Viewport Viewport;
         private static SpriteFont MiddleFont;

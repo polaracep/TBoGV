@@ -1,5 +1,5 @@
 ﻿namespace TBoGV;
-internal interface IRecieveDmg
+interface IRecieveDmg
 {
 	float Hp { get; set; }
 	int MaxHp { get; set; }

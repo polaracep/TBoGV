@@ -3,7 +3,7 @@ using Microsoft.Xna.Framework;
 using System.Collections.Generic;
 using System;
 namespace TBoGV;
-internal class ItemMonster : ItemContainerable
+class ItemMonster : ItemContainerable
 {
 	static Texture2D Sprite;
 	public ItemMonster(Vector2 position)

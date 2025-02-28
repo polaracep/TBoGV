@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace TBoGV;
 
-internal class EffectDelej : Effect
+class EffectDelej : Effect
 {
 	protected static Texture2D Sprite = TextureManager.GetTexture("jirkaEffect");
 	public EffectDelej(int level)
@@ -13,8 +13,8 @@ internal class EffectDelej : Effect
 		Name = "Deleeej";
 		Description = "Uz jsi tam mel byt 4 minuty ty magore";
 		Positive = false;
-		Stats = new Dictionary<StatTypes, int>() { {StatTypes.MOVEMENT_SPEED, -8} };
-		Effects = new List<EffectTypes> ();
+		Stats = new Dictionary<StatTypes, int>() { { StatTypes.MOVEMENT_SPEED, -8 } };
+		Effects = new List<EffectTypes>();
 		Level = 0;
 		ChangeLevel(level);
 		// Get original sprite dimensions

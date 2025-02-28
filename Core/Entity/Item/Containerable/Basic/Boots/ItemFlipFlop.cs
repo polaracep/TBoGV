@@ -6,7 +6,7 @@ using System.Collections.Generic;
 
 namespace TBoGV;
 
-internal class ItemFlipFlop: ItemContainerable
+class ItemFlipFlop : ItemContainerable
 {
 	static Texture2D Sprite;
 	public ItemFlipFlop(Vector2 position)
@@ -15,7 +15,7 @@ internal class ItemFlipFlop: ItemContainerable
 		Size = new Vector2(50, 50);
 		Name = "Crocs";
 		Description = "Legendary tier prezuvky";
-		Stats = new Dictionary<StatTypes, int>() { { StatTypes.MOVEMENT_SPEED, 3 }};
+		Stats = new Dictionary<StatTypes, int>() { { StatTypes.MOVEMENT_SPEED, 3 } };
 		Effects = new List<EffectTypes>() { EffectTypes.BOOTS };
 		Sprite = TextureManager.GetTexture("crocs");
 		ItemType = ItemTypes.ARMOR;

@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace TBoGV;
 
-internal class EffectRickroll : Effect
+class EffectRickroll : Effect
 {
 	protected static Texture2D Sprite = TextureManager.GetTexture("richard");
 	public EffectRickroll(int level)

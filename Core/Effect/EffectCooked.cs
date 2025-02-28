@@ -5,19 +5,19 @@ using System.Collections.Generic;
 
 namespace TBoGV;
 
-internal class EffectCooked : Effect
+class EffectCooked : Effect
 {
 	protected static Texture2D Sprite = TextureManager.GetTexture("cooked");
-	private List<StatTypes> allStats = new List<StatTypes>() 
+	private List<StatTypes> allStats = new List<StatTypes>()
 	{
-		StatTypes.DAMAGE, 
-		StatTypes.MOVEMENT_SPEED, 
-		StatTypes.MAX_HP, 
-		StatTypes.XP_GAIN, 
+		StatTypes.DAMAGE,
+		StatTypes.MOVEMENT_SPEED,
+		StatTypes.MAX_HP,
+		StatTypes.XP_GAIN,
 		StatTypes.PROJECTILE_COUNT,
 		StatTypes.ATTACK_SPEED
 	};
-	public EffectCooked(int level) 
+	public EffectCooked(int level)
 	{
 		Name = "Cooked";
 		Description = "Nadmerna konzumace brainrotu, \nnebo jsi se pokousel pochopit TFY";
@@ -39,9 +39,9 @@ internal class EffectCooked : Effect
 		for (int i = 0; i < delta; i++)
 		{
 			StatTypes stat = allStats[rnd.Next(0, allStats.Count)];
-			if(Stats.ContainsKey(stat))
+			if (Stats.ContainsKey(stat))
 				Stats[stat]--;
-			else 
+			else
 				Stats[stat] = -1;
 		}
 		UpdateSize();
