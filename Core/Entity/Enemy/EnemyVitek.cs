@@ -14,7 +14,7 @@ class EnemyVitek : EnemyRanged
 	protected int DirectionChangeTime = 4000;
 	public EnemyVitek(Vector2 position)
 	{
-		InitStats(0);
+		InitStats(Storyline.Difficulty);
 		Position = position;
 		Sprite = TextureManager.GetTexture("taunt");
 		Scale = 50f / Math.Max(Sprite.Width, Sprite.Height);

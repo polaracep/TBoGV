@@ -33,7 +33,7 @@ class BossToilet : EnemyBoss
 
 	public BossToilet(Vector2 position)
 	{
-		InitStats(0);
+		InitStats(Storyline.Difficulty);
 		Rage = false;
 		Position = position;
 		Scale = 150f / Math.Max(frameWidth, frameHeight);

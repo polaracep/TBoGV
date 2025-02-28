@@ -17,6 +17,10 @@ public static class Storyline
         set => p = value;
     }
     private static Player p;
+    /// <summary>
+    /// Difficulty level in base game ranges from 1 to 8
+    /// </summary>
+    public static int Difficulty;
 
     public static void GenerateStoryline()
     {
@@ -76,6 +80,7 @@ public static class Storyline
 
         CurrentLevel = LevelList[CurrentLevelNumber];
         CurrentLevelNumber++;
+        Difficulty += CurrentLevelNumber % 2;
         Player.LevelChanged = true;
     }
 }

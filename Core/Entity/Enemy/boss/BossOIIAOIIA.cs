@@ -37,7 +37,7 @@ class BossOIIAOIIA : EnemyBoss
 
 	public BossOIIAOIIA(Vector2 position)
 	{
-		InitStats(0);
+		InitStats(Storyline.Difficulty);
 		Rage = false;
 		Position = position;
 		Scale = 100f / Math.Max(frameWidth, frameHeight);

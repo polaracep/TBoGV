@@ -32,7 +32,7 @@ class BossSvarta : EnemyBoss
 
 	public BossSvarta(Vector2 position)
 	{
-		InitStats(0);
+		InitStats(Storyline.Difficulty);
 		Position = position;
 		phaseChangeElapsed = spinksDuration;
 	}

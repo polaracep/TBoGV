@@ -62,8 +62,8 @@ public class Player : Entity, IRecieveDmg, IDealDmg
 		ItemCapacity = 3;
 		Inventory = new();
 		SetStats();
-        Hp = MaxHp;
-    }
+		Hp = MaxHp;
+	}
 
 	public Player() : this(Vector2.One) { }
 

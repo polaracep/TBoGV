@@ -21,7 +21,7 @@ class EnemyCat : EnemyMelee
 
 	public EnemyCat(Vector2 position)
 	{
-		InitStats(0);
+		InitStats(Storyline.Difficulty);
 		movingDuration = (int)vibeSfx.Duration.TotalMilliseconds;
 		chillDuration = 500;
 		Position = position;
@@ -72,10 +72,10 @@ class EnemyCat : EnemyMelee
 
 	protected override void InitStats(int difficulty)
 	{
-		Hp = 5;
-		MovementSpeed = 1.5f;
-		AttackSpeed = 444;
+		Hp = 3 + (int)(1.5 * difficulty);
+		MovementSpeed = 1.5f + (float)(0.2 * difficulty);
+		AttackSpeed = 444 + (5 * difficulty);
 		AttackDmg = 1;
-		XpValue = 1;
+		XpValue = difficulty;
 	}
 }

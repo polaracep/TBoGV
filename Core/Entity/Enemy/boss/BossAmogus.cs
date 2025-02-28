@@ -49,7 +49,7 @@ class BossAmogus : EnemyBoss
 	private float hpBeforeVenting;
 	public BossAmogus(Vector2 position)
 	{
-		InitStats(0);
+		InitStats(Storyline.Difficulty);
 		Position = position;
 		Scale = 50f / Math.Max(frameWidth, frameHeight);
 		Size = new Vector2(frameWidth * Scale, frameHeight * Scale);

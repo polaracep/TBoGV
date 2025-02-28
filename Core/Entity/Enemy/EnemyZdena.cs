@@ -10,7 +10,7 @@ class EnemyZdena : EnemyRanged
 	static Texture2D Sprite;
 	public EnemyZdena(Vector2 position)
 	{
-		InitStats(0);
+		InitStats(Storyline.Difficulty);
 		Position = position;
 		Sprite = TextureManager.GetTexture("korenovy_vezen");
 		Size = new Vector2(Sprite.Width, Sprite.Height);

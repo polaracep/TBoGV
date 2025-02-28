@@ -20,7 +20,7 @@ class EnemyTriangle : EnemyMelee
 
     public EnemyTriangle(Vector2 position)
     {
-        InitStats(0);
+        InitStats(Storyline.Difficulty);
         movingDuration = 3200;
         chillDuration = 0;
         Position = position;

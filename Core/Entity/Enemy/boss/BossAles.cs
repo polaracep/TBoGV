@@ -31,7 +31,7 @@ public class BossAles : EnemyBoss
 
 	public BossAles(Vector2 position)
 	{
-		InitStats(0);
+		InitStats(Storyline.Difficulty);
 		Rage = false;
 		Position = position;
 		ScaleRage = 100f / Math.Max(SpriteRage.Width, SpriteRage.Height);

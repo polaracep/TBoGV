@@ -31,7 +31,7 @@ class BossRichard : EnemyBoss
 
 	public BossRichard(Vector2 position)
 	{
-		InitStats(0);
+		InitStats(Storyline.Difficulty);
 		Position = position;
 		phaseChangeElapsed = 0;
 		Scale = 100f / Math.Max(frameWidth, frameHeight);
