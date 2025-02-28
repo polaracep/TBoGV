@@ -36,12 +36,12 @@ public abstract class Room : Place
 
     public Room(Vector2 dimensions, Player p, List<Entity> entityList)
     {
-        this.player = p;
-        this.Dimensions = dimensions;
-        this.Position = Vector2.Zero;
+        player = p;
+        Dimensions = dimensions;
+        Position = Vector2.Zero;
 
-        this.Floor = new Tile[(int)Dimensions.X, (int)Dimensions.Y];
-        this.Decorations = new Tile[(int)Dimensions.X, (int)Dimensions.Y];
+        Floor = new Tile[(int)Dimensions.X, (int)Dimensions.Y];
+        Decorations = new Tile[(int)Dimensions.X, (int)Dimensions.Y];
 
         if (entityList == null)
             return;
@@ -73,17 +73,17 @@ public abstract class Room : Place
 
     public override void Reset()
     {
-        this.ClearEnemies();
-        this.ClearProjectiles();
-        this.Generate();
-        this.GenerateEnemies();
+        ClearEnemies();
+        ClearProjectiles();
+        Generate();
+        GenerateEnemies();
     }
 
     /* === Update methods === */
     public override void Update(double dt)
     {
-        this.UpdateProjectiles();
-        this.UpdateEnemies(dt);
+        UpdateProjectiles();
+        UpdateEnemies(dt);
         for (int i = 0; i < Particles.Count; i++)
         {
             Particles[i].Update(dt);
@@ -105,7 +105,7 @@ public abstract class Room : Place
                     Projectiles.RemoveAt(i);
                 continue;
             }
-            if (this.ShouldCollideAt(Projectiles[i].GetCircleCenter(), true))
+            if (ShouldCollideAt(Projectiles[i].GetCircleCenter(), true))
             {
                 Projectiles.RemoveAt(i);
                 continue;
@@ -116,7 +116,7 @@ public abstract class Room : Place
         for (int i = player.Projectiles.Count - 1; i >= 0; i--)
         {
             player.Projectiles[i].Update();
-            if (this.ShouldCollideAt(player.Projectiles[i].GetCircleCenter(), true))
+            if (ShouldCollideAt(player.Projectiles[i].GetCircleCenter(), true))
             {
                 DestroyPlayerProjectile(i);
                 continue;
@@ -201,10 +201,10 @@ public abstract class Room : Place
             while (true)
             {
                 Vector2 spawnPos = new Vector2(rand.Next((int)Dimensions.X - 2) + 1, rand.Next((int)Dimensions.Y - 2) + 1) * 50;
-                if (!this.ShouldCollideAt(new Rectangle(spawnPos.ToPoint(), enemy.Size.ToPoint())))
+                if (!ShouldCollideAt(new Rectangle(spawnPos.ToPoint(), enemy.Size.ToPoint())))
                 {
                     enemy.Position = spawnPos;
-                    this.AddEnemy(enemy);
+                    AddEnemy(enemy);
                     break;
                 }
             }
@@ -213,8 +213,8 @@ public abstract class Room : Place
     protected virtual void GenerateBase() { GenerateBase(FloorTypes.BASIC, WallTypes.BASIC, DoorTypes.BASIC); }
     protected virtual void GenerateBase(FloorTypes floors, WallTypes walls, DoorTypes doors)
     {
-        this.ClearEnemies();
-        this.ClearProjectiles();
+        ClearEnemies();
+        ClearProjectiles();
 
         Floor.GenerateFilledRectangle(
             new Rectangle(0, 0, (int)Dimensions.X, (int)Dimensions.Y),
@@ -232,7 +232,7 @@ public abstract class Room : Place
     protected virtual void GenerateDoors(DoorTypes doors) { GenerateDoors(doors, false); }
     protected virtual void GenerateDoors(DoorTypes doors, bool center)
     {
-        if (this.Doors == null)
+        if (Doors == null)
             throw new ArgumentNullException("This room does not have any doors!");
         // Generace dveri
         int _x;
@@ -248,7 +248,7 @@ public abstract class Room : Place
             _x = rand.Next((int)Dimensions.X - 2) + 1;
             _y = rand.Next((int)Dimensions.Y - 2) + 1;
         }
-        foreach (TileDoor door in this.Doors)
+        foreach (TileDoor door in Doors)
         {
             if (door.Sprite != TextureManager.GetTexture("doorBoss"))
                 door.SetDoorType(doors);
@@ -276,12 +276,12 @@ public abstract class Room : Place
 
     public virtual void ClearEnemies()
     {
-        this.Enemies.Clear();
+        Enemies.Clear();
     }
     public virtual void ClearProjectiles()
     {
-        this.Projectiles.Clear();
-        this.player.Projectiles.Clear();
+        Projectiles.Clear();
+        player.Projectiles.Clear();
     }
     public virtual void ClearRoom()
     {
