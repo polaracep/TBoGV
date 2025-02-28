@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using TBoGV;
@@ -17,6 +16,7 @@ public static class Storyline
         set => p = value;
     }
     private static Player p;
+
     /// <summary>
     /// Difficulty level in base game ranges from 1 to 8
     /// </summary>

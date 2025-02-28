@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -35,11 +34,11 @@ public abstract class Room : Place
     /// </summary>
     protected List<Enemy> EnemyPool = new List<Enemy>();
 
-    public Room(Vector2 dimensions, Vector2 pos, Player p, List<Entity> entityList)
+    public Room(Vector2 dimensions, Player p, List<Entity> entityList)
     {
         this.player = p;
         this.Dimensions = dimensions;
-        this.Position = pos;
+        this.Position = Vector2.Zero;
 
         this.Floor = new Tile[(int)Dimensions.X, (int)Dimensions.Y];
         this.Decorations = new Tile[(int)Dimensions.X, (int)Dimensions.Y];
@@ -70,9 +69,7 @@ public abstract class Room : Place
         this.Drops.Add(new ItemExplosive(new Vector2(50, 150)));
         */
     }
-    public Room(Vector2 dimensions, Vector2 pos, Player p) : this(dimensions, pos, p, null) { }
-    public Room(Vector2 dimensions, Player p) : this(dimensions, Vector2.Zero, p, null) { }
-    public Room(Vector2 dimensions, Player p, List<Entity> entityList) : this(dimensions, Vector2.Zero, p, entityList) { }
+    public Room(Vector2 dimensions, Player p) : this(dimensions, p, null) { }
 
     public override void Reset()
     {

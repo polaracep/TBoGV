@@ -4,11 +4,7 @@ namespace TBoGV;
 
 public class RoomEmpty : Room, IDraw
 {
-    public RoomEmpty(Vector2 dimensions, Vector2 pos, Player p) : base(dimensions, pos, p) { }
-    public RoomEmpty(Vector2 pos, Directions dir, Player p) : base(Vector2.Zero, pos, p) { }
-    public RoomEmpty(Vector2 dimensions, Player p) : base(dimensions, Vector2.One, p) { }
-    //public RoomEmpty(Player p) :
-
+    public RoomEmpty(Vector2 dimensions, Player p) : base(dimensions, p) { }
 
     public override void Generate()
     {

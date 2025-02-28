@@ -5,9 +5,7 @@ using TBoGV;
 public class RoomHallway : Room
 {
     public RoomHallway(Vector2 dimensions, Player p) : base(dimensions, p) { }
-    public RoomHallway(Vector2 dimensions, Vector2 pos, Player p) : base(dimensions, pos, p) { }
     public RoomHallway(Vector2 dimensions, Player p, List<Entity> entityList) : base(dimensions, p, entityList) { }
-    public RoomHallway(Vector2 dimensions, Vector2 pos, Player p, List<Entity> entityList) : base(dimensions, pos, p, entityList) { }
 
     public override void Generate()
     {

@@ -9,6 +9,6 @@ public class RoomBossAles : RoomBoss
 {
 	protected static Vector2 dimensions = new Vector2(10);
 	protected static List<Entity> entityList = new List<Entity>() { new BossAles() };
-	public RoomBossAles(Player p) : base(dimensions, Vector2.Zero, p, entityList) { }
+	public RoomBossAles(Player p) : base(dimensions, p, entityList) { }
 }
 
