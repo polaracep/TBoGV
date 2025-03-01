@@ -69,7 +69,7 @@ internal class EnemyPolhreich : EnemyRanged
 	}
 	private bool CollidesWithWall(Vector2 testPosition, Place place)
 	{
-		return place.ShouldCollideAt(new Vector2(testPosition.X + Size.X / 2, testPosition.Y + Size.Y / 2), true);
+		return place.ShouldCollideAt(new Vector2(testPosition.X + Size.X / 2, testPosition.Y + Size.Y / 2));
 	}
 	private void PickNewDirection()
 	{

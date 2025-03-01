@@ -12,12 +12,12 @@ using TBoGV;
 public class RoomClassroom : Room
 {
 
-    protected override List<Enemy> validEnemies { get; set; } = new List<Enemy> {
+    protected override List<Enemy> validEnemies { get; set; } = [
         new EnemyTriangle(),
         new EnemyCat(),
         new EnemyVitek(),
         new EnemyPolhreich(),
-    };
+    ];
 
     public RoomClassroom(Player p, List<Entity> entityList) : base(p, entityList) { }
     public RoomClassroom(Vector2 dimensions, Player p, List<Entity> entityList) : base(dimensions, p, entityList) { }
