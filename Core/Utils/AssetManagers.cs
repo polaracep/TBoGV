@@ -72,6 +72,7 @@ public static class TextureManager
             "richardSpritesheet",
             "ventSpritesheet",
 			"petr",
+            "lol",
 
             // Vitek
             "vitek-nobg",

@@ -17,6 +17,7 @@ public class RoomClassroom : Room
         new EnemyCat(),
         new EnemyVitek(),
         new EnemyPolhreich(),
+        new EnemyLol(),
     ];
 
     public RoomClassroom(Player p, List<Entity> entityList) : base(p, entityList) { }

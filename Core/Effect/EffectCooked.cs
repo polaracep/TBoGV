@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
+using System.Collections;
 
 namespace TBoGV;
 
@@ -44,7 +45,7 @@ class EffectCooked : Effect
 			else
 				Stats[stat] = -1;
 		}
-		UpdateSize();
+        UpdateSize();
 	}
 
 	public override Texture2D GetSprite()

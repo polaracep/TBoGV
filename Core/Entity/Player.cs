@@ -325,8 +325,10 @@ public class Player : Entity, IRecieveDmg, IDealDmg
 					Inventory.AddEffect(new EffectDelej(1));
 				if (projectile.GetType() == typeof(ProjectileNote))
 					Inventory.AddEffect(new EffectRickroll(1));
-			}
-			return 0;
+                if (projectile.GetType() == typeof(ProjectilePlatina))
+                    Inventory.AddEffect(new EffectLol(1));
+            }
+            return 0;
 		}
 		return projectile.Damage;
 	}

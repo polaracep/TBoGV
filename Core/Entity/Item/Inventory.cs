@@ -48,6 +48,8 @@ public class Inventory
 			if (effect.Name == e.Name)
 			{
 				e.ChangeLevel(effect.Level);
+				if(e.Level <= 0)
+					RemoveEffect(e);
 				return;
 			}
 		}

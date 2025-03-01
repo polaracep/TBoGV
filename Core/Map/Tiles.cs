@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -146,6 +147,7 @@ public class TileExit : Tile, IInteractable
             return;
         // TODO: Neco jako lobby() metoda co vrati hrace do lobby, zaroven resetuje shop
         ((Player)e).ReturnToLobby();
+        ((Player)e).Inventory.RemoveEffect(new EffectFyjalovaDrahota(1));
     }
 }
 
@@ -204,6 +206,31 @@ public class TileTreasure : Tile, IInteractable
             Random r = new Random();
             Player p = (Player)e;
             p.Coins += r.Next(20);
+        }
+    }
+}
+public class TileShower : Tile, IInteractable
+{
+    public TileShower(float rotation, SpriteEffects fx) : base(true, rotation, fx)
+    {
+        this.Sprite = TextureManager.GetTexture("heal");
+    }
+
+    public TileShower(float rotation) : this(0f, SpriteEffects.None) { }
+
+    public TileShower() : this(0f) { }
+    public void Interact(Entity e, Place _)
+    {
+        if (e is Player)
+        {
+            Player p = (Player)e;
+            var existingEffect = p.Inventory.Effects.FirstOrDefault(effect => effect is EffectLol);
+            if (existingEffect != null)
+                p.Inventory.AddEffect(new EffectLol(-1));
+            
+            existingEffect = p.Inventory.Effects.FirstOrDefault(effect => effect is EffectCooked);
+            if (existingEffect != null)
+                p.Inventory.AddEffect(new EffectCooked(-1));
         }
     }
 }

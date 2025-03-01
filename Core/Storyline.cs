@@ -28,7 +28,8 @@ public static class Storyline
         // Test level
         LevelList.Add(
             new Level(Player, new List<Room> {
-                new RoomClassroom(p)
+                new RoomClassroom(p),
+                new RoomShower(new Vector2(7, 7),p),
             },
             new RoomStart(new Vector2(7, 7), p), // start room
             new RoomBossAles(p), // boss room
