@@ -9,7 +9,9 @@ public class RoomEmpty : Room, IDraw
     public RoomEmpty(Player p, List<Entity> entityList) : base(p, entityList) { }
     public RoomEmpty(Vector2 dimensions, Player p, List<Entity> entityList) : base(dimensions, p, entityList) { }
 
-    protected override List<Enemy> validEnemies { get; set; }
+    protected override List<Enemy> validEnemies { get; set; } = [
+        new EnemyCat()
+    ];
 
     public override void Generate()
     {
