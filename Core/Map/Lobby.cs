@@ -1,10 +1,11 @@
+using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using TBoGV;
 
 public class Lobby : Place
 {
-
+    protected bool IsFyjala;
     public static Vector2 SpawnPos;
     public Lobby(Player p)
     {
@@ -55,29 +56,48 @@ public class Lobby : Place
         player.Position = this.GetTileWorldPos(Vector2.One);
         GenerateEntities();
         IsGenerated = true;
+        IsFyjala = new Random().Next(0, 2) == 1;
     }
 
     private void GenerateEntities()
     {
         this.Entities.Add(new EntitySarka(GetTileWorldPos(new Vector2(1, 0))));
+        GenerateFyjala();
     }
-
+    private void GenerateFyjala()
+    {
+        if (!IsFyjala)
+            return;
+        this.Entities.Add(new EntityFyjala(GetTileWorldPos(new Vector2(9, 4))));
+        player.Inventory.AddEffect(new EffectFyjalovaDrahota(1));
+    }
     public override void Draw(SpriteBatch spriteBatch)
     {
         base.Draw(spriteBatch);
 
         foreach (var e in Entities)
-            spriteBatch.Draw(e.GetSprite(), e.Position, Color.White);
+            e.Draw(spriteBatch);
         foreach (var i in Drops)
             i.Draw(spriteBatch);
     }
 
     public override void Update(double dt)
     {
+        if (player.Inventory.GetEffect().Contains(EffectTypes.EXPENSIVE) && !IsFyjala)
+            player.Inventory.RemoveEffect(new EffectFyjalovaDrahota(1));
     }
 
     public override void Reset()
     {
         Drops.Clear();
+        for (int i = 0; i < Entities.Count; i++)
+        {
+            if (Entities[i] is EntityFyjala)
+            {
+                Entities.RemoveAt(i);
+            }
+        }
+        IsFyjala = new Random().Next(0, 2) == 1;
+        GenerateFyjala();
     }
 }

@@ -46,6 +46,7 @@ public enum EffectTypes : int
 	AIM = 6,
 	ROOTED = 7,
 	RICKROLL = 8,
+	EXPENSIVE = 9,
 }
 public enum ItemTypes : int
 {

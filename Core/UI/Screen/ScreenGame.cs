@@ -110,7 +110,7 @@ public class ScreenGame : Screen
         if (openShop && !shopMenu.Active)
         {
             inGameMenu = shopMenu;
-            shopMenu.OpenMenu();
+            shopMenu.OpenMenu(player);
             openShop = false;
         }
 

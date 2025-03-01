@@ -2,7 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using TBoGV;
 
-class EntityFyjala : EntityPassive, IInteractable
+class EntityFyjala : EntityPassive
 {
 	public EntityFyjala(Vector2 position) : base(position)
 	{
@@ -12,16 +12,5 @@ class EntityFyjala : EntityPassive, IInteractable
 	public override Texture2D GetSprite()
 	{
 		return TextureManager.GetTexture("petr");
-	}
-
-	public void Interact(Entity e, Place p)
-	{
-		Screen c = TBoGVGame.screenCurrent;
-		if (c is not ScreenGame)
-			return;
-
-		ScreenGame sg = (ScreenGame)c;
-
-		sg.openShop = true;
 	}
 }

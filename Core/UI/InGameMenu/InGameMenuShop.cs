@@ -94,7 +94,7 @@ namespace TBoGV
 		}
 
 		// Opens the shop by randomly selecting 3 items from the pool.
-		public void OpenMenu()
+		public void OpenMenu(Player player)
         {
             if (itemCache.Count != 0)
                 currentShopItems = itemCache;
@@ -102,6 +102,16 @@ namespace TBoGV
             {
                 Random random = new Random();
                 currentShopItems = shopItemsPool.OrderBy(x => random.Next()).Take(3).ToList();
+
+                if (player.Inventory.GetEffect().Contains(EffectTypes.EXPENSIVE))
+                {
+                    for (int i = 0; i < currentShopItems.Count; i++)
+                    {
+                        double multiplier = 2 + random.NextDouble() * 0.7; 
+                        currentShopItems[i] = new ShopItem(currentShopItems[i].Item, (int)(currentShopItems[i].Price * multiplier));
+                    }
+                }
+
                 itemCache = currentShopItems;
             }
             Active = true;
@@ -113,7 +123,6 @@ namespace TBoGV
 
             if (!Active)
                 return;
-
 
             // Not clearing the cache here
             if (keyboardState.IsKeyDown(Keys.Escape) && previousKeyboardState.IsKeyUp(Keys.Escape))
