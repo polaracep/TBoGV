@@ -1548,7 +1548,7 @@
 /processorParam:TextureFormat=Color
 /build:Textures/korenovy_vezen.png
 
-#begin Textures/kriz.png
+#begin Textures/labCoat.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
