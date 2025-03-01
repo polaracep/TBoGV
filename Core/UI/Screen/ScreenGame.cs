@@ -161,15 +161,15 @@ public class ScreenGame : Screen
                 MediaPlayer.Pause();
             }
         }
-		if (player.Inventory.GetEffect().Contains(EffectTypes.ROOTED) && MinigameRooted.State != minigameState.ONGOING)
-			miniGames.Add(new MinigameRooted(() => player.Inventory.RemoveEffect(new EffectRooted(1))));
-		if (player.Inventory.GetEffect().Contains(EffectTypes.RICKROLL) && MinigameRick.State != minigameState.ONGOING)
-			miniGames.Add(new MinigameRick(() => player.Inventory.RemoveEffect(new EffectRickroll(1))));
+        if (player.Inventory.GetEffect().Contains(EffectTypes.ROOTED) && MinigameRooted.State != minigameState.ONGOING)
+            miniGames.Add(new MinigameRooted(() => player.Inventory.RemoveEffect(new EffectRooted(1))));
+        if (player.Inventory.GetEffect().Contains(EffectTypes.RICKROLL) && MinigameRick.State != minigameState.ONGOING)
+            miniGames.Add(new MinigameRick(() => player.Inventory.RemoveEffect(new EffectRickroll(1))));
 
-		foreach (Minigame miniGame in miniGames)
+        foreach (Minigame miniGame in miniGames)
             miniGame.Update(keyboardState, dt);
 
-		for (int i = 0; i < miniGames.Count; i++)
+        for (int i = 0; i < miniGames.Count; i++)
             if (miniGames[i].GetState() != minigameState.ONGOING)
                 miniGames.RemoveAt(i);
 
@@ -180,9 +180,9 @@ public class ScreenGame : Screen
         previousKeyboardState = keyboardState;
         keyboardState = Keyboard.GetState();
 
-        if (KeyReleased(Keys.Escape))
+        if (keyboardState.IsKeyDown(Keys.Escape) && previousKeyboardState.IsKeyUp(Keys.Escape))
         {
-            if (!levelUpMenu.Active && !deathMenu.Active)
+            if (!levelUpMenu.Active && !deathMenu.Active && !shopMenu.Active)
             {
                 inGameMenu = effectMenu;
                 effectMenu.Active = !effectMenu.Active;

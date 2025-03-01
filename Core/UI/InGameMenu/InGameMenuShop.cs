@@ -53,48 +53,48 @@ namespace TBoGV
         // Fill the shop item pool with example items and their prices.
         private void InitializeShopItems()
         {
-			// List to hold all the items (add your actual items here)
-			List<ItemContainerable> allItems = new List<ItemContainerable>
+            // List to hold all the items (add your actual items here)
+            List<ItemContainerable> allItems = new List<ItemContainerable>
 {
-	new ItemCalculator(),
-	new ItemDoping(),
-	new ItemMonster(),
-	new ItemFancyShoes(),
-	new ItemFlipFlop(),
-	new ItemTrackShoes(),
-	new ItemMap(),
-	new ItemMathProblem(),
-	new ItemTeeth(),
-	new ItemAdBlock(),
-	new ItemExplosive(),
-	new ItemDagger(),
-	new ItemPencil(),
-	new ItemBookBio(),
-	new ItemBookCzech(),
-	new ItemBookMath(),
-	new ItemBookZsv(),
-	new ItemBookPhysics(),
-	new ItemCross(),
-	new ItemBryle(),
-	new ItemBook(),
-	new ItemBookPE(),
-	new ItemPen(),
-	new ItemScissors(),
-	new ItemRubbedBoots(),
-	new ItemFixa(),
+    new ItemCalculator(),
+    new ItemDoping(),
+    new ItemMonster(),
+    new ItemFancyShoes(),
+    new ItemFlipFlop(),
+    new ItemTrackShoes(),
+    new ItemMap(),
+    new ItemMathProblem(),
+    new ItemTeeth(),
+    new ItemAdBlock(),
+    new ItemExplosive(),
+    new ItemDagger(),
+    new ItemPencil(),
+    new ItemBookBio(),
+    new ItemBookCzech(),
+    new ItemBookMath(),
+    new ItemBookZsv(),
+    new ItemBookPhysics(),
+    new ItemCross(),
+    new ItemBryle(),
+    new ItemBook(),
+    new ItemBookPE(),
+    new ItemPen(),
+    new ItemScissors(),
+    new ItemRubbedBoots(),
+    new ItemFixa(),
 };
 
-			// Now using a foreach loop to add items to the shopItemsPool
-			foreach (var item in allItems)
-			{
-				// Add the item to the shopItemsPool with its cost from GetCost()
-				shopItemsPool.Add(new ShopItem(item, item.GetCost()));
-			}
+            // Now using a foreach loop to add items to the shopItemsPool
+            foreach (var item in allItems)
+            {
+                // Add the item to the shopItemsPool with its cost from GetCost()
+                shopItemsPool.Add(new ShopItem(item, item.GetCost()));
+            }
 
-		}
+        }
 
-		// Opens the shop by randomly selecting 3 items from the pool.
-		public void OpenMenu()
+        // Opens the shop by randomly selecting 3 items from the pool.
+        public void OpenMenu()
         {
             if (itemCache.Count != 0)
                 currentShopItems = itemCache;
@@ -138,7 +138,7 @@ namespace TBoGV
                         if (player.Coins < currentShopItems[i].Price)
                             return;
 
-                        ShopItem itemClone = currentShopItems[i].Clone(); // Vytvoøíme kopii pøedmìtu
+                        ShopItem itemClone = currentShopItems[i].Clone(); // Vytvoï¿½ï¿½me kopii pï¿½edmï¿½tu
 
                         if (!player.Inventory.PickUpItem(itemClone.Item))
                             player.Drop(player.Inventory.SwapItem(itemClone.Item));

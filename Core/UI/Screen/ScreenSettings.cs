@@ -87,7 +87,7 @@ public class ScreenSettings : Screen
     public override void Update(GameTime gameTime, GraphicsDeviceManager graphics)
     {
         KeyboardState keyboardState = Keyboard.GetState();
-        if (previousKeyboardState.IsKeyDown(Keys.Escape) && keyboardState.IsKeyUp(Keys.Escape))
+        if (keyboardState.IsKeyDown(Keys.Escape) && previousKeyboardState.IsKeyUp(Keys.Escape))
             escapeButton.OnClick();
 
         MouseState mouseState = Mouse.GetState();
