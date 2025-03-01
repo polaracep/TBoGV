@@ -29,6 +29,7 @@ public class Player : Entity, IRecieveDmg, IDealDmg
 	public List<Projectile> Projectiles { get; set; }
 	List<Projectile> projectilesRecieved = new List<Projectile>();
 	public Inventory Inventory { get; set; }
+	protected List<Item> ItemsToDrop = new List<Item>();
 	private MouseState previousMouseState;
 	private KeyboardState prevKeyboardState;
 
@@ -249,13 +250,23 @@ public class Player : Entity, IRecieveDmg, IDealDmg
 				Projectiles.Add(projectile);
 			}
 		}
+		foreach (var item in ItemsToDrop)
+		{
+			item.Position = Position;
+            place.Drops.Add(item);
+        }
+
+		ItemsToDrop.Clear();
 
 		SetStats();
 
 		previousMouseState = mouseState;
 		prevKeyboardState = keyboardState;
 	}
-
+	public void Drop(Item item)
+	{
+		ItemsToDrop.Add(item);
+	}
 
 	public override void Draw(SpriteBatch spriteBatch)
 	{

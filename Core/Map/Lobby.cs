@@ -68,7 +68,8 @@ public class Lobby : Place
 
         foreach (var e in Entities)
             spriteBatch.Draw(e.GetSprite(), e.Position, Color.White);
-
+        foreach (var i in Drops)
+            i.Draw(spriteBatch);
     }
 
     public override void Update(double dt)
@@ -77,5 +78,6 @@ public class Lobby : Place
 
     public override void Reset()
     {
+        Drops.Clear();
     }
 }

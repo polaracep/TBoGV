@@ -27,6 +27,9 @@ class ItemMathProblem : ItemContainerable
 	{
 		return Sprite;
 	}
-
+    public override ItemContainerable Clone()
+    {
+        return new ItemMathProblem();
+    }
 }
 

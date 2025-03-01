@@ -27,6 +27,9 @@ class ItemMonster : ItemContainerable
 	{
 		return Sprite;
 	}
-
+    public override ItemContainerable Clone()
+    {
+        return new ItemMonster();
+    }
 }
 

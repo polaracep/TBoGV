@@ -29,5 +29,8 @@ class ItemDoping : ItemContainerable
     {
         return Sprite;
     }
-
+    public override ItemContainerable Clone()
+    {
+        return new ItemDoping();
+    }
 }

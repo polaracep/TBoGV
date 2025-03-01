@@ -31,7 +31,10 @@ public class ItemBookBio : ItemContainerable
 	{
 		return Sprite;
 	}
-
+    public override ItemContainerable Clone()
+    {
+        return new ItemBookBio();
+    }
 }
 
 

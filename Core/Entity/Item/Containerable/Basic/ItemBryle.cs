@@ -29,7 +29,10 @@ public class ItemBryle : ItemContainerable
 	{
 		return Sprite;
 	}
-
+    public override ItemContainerable Clone()
+    {
+        return new ItemBryle();
+    }
 }
 
 

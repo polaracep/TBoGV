@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Xml.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -21,6 +22,10 @@ namespace TBoGV
             {
                 Item = item;
                 Price = price;
+            }
+            public ShopItem Clone()
+            {
+                return new ShopItem(Item.Clone(), Price);
             }
         }
 
@@ -133,8 +138,12 @@ namespace TBoGV
                         if (player.Coins < currentShopItems[i].Price)
                             return;
 
-                        player.Inventory.PickUpItem(currentShopItems[i].Item);
-                        // Optionally, you could deduct money from the player here.
+                        ShopItem itemClone = currentShopItems[i].Clone(); // Vytvoøíme kopii pøedmìtu
+
+                        if (!player.Inventory.PickUpItem(itemClone.Item))
+                            player.Drop(player.Inventory.SwapItem(itemClone.Item));
+
+                        player.Coins -= itemClone.Price;
 
                         itemCache.Clear();
                         Active = false; // Close shop after purchase.
