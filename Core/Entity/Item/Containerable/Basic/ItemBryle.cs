@@ -14,7 +14,7 @@ public class ItemBryle : ItemContainerable
 		Position = position;
 		Size = new Vector2(50, 50);
 		Name = "Brýle";
-		Description = "Cítíš se chytřeji";
+		Description = "Cítíš se chytřejší";
 		Stats = new Dictionary<StatTypes, int>() { { StatTypes.XP_GAIN, 2 } };
 		Effects = new List<EffectTypes>();
 		Sprite = TextureManager.GetTexture("bryle");
@@ -29,10 +29,10 @@ public class ItemBryle : ItemContainerable
 	{
 		return Sprite;
 	}
-    public override ItemContainerable Clone()
-    {
-        return new ItemBryle();
-    }
+	public override ItemContainerable Clone()
+	{
+		return new ItemBryle();
+	}
 }
 
 

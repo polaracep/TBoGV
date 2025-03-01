@@ -79,7 +79,8 @@ class InGameMenuItemJournal : InGameMenu
 	typeof(ItemPen),
 	typeof(ItemScissors),
 	typeof(ItemRubbedBoots),
-	typeof(ItemFixa)
+	typeof(ItemFixa),
+	typeof(ItemLabcoat),
 		};
 
 		// Use a foreach loop to add items to the list
