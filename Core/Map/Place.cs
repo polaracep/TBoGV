@@ -124,7 +124,7 @@ public abstract class Place : IDraw
     {
         (Tile, Tile) t = GetTile(wCoords);
         if (projectilesOnly)
-            return t.Item2?.DoCollision ?? false;
+            return t.Item1?.DoCollision ?? false;
         else
             return (t.Item1?.DoCollision ?? false) || (t.Item2?.DoCollision ?? false);
     }
