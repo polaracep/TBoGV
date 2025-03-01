@@ -98,7 +98,7 @@ public class Lobby : Place
                 Entities.Remove(e);
         }
         // 1/4 chance
-        IsFyjala = new Random().Next(s) == 1;
+        IsFyjala = new Random().Next(4) == 1;
         GenerateFyjala();
     }
 }
