@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using TBoGV;
@@ -5,12 +6,18 @@ using TBoGV;
 public class RoomHallway : Room
 {
     public RoomHallway(Vector2 dimensions, Player p) : base(dimensions, p) { }
+    public RoomHallway(Player p, List<Entity> entityList) : base(p, entityList) { }
     public RoomHallway(Vector2 dimensions, Player p, List<Entity> entityList) : base(dimensions, p, entityList) { }
+
+    protected override List<Enemy> validEnemies { get; set; } = new List<Enemy>
+    {
+        new EnemyZdena(),
+    };
 
     public override void Generate()
     {
         GenerateBase();
-        GenerateEnemies();
+        GenerateEnemies(25);
         IsGenerated = true;
     }
 
@@ -35,5 +42,4 @@ public class RoomHallway : Room
     {
 
     }
-
 }

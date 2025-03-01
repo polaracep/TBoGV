@@ -23,6 +23,7 @@ public abstract class ItemContainerable : Item
 	{ 
 		return Rarity*3 + Effects.Count*2; 
 	}
+	public abstract ItemContainerable Clone();
 }
 
 public enum StatTypes : int

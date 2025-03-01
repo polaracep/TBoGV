@@ -29,7 +29,10 @@ class ItemPencil : ItemContainerable
     {
         return Sprite;
     }
-
+    public override ItemContainerable Clone()
+    {
+        return new ItemPencil();
+    }
 }
 
 

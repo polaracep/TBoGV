@@ -29,7 +29,10 @@ public class ItemBookPhysics : ItemContainerable
 	{
 		return Sprite;
 	}
-
+    public override ItemContainerable Clone()
+    {
+        return new ItemBookPhysics();
+    }
 }
 
 

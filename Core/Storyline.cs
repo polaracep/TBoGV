@@ -28,10 +28,7 @@ public static class Storyline
         // Test level
         LevelList.Add(
             new Level(Player, new List<Room> {
-                new RoomHallway(new Vector2(11, 7), p, new List<Entity> {
-                    new EnemyCat(),
-                }),
-                // new RoomClassroom(new Vector2(11), p, new List<Entity> {})
+                new RoomClassroom(p)
             },
             new RoomStart(new Vector2(7, 7), p), // start room
             new RoomBossAles(p), // boss room
@@ -44,23 +41,21 @@ public static class Storyline
         LevelList.Add(
             new Level(Player, new List<Room> {
                 new RoomClassroom(new Vector2(9), p, new List<Entity> {
-                    new EnemyZdena(Vector2.Zero),
-                    new EnemyZdena(Vector2.Zero),
-                    new EnemyZdena(Vector2.Zero),
-                    new EntitySarka(Vector2.One),
+                    new EnemyVitek(Vector2.Zero),
+                    new EnemyVitek(Vector2.Zero),
                 }),
                 new RoomClassroom(new Vector2(7), p, new List<Entity> {
                     new EnemyVitek(Vector2.Zero),
-                    new EnemyVitek(Vector2.Zero),
-                    new EnemyVitek(Vector2.Zero),
+                    new EnemyCat(Vector2.Zero),
+                    new EnemyJirka(Vector2.Zero)
                 }),
                 new RoomClassroom(new Vector2(11), p, new List<Entity> {
                     new EnemyZdena(Vector2.Zero),
-                    new EnemyZdena(Vector2.Zero),
-                    new EnemyZdena(Vector2.Zero),
+                    new EnemyPolhreich(Vector2.Zero),
                 })
             },
             new RoomStart(new Vector2(7, 7), p),
+            new RoomBossCat(p),
         4));
         */
         /* Level 2 */

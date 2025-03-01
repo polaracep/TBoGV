@@ -29,7 +29,10 @@ class ItemFixa : ItemContainerable
 	{
 		return Sprite;
 	}
-
+    public override ItemContainerable Clone()
+    {
+        return new ItemFixa();
+    }
 }
 
 

@@ -29,7 +29,10 @@ public class ItemBookPE : ItemContainerable
 	{
 		return Sprite;
 	}
-
+    public override ItemContainerable Clone()
+    {
+        return new ItemBookPE();
+    }
 }
 
 

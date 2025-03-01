@@ -30,6 +30,10 @@ class ItemRubbedBoots : ItemContainerable
 	{
 		return Sprite;
 	}
+    public override ItemContainerable Clone()
+    {
+        return new ItemRubbedBoots();
+    }
 
 }
 
