@@ -188,12 +188,6 @@ public class Player : Entity, IRecieveDmg, IDealDmg
 		// --- End Movement ---
 
 
-		// Reset room (debug)
-		if (keyboardState.IsKeyDown(Keys.R) && prevKeyboardState.IsKeyUp(Keys.R))
-		{
-			place.Reset();
-		}
-
 		// Interaction
 		if ((previousMouseState.RightButton == ButtonState.Pressed &&
 			 mouseState.RightButton == ButtonState.Released) ||
@@ -253,8 +247,8 @@ public class Player : Entity, IRecieveDmg, IDealDmg
 		foreach (var item in ItemsToDrop)
 		{
 			item.Position = Position;
-            place.Drops.Add(item);
-        }
+			place.Drops.Add(item);
+		}
 
 		ItemsToDrop.Clear();
 

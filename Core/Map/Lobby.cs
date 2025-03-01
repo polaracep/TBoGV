@@ -10,8 +10,8 @@ public class Lobby : Place
     public Lobby(Player p)
     {
         this.player = p;
-        this.Dimensions = new Vector2(14, 6);
-        SpawnPos = new Vector2(Dimensions.X - 2, Dimensions.Y / 2);
+        this.Dimensions = new Vector2(15, 6);
+        SpawnPos = new Vector2(Dimensions.X - 2, 2);
     }
 
 
@@ -32,14 +32,15 @@ public class Lobby : Place
         // Spawnpos + o jedno doprava
         AddDecoTile(SpawnPos + Vector2.UnitX, new TileStart(MathHelper.PiOver2));
 
-        // lol
-        AddDecoTile(new Vector2(1, Dimensions.Y - 3), new TileDecoration(false, DecorationTypes.CHAIR_CAFETERIA_G));
-        AddDecoTile(new Vector2(1, Dimensions.Y - 2), new TileDecoration(false, DecorationTypes.CHAIR_CAFETERIA_G));
-        AddDecoTile(new Vector2(2, Dimensions.Y - 3), new TileDecoration(true, DecorationTypes.TABLE_CAFETERIA));
-        AddDecoTile(new Vector2(2, Dimensions.Y - 2), new TileDecoration(true, DecorationTypes.TABLE_CAFETERIA));
-        AddDecoTile(new Vector2(3, Dimensions.Y - 3), new TileDecoration(false, DecorationTypes.CHAIR_CAFETERIA_G, SpriteEffects.FlipHorizontally));
-        AddDecoTile(new Vector2(3, Dimensions.Y - 2), new TileDecoration(false, DecorationTypes.CHAIR_CAFETERIA_G, SpriteEffects.FlipHorizontally));
+        // kavovar
+        AddDecoTile(new Vector2(1, 2), new TileDecoration(true, DecorationTypes.COFFEE_MACHINE, -MathHelper.PiOver2));
 
+        // lednice
+        AddDecoTile(new Vector2(1, Dimensions.Y - 2), new TileDecoration(true, DecorationTypes.FRIDGE1, MathHelper.Pi));
+        AddDecoTile(new Vector2(2, Dimensions.Y - 2), new TileDecoration(true, DecorationTypes.FRIDGE2, MathHelper.Pi));
+        AddDecoTile(new Vector2(3, Dimensions.Y - 2), new TileDecoration(true, DecorationTypes.FRIDGE1, MathHelper.Pi));
+
+        // lol
         AddDecoTile(new Vector2(5, Dimensions.Y - 3), new TileDecoration(false, DecorationTypes.CHAIR_CAFETERIA_G));
         AddDecoTile(new Vector2(5, Dimensions.Y - 2), new TileDecoration(false, DecorationTypes.CHAIR_CAFETERIA_G));
         AddDecoTile(new Vector2(6, Dimensions.Y - 3), new TileDecoration(true, DecorationTypes.TABLE_CAFETERIA));
@@ -53,6 +54,7 @@ public class Lobby : Place
         AddDecoTile(new Vector2(10, Dimensions.Y - 2), new TileDecoration(true, DecorationTypes.TABLE_CAFETERIA));
         AddDecoTile(new Vector2(11, Dimensions.Y - 3), new TileDecoration(false, DecorationTypes.CHAIR_CAFETERIA_G, SpriteEffects.FlipHorizontally));
         AddDecoTile(new Vector2(11, Dimensions.Y - 2), new TileDecoration(false, DecorationTypes.CHAIR_CAFETERIA_G, SpriteEffects.FlipHorizontally));
+
         player.Position = this.GetTileWorldPos(Vector2.One);
         GenerateEntities();
         IsGenerated = true;
@@ -90,14 +92,13 @@ public class Lobby : Place
     public override void Reset()
     {
         Drops.Clear();
-        for (int i = 0; i < Entities.Count; i++)
+        foreach (var e in Entities)
         {
-            if (Entities[i] is EntityFyjala)
-            {
-                Entities.RemoveAt(i);
-            }
+            if (e is EntityFyjala)
+                Entities.Remove(e);
         }
-        IsFyjala = new Random().Next(0, 2) == 1;
+        // 1/4 chance
+        IsFyjala = new Random().Next(s) == 1;
         GenerateFyjala();
     }
 }

@@ -46,6 +46,9 @@ public static class TextureManager
             "chairCafeteriaRed",
             "chairCafeteriaGreen",
             "tableCafeteria",
+            "decoFridge1",
+            "decoFridge2",
+            "coffeeMachine",
 
             // Entities
             "korenovy_vezen",

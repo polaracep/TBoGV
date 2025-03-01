@@ -207,6 +207,13 @@ public class ScreenGame : Screen
             }
         }
 
+        // Reset room (debug)
+        if (keyboardState.IsKeyDown(Keys.R) && previousKeyboardState.IsKeyUp(Keys.R) && !inGameMenu.Active)
+        {
+            activePlace.Reset();
+            shopMenu.ClearShop();
+        }
+
     }
 
     public bool KeyReleased(Keys key)

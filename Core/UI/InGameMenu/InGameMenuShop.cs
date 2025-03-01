@@ -55,34 +55,34 @@ namespace TBoGV
         {
             // List to hold all the items (add your actual items here)
             List<ItemContainerable> allItems = new List<ItemContainerable>
-{
-    new ItemCalculator(),
-    new ItemDoping(),
-    new ItemMonster(),
-    new ItemFancyShoes(),
-    new ItemFlipFlop(),
-    new ItemTrackShoes(),
-    new ItemMap(),
-    new ItemMathProblem(),
-    new ItemTeeth(),
-    new ItemAdBlock(),
-    new ItemExplosive(),
-    new ItemDagger(),
-    new ItemPencil(),
-    new ItemBookBio(),
-    new ItemBookCzech(),
-    new ItemBookMath(),
-    new ItemBookZsv(),
-    new ItemBookPhysics(),
-    new ItemCross(),
-    new ItemBryle(),
-    new ItemBook(),
-    new ItemBookPE(),
-    new ItemPen(),
-    new ItemScissors(),
-    new ItemRubbedBoots(),
-    new ItemFixa(),
-};
+            {
+                new ItemCalculator(),
+                new ItemDoping(),
+                new ItemMonster(),
+                new ItemFancyShoes(),
+                new ItemFlipFlop(),
+                new ItemTrackShoes(),
+                new ItemMap(),
+                new ItemMathProblem(),
+                new ItemTeeth(),
+                new ItemAdBlock(),
+                new ItemExplosive(),
+                new ItemDagger(),
+                new ItemPencil(),
+                new ItemBookBio(),
+                new ItemBookCzech(),
+                new ItemBookMath(),
+                new ItemBookZsv(),
+                new ItemBookPhysics(),
+                new ItemCross(),
+                new ItemBryle(),
+                new ItemBook(),
+                new ItemBookPE(),
+                new ItemPen(),
+                new ItemScissors(),
+                new ItemRubbedBoots(),
+                new ItemFixa(),
+            };
 
             // Now using a foreach loop to add items to the shopItemsPool
             foreach (var item in allItems)
@@ -93,7 +93,7 @@ namespace TBoGV
 
         }
 
-		public void OpenMenu(Player player)
+        public void OpenMenu(Player player)
 
         {
             if (itemCache.Count != 0)
@@ -107,7 +107,7 @@ namespace TBoGV
                 {
                     for (int i = 0; i < currentShopItems.Count; i++)
                     {
-                        double multiplier = 2 + random.NextDouble() * 0.7; 
+                        double multiplier = 2 + random.NextDouble() * 0.7;
                         currentShopItems[i] = new ShopItem(currentShopItems[i].Item, (int)(currentShopItems[i].Price * multiplier));
                     }
                 }
@@ -115,6 +115,11 @@ namespace TBoGV
                 itemCache = currentShopItems;
             }
             Active = true;
+        }
+
+        public void ClearShop()
+        {
+            itemCache.Clear();
         }
 
         public override void Update(Viewport viewport, Player player, MouseState mouseState, KeyboardState keyboardState, double dt)

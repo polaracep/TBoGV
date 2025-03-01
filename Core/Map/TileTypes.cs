@@ -59,5 +59,8 @@ public sealed class DecorationTypes : StringEnum
     public static readonly DecorationTypes CHAIR_CAFETERIA_R = new DecorationTypes("chairCafeteriaRed");
     public static readonly DecorationTypes CHAIR_CAFETERIA_G = new DecorationTypes("chairCafeteriaGreen");
     public static readonly DecorationTypes TABLE_CAFETERIA = new DecorationTypes("tableCafeteria");
+    public static readonly DecorationTypes FRIDGE1 = new DecorationTypes("decoFridge1");
+    public static readonly DecorationTypes FRIDGE2 = new DecorationTypes("decoFridge2");
+    public static readonly DecorationTypes COFFEE_MACHINE = new DecorationTypes("coffeeMachine");
 
 }
