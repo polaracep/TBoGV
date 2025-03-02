@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -160,6 +161,8 @@ public abstract class Room : Place
                     Enemies[j].RecieveDmg(player.Projectiles[index]);
                     if (Enemies[j].IsDead())
                     {
+                        if (Enemies[j] is EnemyBoss || (Enemies.Count == 1 && IsEndRoom))
+                            GenerateExit();
 
                         player.Kill(Enemies[j].XpValue);
                         foreach (Item item in Enemies[j].Drop(1))
@@ -217,6 +220,10 @@ public abstract class Room : Place
             while (true)
             {
                 Vector2 spawnPos = new Vector2(rand.Next((int)Dimensions.X - 2) + 1, rand.Next((int)Dimensions.Y - 2) + 1) * 50;
+
+                if (Doors.Any(d => (d.DoorTpPosition - spawnPos).Length() < 50))
+                    continue;
+
                 if (!ShouldCollideAt(new Rectangle(spawnPos.ToPoint(), enemy.Size.ToPoint())))
                 {
                     enemy.Position = spawnPos;

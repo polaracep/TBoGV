@@ -36,9 +36,9 @@ public class Lobby : Place
         AddDecoTile(new Vector2(1, 2), new TileCoffeeMachine(-MathHelper.PiOver2));
 
         // lednice
-        AddDecoTile(new Vector2(1, Dimensions.Y - 2), new TileFridge(MathHelper.Pi));
-        AddDecoTile(new Vector2(2, Dimensions.Y - 2), new TileFridge(MathHelper.Pi));
-        AddDecoTile(new Vector2(3, Dimensions.Y - 2), new TileFridge(MathHelper.Pi));
+        AddDecoTile(new Vector2(1, Dimensions.Y - 2), new TileFridge(DecorationTypes.FRIDGE1, MathHelper.Pi));
+        AddDecoTile(new Vector2(2, Dimensions.Y - 2), new TileFridge(DecorationTypes.FRIDGE2, MathHelper.Pi));
+        AddDecoTile(new Vector2(3, Dimensions.Y - 2), new TileFridge(DecorationTypes.FRIDGE1, MathHelper.Pi));
 
         // lol
         AddDecoTile(new Vector2(5, Dimensions.Y - 3), new TileDecoration(false, DecorationTypes.CHAIR_CAFETERIA_G));

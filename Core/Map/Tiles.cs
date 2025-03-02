@@ -145,9 +145,17 @@ public class TileExit : Tile, IInteractable
     {
         if (e is not Player)
             return;
-        // TODO: Neco jako lobby() metoda co vrati hrace do lobby, zaroven resetuje shop
-        ((Player)e).ReturnToLobby();
-        ((Player)e).Inventory.RemoveEffect(new EffectFyjalovaDrahota(1));
+        Player pl = (Player)e;
+
+        // we're coming to an end!!!
+        if (Storyline.CurrentLevelNumber == Storyline.LevelList.Count)
+        {
+            // Maturita!
+            Storyline.End();
+        }
+
+        pl.ReturnToLobby();
+        pl.Inventory.RemoveEffect(new EffectFyjalovaDrahota(1));
     }
 }
 public class TileStart : Tile, IInteractable
@@ -237,14 +245,14 @@ public class TileShower : Tile, IInteractable
 
 public class TileFridge : Tile, IInteractable
 {
-    public TileFridge(float rotation, SpriteEffects fx) : base(true, rotation, fx)
+    public TileFridge(DecorationTypes sprite, float rotation, SpriteEffects fx) : base(true, rotation, fx)
     {
-        this.Sprite = TextureManager.GetTexture("decoFridge1");
+        Sprite = TextureManager.GetTexture(sprite.Value);
     }
 
-    public TileFridge(float rotation) : this(rotation, SpriteEffects.None) { }
+    public TileFridge(DecorationTypes sprite, float rotation) : this(sprite, rotation, SpriteEffects.None) { }
 
-    public TileFridge() : this(0f) { }
+    public TileFridge() : this(DecorationTypes.FRIDGE1, 0f) { }
     public void Interact(Entity e, Place _)
     {
         if (e is Player)

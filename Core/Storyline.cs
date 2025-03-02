@@ -30,25 +30,23 @@ public static class Storyline
             new Level(p, [
                 new RoomClassroom(p),
             ], new RoomStart(p), new RoomEmpty(p), 6),
-            new Level(p, [
-                new RoomClassroom(p),
-            ], new RoomStart(p), new RoomEmpty(p), 6),
-            new Level(p, [
-                new RoomClassroom(p),
-            ], new RoomStart(p), new RoomEmpty(p), 6),
         ];
     }
 
     public static void NextLevel()
     {
+        // wrap na zacatek
         if (CurrentLevelNumber == LevelList.Count)
-            // Won the game
             CurrentLevelNumber = 0;
 
         CurrentLevel = LevelList[CurrentLevelNumber];
         CurrentLevelNumber++;
         Difficulty += CurrentLevelNumber % 2;
         Player.LevelChanged = true;
+    }
+    public static void End()
+    {
+        TBoGVGame.screenCurrent = ScreenManager.ScreenEnd;
     }
 
 
