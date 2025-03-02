@@ -1,13 +1,10 @@
-using System;
-using System.IO;
-
 public static class Settings
 {
     public static float MusicVolume = 0.1f;
     public static float SfxVolume = 0.5f;
     public static bool FixedCamera = false;
 
-    private static string settingsPath = "settings.json";
+    private static string settingsPath = "tbogv_settings.json";
 
     public static void Save()
     {

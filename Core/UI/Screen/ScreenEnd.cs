@@ -29,7 +29,7 @@ public class ScreenEnd : Screen
         _spriteBatch.Draw(TextureManager.GetTexture("gymvod"), new Rectangle(0, 0, viewport.Width, viewport.Height), Color.White);
 
         // Draw the "You Win!" message centered at the top third of the screen.
-        string winText = "Gratuluju! Odmaturovals!";
+        string winText = "Gratuluju! Odmaturoval jsi!";
         Vector2 textSize = LargerFont.MeasureString(winText);
         Vector2 textPosition = new Vector2((viewport.Width - textSize.X) / 2, viewport.Height / 9);
         _spriteBatch.DrawString(LargerFont, winText, textPosition, Color.Gold);
