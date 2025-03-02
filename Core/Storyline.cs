@@ -24,16 +24,89 @@ public static class Storyline
     public static void GenerateStoryline()
     {
         LevelList = [
+            // L1
             new Level(p, [
                 new RoomClassroom(p),
                 new RoomClassroom(p),
                 new RoomClassroom(p),
                 new RoomHallway(p),
                 new RoomHallway(p),
-            ], new RoomStart(p), new RoomShower(p), 3),
+                new RoomShower(p)
+            ], new RoomStart(p), new RoomBossSvarta(p), 3),
+            // L2
             new Level(p, [
                 new RoomClassroom(p),
-            ], new RoomStart(p), new RoomEmpty(p), 6),
+                new RoomClassroom(p),
+                new RoomClassroom(p),
+                new RoomClassroom(p),
+                new RoomHallway(p),
+                new RoomHallway(p),
+                new RoomHallway(p),
+                new RoomHallway(p),
+                new RoomHallway(p),
+                new RoomShower(p),
+                new RoomShower(p),
+            ], new RoomStart(p), new RoomBossAles(p), 6),
+            // L3
+            new Level(p, [
+                new RoomClassroom(p),
+                new RoomClassroom(p),
+                new RoomClassroom(p),
+                new RoomHallway(p),
+                new RoomHallway(p),
+                new RoomHallway(p),
+                new RoomShower(p),
+            ], new RoomStart(p), new RoomBossCat(p), 6),
+            // L4
+            new Level(p, [
+                new RoomClassroom(p),
+                new RoomClassroom(p),
+                new RoomClassroom(p),
+                new RoomHallway(p),
+                new RoomHallway(p),
+                new RoomHallway(p),
+                new RoomShower(p),
+            ], new RoomStart(p), new RoomBossToilet(p), 6),
+            // L5
+            new Level(p, [
+                new RoomClassroom(p),
+                new RoomClassroom(p),
+                new RoomClassroom(p),
+                new RoomHallway(p),
+                new RoomHallway(p),
+                new RoomHallway(p),
+                new RoomShower(p),
+            ], new RoomStart(p), new RoomBossRichard(p), 6),
+            // L6
+            new Level(p, [
+                new RoomClassroom(p),
+                new RoomClassroom(p),
+                new RoomClassroom(p),
+                new RoomHallway(p),
+                new RoomHallway(p),
+                new RoomHallway(p),
+                new RoomShower(p),
+            ], new RoomStart(p), new RoomBossToilet(p), 6),
+            // L7
+            new Level(p, [
+                new RoomClassroom(p),
+                new RoomClassroom(p),
+                new RoomClassroom(p),
+                new RoomHallway(p),
+                new RoomHallway(p),
+                new RoomHallway(p),
+                new RoomShower(p),
+            ], new RoomStart(p), new RoomBossAmogus(p), 6),
+            // L8
+            new Level(p, [
+                new RoomClassroom(p),
+                new RoomClassroom(p),
+                new RoomClassroom(p),
+                new RoomHallway(p),
+                new RoomHallway(p),
+                new RoomHallway(p),
+                new RoomShower(p),
+            ], new RoomStart(p), new RoomBossMaturita(p), 6),
         ];
     }
 

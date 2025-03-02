@@ -219,7 +219,7 @@ class BossZeman : EnemyBoss
 
 	protected override void InitStats(int difficulty)
 	{
-		Hp = 80;
+		Hp = 70;
 		MovementSpeed = 7;
 		AttackDmg = 2;
 		AttackSpeed = 0;

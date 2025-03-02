@@ -192,7 +192,7 @@ class BossOIIAOIIA : EnemyBoss
 
 	protected override void InitStats(int difficulty)
 	{
-		Hp = 60;
+		Hp = 30;
 		MovementSpeed = 2;
 		AttackSpeed = 0;
 		AttackDmg = 1;

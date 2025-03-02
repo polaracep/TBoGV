@@ -21,7 +21,7 @@ class BossSvarta : EnemyBoss
 	static SoundEffectInstance SfxSvartaDelejInstance = SfxSvartaDelej.CreateInstance();
 	protected double phaseChangeElapsed = 0;
 	protected int chillDuration = (int)SfxSvartaDelej.Duration.TotalMilliseconds;
-	protected int spinksDuration = 5000;
+	protected int spinksDuration = 7000;
 	protected enum SvartaState
 	{
 		CHILL,
@@ -160,7 +160,7 @@ class BossSvarta : EnemyBoss
 		Hp = 60;
 		MovementSpeed = 12;
 		AttackSpeed = 0;
-		AttackDmg = 1;
+		AttackDmg = 2;
 		XpValue = 50;
 	}
 }

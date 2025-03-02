@@ -46,8 +46,8 @@ public class BossAles : EnemyBoss
 		center + new Vector2(radius, -radius),
 		center + new Vector2(-radius, radius),
 		center + new Vector2(radius, radius),
-		center 
-    };
+		center
+	};
 	}
 	public BossAles() : this(Vector2.Zero) { }
 	public override void Draw(SpriteBatch spriteBatch)
@@ -101,13 +101,13 @@ public class BossAles : EnemyBoss
 		{
 			Rage = !Rage;
 			phaseChangeElapsed = 0;
-			chillDuration = new Random().Next(5000, 15000);
+			chillDuration = new Random().Next(2000, 7000);
 			if (Rage)
 			{
 				if (Random.Shared.Next(2) == 0)
 				{
 					SfxDzojkInstance.Play();
-					Teleport(); 
+					Teleport();
 				}
 				else
 					SfxKavesInstance.Play();
@@ -147,7 +147,7 @@ public class BossAles : EnemyBoss
 
 	protected override void InitStats(int difficulty)
 	{
-		Hp = 200;
+		Hp = 50;
 		MovementSpeed = 4;
 		AttackSpeed = 350;
 		AttackDmg = 1;
