@@ -29,6 +29,7 @@ public class TBoGVGame : Game
         SongManager.Load(Content);
         FontManager.Load(Content);
         SoundManager.Load(Content);
+        Settings.Load();
     }
 
     // Run after LoadContent
