@@ -1,3 +1,4 @@
+using System;
 using Microsoft.Xna.Framework;
 using TBoGV;
 
@@ -54,7 +55,7 @@ public static class RoomHelper
         for (int i = 0; i < rect.Height; i++)
         {
             floor[x, i + y] = (Tile)wall.Clone();
-            floor[x + rect.Height - 1, i + y] = (Tile)wall.Clone();
+            floor[x + rect.Width - 1, i + y] = (Tile)wall.Clone();
         }
 
         floor[x, y] = (Tile)corner.Clone();

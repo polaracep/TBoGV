@@ -25,6 +25,7 @@ class EffectCooked : Effect
 		Positive = false;
 		Stats = new Dictionary<StatTypes, int>();
 		Level = 0;
+		LevelCap = 50;
 		ChangeLevel(level);
 		// Get original sprite dimensions
 		float originalWidth = Sprite.Width;
@@ -36,6 +37,7 @@ class EffectCooked : Effect
 	public override void ChangeLevel(int delta)
 	{
 		Level += delta;
+		EnsureLevelCap();
 		Random rnd = new Random();
 		for (int i = 0; i < delta; i++)
 		{

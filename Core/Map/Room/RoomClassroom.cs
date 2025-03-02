@@ -20,11 +20,9 @@ public class RoomClassroom : Room
         new EnemyLol(),
     ];
 
-    public RoomClassroom(Player p, List<Entity> entityList) : base(p, entityList) { }
+    public RoomClassroom(Player p, List<Entity> entityList) : base((11, 15, 19), p, entityList) { }
     public RoomClassroom(Vector2 dimensions, Player p, List<Entity> entityList) : base(dimensions, p, entityList) { }
-    public RoomClassroom(Player p) : base(p)
-    {
-    }
+    public RoomClassroom(Player p) : base((11, 15, 19), p, null) { }
 
     public override void Generate()
     {
@@ -33,7 +31,7 @@ public class RoomClassroom : Room
 
         GenerateBase(FloorTypes.BASIC, WallTypes.WHITE, DoorTypes.BASIC);
         GenerateDecor();
-        GenerateEnemies(18);
+        GenerateEnemies(40 - (Storyline.Difficulty * 2));
     }
 
     protected override void GenerateBase(FloorTypes floors, WallTypes walls, DoorTypes doors)
@@ -96,5 +94,4 @@ public class RoomClassroom : Room
 
         }
     }
-    // protected override void GenerateEnemies(int concentration) { }
 }

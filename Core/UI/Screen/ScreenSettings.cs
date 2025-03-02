@@ -20,6 +20,7 @@ public class ScreenSettings : Screen
         Viewport v = graphics.GraphicsDevice.Viewport;
         escapeButton = new Button("Zpět", LargerFont, () =>
         {
+            Settings.Save();
             TBoGVGame.screenCurrent = LastScreen;
         });
 
@@ -88,7 +89,9 @@ public class ScreenSettings : Screen
     {
         KeyboardState keyboardState = Keyboard.GetState();
         if (keyboardState.IsKeyDown(Keys.Escape) && previousKeyboardState.IsKeyUp(Keys.Escape))
+        {
             escapeButton.OnClick();
+        }
 
         MouseState mouseState = Mouse.GetState();
         escapeButton.Update(mouseState);

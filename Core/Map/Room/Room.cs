@@ -36,12 +36,12 @@ public abstract class Room : Place
     protected abstract List<Enemy> validEnemies { get; set; }
     protected Directions? direction = null;
 
-    public Room(Vector2 dimensions, Player p, List<Entity> entityList)
+    public Room((int sMin, int sMax, int bMax) dimensions, Player p, List<Entity> entityList)
     {
         player = p;
-        Dimensions = dimensions;
         Position = Vector2.Zero;
 
+        GenerateDimensions(dimensions);
         Floor = new Tile[(int)Dimensions.X, (int)Dimensions.Y];
         Decorations = new Tile[(int)Dimensions.X, (int)Dimensions.Y];
 
@@ -51,7 +51,7 @@ public abstract class Room : Place
         // Sort list based on the entity type
         entityList.ForEach(e =>
         {
-            if (e is Enemy)
+            if (e is Enemy && !EnemyPool.Contains((Enemy)e))
                 EnemyPool.Add((Enemy)e);
             else if (e is Item)
                 Drops.Add((Item)e);
@@ -61,28 +61,21 @@ public abstract class Room : Place
                 throw new Exception("Invalid entity type provided.");
         });
     }
-    public Room(Player p, List<Entity> entityList) : this(Vector2.Zero, p, entityList)
+    public Room(Vector2 dimensions, Player p, List<Entity> entityList) : this((1, 2, 3), p, entityList)
     {
-        direction = (Directions)Random.Shared.Next(4);
-        int smaller = Random.Shared.Next(9, 17);
-        int bigger = Random.Shared.Next(smaller, 21);
-
-        if (direction == Directions.LEFT || direction == Directions.RIGHT)
-            // Horizontal
-            Dimensions = new Vector2(bigger, smaller);
-        else
-            // vertical
-            Dimensions = new Vector2(smaller, bigger);
+        Dimensions = dimensions;
+        Floor = new Tile[(int)Dimensions.X, (int)Dimensions.Y];
+        Decorations = new Tile[(int)Dimensions.X, (int)Dimensions.Y];
     }
+    public Room((int sMin, int sMax, int bMax) dimensions, Player p) : this(dimensions, p, null) { }
     public Room(Vector2 dimensions, Player p) : this(dimensions, p, null) { }
-    public Room(Player p) : this(p, null) { }
 
     public override void Reset()
     {
         ClearEnemies();
         ClearProjectiles();
         Generate();
-        GenerateEnemies(20);
+        GenerateEnemies(40 * (1 / Storyline.Difficulty));
     }
 
     /* === Update methods === */
@@ -201,12 +194,22 @@ public abstract class Room : Place
     /* === Generation methods === */
     protected virtual void GenerateEnemies(int concentration)
     {
+
+        List<Enemy> chosenEnemies = new List<Enemy>();
         if (EnemyPool.Count == 0)
         {
-            // 1 enemy for 18 tiles
-            for (int i = 0; i < GetValidPositionCount() / concentration; i++)
-                EnemyPool.Add((Enemy)validEnemies[Random.Shared.Next(validEnemies.Count)].Clone());
+            if (validEnemies.Count == 0)
+                return;
+            // get 2 types of enemies
+            EnemyPool = [
+                (Enemy)validEnemies[Random.Shared.Next(validEnemies.Count)].Clone(),
+                (Enemy)validEnemies[Random.Shared.Next(validEnemies.Count)].Clone()
+            ];
         }
+
+        // 1 enemy for 'concentration' tiles
+        for (int i = 0; i < Math.Round((decimal)GetValidPositionCount() / concentration); i++)
+            chosenEnemies.Add((Enemy)EnemyPool[Random.Shared.Next(EnemyPool.Count)].Clone());
 
         Random rand = new Random();
         foreach (var enemy in EnemyPool)
@@ -359,4 +362,30 @@ public abstract class Room : Place
                 validPositions += ShouldCollideAt(GetTileWorldPos(new Vector2(x, y))) ? 0 : 1;
         return validPositions;
     }
+
+    /// <summary>
+    /// Generate the dimensions for a room
+    /// </summary>
+    /// <param name="sMin">Min value for smaller side</param>
+    /// <param name="sMax">Max value for smaller side/param>
+    /// <param name="bMax">Max value for bigger side/param>
+    protected virtual void GenerateDimensions(int sMin, int sMax, int bMax)
+    {
+        if (sMin > sMax)
+            throw new Exception("sMax must be bigger than sMin!");
+        if (sMax > bMax)
+            throw new Exception("bMax must be bigger than sMax!");
+
+        direction = (Directions)Random.Shared.Next(4);
+        int smaller = Random.Shared.Next(sMin, sMax);
+        int bigger = Random.Shared.Next(smaller, bMax);
+
+        if (direction == Directions.LEFT || direction == Directions.RIGHT)
+            // Horizontal
+            Dimensions = new Vector2(bigger, smaller);
+        else
+            // vertical
+            Dimensions = new Vector2(smaller, bigger);
+    }
+    protected virtual void GenerateDimensions((int sMin, int sMax, int bMax) dim) { GenerateDimensions(dim.sMin, dim.sMax, dim.bMax); }
 }

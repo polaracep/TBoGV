@@ -29,7 +29,7 @@ class ItemExplosive : ItemContainerable
 	}
     public override ItemContainerable Clone()
     {
-        return new ItemBook();
+        return new ItemExplosive();
     }
 }
 

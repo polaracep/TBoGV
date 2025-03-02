@@ -16,6 +16,7 @@ class EffectFyjalovaDrahota : Effect
         Stats = new Dictionary<StatTypes, int>();
         Effects = new List<EffectTypes>() { EffectTypes.EXPENSIVE};
         Level = 0;
+        LevelCap = 1;
         ChangeLevel(level);
         // Get original sprite dimensions
         float originalWidth = Sprite.Width;
@@ -29,6 +30,7 @@ class EffectFyjalovaDrahota : Effect
     {
         Level += delta;
         effectTime += delta * 400;
+        EnsureLevelCap();
         UpdateSize();
     }
 

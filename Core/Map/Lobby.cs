@@ -33,12 +33,12 @@ public class Lobby : Place
         AddDecoTile(SpawnPos + Vector2.UnitX, new TileStart(MathHelper.PiOver2));
 
         // kavovar
-        AddDecoTile(new Vector2(1, 2), new TileDecoration(true, DecorationTypes.COFFEE_MACHINE, -MathHelper.PiOver2));
+        AddDecoTile(new Vector2(1, 2), new TileCoffeeMachine(-MathHelper.PiOver2));
 
         // lednice
-        AddDecoTile(new Vector2(1, Dimensions.Y - 2), new TileDecoration(true, DecorationTypes.FRIDGE1, MathHelper.Pi));
-        AddDecoTile(new Vector2(2, Dimensions.Y - 2), new TileDecoration(true, DecorationTypes.FRIDGE2, MathHelper.Pi));
-        AddDecoTile(new Vector2(3, Dimensions.Y - 2), new TileDecoration(true, DecorationTypes.FRIDGE1, MathHelper.Pi));
+        AddDecoTile(new Vector2(1, Dimensions.Y - 2), new TileFridge(MathHelper.Pi));
+        AddDecoTile(new Vector2(2, Dimensions.Y - 2), new TileFridge(MathHelper.Pi));
+        AddDecoTile(new Vector2(3, Dimensions.Y - 2), new TileFridge(MathHelper.Pi));
 
         // lol
         AddDecoTile(new Vector2(5, Dimensions.Y - 3), new TileDecoration(false, DecorationTypes.CHAIR_CAFETERIA_G));
