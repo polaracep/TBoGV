@@ -74,7 +74,7 @@ public static class TextureManager
             "svartaSpinks",
             "richardSpritesheet",
             "ventSpritesheet",
-			"petr",
+            "petr",
             "lol",
 
 
@@ -146,6 +146,7 @@ public static class TextureManager
             "exit",
             "tbogv",
             "richard",
+            "vyzo",
         };
 
         foreach (string name in names)

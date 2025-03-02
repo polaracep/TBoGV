@@ -35,12 +35,9 @@ public class TBoGVGame : Game
     // Run after LoadContent
     protected override void BeginRun()
     {
-
+        ScreenManager.Init(_graphics);
         screenCurrent = ScreenManager.ScreenStart;
 
-        ScreenManager.ScreenGame.BeginRun(_graphics);
-        ScreenManager.ScreenSettings.BeginRun(_graphics);
-        ScreenManager.ScreenStart.BeginRun(_graphics);
 
         base.BeginRun();
     }

@@ -36,9 +36,9 @@ public class RoomClassroom : Room
 
     protected override void GenerateBase(FloorTypes floors, WallTypes walls, DoorTypes doors)
     {
-        this.ClearRoom();
-        this.Floor = new Tile[(int)Dimensions.X, (int)Dimensions.Y];
-        this.Decorations = new Tile[(int)Dimensions.X, (int)Dimensions.Y];
+        ClearRoom();
+        Floor = new Tile[(int)Dimensions.X, (int)Dimensions.Y];
+        Decorations = new Tile[(int)Dimensions.X, (int)Dimensions.Y];
 
         Floor.GenerateFilledRectangleWRotation(
             new Rectangle(0, 0, (int)Dimensions.X, (int)Dimensions.Y),

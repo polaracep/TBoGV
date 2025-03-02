@@ -54,29 +54,11 @@
 /processorParam:Quality=Best
 /build:Sounds/alesSmich.wav
 
-#begin Sounds/alesSmich.wav
-/importer:WavImporter
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:Sounds/alesSmich.wav
-
 #begin Sounds/aligator.wav
 /importer:WavImporter
 /processor:SoundEffectProcessor
 /processorParam:Quality=Best
 /build:Sounds/aligator.wav
-
-#begin Sounds/aligator.wav
-/importer:WavImporter
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:Sounds/aligator.wav
-
-#begin Sounds/AMOGUS.wav
-/importer:WavImporter
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:Sounds/AMOGUS.wav
 
 #begin Sounds/AMOGUS.wav
 /importer:WavImporter
@@ -90,29 +72,11 @@
 /processorParam:Quality=Best
 /build:Sounds/bouchaniDoKorenu.wav
 
-#begin Sounds/bouchaniDoKorenu.wav
-/importer:WavImporter
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:Sounds/bouchaniDoKorenu.wav
-
 #begin Sounds/bouchaniDoKorenuNebyloSlyset.mp3
 /importer:Mp3Importer
 /processor:SongProcessor
 /processorParam:Quality=Best
 /build:Sounds/bouchaniDoKorenuNebyloSlyset.mp3
-
-#begin Sounds/bouchaniDoKorenuNebyloSlyset.mp3
-/importer:Mp3Importer
-/processor:SongProcessor
-/processorParam:Quality=Best
-/build:Sounds/bouchaniDoKorenuNebyloSlyset.mp3
-
-#begin Sounds/dzojk.wav
-/importer:WavImporter
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:Sounds/dzojk.wav
 
 #begin Sounds/dzojk.wav
 /importer:WavImporter
@@ -126,29 +90,11 @@
 /processorParam:Quality=Best
 /build:Sounds/dzojkShorter.wav
 
-#begin Sounds/dzojkShorter.wav
-/importer:WavImporter
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:Sounds/dzojkShorter.wav
-
 #begin Sounds/kaves.wav
 /importer:WavImporter
 /processor:SoundEffectProcessor
 /processorParam:Quality=Best
 /build:Sounds/kaves.wav
-
-#begin Sounds/kaves.wav
-/importer:WavImporter
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:Sounds/kaves.wav
-
-#begin Sounds/nebyloTadyDoSmichu.mp3
-/importer:Mp3Importer
-/processor:SongProcessor
-/processorParam:Quality=Best
-/build:Sounds/nebyloTadyDoSmichu.mp3
 
 #begin Sounds/nebyloTadyDoSmichu.mp3
 /importer:Mp3Importer
@@ -162,29 +108,11 @@
 /processorParam:Quality=Best
 /build:Sounds/neverGonnaGiveUUp.wav
 
-#begin Sounds/neverGonnaGiveUUp.wav
-/importer:WavImporter
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:Sounds/neverGonnaGiveUUp.wav
-
 #begin Sounds/OIIAOIIA.wav
 /importer:WavImporter
 /processor:SoundEffectProcessor
 /processorParam:Quality=Best
 /build:Sounds/OIIAOIIA.wav
-
-#begin Sounds/OIIAOIIA.wav
-/importer:WavImporter
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:Sounds/OIIAOIIA.wav
-
-#begin Sounds/rickroll.wav
-/importer:WavImporter
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:Sounds/rickroll.wav
 
 #begin Sounds/rickroll.wav
 /importer:WavImporter
@@ -198,29 +126,11 @@
 /processorParam:Quality=Best
 /build:Sounds/soundtrack.mp3
 
-#begin Sounds/soundtrack.mp3
-/importer:Mp3Importer
-/processor:SongProcessor
-/processorParam:Quality=Best
-/build:Sounds/soundtrack.mp3
-
 #begin Sounds/susn.wav
 /importer:WavImporter
 /processor:SoundEffectProcessor
 /processorParam:Quality=Best
 /build:Sounds/susn.wav
-
-#begin Sounds/susn.wav
-/importer:WavImporter
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:Sounds/susn.wav
-
-#begin Sounds/svartaDelej.wav
-/importer:WavImporter
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:Sounds/svartaDelej.wav
 
 #begin Sounds/svartaDelej.wav
 /importer:WavImporter
@@ -234,29 +144,11 @@
 /processorParam:Quality=Best
 /build:Sounds/takToJsemNevidel.wav
 
-#begin Sounds/takToJsemNevidel.wav
-/importer:WavImporter
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:Sounds/takToJsemNevidel.wav
-
 #begin Sounds/toilet.wav
 /importer:WavImporter
 /processor:SoundEffectProcessor
 /processorParam:Quality=Best
 /build:Sounds/toilet.wav
-
-#begin Sounds/toilet.wav
-/importer:WavImporter
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:Sounds/toilet.wav
-
-#begin Sounds/vibe.wav
-/importer:WavImporter
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:Sounds/vibe.wav
 
 #begin Sounds/vibe.wav
 /importer:WavImporter
@@ -780,6 +672,18 @@
 /processorParam:TextureFormat=Color
 /build:Textures/coffeeMachine.png
 
+#begin Textures/coffeeMachine.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Textures/coffeeMachine.png
+
 #begin Textures/coin.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -1079,6 +983,30 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Textures/decoFridge1.png
+
+#begin Textures/decoFridge1.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Textures/decoFridge1.png
+
+#begin Textures/decoFridge2.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Textures/decoFridge2.png
 
 #begin Textures/decoFridge2.png
 /importer:TextureImporter
@@ -2747,6 +2675,30 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Textures/vitekEleganBolderCut.png
+
+#begin Textures/vyzo.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Textures/vyzo.png
+
+#begin Textures/vyzo.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Textures/vyzo.png
 
 #begin Textures/wall.png
 /importer:TextureImporter
