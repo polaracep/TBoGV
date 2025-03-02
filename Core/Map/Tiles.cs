@@ -290,3 +290,21 @@ public class TileCoffeeMachine : Tile, IInteractable
         }
     }
 }
+
+public class TileComputer : Tile, IInteractable
+{
+    public TileComputer(float rotation, SpriteEffects fx) : base(true, rotation, fx)
+    {
+        this.Sprite = TextureManager.GetTexture(DecorationTypes.KATEDRA.Value);
+    }
+    public TileComputer(float rotation) : this(rotation, SpriteEffects.None) { }
+    public TileComputer() : this(0f) { }
+    public void Interact(Entity e, Place _)
+    {
+        if (e is Player)
+        {
+            Player p = (Player)e;
+            p.Inventory.AddEffect(new EffectLol(1));
+        }
+    }
+}

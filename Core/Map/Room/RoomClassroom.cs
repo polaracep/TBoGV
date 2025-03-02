@@ -15,9 +15,7 @@ public class RoomClassroom : Room
     protected override List<Enemy> validEnemies { get; set; } = [
         new EnemyTriangle(),
         new EnemyCat(),
-        new EnemyVitek(),
         new EnemyPolhreich(),
-        new EnemyLol(),
     ];
 
     public RoomClassroom(Player p, List<Entity> entityList) : base((11, 15, 19), p, entityList) { }
@@ -67,7 +65,7 @@ public class RoomClassroom : Room
                     AddDecoTile(new Vector2(3 + 3 * y, 2 + 2 * i), new TileDecoration(true, DecorationTypes.DESK));
                 }
 
-            AddDecoTile(new Vector2(Dimensions.X - 4, 3), new TileDecoration(true, DecorationTypes.KATEDRA, SpriteEffects.FlipHorizontally));
+            AddDecoTile(new Vector2(Dimensions.X - 4, 3), new TileComputer(0f, SpriteEffects.FlipHorizontally));
             AddDecoTile(new Vector2(Dimensions.X - 3, 3), new TileDecoration(false, DecorationTypes.CHAIR_CLASSROOM, SpriteEffects.FlipHorizontally));
             AddDecoTile(new Vector2(Dimensions.X - 1, Dimensions.Y / 2), new TileDecoration(false, DecorationTypes.BLACKBOARD));
 
@@ -86,7 +84,7 @@ public class RoomClassroom : Room
                     AddDecoTile(new Vector2(2 + 2 * x, 3 + 3 * y), new TileDecoration(true, DecorationTypes.DESK, MathHelper.PiOver2));
                 }
 
-            AddDecoTile(new Vector2(3, Dimensions.Y - 4), new TileDecoration(true, DecorationTypes.KATEDRA, -MathHelper.PiOver2));
+            AddDecoTile(new Vector2(3, Dimensions.Y - 4), new TileComputer(-MathHelper.PiOver2));
             AddDecoTile(new Vector2(3, Dimensions.Y - 3), new TileDecoration(false, DecorationTypes.CHAIR_CLASSROOM, -MathHelper.PiOver2));
             AddDecoTile(new Vector2(Dimensions.X / 2, Dimensions.Y - 1), new TileDecoration(true, DecorationTypes.BLACKBOARD, MathHelper.PiOver2));
 

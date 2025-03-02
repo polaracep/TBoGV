@@ -25,7 +25,12 @@ public static class Storyline
     {
         LevelList = [
             new Level(p, [
-                new RoomClassroom(p),new RoomShower(new Vector2(7),p)
+                new RoomShower(new Vector2(7),p),
+                new RoomShower(new Vector2(7),p),
+                new RoomShower(new Vector2(7),p),
+                new RoomShower(new Vector2(7),p),
+                new RoomShower(new Vector2(7),p),
+                new RoomShower(new Vector2(7),p),
             ], new RoomStart(p), new RoomEmpty(p), 3),
             new Level(p, [
                 new RoomClassroom(p),

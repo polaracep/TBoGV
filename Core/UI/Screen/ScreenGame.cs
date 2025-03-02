@@ -207,12 +207,18 @@ public class ScreenGame : Screen
             }
         }
 
+#if DEBUG
         // Reset room (debug)
         if (keyboardState.IsKeyDown(Keys.R) && previousKeyboardState.IsKeyUp(Keys.R) && !inGameMenu.Active)
         {
             activePlace.Reset();
             shopMenu.ClearShop();
         }
+        if (keyboardState.IsKeyDown(Keys.C) && previousKeyboardState.IsKeyUp(Keys.C) && !inGameMenu.Active)
+        {
+            activePlace.Enemies.Clear();
+        }
+#endif
 
     }
 

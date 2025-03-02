@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using TBoGV;
 
 public class RoomShower : Room
@@ -36,7 +35,7 @@ public class RoomShower : Room
         GenerateDecor();
         GenerateDoors(DoorTypes.BASIC, false);
     }
-    protected override void GenerateDoors(DoorTypes doors, bool center)
+    protected override void GenerateDoors(DoorTypes doors, bool _)
     {
         if (Doors == null)
             throw new ArgumentNullException("This room does not have any doors!");
@@ -50,69 +49,45 @@ public class RoomShower : Room
                 door.SetDoorType(doors);
 
             bool validPosition = false;
-            int attempts = 0;
 
-            while (!validPosition && attempts < 100) // Avoid infinite loops
+            while (!validPosition)
             {
-                if (center)
-                {
-                    _x = (int)Dimensions.X / 2;
-                    _y = (int)Dimensions.Y / 2;
-                }
-                else
-                {
-                    _x = rand.Next((int)Dimensions.X - 2) + 1;
-                    _y = rand.Next((int)Dimensions.Y - 2) + 1;
-                }
+                _x = rand.Next((int)Dimensions.X - 2) + 1;
+                _y = rand.Next((int)Dimensions.Y - 2) + 1;
 
-                int tpX = _x, tpY = _y; // Default teleport position (same as door)
+                // tp pos
+                int tpX = _x, tpY = _y;
 
-                // Determine teleport position based on door direction
                 switch (door.Direction)
                 {
-                    case Directions.LEFT:
-                        tpX = 2; // Safe teleport position inside the room
-                        break;
-                    case Directions.RIGHT:
-                        tpX = (int)Dimensions.X - 3;
-                        break;
-                    case Directions.UP:
-                        tpY = 2;
-                        break;
-                    case Directions.DOWN:
-                        tpY = (int)Dimensions.Y - 3;
-                        break;
+                    case Directions.LEFT: tpX = 1; break;
+                    case Directions.RIGHT: tpX = (int)Dimensions.X - 2; break;
+                    case Directions.DOWN: tpY = (int)Dimensions.Y - 2; break;
+                    case Directions.UP: tpY = 1; break;
                 }
 
-                // Ensure both door position and teleport position are free
-                if (Decorations[_x, _y] == null && Decorations[tpX, tpY] == null)
-                {
+                if (!Decorations[tpX, tpY]?.DoCollision ?? true)
                     validPosition = true;
-                }
 
-                attempts++;
             }
-
-            if (!validPosition)
-                continue; // Skip this door if no valid position is found
 
             // Place the door and assign a valid teleport position
             switch (door.Direction)
             {
                 case Directions.LEFT:
-                    door.DoorTpPosition = new Vector2(2, _y);
+                    door.DoorTpPosition = new Vector2(1, _y);
                     Decorations[0, _y] = door;
                     break;
                 case Directions.RIGHT:
-                    door.DoorTpPosition = new Vector2((int)Dimensions.X - 3, _y);
+                    door.DoorTpPosition = new Vector2((int)Dimensions.X - 2, _y);
                     Decorations[(int)Dimensions.X - 1, _y] = door;
                     break;
                 case Directions.UP:
-                    door.DoorTpPosition = new Vector2(_x, 2);
+                    door.DoorTpPosition = new Vector2(_x, 1);
                     Decorations[_x, 0] = door;
                     break;
                 case Directions.DOWN:
-                    door.DoorTpPosition = new Vector2(_x, (int)Dimensions.Y - 3);
+                    door.DoorTpPosition = new Vector2(_x, (int)Dimensions.Y - 2);
                     Decorations[_x, (int)Dimensions.Y - 1] = door;
                     break;
             }
