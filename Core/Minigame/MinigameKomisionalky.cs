@@ -55,8 +55,10 @@ public class MinigameKomisionalky : Minigame
 			displayedText = "Cestina\nDifficulty: normal";
 		else if (difficulty == 2)
 			displayedText = "Zsv\nDifficulty: 2 ez";
-		else 
+		else
 			displayedText = "Telocvik\nDifficulty: free pass";
+
+		displayedText += "\nMackej mezernik";
 
 
 		Vector2 textSize = Font.MeasureString(displayedText);
@@ -105,8 +107,8 @@ public class MinigameKomisionalky : Minigame
 
 		// Draw the progress bar
 		int progressBarWidth = (int)((float)successCount / RequiredSuccesses * BarWidth);
-		spriteBatch.Draw(SpriteForeground, new Rectangle(barX + (int)PositionOffset.X, barY + BarHeight + 10+ (int)PositionOffset.Y, BarWidth, 5), Color.Gray);
-		spriteBatch.Draw(SpriteForeground, new Rectangle(barX + (int)PositionOffset.X, barY + BarHeight + 10+ (int)PositionOffset.Y, progressBarWidth, 5), Color.Blue);
+		spriteBatch.Draw(SpriteForeground, new Rectangle(barX + (int)PositionOffset.X, barY + BarHeight + 10 + (int)PositionOffset.Y, BarWidth, 5), Color.Gray);
+		spriteBatch.Draw(SpriteForeground, new Rectangle(barX + (int)PositionOffset.X, barY + BarHeight + 10 + (int)PositionOffset.Y, progressBarWidth, 5), Color.Blue);
 	}
 
 	public override void Update(KeyboardState keyboardState, double dt)
@@ -118,9 +120,10 @@ public class MinigameKomisionalky : Minigame
 		if (State == minigameState.FAILURE || State == minigameState.SUCCESS)
 			return;
 
-		elapsed = (float)dt/1000;
+		elapsed = (float)dt / 1000;
 
-		if (keyboardState.IsKeyDown(Keys.Space) && prevKeyboardState.IsKeyUp(Keys.Space))
+		if (keyboardState.IsKeyDown(Keys.Space) && prevKeyboardState.IsKeyUp(Keys.Space) ||
+			keyboardState.IsKeyDown(Keys.E) && prevKeyboardState.IsKeyUp(Keys.E))
 		{
 			if (arrowPosition + ArrowWidth / 2 >= greenStart && arrowPosition <= greenEnd - ArrowWidth / 2)
 			{

@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using TBoGV;
@@ -26,8 +27,9 @@ public class Lobby : Place
             new TileWall(WallTypes.LOBBY),
             new TileWall(WallTypes.LOBBY_CORNER)
         );
-
+#if DEBUG
         AddDecoTile(new Vector2(3, 2), new TileTreasure());
+#endif
 
         // Spawnpos + o jedno doprava
         AddDecoTile(SpawnPos + Vector2.UnitX, new TileStart(MathHelper.PiOver2));
@@ -92,11 +94,7 @@ public class Lobby : Place
     public override void Reset()
     {
         Drops.Clear();
-        foreach (var e in Entities)
-        {
-            if (e is EntityFyjala)
-                Entities.Remove(e);
-        }
+        Entities.Where(e => e is not EntityFyjala);
         // 1/4 chance
         IsFyjala = new Random().Next(4) == 1;
         GenerateFyjala();

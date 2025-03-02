@@ -15,9 +15,10 @@ class InGameMenuDeath : InGameMenu
 	private MinigameKomisionalky minigame;
 	private bool minigameCompleted = false;
 	private bool minigameSuccess = false;
-
+	private bool minigameRunning = false;
 	private Button buttonResetLevel;
 	private Button buttonPassTest;
+	private Button buttonRunMinigame;
 
 	public Action ResetLevel;
 	public Action PassTest;
@@ -42,6 +43,7 @@ class InGameMenuDeath : InGameMenu
 		SpriteBackground = TextureManager.GetTexture("blackSquare");
 		Active = false;
 
+		buttonRunMinigame = new Button("Pokusit se o komisionalky", MiddleFont, () => { minigameRunning = true; });
 		buttonResetLevel = new Button("Opakovat rocnik", MiddleFont, () => ResetLevel());
 		buttonPassTest = new Button("Slozit komisionalky", MiddleFont, () => PassTest());
 	}
@@ -59,6 +61,8 @@ class InGameMenuDeath : InGameMenu
 		if (!Active)
 			return;
 
+		if (!minigameRunning)
+			buttonRunMinigame.Update(mouseState);
 		if (!minigameCompleted)
 		{
 			minigame.Update(keyboardState, dt);
@@ -93,30 +97,47 @@ class InGameMenuDeath : InGameMenu
 		int menuX = (Viewport.Width - menuWidth) / 2;
 		int menuY = (Viewport.Height - menuHeight) / 2;
 
+		// bg
 		Rectangle menuBackground = new Rectangle(menuX, menuY, menuWidth, menuHeight);
 		spriteBatch.Draw(SpriteBackground, menuBackground, Color.Black * 0.7f);
 
+		// headline
 		Vector2 headlinePos = new Vector2(
 			menuBackground.X + (menuBackground.Width - headlineSize.X) / 2,
 			menuBackground.Y + margin
 		);
 		spriteBatch.DrawString(LargerFont, headline, headlinePos, Color.White);
 
+		// hlaska
 		Vector2 descPos = new Vector2(
 			menuBackground.X + (menuBackground.Width - descSize.X) / 2,
 			headlinePos.Y + headlineSize.Y + 10
 		);
 		spriteBatch.DrawString(MiddleFont, chosenDeathMessage, descPos, Color.White);
 
+		// vita
 		Vector2 imagePos = new Vector2(
 			menuBackground.X + (menuBackground.Width - imageWidth) / 2,
 			descPos.Y + descSize.Y + 10
 		);
 		Rectangle imageBounds = new Rectangle((int)imagePos.X, (int)imagePos.Y, imageWidth, imageHeight);
 		spriteBatch.Draw(SpriteCooked, imageBounds, Color.White);
-		minigame.PositionOffset = new Vector2(0, (int)imagePos.Y + imageHeight - Viewport.Height / 2 + 20);
-		minigame.Draw(spriteBatch);
 
+		// minihra
+		if (minigameRunning)
+		{
+			minigame.PositionOffset = new Vector2(0, (int)imagePos.Y + imageHeight - Viewport.Height / 2 + 20);
+			minigame.Draw(spriteBatch);
+		}
+		else
+		{
+			Vector2 buttonSize = new Vector2(buttonRunMinigame.GetRect().Width, buttonRunMinigame.GetRect().Height);
+			buttonRunMinigame.Position = new Vector2(menuBackground.X + (menuBackground.Width - (int)buttonSize.X) / 2,
+				imageBounds.Y + imageBounds.Height + margin + 100);
+			buttonRunMinigame.Draw(spriteBatch);
+		}
+
+		// hotovo
 		if (minigameCompleted)
 		{
 			Button button = minigameSuccess ? buttonPassTest : buttonResetLevel;

@@ -13,11 +13,9 @@ public class RoomClassroom : Room
 {
 
     protected override List<Enemy> validEnemies { get; set; } = [
-        /*
         new EnemyTriangle(),
         new EnemyCat(),
         new EnemyPolhreich(),
-        */
         new EnemySoldier()
     ];
 

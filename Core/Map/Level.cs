@@ -71,7 +71,6 @@ public class Level
 
         ActiveRoom.ClearProjectiles();
         Player.Position = e.OppositeDoor.DoorTpPosition * 50;
-        // Console.WriteLine("DIR:" + e.Directions);
     }
 }
 
@@ -289,6 +288,7 @@ public class LevelCreator
 
     public static void PrintMap(Room[,] map)
     {
+#if DEBUG
         for (int y = 0; y < map.GetLength(1); y++)
         {
             for (int x = 0; x < map.GetLength(0); x++)
@@ -301,9 +301,11 @@ public class LevelCreator
             Console.WriteLine();
         }
         Console.WriteLine();
+#endif
     }
     private void PrintMap(RoomCandidate[,] map)
     {
+#if DEBUG
         for (int y = 0; y < Size; y++)
         {
             for (int x = 0; x < Size; x++)
@@ -316,6 +318,7 @@ public class LevelCreator
             Console.WriteLine();
         }
         Console.WriteLine();
+#endif
     }
 
     private (Vector2 offset, Vector2 bounds) GetOffsetAndSize(RoomCandidate[,] rooms)

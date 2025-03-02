@@ -46,8 +46,10 @@ public class ScreenGame : Screen
         deathMenu = new InGameMenuDeath(graphics.GraphicsDevice.Viewport);
         shopMenu = new InGameMenuShop(graphics.GraphicsDevice.Viewport);
 
-        deathMenu.ResetLevel = () => Reset();
-        deathMenu.PassTest = () => Revive();
+        // deathMenu.ResetLevel = () => Reset();
+        // lol
+        deathMenu.ResetLevel = GameManager.Shutdown;
+        deathMenu.PassTest = Revive;
         itemJournalMenu = new InGameMenuItemJournal(graphics.GraphicsDevice.Viewport);
 
         // In-game Soundtrack
@@ -198,6 +200,7 @@ public class ScreenGame : Screen
             }
         }
 
+#if DEBUG
         if (keyboardState.IsKeyDown(Keys.P) && previousKeyboardState.IsKeyUp(Keys.P))
         {
             player.LevelChanged = true;
@@ -206,9 +209,6 @@ public class ScreenGame : Screen
                 Storyline.NextLevel();
             }
         }
-
-#if DEBUG
-        // Reset room (debug)
         if (keyboardState.IsKeyDown(Keys.R) && previousKeyboardState.IsKeyUp(Keys.R) && !inGameMenu.Active)
         {
             activePlace.Reset();

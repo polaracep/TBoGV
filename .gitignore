@@ -63,3 +63,5 @@ monodroid*.msi
 *.VC.opendb
 
 artifacts/
+
+tbogv_settings.json

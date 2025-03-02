@@ -103,7 +103,7 @@ class BossSvarta : EnemyBoss
 	}
 	public override List<Item> Drop(int looting)
 	{
-		return new List<Item>() { new ItemTeeth(this.Position) };
+		return new List<Item>() { new ItemMonster(this.Position) };
 	}
 	public override float RecieveDmg(Projectile projectile)
 	{
@@ -157,7 +157,7 @@ class BossSvarta : EnemyBoss
 
 	protected override void InitStats(int difficulty)
 	{
-		Hp = 60;
+		Hp = 15;
 		MovementSpeed = 12;
 		AttackSpeed = 0;
 		AttackDmg = 2;

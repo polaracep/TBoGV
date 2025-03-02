@@ -75,7 +75,7 @@ class BossRichard : EnemyBoss
 	}
 	public override List<Item> Drop(int looting)
 	{
-		return new List<Item>() { };
+		return new List<Item>() { new ItemLabcoat() };
 	}
 
 	public override void Draw(SpriteBatch spriteBatch)

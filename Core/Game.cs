@@ -19,6 +19,7 @@ public class TBoGVGame : Game
 
     protected override void Initialize()
     {
+        GameManager.game = this;
         base.Initialize();
     }
 
@@ -56,5 +57,15 @@ public class TBoGVGame : Game
         GraphicsDevice.Clear(Color.CornflowerBlue);
         screenCurrent.Draw(_spriteBatch, _graphics);
         base.Draw(gameTime);
+    }
+}
+
+public static class GameManager
+{
+    public static Game game;
+
+    public static void Shutdown()
+    {
+        game.Exit();
     }
 }

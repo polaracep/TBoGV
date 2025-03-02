@@ -272,7 +272,7 @@ class BossAmogus : EnemyBoss
 	}
 	public override List<Item> Drop(int looting)
 	{
-		return new List<Item>() { new ItemTeeth(this.Position) };
+		return new List<Item>() { new ItemFixa() };
 	}
 	public override Texture2D GetSprite()
 	{
@@ -312,7 +312,7 @@ class BossAmogus : EnemyBoss
 		{
 			Rectangle ventSourceRect = new Rectangle(ventFrame * frameWidthVent, 0, frameWidthVent, frameHeightVent);
 			spriteBatch.Draw(VentSpritesheet,
-				new Rectangle((int)Position.X-2, (int)(Position.Y+Size.Y- frameHeightVent * ScaleVent+8), (int)(frameWidthVent * ScaleVent), (int)(frameHeightVent * ScaleVent)),
+				new Rectangle((int)Position.X - 2, (int)(Position.Y + Size.Y - frameHeightVent * ScaleVent + 8), (int)(frameWidthVent * ScaleVent), (int)(frameHeightVent * ScaleVent)),
 				ventSourceRect,
 				Color.White,
 				0,

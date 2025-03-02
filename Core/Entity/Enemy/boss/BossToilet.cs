@@ -113,7 +113,7 @@ class BossToilet : EnemyBoss
 	}
 	public override List<Item> Drop(int looting)
 	{
-		return new List<Item>() { new ItemTeeth(this.Position) };
+		return new List<Item>() { new ItemBryle() };
 	}
 	public override float RecieveDmg(Projectile projectile)
 	{
