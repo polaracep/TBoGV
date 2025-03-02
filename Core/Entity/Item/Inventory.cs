@@ -33,7 +33,7 @@ public class Inventory
 		kalkulacka.Item = new ItemCalculator(Vector2.Zero);
 		kalkulacka.Selected = true;
 		// weapon.Item = new ItemDagger(Vector2.Zero);
-		weapon.Item = new ItemPencil(Vector2.Zero);
+		weapon.Item = new ItemDagger(Vector2.Zero);
 		ItemContainers = new List<ItemContainer>() { weapon, armor, effect, kalkulacka, new ItemContainer(), new ItemContainer() };
 		SpriteForeground = TextureManager.GetTexture("whiteSquare");
 		SpriteToolTip = TextureManager.GetTexture("containerBorder");
@@ -48,7 +48,7 @@ public class Inventory
 			if (effect.Name == e.Name)
 			{
 				e.ChangeLevel(effect.Level);
-				if(e.Level <= 0)
+				if (e.Level <= 0)
 					RemoveEffect(e);
 				return;
 			}

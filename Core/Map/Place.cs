@@ -28,7 +28,7 @@ public abstract class Place : IDraw
     /// <summary>
     /// List of living entities
     /// </summary>
-    protected List<Enemy> Enemies = new List<Enemy>();
+    public List<Enemy> Enemies = new List<Enemy>();
 
     /// <summary>
     /// Dimensions of the room

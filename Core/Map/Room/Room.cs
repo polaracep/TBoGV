@@ -51,7 +51,7 @@ public abstract class Room : Place
         // Sort list based on the entity type
         entityList.ForEach(e =>
         {
-            if (e is Enemy)
+            if (e is Enemy && !EnemyPool.Contains((Enemy)e))
                 EnemyPool.Add((Enemy)e);
             else if (e is Item)
                 Drops.Add((Item)e);
@@ -61,7 +61,12 @@ public abstract class Room : Place
                 throw new Exception("Invalid entity type provided.");
         });
     }
-    public Room(Vector2 dimensions, Player p, List<Entity> entityList) : this((1, 2, 3), p, entityList) { Dimensions = dimensions; }
+    public Room(Vector2 dimensions, Player p, List<Entity> entityList) : this((1, 2, 3), p, entityList)
+    {
+        Dimensions = dimensions;
+        Floor = new Tile[(int)Dimensions.X, (int)Dimensions.Y];
+        Decorations = new Tile[(int)Dimensions.X, (int)Dimensions.Y];
+    }
     public Room((int sMin, int sMax, int bMax) dimensions, Player p) : this(dimensions, p, null) { }
     public Room(Vector2 dimensions, Player p) : this(dimensions, p, null) { }
 
@@ -189,12 +194,22 @@ public abstract class Room : Place
     /* === Generation methods === */
     protected virtual void GenerateEnemies(int concentration)
     {
-        if (EnemyPool.Count == 0 && validEnemies.Count != 0)
+
+        List<Enemy> chosenEnemies = new List<Enemy>();
+        if (EnemyPool.Count == 0)
         {
-            // 1 enemy for 18 tiles
-            for (int i = 0; i < GetValidPositionCount() / concentration; i++)
-                EnemyPool.Add((Enemy)validEnemies[Random.Shared.Next(validEnemies.Count)].Clone());
+            if (validEnemies.Count == 0)
+                return;
+            // get 2 types of enemies
+            EnemyPool = [
+                (Enemy)validEnemies[Random.Shared.Next(validEnemies.Count)].Clone(),
+                (Enemy)validEnemies[Random.Shared.Next(validEnemies.Count)].Clone()
+            ];
         }
+
+        // 1 enemy for 'concentration' tiles
+        for (int i = 0; i < Math.Round((decimal)GetValidPositionCount() / concentration); i++)
+            chosenEnemies.Add((Enemy)EnemyPool[Random.Shared.Next(EnemyPool.Count)].Clone());
 
         Random rand = new Random();
         foreach (var enemy in EnemyPool)

@@ -150,7 +150,6 @@ public class TileExit : Tile, IInteractable
         ((Player)e).Inventory.RemoveEffect(new EffectFyjalovaDrahota(1));
     }
 }
-
 public class TileStart : Tile, IInteractable
 {
     public TileStart(float rotation, SpriteEffects effects) : base(false, rotation, effects)
@@ -169,6 +168,7 @@ public class TileStart : Tile, IInteractable
     }
 
 }
+
 public class TileHeal : Tile, IInteractable
 {
     public TileHeal(float rotation, SpriteEffects fx) : base(true, rotation, fx)
@@ -227,7 +227,7 @@ public class TileShower : Tile, IInteractable
             var existingEffect = p.Inventory.Effects.FirstOrDefault(effect => effect is EffectLol);
             if (existingEffect != null)
                 p.Inventory.AddEffect(new EffectLol(-1));
-            
+
             existingEffect = p.Inventory.Effects.FirstOrDefault(effect => effect is EffectCooked);
             if (existingEffect != null)
                 p.Inventory.AddEffect(new EffectCooked(-1));
