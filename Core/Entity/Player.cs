@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -64,7 +65,8 @@ public class Player : Entity, IRecieveDmg, IDealDmg
 		Inventory = new();
 		SetStats();
 		Hp = MaxHp;
-	}
+		LastRecievedDmgElapsed = InvulnerabilityFrame;
+    }
 
 	public Player() : this(Vector2.One) { }
 
@@ -339,6 +341,9 @@ public class Player : Entity, IRecieveDmg, IDealDmg
 		}
 		if (Inventory.GetEffect().Contains(EffectTypes.LIFE_STEAL))
 			Heal(0.5f);
+        var existingEffect = Inventory.Effects.FirstOrDefault(effect => effect is EffectCooked);
+        if (existingEffect != null )
+            Inventory.AddEffect(new EffectCooked(-1));
 	}
 	public int XpForLevel()
 	{
