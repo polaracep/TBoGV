@@ -45,7 +45,7 @@ public class RoomClassroom : Room
             new TileWall(WallTypes.WHITE),
             new TileWall(WallTypes.WHITE_CORNER)
         );
-        this.Floor[2, 2] = new TileFloor(FloorTypes.STAIRS);
+        //this.Floor[2, 2] = new TileFloor(FloorTypes.STAIRS);
 
         GenerateDoors(doors);
         IsGenerated = true;

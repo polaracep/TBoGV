@@ -52,48 +52,51 @@ class InGameMenuItemJournal : InGameMenu
 	private void AddAllItems()
 	{
 		// Define an array of item types
-		var itemTypes = new Type[]
+		//var itemTypes = new Type[]
+		var ItemsList = new ItemContainerable[]
 		{
-	typeof(ItemCalculator),
-	typeof(ItemDoping),
-	typeof(ItemMonster),
-	typeof(ItemFancyShoes),
-	typeof(ItemFlipFlop),
-	typeof(ItemTrackShoes),
-	typeof(ItemMap),
-	typeof(ItemMathProblem),
-	typeof(ItemTeeth),
-	typeof(ItemAdBlock),
-	typeof(ItemExplosive),
-	typeof(ItemDagger),
-	typeof(ItemPencil),
-	typeof(ItemBookBio),
-	typeof(ItemBookCzech),
-	typeof(ItemBookMath),
-	typeof(ItemBookZsv),
-	typeof(ItemBookPhysics),
-	typeof(ItemCross),
-	typeof(ItemBryle),
-	typeof(ItemBook),
-	typeof(ItemBookPE),
-	typeof(ItemPen),
-	typeof(ItemScissors),
-	typeof(ItemRubbedBoots),
-	typeof(ItemFixa),
-	typeof(ItemLabcoat),
+			new ItemCalculator(Vector2.Zero),
+			new ItemDoping(Vector2.Zero),
+			new ItemMonster(Vector2.Zero),
+			new ItemFancyShoes(Vector2.Zero),
+			new ItemFlipFlop(Vector2.Zero),
+			new ItemTrackShoes(Vector2.Zero),
+			new ItemMap(Vector2.Zero),
+			new ItemMathProblem(Vector2.Zero),
+			new ItemTeeth(Vector2.Zero),
+			new ItemAdBlock(Vector2.Zero),
+			new ItemExplosive(Vector2.Zero),
+			new ItemDagger(Vector2.Zero),
+			new ItemPencil(Vector2.Zero),
+			new ItemBookBio(Vector2.Zero),
+			new ItemBookCzech(Vector2.Zero),
+			new ItemBookMath(Vector2.Zero),
+			new ItemBookZsv(Vector2.Zero),
+			new ItemBookPhysics(Vector2.Zero),
+			new ItemCross(Vector2.Zero),
+			new ItemBryle(Vector2.Zero),
+			new ItemBook(Vector2.Zero),
+			new ItemBookPE(Vector2.Zero),
+			new ItemPen(Vector2.Zero),
+			new ItemScissors(Vector2.Zero),
+			new ItemRubbedBoots(Vector2.Zero),
+			new ItemFixa(Vector2.Zero),
+			new ItemLabcoat(Vector2.Zero),
 		};
 
 		// Use a foreach loop to add items to the list
+		/*
 		foreach (var itemType in itemTypes)
 		{
 			// Use reflection to create the item instance
 			var item = Activator.CreateInstance(itemType, new object[] { Vector2.Zero });
 			Items.Add((ItemContainerable)item);
 		}
-
-
-
-
+		*/
+		foreach (var item in ItemsList)
+		{
+			Items.Add(item.Clone());
+		}
 
 		// Initialize known status for each item
 		foreach (var item in Items)
