@@ -234,3 +234,53 @@ public class TileShower : Tile, IInteractable
         }
     }
 }
+
+public class TileFridge : Tile, IInteractable
+{
+    public TileFridge(float rotation, SpriteEffects fx) : base(true, rotation, fx)
+    {
+        this.Sprite = TextureManager.GetTexture("decoFridge1");
+    }
+
+    public TileFridge(float rotation) : this(rotation, SpriteEffects.None) { }
+
+    public TileFridge() : this(0f) { }
+    public void Interact(Entity e, Place _)
+    {
+        if (e is Player)
+        {
+            Player p = (Player)e;
+            var existingEffect = p.Inventory.Effects.FirstOrDefault(effect => effect is EffectCooked);
+            if ((existingEffect != null || p.Hp < p.MaxHp) && p.Coins >= 1)
+            {
+                p.Inventory.AddEffect(new EffectCooked(-3));
+                p.Heal(1);
+                p.Coins -= 1;
+            }
+        }
+    }
+}
+
+public class TileCoffeeMachine : Tile, IInteractable
+{
+    public TileCoffeeMachine(float rotation, SpriteEffects fx) : base(true, rotation, fx)
+    {
+        this.Sprite = TextureManager.GetTexture("coffeeMachine");
+    }
+
+    public TileCoffeeMachine(float rotation) : this(rotation, SpriteEffects.None) { }
+
+    public TileCoffeeMachine() : this(0f) { }
+    public void Interact(Entity e, Place _)
+    {
+        if (e is Player)
+        {
+            Player p = (Player)e;
+            if (p.Hp < p.MaxHp && p.Coins >= 1)
+            {
+                p.Heal(2);
+                p.Coins -= 1;
+            }
+        }
+    }
+}

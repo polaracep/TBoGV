@@ -15,6 +15,7 @@ class EffectLol : Effect
         Positive = false;
         Stats = new Dictionary<StatTypes, int>();
         Level = 0;
+        LevelCap = 5;
         ChangeLevel(level);
         // Get original sprite dimensions
         float originalWidth = Sprite.Width;
@@ -27,7 +28,7 @@ class EffectLol : Effect
     {
         Level += delta;
         Random rnd = new Random();
-
+        EnsureLevelCap();
         if (Stats.ContainsKey(StatTypes.MOVEMENT_SPEED))
             Stats[StatTypes.MOVEMENT_SPEED]-= delta * 2;
         else

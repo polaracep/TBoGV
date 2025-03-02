@@ -16,6 +16,7 @@ class EffectRickroll : Effect
 		Stats = new Dictionary<StatTypes, int>() { };
 		Effects = new List<EffectTypes> { EffectTypes.RICKROLL };
 		Level = 0;
+		LevelCap = 1;
 		ChangeLevel(level);
 		// Get original sprite dimensions
 		float originalWidth = Sprite.Width;
@@ -27,6 +28,7 @@ class EffectRickroll : Effect
 	public override void ChangeLevel(int delta)
 	{
 		Level += delta;
+		EnsureLevelCap();
 		UpdateSize();
 	}
 

@@ -16,6 +16,7 @@ class EffectRooted : Effect
 		Stats = new Dictionary<StatTypes, int>() { };
 		Effects = new List<EffectTypes> { EffectTypes.ROOTED };
 		Level = 0;
+		LevelCap = 3;
 		ChangeLevel(level);
 		// Get original sprite dimensions
 		float originalWidth = Sprite.Width;
@@ -27,6 +28,7 @@ class EffectRooted : Effect
 	public override void ChangeLevel(int delta)
 	{
 		Level += delta;
+		EnsureLevelCap();
 		UpdateSize();
 	}
 

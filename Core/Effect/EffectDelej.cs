@@ -16,6 +16,7 @@ class EffectDelej : Effect
 		Stats = new Dictionary<StatTypes, int>() { { StatTypes.MOVEMENT_SPEED, -8 } };
 		Effects = new List<EffectTypes>();
 		Level = 0;
+		LevelCap = 4;
 		ChangeLevel(level);
 		// Get original sprite dimensions
 		float originalWidth = Sprite.Width;
@@ -29,6 +30,7 @@ class EffectDelej : Effect
 	{
 		Level += delta;
 		effectTime += delta * 400;
+		EnsureLevelCap();
 		UpdateSize();
 	}
 

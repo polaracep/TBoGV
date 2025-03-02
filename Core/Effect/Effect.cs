@@ -11,6 +11,7 @@ public abstract class Effect : IDraw
 	public string Description { get; set; }
 	public bool Positive { get; set; }
 	public int Level { get; set; }
+	public int LevelCap { get; set; }
 	protected double effectTime = -1;
 	protected double timeElapsed { get; set; }
 	public Dictionary<StatTypes, int> Stats = new Dictionary<StatTypes, int>();
@@ -25,6 +26,13 @@ public abstract class Effect : IDraw
 	static Texture2D SpriteForeground = TextureManager.GetTexture("whiteSquare");
 	static protected int Border = 5;
 	public abstract void ChangeLevel(int delta);
+	public virtual void EnsureLevelCap()
+	{
+		//if(Level < 0)
+		//	Level = 0;
+		if(LevelCap < Level)
+			Level = LevelCap;
+	}
 	public virtual void UpdateSize()
 	{
 		string basicText = $"{Name} \n(Lv {Level})";
