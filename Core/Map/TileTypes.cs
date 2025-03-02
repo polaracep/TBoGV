@@ -21,6 +21,7 @@ public sealed class FloorTypes : StringEnum
     public static readonly FloorTypes LOBBY = new FloorTypes("floorLobby");
     public static readonly FloorTypes STAIRS = new FloorTypes("stairs");
     public static readonly FloorTypes HALLWAY = new FloorTypes("floorHallway");
+    public static readonly FloorTypes SHOWER = new FloorTypes("showerFloor");
 
     public FloorTypes(string v) : base(v) { }
 }
@@ -62,5 +63,6 @@ public sealed class DecorationTypes : StringEnum
     public static readonly DecorationTypes FRIDGE1 = new DecorationTypes("decoFridge1");
     public static readonly DecorationTypes FRIDGE2 = new DecorationTypes("decoFridge2");
     public static readonly DecorationTypes COFFEE_MACHINE = new DecorationTypes("coffeeMachine");
+    public static readonly DecorationTypes SINK = new DecorationTypes("showerSink");
 
 }

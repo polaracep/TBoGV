@@ -213,7 +213,7 @@ public class TileShower : Tile, IInteractable
 {
     public TileShower(float rotation, SpriteEffects fx) : base(true, rotation, fx)
     {
-        this.Sprite = TextureManager.GetTexture("heal");
+        this.Sprite = TextureManager.GetTexture("showerClean");
     }
 
     public TileShower(float rotation) : this(0f, SpriteEffects.None) { }
@@ -267,9 +267,7 @@ public class TileCoffeeMachine : Tile, IInteractable
     {
         this.Sprite = TextureManager.GetTexture("coffeeMachine");
     }
-
     public TileCoffeeMachine(float rotation) : this(rotation, SpriteEffects.None) { }
-
     public TileCoffeeMachine() : this(0f) { }
     public void Interact(Entity e, Place _)
     {

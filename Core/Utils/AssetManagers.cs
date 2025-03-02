@@ -17,6 +17,11 @@ public static class TextureManager
             "floorYellow",
             "floorLobby",
             "stairs",
+            "showerClean",
+            "showerVomit",
+            "showerPiss",
+            "showerRust",
+            "showerFloor",
 
             // "floorHallway",
 
@@ -49,6 +54,7 @@ public static class TextureManager
             "decoFridge1",
             "decoFridge2",
             "coffeeMachine",
+            "showerSink",
 
             // Entities
             "korenovy_vezen",

@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using TBoGV;
 
 public class RoomShower : Room
 {
-
+    public RoomShower(Player p) : base(new Vector2(7), p) { }
     public RoomShower(Vector2 dimensions, Player p) : base(dimensions, p) { }
     public RoomShower(Player p, List<Entity> entityList) : base((7, 9, 11), p, entityList) { }
     public RoomShower(Vector2 dimensions, Player p, List<Entity> entityList) : base(dimensions, p, entityList) { }
@@ -28,20 +29,134 @@ public class RoomShower : Room
 
         Floor.GenerateFilledRectangleWRotation(
             new Rectangle(0, 0, (int)Dimensions.X, (int)Dimensions.Y),
-            new TileFloor(FloorTypes.LOBBY),
+            new TileFloor(FloorTypes.SHOWER),
             new TileWall(WallTypes.LOBBY),
             new TileWall(WallTypes.LOBBY_CORNER)
         );
-        this.AddDecoTile(this.Dimensions / 2, new TileShower());
-
-        GenerateDoors(DoorTypes.BASIC);
-
         GenerateDecor();
+        GenerateDoors(DoorTypes.BASIC, false);
+    }
+    protected override void GenerateDoors(DoorTypes doors, bool center)
+    {
+        if (Doors == null)
+            throw new ArgumentNullException("This room does not have any doors!");
 
+        Random rand = new Random();
+        int _x = 0, _y = 0;
+
+        foreach (TileDoor door in Doors)
+        {
+            if (door.Sprite != TextureManager.GetTexture("doorBoss"))
+                door.SetDoorType(doors);
+
+            bool validPosition = false;
+            int attempts = 0;
+
+            while (!validPosition && attempts < 100) // Avoid infinite loops
+            {
+                if (center)
+                {
+                    _x = (int)Dimensions.X / 2;
+                    _y = (int)Dimensions.Y / 2;
+                }
+                else
+                {
+                    _x = rand.Next((int)Dimensions.X - 2) + 1;
+                    _y = rand.Next((int)Dimensions.Y - 2) + 1;
+                }
+
+                int tpX = _x, tpY = _y; // Default teleport position (same as door)
+
+                // Determine teleport position based on door direction
+                switch (door.Direction)
+                {
+                    case Directions.LEFT:
+                        tpX = 2; // Safe teleport position inside the room
+                        break;
+                    case Directions.RIGHT:
+                        tpX = (int)Dimensions.X - 3;
+                        break;
+                    case Directions.UP:
+                        tpY = 2;
+                        break;
+                    case Directions.DOWN:
+                        tpY = (int)Dimensions.Y - 3;
+                        break;
+                }
+
+                // Ensure both door position and teleport position are free
+                if (Decorations[_x, _y] == null && Decorations[tpX, tpY] == null)
+                {
+                    validPosition = true;
+                }
+
+                attempts++;
+            }
+
+            if (!validPosition)
+                continue; // Skip this door if no valid position is found
+
+            // Place the door and assign a valid teleport position
+            switch (door.Direction)
+            {
+                case Directions.LEFT:
+                    door.DoorTpPosition = new Vector2(2, _y);
+                    Decorations[0, _y] = door;
+                    break;
+                case Directions.RIGHT:
+                    door.DoorTpPosition = new Vector2((int)Dimensions.X - 3, _y);
+                    Decorations[(int)Dimensions.X - 1, _y] = door;
+                    break;
+                case Directions.UP:
+                    door.DoorTpPosition = new Vector2(_x, 2);
+                    Decorations[_x, 0] = door;
+                    break;
+                case Directions.DOWN:
+                    door.DoorTpPosition = new Vector2(_x, (int)Dimensions.Y - 3);
+                    Decorations[_x, (int)Dimensions.Y - 1] = door;
+                    break;
+            }
+        }
     }
 
     protected override void GenerateDecor()
     {
+        if (direction == Directions.LEFT || direction == Directions.RIGHT)
+        {
+            for (int y = 1; y < Dimensions.Y - 1; y += 5) // Step by 5 to space groups two tiles apart
+            {
+                for (int i = 0; i < 3 && y + i < Dimensions.Y - 1; i++) // Place 3 showers in a row
+                {
+                    Vector2 showerPos = new Vector2(1, y + i);
+                    this.AddDecoTile(showerPos, new TileShower());
+                }
+            }
 
+            for (int y = 1; y < Dimensions.Y - 1; y += 2) // Sinks one tile apart
+            {
+                Vector2 sinkPos = new Vector2(Dimensions.X - 2, y);
+                this.AddDecoTile(sinkPos, new TileDecoration(true, DecorationTypes.SINK, -MathHelper.PiOver2));
+            }
+        }
+        else if (direction == Directions.UP || direction == Directions.DOWN)
+        {
+            for (int x = 1; x < Dimensions.X - 1; x += 5) // Step by 5 to space groups two tiles apart
+            {
+                for (int i = 0; i < 3 && x + i < Dimensions.X - 1; i++) // Place 3 showers in a row
+                {
+                    Vector2 showerPos = new Vector2(x + i, 1);
+                    this.AddDecoTile(showerPos, new TileShower());
+                }
+            }
+
+            for (int x = 1; x < Dimensions.X - 1; x += 2) // Sinks one tile apart
+            {
+                Vector2 sinkPos = new Vector2(x, Dimensions.Y - 2);
+                this.AddDecoTile(sinkPos, new TileDecoration(true, DecorationTypes.SINK, -MathHelper.PiOver2));
+            }
+        }
     }
+
+
+
 }
