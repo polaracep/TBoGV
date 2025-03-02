@@ -4,7 +4,7 @@ using Microsoft.Xna.Framework;
 using System.Collections.Generic;
 namespace TBoGV;
 
-class EnemyVitek : EnemyRanged
+class EnemySoldier : EnemyRanged
 {
 	static Texture2D Sprite;
 	static float Scale;
@@ -12,17 +12,17 @@ class EnemyVitek : EnemyRanged
 
 	protected DateTime DirectionChanged;
 	protected int DirectionChangeTime = 4000;
-	public EnemyVitek(Vector2 position)
+	public EnemySoldier(Vector2 position)
 	{
 		InitStats(Storyline.Difficulty);
 		Position = position;
-		Sprite = TextureManager.GetTexture("taunt");
+		Sprite = TextureManager.GetTexture("soldier");
 		Scale = 50f / Math.Max(Sprite.Width, Sprite.Height);
 		Size = new Vector2(Sprite.Width * Scale, Sprite.Height * Scale);
 		PickNewDirection();
 		Spawn();
 	}
-	public EnemyVitek() : this(Vector2.Zero) { }
+	public EnemySoldier() : this(Vector2.Zero) { }
 
 	public override void Draw(SpriteBatch spriteBatch)
 	{
@@ -86,16 +86,19 @@ class EnemyVitek : EnemyRanged
 	public override List<Projectile> Attack()
 	{
 		PickNewDirection();
-		return base.Attack();
+		List<Projectile> projectiles = base.Attack();
+		projectiles.Add(new ProjectileBoolet(Position + Size / 2, Direction, AttackDmg));
+		LastAttackElapsed = 0;
+		return projectiles;
 	}
 
 	protected override void InitStats(int difficulty)
 	{
-		Hp = 3;
-		MovementSpeed = 3;
-		AttackSpeed = 500;
+		Hp = (float)Math.Ceiling((float)difficulty / 3);
+		MovementSpeed = 1 + (difficulty / 3);
+		AttackSpeed = 800 - (difficulty * 25);
 		AttackDmg = 1;
-		XpValue = 1;
+		XpValue = difficulty;
 	}
 }
 

@@ -221,7 +221,7 @@ public abstract class Room : Place
             {
                 Vector2 spawnPos = new Vector2(rand.Next((int)Dimensions.X - 2) + 1, rand.Next((int)Dimensions.Y - 2) + 1) * 50;
 
-                if (Doors.Any(d => (d.DoorTpPosition - spawnPos).Length() < 50))
+                if (Doors.Any(d => (d.DoorTpPosition - spawnPos).Length() < 150))
                     continue;
 
                 if (!ShouldCollideAt(new Rectangle(spawnPos.ToPoint(), enemy.Size.ToPoint())))

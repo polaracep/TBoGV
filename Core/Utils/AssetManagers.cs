@@ -82,6 +82,7 @@ public static class TextureManager
             "ventSpritesheet",
             "petr",
             "lol",
+            "soldier",
 
 
             // Vitek
@@ -95,6 +96,7 @@ public static class TextureManager
             "jatrovyKnedlicek",
             "jirkovaNokie",
             "note",
+            "boolet",
 
             // UI
             "taunt",

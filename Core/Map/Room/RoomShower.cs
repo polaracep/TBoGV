@@ -5,7 +5,7 @@ using TBoGV;
 
 public class RoomShower : Room
 {
-    public RoomShower(Player p) : base(new Vector2(7), p) { }
+    public RoomShower(Player p) : base((7, 9, 11), p) { }
     public RoomShower(Vector2 dimensions, Player p) : base(dimensions, p) { }
     public RoomShower(Player p, List<Entity> entityList) : base((7, 9, 11), p, entityList) { }
     public RoomShower(Vector2 dimensions, Player p, List<Entity> entityList) : base(dimensions, p, entityList) { }
@@ -13,6 +13,7 @@ public class RoomShower : Room
     protected override List<Enemy> validEnemies { get; set; } = new List<Enemy>
     {
         new EnemyZdena(),
+        new EnemyTriangle(),
     };
 
     public override void Generate()

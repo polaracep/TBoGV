@@ -3,13 +3,12 @@ using Microsoft.Xna.Framework;
 
 namespace TBoGV;
 
-class ProjectilePee : Projectile
+class ProjectileBoolet : Projectile
 {
 	public static Texture2D Sprite { get; protected set; }
-	public ProjectilePee(Vector2 position, Vector2 direction, float damage)
+	public ProjectileBoolet(Vector2 position, Vector2 direction, float damage)
 	{
-		Sprite = TextureManager.GetTexture("projectile");
-		// Size = new Vector2(7, 7);
+		Sprite = TextureManager.GetTexture("boolet");
 		Size = new Vector2(Sprite.Width, Sprite.Height);
 		Position = position - Size / 2;
 		Direction = direction;

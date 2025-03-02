@@ -9,7 +9,8 @@ public class RoomHallway : Room
     public RoomHallway(Vector2 dimensions, Player p, List<Entity> entityList) : base(dimensions, p, entityList) { }
 
     protected override List<Enemy> validEnemies { get; set; } = [
-        new EnemyZdena(),
+        new EnemyJirka(),
+        new EnemyCat()
     ];
 
     public override void Generate()

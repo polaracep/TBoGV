@@ -97,9 +97,9 @@ internal class EnemyLol : EnemyRanged
     {
         Hp = 3;
         MovementSpeed = 2;
-        AttackSpeed = 800;
+        AttackSpeed = 700 - (30 * difficulty);
         AttackDmg = 1;
-        XpValue = 1;
+        XpValue = difficulty;
     }
 }
 

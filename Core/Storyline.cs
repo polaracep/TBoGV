@@ -20,18 +20,17 @@ public static class Storyline
     /// <summary>
     /// Difficulty level in base game ranges from 1 to 8
     /// </summary>
-    public static int Difficulty;
+    public static int Difficulty = 1;
     public static void GenerateStoryline()
     {
         LevelList = [
             new Level(p, [
-                new RoomShower(new Vector2(7),p),
-                new RoomShower(new Vector2(7),p),
-                new RoomShower(new Vector2(7),p),
-                new RoomShower(new Vector2(7),p),
-                new RoomShower(new Vector2(7),p),
-                new RoomShower(new Vector2(7),p),
-            ], new RoomStart(p), new RoomEmpty(p), 3),
+                new RoomClassroom(p),
+                new RoomClassroom(p),
+                new RoomClassroom(p),
+                new RoomHallway(p),
+                new RoomHallway(p),
+            ], new RoomStart(p), new RoomShower(p), 3),
             new Level(p, [
                 new RoomClassroom(p),
             ], new RoomStart(p), new RoomEmpty(p), 6),
@@ -46,7 +45,7 @@ public static class Storyline
 
         CurrentLevel = LevelList[CurrentLevelNumber];
         CurrentLevelNumber++;
-        Difficulty += CurrentLevelNumber % 2;
+        Difficulty += (CurrentLevelNumber + 1) % 2;
         Player.LevelChanged = true;
     }
     public static void End()
@@ -63,11 +62,11 @@ public static class Storyline
 LevelList.Add(
     new Level(Player, new List<Room> {
         new RoomClassroom(new Vector2(9), p, new List<Entity> {
-            new EnemyVitek(Vector2.Zero),
-            new EnemyVitek(Vector2.Zero),
+            new EnemySoldier(Vector2.Zero),
+            new EnemySoldier(Vector2.Zero),
         }),
         new RoomClassroom(new Vector2(7), p, new List<Entity> {
-            new EnemyVitek(Vector2.Zero),
+            new EnemySoldier(Vector2.Zero),
             new EnemyCat(Vector2.Zero),
             new EnemyJirka(Vector2.Zero)
         }),
