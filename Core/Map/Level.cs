@@ -43,6 +43,9 @@ public class Level
         if (this.ActiveRoom != e.Place)
             return;
 
+        if (this.ActiveRoom.Enemies.Count != 0)
+            return;
+
         switch (e.Directions)
         {
             case Directions.LEFT:

@@ -26,20 +26,16 @@ public static class Storyline
         LevelList = [
             new Level(p, [
                 new RoomClassroom(p),
-                new RoomClassroom(p),
-                new RoomHallway(p),
-                new RoomHallway(p),
-            ], new RoomStart(p), new RoomHallway(p), 3),
+            ], new RoomStart(p), new RoomEmpty(p), 3),
             new Level(p, [
                 new RoomClassroom(p),
+            ], new RoomStart(p), new RoomEmpty(p), 6),
+            new Level(p, [
                 new RoomClassroom(p),
+            ], new RoomStart(p), new RoomEmpty(p), 6),
+            new Level(p, [
                 new RoomClassroom(p),
-                new RoomClassroom(p),
-                new RoomHallway(p),
-                new RoomHallway(p),
-                new RoomHallway(p),
-                new RoomHallway(p),
-            ], new RoomStart(p), new RoomBossSvarta(p), 6),
+            ], new RoomStart(p), new RoomEmpty(p), 6),
         ];
     }
 
