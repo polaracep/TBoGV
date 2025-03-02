@@ -36,31 +36,6 @@ public abstract class Room : Place
     protected abstract List<Enemy> validEnemies { get; set; }
     protected Directions? direction = null;
 
-    public Room(Vector2 dimensions, Player p, List<Entity> entityList)
-    {
-        player = p;
-        Dimensions = dimensions;
-        Position = Vector2.Zero;
-
-        Floor = new Tile[(int)Dimensions.X, (int)Dimensions.Y];
-        Decorations = new Tile[(int)Dimensions.X, (int)Dimensions.Y];
-
-        if (entityList == null)
-            return;
-
-        // Sort list based on the entity type
-        entityList.ForEach(e =>
-        {
-            if (e is Enemy)
-                EnemyPool.Add((Enemy)e);
-            else if (e is Item)
-                Drops.Add((Item)e);
-            else if (e is EntityPassive)
-                Entities.Add((EntityPassive)e);
-            else
-                throw new Exception("Invalid entity type provided.");
-        });
-    }
     public Room((int sMin, int sMax, int bMax) dimensions, Player p, List<Entity> entityList)
     {
         player = p;
@@ -86,15 +61,16 @@ public abstract class Room : Place
                 throw new Exception("Invalid entity type provided.");
         });
     }
-    public Room(Vector2 dimensions, Player p) : this(dimensions, p, null) { }
+    public Room(Vector2 dimensions, Player p, List<Entity> entityList) : this((1, 2, 3), p, entityList) { Dimensions = dimensions; }
     public Room((int sMin, int sMax, int bMax) dimensions, Player p) : this(dimensions, p, null) { }
+    public Room(Vector2 dimensions, Player p) : this(dimensions, p, null) { }
 
     public override void Reset()
     {
         ClearEnemies();
         ClearProjectiles();
         Generate();
-        GenerateEnemies(20);
+        GenerateEnemies(40 * (1 / Storyline.Difficulty));
     }
 
     /* === Update methods === */

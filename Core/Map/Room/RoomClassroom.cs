@@ -31,7 +31,7 @@ public class RoomClassroom : Room
 
         GenerateBase(FloorTypes.BASIC, WallTypes.WHITE, DoorTypes.BASIC);
         GenerateDecor();
-        GenerateEnemies(18);
+        GenerateEnemies(25);
     }
 
     protected override void GenerateBase(FloorTypes floors, WallTypes walls, DoorTypes doors)
