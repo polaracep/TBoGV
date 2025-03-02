@@ -7,7 +7,7 @@ public class RoomShower : Room
 {
 
     public RoomShower(Vector2 dimensions, Player p) : base(dimensions, p) { }
-    public RoomShower(Player p, List<Entity> entityList) : base(p, entityList) { }
+    public RoomShower(Player p, List<Entity> entityList) : base((7, 9, 11), p, entityList) { }
     public RoomShower(Vector2 dimensions, Player p, List<Entity> entityList) : base(dimensions, p, entityList) { }
 
     protected override List<Enemy> validEnemies { get; set; } = new List<Enemy>

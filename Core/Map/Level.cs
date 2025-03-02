@@ -132,10 +132,7 @@ public class LevelCreator
             if (BossRoom != null && c.Distance == maxDist && !bossPlaced)
             {
                 // boss room!
-                if (c.DoorDirections.Count == 1)
-                    chosen = BossRoom;
-                else
-                    throw new Exception("smutny, ted to musis spravit!");
+                chosen = BossRoom;
 
                 bossPlaced = true;
             }

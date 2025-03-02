@@ -61,21 +61,33 @@ public abstract class Room : Place
                 throw new Exception("Invalid entity type provided.");
         });
     }
-    public Room(Player p, List<Entity> entityList) : this(Vector2.Zero, p, entityList)
+    public Room((int sMin, int sMax, int bMax) dimensions, Player p, List<Entity> entityList)
     {
-        direction = (Directions)Random.Shared.Next(4);
-        int smaller = Random.Shared.Next(9, 17);
-        int bigger = Random.Shared.Next(smaller, 21);
+        player = p;
+        Position = Vector2.Zero;
 
-        if (direction == Directions.LEFT || direction == Directions.RIGHT)
-            // Horizontal
-            Dimensions = new Vector2(bigger, smaller);
-        else
-            // vertical
-            Dimensions = new Vector2(smaller, bigger);
+        GenerateDimensions(dimensions);
+        Floor = new Tile[(int)Dimensions.X, (int)Dimensions.Y];
+        Decorations = new Tile[(int)Dimensions.X, (int)Dimensions.Y];
+
+        if (entityList == null)
+            return;
+
+        // Sort list based on the entity type
+        entityList.ForEach(e =>
+        {
+            if (e is Enemy)
+                EnemyPool.Add((Enemy)e);
+            else if (e is Item)
+                Drops.Add((Item)e);
+            else if (e is EntityPassive)
+                Entities.Add((EntityPassive)e);
+            else
+                throw new Exception("Invalid entity type provided.");
+        });
     }
     public Room(Vector2 dimensions, Player p) : this(dimensions, p, null) { }
-    public Room(Player p) : this(p, null) { }
+    public Room((int sMin, int sMax, int bMax) dimensions, Player p) : this(dimensions, p, null) { }
 
     public override void Reset()
     {
@@ -201,7 +213,7 @@ public abstract class Room : Place
     /* === Generation methods === */
     protected virtual void GenerateEnemies(int concentration)
     {
-        if (EnemyPool.Count == 0)
+        if (EnemyPool.Count == 0 && validEnemies.Count != 0)
         {
             // 1 enemy for 18 tiles
             for (int i = 0; i < GetValidPositionCount() / concentration; i++)
@@ -359,4 +371,30 @@ public abstract class Room : Place
                 validPositions += ShouldCollideAt(GetTileWorldPos(new Vector2(x, y))) ? 0 : 1;
         return validPositions;
     }
+
+    /// <summary>
+    /// Generate the dimensions for a room
+    /// </summary>
+    /// <param name="sMin">Min value for smaller side</param>
+    /// <param name="sMax">Max value for smaller side/param>
+    /// <param name="bMax">Max value for bigger side/param>
+    protected virtual void GenerateDimensions(int sMin, int sMax, int bMax)
+    {
+        if (sMin > sMax)
+            throw new Exception("sMax must be bigger than sMin!");
+        if (sMax > bMax)
+            throw new Exception("bMax must be bigger than sMax!");
+
+        direction = (Directions)Random.Shared.Next(4);
+        int smaller = Random.Shared.Next(sMin, sMax);
+        int bigger = Random.Shared.Next(smaller, bMax);
+
+        if (direction == Directions.LEFT || direction == Directions.RIGHT)
+            // Horizontal
+            Dimensions = new Vector2(bigger, smaller);
+        else
+            // vertical
+            Dimensions = new Vector2(smaller, bigger);
+    }
+    protected virtual void GenerateDimensions((int sMin, int sMax, int bMax) dim) { GenerateDimensions(dim.sMin, dim.sMax, dim.bMax); }
 }
