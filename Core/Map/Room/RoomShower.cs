@@ -66,7 +66,7 @@ public class RoomShower : Room
                     case Directions.UP: tpY = 1; break;
                 }
 
-                if (!Decorations[tpX, tpY]?.DoCollision ?? true)
+                if (Decorations[tpX, tpY] == null)
                     validPosition = true;
 
             }
@@ -110,7 +110,7 @@ public class RoomShower : Room
             for (int y = 1; y < Dimensions.Y - 1; y += 2) // Sinks one tile apart
             {
                 Vector2 sinkPos = new Vector2(Dimensions.X - 2, y);
-                this.AddDecoTile(sinkPos, new TileDecoration(true, DecorationTypes.SINK, -MathHelper.PiOver2));
+                this.AddDecoTile(sinkPos, new TileDecoration(false, DecorationTypes.SINK, MathHelper.Pi));
             }
         }
         else if (direction == Directions.UP || direction == Directions.DOWN)
@@ -127,7 +127,7 @@ public class RoomShower : Room
             for (int x = 1; x < Dimensions.X - 1; x += 2) // Sinks one tile apart
             {
                 Vector2 sinkPos = new Vector2(x, Dimensions.Y - 2);
-                this.AddDecoTile(sinkPos, new TileDecoration(true, DecorationTypes.SINK, -MathHelper.PiOver2));
+                this.AddDecoTile(sinkPos, new TileDecoration(false, DecorationTypes.SINK, -MathHelper.PiOver2));
             }
         }
     }

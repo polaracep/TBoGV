@@ -219,7 +219,7 @@ public class TileTreasure : Tile, IInteractable
 }
 public class TileShower : Tile, IInteractable
 {
-    public TileShower(float rotation, SpriteEffects fx) : base(true, rotation, fx)
+    public TileShower(float rotation, SpriteEffects fx) : base(false, rotation, fx)
     {
         this.Sprite = TextureManager.GetTexture("showerClean");
     }
