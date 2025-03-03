@@ -60,10 +60,6 @@ public class MinigameKomisionalky : Minigame
 			displayedText = "Telocvik\nDifficulty: free pass";
 
 		displayedText += "\nMackej mezernik";
-
-
-		Vector2 textSize = Font.MeasureString(displayedText);
-		Size = new Vector2((screenWidth - BarWidth) / 2, screenHeight / 2 + ArrowWidth + textSize.Y);
 	}
 
 	private void GenerateGreenZone(int difficulty)
@@ -115,6 +111,9 @@ public class MinigameKomisionalky : Minigame
 	public override void Update(Viewport viewport,KeyboardState keyboardState, double dt)
 	{
 		Viewport = viewport;
+		Vector2 textSize = Font.MeasureString(displayedText);
+		Size = new Vector2((Viewport.Width - BarWidth) / 2, Viewport.Height / 2 + ArrowWidth + textSize.Y);
+
 		if (successCount >= RequiredSuccesses)
 			State = minigameState.SUCCESS;
 
