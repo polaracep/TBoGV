@@ -118,12 +118,16 @@ public static class Storyline
 		if (CurrentLevelNumber == LevelList.Count)
             CurrentLevelNumber = 0;
 
-        CurrentLevel = LevelList[CurrentLevelNumber];
-        CurrentLevelNumber++;
+		CurrentLevel = LevelList[CurrentLevelNumber];
+		CurrentLevelNumber++;
         Difficulty += (CurrentLevelNumber + 1) % 2;
         Player.LevelChanged = true;
 
     }
+	public static void ResetLevel()
+	{
+		CurrentLevel.Reset();
+	}
     public static void End()
     {
         TBoGVGame.screenCurrent = ScreenManager.ScreenEnd;

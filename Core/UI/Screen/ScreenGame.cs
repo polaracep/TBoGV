@@ -234,8 +234,8 @@ public class ScreenGame : Screen
         player.LastRecievedDmgElapsed = 0;
 		player.Load(SaveType.AUTO);
 		Storyline.FailedTimes++;
-		Storyline.NextLevel();
-		player.ReturnToLobby();
+		Storyline.ResetLevel();
+
 		if (Storyline.FailedTimes >= 3)
 		{
 			FileHelper.ResetSaves();

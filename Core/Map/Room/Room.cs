@@ -76,7 +76,7 @@ public abstract class Room : Place
         ClearEnemies();
         ClearProjectiles();
         Generate();
-        GenerateEnemies(40 * (1 / Storyline.Difficulty));
+        GenerateEnemies((int)(40 * (1 / (float)Storyline.Difficulty)));
     }
 
     /* === Update methods === */
