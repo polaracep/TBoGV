@@ -32,6 +32,8 @@ public static class TextureManager
             "wallWhiteCorner",
             "wallLobby",
             "wallLobbyCorner",
+            "wallGreen",
+            "wallGreenCorner",
             // "wallHallway",
             // "wallHallwayCorner",
             
