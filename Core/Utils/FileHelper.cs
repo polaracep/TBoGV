@@ -19,20 +19,29 @@ public static class FileHelper
 	{
 		try
 		{
+			string fullPath = folderPath[saveType] + filePath;
+			string directory = Path.GetDirectoryName(fullPath);
+
+			if (!Directory.Exists(directory))
+			{
+				Directory.CreateDirectory(directory);
+			}
+
 			JsonSerializerSettings settings = new JsonSerializerSettings
 			{
 				Formatting = Formatting.Indented,
-				Converters = { new StringEnumConverter() } 
+				Converters = { new StringEnumConverter() }
 			};
 
 			string json = JsonConvert.SerializeObject(data, settings);
-			File.WriteAllText(folderPath[saveType]+ filePath, json, Encoding.UTF8);
+			File.WriteAllText(fullPath, json, Encoding.UTF8);
 		}
 		catch (Exception e)
 		{
-			Console.WriteLine($"Error saving file {folderPath[saveType] + filePath}: {e.Message}");
+			Console.WriteLine($"Error saving file {filePath}: {e.Message}");
 		}
 	}
+
 
 
 	public static T Load<T>(string filePath, SaveType saveType)

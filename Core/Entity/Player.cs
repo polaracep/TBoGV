@@ -374,6 +374,8 @@ public class Player : Entity, IRecieveDmg, IDealDmg
 	}
 	public class PlayerData
 	{
+		public int CurrentLevelNumber {  get; set; }
+		public int Difficulty { get; set; }
 		public int Level { get; set; }
 		public float Xp { get; set; }
 		public float Hp { get; set; }
@@ -425,7 +427,9 @@ public class Player : Entity, IRecieveDmg, IDealDmg
 			LastAttackElapsed = LastAttackElapsed,
 			LastRecievedDmgElapsed = LastRecievedDmgElapsed,
 			ItemContainers = containerData,
-			Effects = EffectsData
+			Effects = EffectsData,
+			CurrentLevelNumber = Storyline.CurrentLevelNumber,
+			Difficulty = Storyline.Difficulty,
 		};
 		FileHelper.Save("tbogv_player.json", data, saveType);
 	}
@@ -442,7 +446,8 @@ public class Player : Entity, IRecieveDmg, IDealDmg
 			LevelUpStats = StatConverter.ConvertToStatDictionary(data.LevelUpStats);
 			LastAttackElapsed = data.LastAttackElapsed;
 			LastRecievedDmgElapsed = data.LastRecievedDmgElapsed;
-
+			Storyline.CurrentLevelNumber = data.CurrentLevelNumber; 
+			Storyline.Difficulty = data.Difficulty;
 			// Restore Item Containers
 			Inventory.ItemContainers.Clear();
 			foreach (var itemData in data.ItemContainers)

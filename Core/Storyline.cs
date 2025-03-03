@@ -113,15 +113,16 @@ public static class Storyline
 
     public static void NextLevel()
     {
-        // wrap na zacatek
-        if (CurrentLevelNumber == LevelList.Count)
+		Player.Save(SaveType.AUTO);
+		// wrap na zacatek
+		if (CurrentLevelNumber == LevelList.Count)
             CurrentLevelNumber = 0;
 
         CurrentLevel = LevelList[CurrentLevelNumber];
         CurrentLevelNumber++;
         Difficulty += (CurrentLevelNumber + 1) % 2;
         Player.LevelChanged = true;
-		Player.Save(SaveType.AUTO);
+
     }
     public static void End()
     {

@@ -30,6 +30,7 @@ public class ScreenGame : Screen
     public override void BeginRun(GraphicsDeviceManager graphics)
     {
         player = new Player();
+
 		player.Load(SaveType.USER);
         Storyline.Player = player;
 
@@ -233,7 +234,9 @@ public class ScreenGame : Screen
         player.LastRecievedDmgElapsed = 0;
 		player.Load(SaveType.AUTO);
 		Storyline.FailedTimes++;
-		if(Storyline.FailedTimes >= 3)
+		Storyline.NextLevel();
+		player.ReturnToLobby();
+		if (Storyline.FailedTimes >= 3)
 		{
 			FileHelper.ResetSaves();
 			TBoGVGame.screenCurrent = ScreenManager.ScreenDeath;
