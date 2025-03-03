@@ -30,8 +30,8 @@ public class RoomShower : Room
         Floor.GenerateFilledRectangleWRotation(
             new Rectangle(0, 0, (int)Dimensions.X, (int)Dimensions.Y),
             new TileFloor(FloorTypes.SHOWER),
-            new TileWall(WallTypes.LOBBY),
-            new TileWall(WallTypes.LOBBY_CORNER)
+            new TileWall(WallTypes.SHOWER),
+            new TileWall(WallTypes.SHOWER_CORNER)
         );
         GenerateDecor();
         GenerateDoors(DoorTypes.BASIC, false);

@@ -10,7 +10,7 @@ public abstract class Minigame
 	public Action OnSuccess { get; set; }
 	public Action OnFailure { get; set; }
 	public abstract Rectangle GetRect();
-	public abstract void Update(KeyboardState keyboardState, double dt);
+	public abstract void Update(Viewport Viewport, KeyboardState keyboardState, double dt);
 	public abstract void Draw(SpriteBatch spriteBatch);
 	public abstract minigameState GetState();
 	public virtual void UpdateState(KeyboardState keyboardState)

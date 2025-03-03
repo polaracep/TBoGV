@@ -8,6 +8,7 @@ namespace TBoGV;
 
 public class MinigameKomisionalky : Minigame
 {
+	private Viewport Viewport;
 	private const int BarWidth = 300;
 	private const int BarHeight = 20;
 	private const int ArrowWidth = 10;
@@ -42,8 +43,8 @@ public class MinigameKomisionalky : Minigame
 		RequiredSuccesses = Math.Max(3, 6 - difficulty);
 
 		arrowPosition = 0;
-		int screenWidth = GraphicsDeviceManager.DefaultBackBufferWidth;
-		int screenHeight = GraphicsDeviceManager.DefaultBackBufferHeight;
+		int screenWidth = Viewport.Width;
+		int screenHeight = Viewport.Height;
 
 		if (difficulty < -4)
 			displayedText = "Fyzika\nDifficulty: hodne stesti";
@@ -111,8 +112,9 @@ public class MinigameKomisionalky : Minigame
 		spriteBatch.Draw(SpriteForeground, new Rectangle(barX + (int)PositionOffset.X, barY + BarHeight + 10 + (int)PositionOffset.Y, progressBarWidth, 5), Color.Blue);
 	}
 
-	public override void Update(KeyboardState keyboardState, double dt)
+	public override void Update(Viewport viewport,KeyboardState keyboardState, double dt)
 	{
+		Viewport = viewport;
 		if (successCount >= RequiredSuccesses)
 			State = minigameState.SUCCESS;
 

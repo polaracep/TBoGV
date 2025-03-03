@@ -169,7 +169,7 @@ public class ScreenGame : Screen
             miniGames.Add(new MinigameRick(() => player.Inventory.RemoveEffect(new EffectRickroll(1))));
 
         foreach (Minigame miniGame in miniGames)
-            miniGame.Update(keyboardState, dt);
+            miniGame.Update(graphics.GraphicsDevice.Viewport, keyboardState, dt);
 
         for (int i = 0; i < miniGames.Count; i++)
             if (miniGames[i].GetState() != minigameState.ONGOING)

@@ -11,13 +11,13 @@ class UI : IDraw
     static SpriteFont Font;
     static Texture2D SpriteCoin;
     static Texture2D SpriteXpBar;
+	protected Vector2 screenSize;
 
-    int Coins;
+	int Coins;
     int Xp;
     int MaxXp;
     const int MaxHeartsPerRow = 5;
     protected List<Effect> Effects = new List<Effect>();
-
     public UI()
     {
         hearts = new List<Heart>();
@@ -51,7 +51,7 @@ class UI : IDraw
         Xp = (int)player.Xp;
         MaxXp = player.XpForLevel();
         Effects = player.Inventory.Effects;
-        Vector2 screenSize = new Vector2(GraphicsDeviceManager.DefaultBackBufferWidth, GraphicsDeviceManager.DefaultBackBufferHeight);
+        screenSize = new Vector2(graphics.GraphicsDevice.Viewport.Width, graphics.GraphicsDevice.Viewport.Height);
     }
 
     public void Draw(SpriteBatch spriteBatch)
@@ -60,7 +60,7 @@ class UI : IDraw
             hearts[i].Draw(spriteBatch);
 
         // XP Bar
-        Vector2 xpBarPosition = new Vector2(GraphicsDeviceManager.DefaultBackBufferWidth / 2 - 100, 20);
+        Vector2 xpBarPosition = new Vector2(screenSize.X / 2 - 100, 20);
         int xpBarWidth = 200;
         int xpBarHeight = 5;
         float xpPercentage = Math.Min((float)Xp / MaxXp, 1);
@@ -80,7 +80,7 @@ class UI : IDraw
         string coinText = $"{Coins}";
         spriteBatch.Draw(SpriteCoin, new Rectangle((int)coinPosition.X, (int)coinPosition.Y, 30, 30), Color.White);
         spriteBatch.DrawString(Font, coinText, new Vector2((int)coinPosition.X + 40, (int)coinPosition.Y), Color.Yellow);
-        Vector2 effectStartPosition = new Vector2(GraphicsDeviceManager.DefaultBackBufferWidth - 100, 30);
+        Vector2 effectStartPosition = new Vector2(screenSize.X - 100, 30);
         for (int i = 0; i < Effects.Count; i++)
         {
             // Position each effect in the column, spacing them vertically.

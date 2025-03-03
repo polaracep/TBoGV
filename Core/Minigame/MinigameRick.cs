@@ -8,6 +8,7 @@ namespace TBoGV;
 
 public class MinigameRick : Minigame
 {
+	private Viewport Viewport;
 	private int smashCount = 0;
 	private const int RequiredSmashCount = 8;
 	static SpriteFont MiddleFont;
@@ -45,8 +46,8 @@ public class MinigameRick : Minigame
 	{
 		int row = currentFrame / frameColumns;
 		int col = currentFrame % frameColumns;
-		int screenWidth = GraphicsDeviceManager.DefaultBackBufferWidth;
-		int screenHeight = GraphicsDeviceManager.DefaultBackBufferHeight;
+		int screenWidth = Viewport.Width;
+		int screenHeight = Viewport.Height;
 		Scale = (float)screenHeight / Math.Max(frameWidth, frameHeight);
 		Rectangle sourceRect = new Rectangle(col * frameWidth, row * frameHeight, frameWidth, frameHeight);
 		float alpha = MathHelper.Clamp(1f - (float)smashCount / RequiredSmashCount, 0f, 1f);
@@ -81,8 +82,9 @@ public class MinigameRick : Minigame
 		spriteBatch.DrawString(LargerFont, hintText, hintPosition, hintColor);
 	}
 
-	public override void Update(KeyboardState keyboardState, double dt)
+	public override void Update(Viewport viewport, KeyboardState keyboardState, double dt)
 	{
+		Viewport = viewport;
 		UpdateAnimation(dt);
 		if (keyboardState.IsKeyDown(Keys.E) && prevKeyboardState.IsKeyUp(Keys.E))
 		{

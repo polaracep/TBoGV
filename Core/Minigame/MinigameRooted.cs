@@ -9,6 +9,7 @@ namespace TBoGV;
 
 public class MinigameRooted : Minigame
 {
+	private Viewport Viewport;
 	private int smashCount = 0;
 	private const int RequiredSmashCount = 2;
 	private const int RequiredKeys = 3;
@@ -31,8 +32,8 @@ public class MinigameRooted : Minigame
 
 	public override void Draw(SpriteBatch spriteBatch)
 	{
-		int screenWidth = GraphicsDeviceManager.DefaultBackBufferWidth;
-		int screenHeight = GraphicsDeviceManager.DefaultBackBufferHeight;
+		int screenWidth = Viewport.Width;
+		int screenHeight = Viewport.Height;
 
 		string hintText = "!!!MACKEJ HODNE KLAVES!!!";
 		Vector2 hintSize = LargerFont.MeasureString(hintText);
@@ -50,8 +51,9 @@ public class MinigameRooted : Minigame
 		spriteBatch.DrawString(LargerFont, hintText, hintPosition, hintColor);
 	}
 
-	public override void Update(KeyboardState keyboardState, double dt)
+	public override void Update(Viewport viewport, KeyboardState keyboardState, double dt)
 	{
+		Viewport = viewport;
 		UpdateState(keyboardState);
 		prevKeyboardState = keyboardState;
 		timeSinceLastHint += dt;
