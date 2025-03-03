@@ -24,7 +24,8 @@ class EffectLol : Effect
         // Calculate scaling factor
         scale = 45f / Math.Max(originalWidth, originalHeight);
     }
-    public override void ChangeLevel(int delta)
+	public EffectLol() : this(1) { }
+	public override void ChangeLevel(int delta)
     {
         Level += delta;
         Random rnd = new Random();

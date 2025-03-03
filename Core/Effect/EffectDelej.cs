@@ -26,6 +26,7 @@ class EffectDelej : Effect
 		scale = 45f / Math.Max(originalWidth, originalHeight);
 		effectTime = 1444;
 	}
+	public EffectDelej() : this(1) { }
 	public override void ChangeLevel(int delta)
 	{
 		Level += delta;

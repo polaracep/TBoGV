@@ -26,7 +26,8 @@ class EffectFyjalovaDrahota : Effect
         scale = 45f / Math.Max(originalWidth, originalHeight);
         effectTime = -1;
     }
-    public override void ChangeLevel(int delta)
+	public EffectFyjalovaDrahota() : this(1) { }
+	public override void ChangeLevel(int delta)
     {
         Level += delta;
         effectTime += delta * 400;

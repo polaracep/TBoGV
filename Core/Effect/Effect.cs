@@ -93,7 +93,7 @@ public static class EffectDatabase
 
 		foreach (var effect in effectsList)
 		{
-			EffectsByName[effect.GetType().Name] = effect;
+			EffectsByName[effect.Name] = effect;
 		}
 	}
 

@@ -25,6 +25,7 @@ class EffectRickroll : Effect
 		// Calculate scaling factor
 		scale = 45f / Math.Max(originalWidth, originalHeight);
 	}
+	public EffectRickroll() : this(1) { }
 	public override void ChangeLevel(int delta)
 	{
 		Level += delta;

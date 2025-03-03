@@ -34,6 +34,7 @@ class EffectCooked : Effect
 		// Calculate scaling factor
 		scale = 45f / Math.Max(originalWidth, originalHeight);
 	}
+	public EffectCooked() : this(1) { }
 	public override void ChangeLevel(int delta)
 	{
 		Level += delta;
