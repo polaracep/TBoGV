@@ -16,7 +16,7 @@ class Button : IDraw, IUIElement
 
 	public Action OnClick { get; private set; }
 	protected MouseState PrevMouseState;
-	protected Color[] color = [new(60, 60, 60, 128), new(20, 20, 20, 128)];
+	protected Color[] color = [Color.Gray * 0.8f, Color.Black * 0.5f];
 	protected int ColorIndex = 0;
 
 	public Button(string text, SpriteFont font, Action onClick)

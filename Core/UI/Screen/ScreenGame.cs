@@ -44,7 +44,7 @@ public class ScreenGame : Screen
         inGameMenu = effectMenu = new InGameMenuEffect(graphics.GraphicsDevice.Viewport);
         levelUpMenu = new InGameMenuLevelUp(graphics.GraphicsDevice.Viewport);
         deathMenu = new InGameMenuDeath(graphics.GraphicsDevice.Viewport);
-        shopMenu = new InGameMenuShop(graphics.GraphicsDevice.Viewport);
+        shopMenu = new InGameMenuShop(graphics.GraphicsDevice.Viewport, player);
 
         // deathMenu.ResetLevel = () => Reset();
         // lol
@@ -158,6 +158,7 @@ public class ScreenGame : Screen
         else
         {
             inGameMenu.Update(graphics.GraphicsDevice.Viewport, player, mouseState, keyboardState, dt);
+			UI.Update(player, graphics);
             if (MediaPlayer.State == MediaState.Playing)
             {
                 MediaPlayer.Pause();

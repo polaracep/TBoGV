@@ -12,7 +12,7 @@ namespace TBoGV
     {
         private static Viewport Viewport;
         private static SpriteFont MiddleFont;
-
+		private Button ButtonReroll;
         // A helper class to hold a shop item and its price.
         private class ShopItem
         {
@@ -41,13 +41,21 @@ namespace TBoGV
         private MouseState previousMouseState;
         private KeyboardState previousKeyboardState;
 
-        public InGameMenuShop(Viewport viewport)
+        public InGameMenuShop(Viewport viewport, Player player)
         {
             Viewport = viewport;
             SpriteBackground = TextureManager.GetTexture("blackSquare");
             MiddleFont = FontManager.GetFont("Arial12");
             Active = false;
             InitializeShopItems();
+			ButtonReroll = new Button("Nová nabídka: $1", FontManager.GetFont("Arial12"),() => 
+			{
+				if (player.Coins < 1)
+					return;
+				ClearShop();
+				OpenMenu(player); 
+				player.Coins--;
+			});
         }
 
         // Fill the shop item pool with example items and their prices.
@@ -165,7 +173,8 @@ namespace TBoGV
                     }
                 }
             }
-            previousMouseState = mouseState;
+			ButtonReroll.Update(mouseState);
+			previousMouseState = mouseState;
             previousKeyboardState = keyboardState;
         }
 
@@ -213,6 +222,13 @@ namespace TBoGV
                 );
                 spriteBatch.DrawString(MiddleFont, priceText, pricePos, Color.Yellow);
             }
+			// Reroll button placement
+
+			int buttonX = (Viewport.Width - ButtonReroll.GetRect().Width) / 2;
+			int buttonY = posY + boxHeight + 20;  // Positioned below the shop boxes
+
+			ButtonReroll.Position = new Vector2(buttonX, buttonY);
+			ButtonReroll.Draw(spriteBatch);
         }
     }
 }
