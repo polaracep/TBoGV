@@ -58,7 +58,7 @@ public class MinigameRooted : Minigame
 		prevKeyboardState = keyboardState;
 		timeSinceLastHint += dt;
 		rootTapInstance.Volume = Settings.SfxVolume;
-		if (timeSinceLastHint > 0.5)
+		if (timeSinceLastHint > 500)
 		{
 			timeSinceLastHint = 0;
 			hintColor = (hintColor == Color.White) ? Color.Red : Color.White;

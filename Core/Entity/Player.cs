@@ -372,7 +372,37 @@ public class Player : Entity, IRecieveDmg, IDealDmg
 		LevelChanged = true;
 		Position = Lobby.SpawnPos * 50;
 	}
-	public class PlayerData
+	public void Reset()
+	{
+        BaseStats = new Dictionary<StatTypes, float>()
+        {
+            { StatTypes.MAX_HP, 3 },
+            { StatTypes.DAMAGE, 1 },
+            { StatTypes.PROJECTILE_COUNT, 1 },
+            { StatTypes.XP_GAIN, 1 },
+            { StatTypes.ATTACK_SPEED, 1500 },
+            { StatTypes.MOVEMENT_SPEED, 5 }
+        };
+        LevelUpStats = new Dictionary<StatTypes, int>()
+        {
+            { StatTypes.MAX_HP, 0 },
+            { StatTypes.DAMAGE, 0 },
+            { StatTypes.PROJECTILE_COUNT, 0 },
+            { StatTypes.XP_GAIN, 0 },
+            { StatTypes.ATTACK_SPEED, 0 },
+            { StatTypes.MOVEMENT_SPEED, 0 }
+        };
+
+        Level = 0;
+        Coins = 1;
+        ItemCapacity = 3;
+        Inventory = new();
+        SetStats();
+        Hp = MaxHp;
+        LastRecievedDmgElapsed = InvulnerabilityFrame;
+        Position = Lobby.SpawnPos * 50;
+    }
+    public class PlayerData
 	{
 		public int CurrentLevelNumber {  get; set; }
 		public int Difficulty { get; set; }

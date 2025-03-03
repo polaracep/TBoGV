@@ -126,8 +126,20 @@ public static class Storyline
     }
 	public static void ResetLevel()
 	{
-		CurrentLevel.Reset();
-	}
+        GenerateStoryline();
+        CurrentLevel = LevelList[CurrentLevelNumber];
+        CurrentLevel.Reset();
+    }
+    public static void ResetStoryline()
+    {
+        GenerateStoryline();
+        CurrentLevel = LevelList[0];
+        CurrentLevel.Reset();
+        CurrentLevelNumber++;
+        Difficulty = 1;
+	    FailedTimes = 0;
+        Player.LevelChanged = false;
+    }
     public static void End()
     {
         TBoGVGame.screenCurrent = ScreenManager.ScreenEnd;

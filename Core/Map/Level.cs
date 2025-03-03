@@ -83,18 +83,13 @@ public class Level
 		ActiveRoom = StartRoom;
 		ActiveRoomCoords = StartRoom.Position;
 		Player.Position = ActiveRoomCoords + new Vector2(50);
-		foreach (var room in RoomMap)
-		{
-			if (room != null)
-			{
-				room.Reset();
-			}
-		}
-
-		ActiveRoom.ClearProjectiles(); 
-
-
-		//Player.ReturnToLobby();
+		//foreach (var room in RoomMap)
+		//{
+		//	if (room != null)
+		//	{
+		//		room.Reset();
+		//	}
+		//}
 	}
 }
 
