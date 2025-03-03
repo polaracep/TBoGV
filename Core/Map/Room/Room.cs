@@ -75,7 +75,9 @@ public abstract class Room : Place
     {
         ClearEnemies();
         ClearProjectiles();
-        Generate();
+        if (!IsGenerated)
+            Generate();
+
         GenerateEnemies((int)(40 * (1 / (float)Storyline.Difficulty)));
     }
 
@@ -197,7 +199,6 @@ public abstract class Room : Place
     /* === Generation methods === */
     protected virtual void GenerateEnemies(int concentration)
     {
-
         List<Enemy> chosenEnemies = new List<Enemy>();
         if (EnemyPool.Count == 0)
         {
@@ -215,7 +216,7 @@ public abstract class Room : Place
             chosenEnemies.Add((Enemy)EnemyPool[Random.Shared.Next(EnemyPool.Count)].Clone());
 
         Random rand = new Random();
-        foreach (var enemy in EnemyPool)
+        foreach (var enemy in chosenEnemies)
         {
             while (true)
             {
@@ -366,7 +367,7 @@ public abstract class Room : Place
 
         for (int x = 0; x < Dimensions.X; x++)
             for (int y = 0; y < Dimensions.Y; y++)
-                validPositions += ShouldCollideAt(GetTileWorldPos(new Vector2(x, y))) ? 0 : 1;
+                validPositions += (Floor[x, y]?.DoCollision ?? false) || (Decorations[x, y]?.DoCollision ?? false) ? 0 : 1;
         return validPositions;
     }
 
