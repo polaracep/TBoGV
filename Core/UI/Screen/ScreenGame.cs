@@ -36,8 +36,7 @@ public class ScreenGame : Screen
 
         Storyline.GenerateStoryline();
 		player.Save(SaveType.AUTO);
-        // CurrentLevel = new Level(player, rL, start, 6);
-        //activePlace = CurrentLevel.ActiveRoom;
+
         lobby = new Lobby(player);
         activePlace = lobby;
 
@@ -82,11 +81,11 @@ public class ScreenGame : Screen
             miniGame.Draw(_spriteBatch);
         _spriteBatch.End();
     }
-    GameTime prevGameTime = new GameTime();
+
     public override void Update(GameTime gameTime, GraphicsDeviceManager graphics)
     {
         double dt = gameTime.ElapsedGameTime.TotalMilliseconds;
-        prevGameTime = gameTime;
+
         if (Storyline.CurrentLevel?.ActiveRoom != activePlace && player.IsPlaying)
             activePlace = Storyline.CurrentLevel.ActiveRoom;
 
@@ -239,8 +238,12 @@ public class ScreenGame : Screen
 		if (Storyline.FailedTimes >= 3)
 		{
 			FileHelper.ResetSaves();
+            Storyline.ResetStoryline();
+            player.Reset();
 			TBoGVGame.screenCurrent = ScreenManager.ScreenDeath;
 		}
+        player.LevelChanged = true;
+        player.IsPlaying = true;
     }
     void Revive()
     {

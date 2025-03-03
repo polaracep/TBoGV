@@ -73,11 +73,9 @@ public abstract class Room : Place
 
     public override void Reset()
     {
-        ClearEnemies();
-        ClearProjectiles();
+        ClearRoom();
         if (!IsGenerated)
             Generate();
-
         GenerateEnemies((int)(40 * (1 / (float)Storyline.Difficulty)));
     }
 
@@ -239,6 +237,7 @@ public abstract class Room : Place
     {
         ClearEnemies();
         ClearProjectiles();
+        ClearDrops();
 
         Floor.GenerateFilledRectangle(
             new Rectangle(0, 0, (int)Dimensions.X, (int)Dimensions.Y),
@@ -297,7 +296,10 @@ public abstract class Room : Place
             }
         }
     }
-
+    public virtual void ClearDrops()
+    {
+        Drops.Clear();
+    }
     public virtual void ClearEnemies()
     {
         Enemies.Clear();
@@ -311,6 +313,7 @@ public abstract class Room : Place
     {
         ClearProjectiles();
         ClearEnemies();
+        ClearDrops();
     }
     public virtual void AddEnemy(Enemy enemy)
     {
