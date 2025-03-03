@@ -330,7 +330,7 @@ public class Inventory
 
 	private string FormatStats(Dictionary<StatTypes, int> stats, bool weapon)
 	{
-		if (stats == null || stats.Count == 0) return "No stats available";
+		if (stats == null || stats.Count == 0) return "";
 
 		StringBuilder sb = new StringBuilder();
 		foreach (var stat in stats)
@@ -338,11 +338,11 @@ public class Inventory
 			string displayName = stat.Key switch
 			{
 				StatTypes.MAX_HP => "Biologie",
-				StatTypes.DAMAGE => weapon ? "Sila zbrane" : "Matematika",
+				StatTypes.DAMAGE => weapon ? "Síla zbraně" : "Matematika",
 				StatTypes.PROJECTILE_COUNT => "Fyzika",
 				StatTypes.XP_GAIN => "Zsv",
-				StatTypes.ATTACK_SPEED => weapon ? "Rychlost utoku" : "Cestina",
-				StatTypes.MOVEMENT_SPEED => "Telocvik",
+				StatTypes.ATTACK_SPEED => weapon ? "Rychlost útoků" : "Čeština",
+				StatTypes.MOVEMENT_SPEED => "Tělocvik",
 				_ => stat.Key.ToString()
 			};
 
