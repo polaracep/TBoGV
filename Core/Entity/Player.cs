@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.Json;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Newtonsoft.Json;
 
 namespace TBoGV;
 
@@ -55,7 +57,6 @@ public class Player : Entity, IRecieveDmg, IDealDmg
 			{ StatTypes.MOVEMENT_SPEED, 0 }
 		};
 
-		XpGain = 1;
 		Position = position;
 		Size = new Vector2(50, 50);
 		Projectiles = new List<Projectile>();
@@ -370,6 +371,103 @@ public class Player : Entity, IRecieveDmg, IDealDmg
 	{
 		LevelChanged = true;
 		Position = Lobby.SpawnPos * 50;
+	}
+	public class PlayerData
+	{
+		public int Level { get; set; }
+		public float Xp { get; set; }
+		public float Hp { get; set; }
+		public int Coins { get; set; }
+		public Dictionary<string, int> LevelUpStats { get; set; }
+		public double LastAttackElapsed { get; set; }
+		public double LastRecievedDmgElapsed { get; set; }
+		public float[] Position { get; set; }
+		public List<ItemContainerData> ItemContainers { get; set; }
+		public List<EffectData> Effects { get; set; }
+		public PlayerData() { }
+	}
+
+	public class ItemContainerData
+	{
+		public bool IsEmpty { get; set; }
+		public string ItemName { get; set; }
+		public ItemTypes Type { get; set; }
+		public ItemContainerData() { }
+	}
+
+	public class EffectData
+	{
+		public string Name { get; set; }
+		public int Level { get; set; }
+		public Dictionary<string, int> Stats { get; set; } = new();
+		public EffectData() { }
+	}
+	public void Save(SaveType saveType)
+	{
+		List < ItemContainerData > containerData = new List < ItemContainerData > ();
+		foreach (var i in Inventory.ItemContainers)
+			if (!i.IsEmpty())
+				containerData.Add(new ItemContainerData {ItemName =i.Item.Name, IsEmpty = false, Type = i.ContainerType });
+			else
+				containerData.Add(new ItemContainerData { ItemName = "null", IsEmpty = true, Type = i.ContainerType });
+		List<EffectData> EffectsData = new List < EffectData> ();
+		foreach (var e in Inventory.Effects)
+			EffectsData.Add(new EffectData {Level = e.Level, Name = e.Name, Stats = StatConverter.ConvertToStringDictionary(e.Stats)});
+
+		PlayerData data = new PlayerData
+		{
+			Position = new float[2]{ Position.X, Position.Y},
+			Level = Level,
+			Xp = Xp,
+			Hp = Hp,
+			Coins = Coins,
+			LevelUpStats = StatConverter.ConvertToStringDictionary(LevelUpStats),
+			LastAttackElapsed = LastAttackElapsed,
+			LastRecievedDmgElapsed = LastRecievedDmgElapsed,
+			ItemContainers = containerData,
+			Effects = EffectsData
+		};
+		FileHelper.Save("tbogv_player.json", data, saveType);
+	}
+	public void Load(SaveType saveType)
+	{
+		PlayerData data = FileHelper.Load<PlayerData>("tbogv_player.json", saveType);
+		if (data != null)
+		{
+			Position = new Vector2(data.Position[0], data.Position[1]);
+			Level = data.Level;
+			Xp = data.Xp;
+			Hp = data.Hp;
+			Coins = data.Coins;
+			LevelUpStats = StatConverter.ConvertToStatDictionary(data.LevelUpStats);
+			LastAttackElapsed = data.LastAttackElapsed;
+			LastRecievedDmgElapsed = data.LastRecievedDmgElapsed;
+
+			// Restore Item Containers
+			Inventory.ItemContainers.Clear();
+			foreach (var itemData in data.ItemContainers)
+			{
+				if (!itemData.IsEmpty && itemData.ItemName != "null")
+				{
+					var item = ItemDatabase.GetItemByName(itemData.ItemName);
+					Inventory.ItemContainers.Add(new ItemContainer() { Item = item, ContainerType = itemData.Type});
+				}
+				else
+				{
+					Inventory.ItemContainers.Add(new ItemContainer() { ContainerType = itemData.Type });
+				}
+			}
+
+			// Restore Effects
+			Inventory.Effects.Clear();
+			foreach (var effectData in data.Effects)
+			{
+				var effect = EffectDatabase.GetEffectByName(effectData.Name);
+				effect.Level = effectData.Level;
+				effect.Stats = StatConverter.ConvertToStatDictionary(effectData.Stats);
+				Inventory.Effects.Add(effect);
+			}
+		}
 	}
 }
 

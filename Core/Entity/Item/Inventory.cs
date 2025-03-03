@@ -39,6 +39,8 @@ public class Inventory
 		Font = FontManager.GetFont("Arial8");
 		MiddleFont = FontManager.GetFont("Arial12");
 		LargerFont = FontManager.GetFont("Arial16");
+		selectedItemIndex = 3;
+		SetActiveItemContainer();
 	}
 	public void AddEffect(Effect effect)
 	{
@@ -174,21 +176,6 @@ public class Inventory
 			}
 		}
 
-		// Handle scroll wheel selection (for basic items only)
-		int scrollDelta = PrevScrollWheelValue - mouseState.ScrollWheelValue;
-		if (scrollDelta > 0)
-		{
-			selectedItemIndex = 3 + ((selectedItemIndex + 1 - 3) % (ItemContainers.Count - 3));
-			SetActiveItemContainer();
-		}
-		else if (scrollDelta < 0)
-		{
-			selectedItemIndex = 3 + ((selectedItemIndex - 1 - 3 + (ItemContainers.Count - 3)) % (ItemContainers.Count - 3));
-			SetActiveItemContainer();
-		}
-		PrevScrollWheelValue = mouseState.ScrollWheelValue;
-
-		// Handle number key selection for basic items (starting at index 3)
 		KeyboardState keyboardState = Keyboard.GetState();
 		// Check for number keys D1 through D9.
 		for (int i = 1; i <= 9; i++)

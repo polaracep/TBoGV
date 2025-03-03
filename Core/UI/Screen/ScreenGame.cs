@@ -30,10 +30,11 @@ public class ScreenGame : Screen
     public override void BeginRun(GraphicsDeviceManager graphics)
     {
         player = new Player();
+		player.Load(SaveType.USER);
         Storyline.Player = player;
 
         Storyline.GenerateStoryline();
-
+		player.Save(SaveType.AUTO);
         // CurrentLevel = new Level(player, rL, start, 6);
         //activePlace = CurrentLevel.ActiveRoom;
         lobby = new Lobby(player);
@@ -41,14 +42,12 @@ public class ScreenGame : Screen
 
         UI = new UI();
         _camera = new Camera();
-        inGameMenu = effectMenu = new InGameMenuEffect(graphics.GraphicsDevice.Viewport);
+        inGameMenu = effectMenu = new InGameMenuEffect(graphics.GraphicsDevice.Viewport, player);
         levelUpMenu = new InGameMenuLevelUp(graphics.GraphicsDevice.Viewport);
         deathMenu = new InGameMenuDeath(graphics.GraphicsDevice.Viewport);
         shopMenu = new InGameMenuShop(graphics.GraphicsDevice.Viewport, player);
 
-        // deathMenu.ResetLevel = () => Reset();
-        // lol
-        deathMenu.ResetLevel = GameManager.Shutdown;
+        deathMenu.ResetLevel = Reset;
         deathMenu.PassTest = Revive;
         itemJournalMenu = new InGameMenuItemJournal(graphics.GraphicsDevice.Viewport);
 
@@ -232,6 +231,13 @@ public class ScreenGame : Screen
         player.Heal((uint)player.MaxHp);
         deathMenu.Active = false;
         player.LastRecievedDmgElapsed = 0;
+		player.Load(SaveType.AUTO);
+		Storyline.FailedTimes++;
+		if(Storyline.FailedTimes >= 3)
+		{
+			FileHelper.ResetSaves();
+			TBoGVGame.screenCurrent = ScreenManager.ScreenDeath;
+		}
     }
     void Revive()
     {

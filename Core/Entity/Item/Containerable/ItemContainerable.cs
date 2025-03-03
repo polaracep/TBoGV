@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 namespace TBoGV;
 
 public abstract class ItemContainerable : Item
@@ -54,4 +55,102 @@ public enum ItemTypes : int
 	WEAPON = 1,
 	ARMOR = 2,
 	BASIC = 3,
+}
+public class StatConverter
+{
+	private static readonly Dictionary<string, StatTypes> stringToStatMap = new()
+	{
+		{ "MAX_HP", StatTypes.MAX_HP },
+		{ "DAMAGE", StatTypes.DAMAGE },
+		{ "PROJECTILE_COUNT", StatTypes.PROJECTILE_COUNT },
+		{ "XP_GAIN", StatTypes.XP_GAIN },
+		{ "ATTACK_SPEED", StatTypes.ATTACK_SPEED },
+		{ "MOVEMENT_SPEED", StatTypes.MOVEMENT_SPEED }
+	};
+	private static readonly Dictionary<StatTypes, string> statToStringMap = new()
+	{
+		{ StatTypes.MAX_HP, "MAX_HP" },
+		{ StatTypes.DAMAGE, "DAMAGE" },
+		{ StatTypes.PROJECTILE_COUNT, "PROJECTILE_COUNT" },
+		{ StatTypes.XP_GAIN, "XP_GAIN" },
+		{ StatTypes.ATTACK_SPEED, "ATTACK_SPEED" },
+		{ StatTypes.MOVEMENT_SPEED, "MOVEMENT_SPEED" }
+	};
+	public static Dictionary<StatTypes, int> ConvertToStatDictionary(Dictionary<string, int> input)
+	{
+		Dictionary<StatTypes, int> result = new();
+
+		foreach (var pair in input)
+		{
+			if (stringToStatMap.TryGetValue(pair.Key, out StatTypes statType))
+			{
+				result[statType] = pair.Value;
+			}
+		}
+
+		return result;
+	}
+	public static Dictionary<string, int> ConvertToStringDictionary(Dictionary<StatTypes, int> input)
+	{
+		Dictionary<string, int> result = new();
+
+		foreach (var pair in input)
+		{
+			if (statToStringMap.TryGetValue(pair.Key, out string statName))
+			{
+				result[statName] = pair.Value;
+			}
+		}
+
+		return result;
+	}
+}
+public static class ItemDatabase
+{
+	private static readonly Dictionary<string, ItemContainerable> ItemsByName = new Dictionary<string, ItemContainerable>();
+
+	static ItemDatabase()
+	{
+		var itemsList = new ItemContainerable[]
+		{
+			new ItemCalculator(),
+			new ItemDoping(),
+			new ItemMonster(),
+			new ItemFancyShoes(),
+			new ItemFlipFlop(),
+			new ItemTrackShoes(),
+			new ItemMap(),
+			new ItemMathProblem(),
+			new ItemTeeth(),
+			new ItemAdBlock(),
+			new ItemExplosive(),
+			new ItemDagger(),
+			new ItemPencil(),
+			new ItemBookBio(),
+			new ItemBookCzech(),
+			new ItemBookMath(),
+			new ItemBookZsv(),
+			new ItemBookPhysics(),
+			new ItemCross(),
+			new ItemBryle(),
+			new ItemBook(),
+			new ItemBookPE(),
+			new ItemPen(),
+			new ItemScissors(),
+			new ItemRubbedBoots(),
+			new ItemFixa(),
+			new ItemLabcoat(),
+			new ItemPencil(),
+		};
+
+		foreach (var item in itemsList)
+		{
+			ItemsByName[item.Name] = item;
+		}
+	}
+
+	public static ItemContainerable GetItemByName(string name)
+	{
+		return ItemsByName.TryGetValue(name, out var item) ? (ItemContainerable)Activator.CreateInstance(item.GetType()) : null;
+	}
 }

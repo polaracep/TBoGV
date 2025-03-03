@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework;
 using System.Text;
+using System.Security.AccessControl;
 namespace TBoGV;
 
 public class InGameMenuEffect : InGameMenu
@@ -18,8 +19,9 @@ public class InGameMenuEffect : InGameMenu
 	public List<Effect> Effects { get; set; }
 
 	private Button settingsButton;
+	private Button saveButton;
 
-	public InGameMenuEffect(Viewport viewport)
+	public InGameMenuEffect(Viewport viewport, Player player)
 	{
 		SpriteBackground = TextureManager.GetTexture("blackSquare");
 		MiddleFont = FontManager.GetFont("Arial12");
@@ -33,6 +35,10 @@ public class InGameMenuEffect : InGameMenu
 			TBoGVGame.screenCurrent = ScreenManager.ScreenSettings;
 		});
 
+		saveButton = new Button("Ulož", LargerFont, () =>
+		{
+			player.Save(SaveType.USER);
+		});
 		Active = false;
 	}
 	public override void Update(Viewport viewport, Player player, MouseState mouseState, KeyboardState keyboardState, double dt)
@@ -44,6 +50,7 @@ public class InGameMenuEffect : InGameMenu
 		Viewport = viewport;
 
 		settingsButton.Update(mouseState);
+		saveButton.Update(mouseState);
 	}
 	public override void Draw(SpriteBatch spriteBatch)
 	{
@@ -96,6 +103,9 @@ public class InGameMenuEffect : InGameMenu
 
 		settingsButton.Position = new Vector2((Viewport.Width - settingsButton.GetRect().Width) / 2, startY + ((3 + statEntries.Count) * MiddleFont.LineSpacing));
 		settingsButton.Draw(spriteBatch);
+
+		saveButton.Position = new Vector2((Viewport.Width - saveButton.GetRect().Width) / 2, startY + ((3 + statEntries.Count) * MiddleFont.LineSpacing) + settingsButton.GetRect().Height);
+		saveButton.Draw(spriteBatch);
 
 		DrawEffects(spriteBatch);
 

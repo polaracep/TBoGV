@@ -7,12 +7,15 @@ public static class ScreenManager
     public static ScreenSettings ScreenSettings = new ScreenSettings();
     public static ScreenGame ScreenGame = new ScreenGame();
     public static ScreenEnd ScreenEnd = new ScreenEnd();
+	public static ScreenDeath ScreenDeath = new ScreenDeath();
 
-    public static void Init(GraphicsDeviceManager graphics)
+	public static void Init(GraphicsDeviceManager graphics)
     {
         ScreenStart.BeginRun(graphics);
         ScreenSettings.BeginRun(graphics);
         ScreenGame.BeginRun(graphics);
         ScreenEnd.BeginRun(graphics);
-    }
+		ScreenDeath.BeginRun(graphics);
+
+	}
 }

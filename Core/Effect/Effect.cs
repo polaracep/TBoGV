@@ -74,3 +74,31 @@ public abstract class Effect : IDraw
 	}
 	public abstract Texture2D GetSprite();
 }
+
+public static class EffectDatabase
+{
+	private static readonly Dictionary<string, Effect> EffectsByName = new Dictionary<string, Effect>();
+
+	static EffectDatabase()
+	{
+		var effectsList = new Effect[]
+		{
+			new EffectCooked(1),
+			new EffectDelej(1),
+			new EffectFyjalovaDrahota(1),
+			new EffectLol(1),
+			new EffectRickroll(1),
+			new EffectRooted(1),
+		};
+
+		foreach (var effect in effectsList)
+		{
+			EffectsByName[effect.GetType().Name] = effect;
+		}
+	}
+
+	public static Effect GetEffectByName(string name)
+	{
+		return EffectsByName.TryGetValue(name, out var effect) ? (Effect)Activator.CreateInstance(effect.GetType()) : null;
+	}
+}

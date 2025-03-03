@@ -21,6 +21,7 @@ public static class Storyline
     /// Difficulty level in base game ranges from 1 to 8
     /// </summary>
     public static int Difficulty = 1;
+	public static int FailedTimes = 0;
     public static void GenerateStoryline()
     {
         LevelList = [
@@ -120,6 +121,7 @@ public static class Storyline
         CurrentLevelNumber++;
         Difficulty += (CurrentLevelNumber + 1) % 2;
         Player.LevelChanged = true;
+		Player.Save(SaveType.AUTO);
     }
     public static void End()
     {

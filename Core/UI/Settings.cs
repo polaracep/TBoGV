@@ -8,12 +8,12 @@ public static class Settings
 
     public static void Save()
     {
-        FileHelper.Save(settingsPath, new SettingsData(MusicVolume, SfxVolume, FixedCamera));
+        FileHelper.Save(settingsPath, new SettingsData(MusicVolume, SfxVolume, FixedCamera), SaveType.GENERIC);
     }
 
     public static void Load()
     {
-        var data = FileHelper.Load<SettingsData>(settingsPath);
+        var data = FileHelper.Load<SettingsData>(settingsPath, SaveType.GENERIC);
         if (data != null)
         {
             MusicVolume = data.MusicVolume;
