@@ -111,11 +111,17 @@ class BossToilet : EnemyBoss
 	{
 		return Hp <= 0;
 	}
-	public override List<Item> Drop(int looting)
-	{
-		return new List<Item>() { new ItemBryle() };
-	}
-	public override float RecieveDmg(Projectile projectile)
+    public override List<Item> Drop(int looting)
+    {
+        Random random = new Random();
+        List<Item> droppedItems = new List<Item>();
+        droppedItems = base.Drop(looting);
+        var item = new ItemCross(Position + Size / 2);
+        item.InitMovement();
+        droppedItems.Add(item);
+        return droppedItems;
+    }
+    public override float RecieveDmg(Projectile projectile)
 	{
 		if (!projectilesRecieved.Contains(projectile) && Rage)
 		{
