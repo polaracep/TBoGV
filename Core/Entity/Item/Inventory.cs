@@ -197,7 +197,9 @@ public class Inventory
 			if (Effects[i].IsExpired())
 				Effects.RemoveAt(i);
 		}
-	}
+		SetActiveItemContainer();
+
+    }
 	private void SetActiveItemContainer()
 	{
 		for (int i = 0; i < ItemContainers.Count; i++)

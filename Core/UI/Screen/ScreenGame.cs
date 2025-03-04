@@ -239,7 +239,9 @@ public class ScreenGame : Screen
 		{
 			FileHelper.ResetSaves();
             Storyline.ResetStoryline();
+            Storyline.CurrentLevelNumber = 0;
             player.Reset();
+            lobby.Reset();
 			TBoGVGame.screenCurrent = ScreenManager.ScreenDeath;
 		}
         player.LevelChanged = true;
