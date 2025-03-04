@@ -42,13 +42,6 @@ public abstract class EnemyMelee : Enemy
 	{
 		return Hp <= 0;
 	}
-	public override List<Item> Drop(int looting)
-	{
-		int rnd = new Random().Next(0, 100);
-		if (50 / looting > rnd)
-			return new List<Item>();
-		else return new List<Item>() { new Coin(Position + Size / 2) };
-	}
 	private void FollowPath()
 	{
 		if (path.Count > 0)

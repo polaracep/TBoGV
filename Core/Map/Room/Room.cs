@@ -90,8 +90,15 @@ public abstract class Room : Place
             if (!Particles[i].Visible)
                 Particles.Remove(Particles[i]);
         }
+		UpdateDrops();
     }
-    protected void UpdateProjectiles()
+	protected void UpdateDrops()
+	{
+		foreach (var d in Drops)
+			d.Update(this);
+	}
+
+	protected void UpdateProjectiles()
     {
         for (int i = Projectiles.Count - 1; i >= 0; i--)
         {

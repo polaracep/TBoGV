@@ -12,6 +12,8 @@ class Coin : Item
 		Sprite = TextureManager.GetTexture("coin");
 		Size = new Vector2(15, 15);
 		Position = position - Size / 2;
+		if (position != Vector2.Zero)
+			InitMovement();
 	}
 	public override void Draw(SpriteBatch spriteBatch)
 	{
