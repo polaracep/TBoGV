@@ -226,8 +226,20 @@ public class Player : Entity, IRecieveDmg, IDealDmg
 				place.Drops.Remove(place.Drops[i]);
 			}
 		}
+		if(keyboardState.IsKeyDown(Keys.Q))
+		{
+			var item = Inventory.DropItem(Position + Size / 2);
+			if(item != null)
+				place.Drops.Add(item);
+		}
+        if (keyboardState.IsKeyDown(Keys.Q) && keyboardState.IsKeyDown(Keys.LeftShift))
+        {
+            var items = Inventory.DropAllItems(Position + Size / 2);
+            foreach (var item in items)
+                place.Drops.Add(item);
+        }
 
-		Inventory.Update(viewport, this, mouseState, dt);
+        Inventory.Update(viewport, this, mouseState, dt);
 
 		// Calculate the direction from the player to the world mouse position
 		Vector2 screenMousePos = new Vector2(mouseState.X, mouseState.Y);

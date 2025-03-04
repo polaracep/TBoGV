@@ -248,7 +248,31 @@ public class Inventory
 		);
 		spriteBatch.DrawString(MiddleFont, stats, statsPosition, Color.LightCyan);
 	}
-	public bool PickUpItem(ItemContainerable item)
+	public ItemContainerable DropItem(Vector2 position)
+	{
+		if(ItemContainers[selectedItemIndex].IsEmpty())
+			return null;
+		var item = ItemContainers[selectedItemIndex].Item;
+		item.Position = position;
+		item.InitMovement();
+		ItemContainers[selectedItemIndex].Item = null;
+        return item;
+    }
+    public List<ItemContainerable> DropAllItems(Vector2 position)
+    {
+		int selectedTmp = selectedItemIndex;
+		List<ItemContainerable> items = new List<ItemContainerable>();
+		for (int i = 0; i < ItemContainers.Count; i++)
+		{
+			selectedItemIndex = i;
+			var item = DropItem(position);
+			if(item != null)
+				items.Add(item);
+		}
+		selectedItemIndex = selectedTmp;
+		return items;
+    }
+    public bool PickUpItem(ItemContainerable item)
 	{
 		switch (item.ItemType)
 		{
