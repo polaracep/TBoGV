@@ -90,15 +90,15 @@ public abstract class Room : Place
             if (!Particles[i].Visible)
                 Particles.Remove(Particles[i]);
         }
-		UpdateDrops();
+        UpdateDrops();
     }
-	protected void UpdateDrops()
-	{
-		foreach (var d in Drops)
-			d.Update(this);
-	}
+    protected void UpdateDrops()
+    {
+        foreach (var d in Drops)
+            d.Update(this);
+    }
 
-	protected void UpdateProjectiles()
+    protected void UpdateProjectiles()
     {
         for (int i = Projectiles.Count - 1; i >= 0; i--)
         {
@@ -202,7 +202,7 @@ public abstract class Room : Place
     }
 
     /* === Generation methods === */
-    protected virtual void GenerateEnemies(int concentration)
+    protected virtual void GenerateEnemies(int roomWeight)
     {
         List<Enemy> chosenEnemies = new List<Enemy>();
         if (EnemyPool.Count == 0)
@@ -217,15 +217,19 @@ public abstract class Room : Place
         }
 
         // 1 enemy for 'concentration' tiles
-        for (int i = 0; i < Math.Round((decimal)GetValidPositionCount() / concentration); i++)
-            chosenEnemies.Add((Enemy)EnemyPool[Random.Shared.Next(EnemyPool.Count)].Clone());
+        int weight = 0;
+        while (weight < roomWeight)
+        {
+            Enemy e = (Enemy)EnemyPool[Random.Shared.Next(EnemyPool.Count)].Clone();
+            chosenEnemies.Add(e);
+            weight += (int)e.Weight;
+        }
 
-        Random rand = new Random();
         foreach (var enemy in chosenEnemies)
         {
             while (true)
             {
-                Vector2 spawnPos = new Vector2(rand.Next((int)Dimensions.X - 2) + 1, rand.Next((int)Dimensions.Y - 2) + 1) * 50;
+                Vector2 spawnPos = new Vector2(Random.Shared.Next((int)Dimensions.X - 2) + 1, Random.Shared.Next((int)Dimensions.Y - 2) + 1) * 50;
 
                 if (Doors.Any(d => (d.DoorTpPosition - spawnPos).Length() < 150))
                     continue;

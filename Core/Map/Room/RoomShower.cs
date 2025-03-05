@@ -19,7 +19,7 @@ public class RoomShower : Room
     public override void Generate()
     {
         GenerateBase();
-        GenerateEnemies(25);
+        GenerateEnemies((Storyline.Difficulty / 2) + 1);
         GeneratePassive();
         IsGenerated = true;
     }

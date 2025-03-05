@@ -15,7 +15,7 @@ public class RoomStart : Room, IDraw
 #if DEBUG
         this.AddDecoTile(this.Dimensions / 2, new TileHeal());
 #endif
-        this.GenerateEnemies(20);
+        this.GenerateEnemies(0);
 
         player.Position = this.GetTileWorldPos(Vector2.One);
     }
