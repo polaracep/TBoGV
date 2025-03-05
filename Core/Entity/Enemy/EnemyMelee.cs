@@ -12,11 +12,11 @@ public abstract class EnemyMelee : Enemy
 	protected Vector2 targetPosition;
 	protected float pathUpdateCooldown = 0.1f;
 	protected Queue<Vector2> path = new Queue<Vector2>();
-
 	protected bool Moving;
 	protected double phaseChangeElapsed = 0;
 	protected int chillDuration = 3000;
 	protected int movingDuration = 2500;
+
 
 	public override void Update(Vector2 playerPosition, double dt)
 	{

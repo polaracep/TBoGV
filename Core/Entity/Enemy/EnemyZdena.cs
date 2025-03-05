@@ -45,5 +45,6 @@ class EnemyZdena : EnemyRanged
 		AttackSpeed = 2500 - (100 * difficulty);
 		AttackDmg = 1;
 		XpValue = difficulty;
+		Weight = EnemyWeight.MEDIUM;
 	}
 }

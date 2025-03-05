@@ -16,7 +16,7 @@ public class RoomHallway : Room
     public override void Generate()
     {
         GenerateBase();
-        GenerateEnemies(25);
+        GenerateEnemies(Storyline.Difficulty);
         IsGenerated = true;
     }
 

@@ -71,6 +71,7 @@ class EnemyTriangle : EnemyMelee
         AttackSpeed = 444;
         AttackDmg = 1;
         XpValue = difficulty / 4;
+        Weight = EnemyWeight.EASY;
     }
 }
 
