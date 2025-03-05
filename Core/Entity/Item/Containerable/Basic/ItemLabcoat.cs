@@ -31,7 +31,7 @@ public class ItemLabcoat : ItemContainerable
     }
     public override ItemContainerable Clone()
     {
-        return new ItemCross();
+        return new ItemLabcoat();
     }
 }
 

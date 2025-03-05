@@ -13,8 +13,8 @@ public class ItemBookMath : ItemContainerable
 		Rarity = 4;
 		Position = position;
 		Size = new Vector2(50, 50);
-		Name = "Petakova";
-		Description = "Mel by jsi se pomodlit";
+		Name = "Petáková";
+		Description = "Měl by jsi se pomodlit";
 		Stats = new Dictionary<StatTypes, int>() { { StatTypes.DAMAGE, 8 } };
 		Effects = new List<EffectTypes>();
 		Sprite = TextureManager.GetTexture("bookPetakova");
