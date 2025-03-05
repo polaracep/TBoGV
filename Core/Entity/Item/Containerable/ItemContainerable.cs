@@ -22,9 +22,14 @@ public abstract class ItemContainerable : Item
 			p.Drops.Add(p.player.Inventory.SwapItem(this));
 	}
 	public virtual int GetCost()
-	{ 
-		return -3 + Rarity*8 + Effects.Count*2; 
+	{
+		int rarityValue = GetRarityValue();
+		return new Random().Next((int)(rarityValue * 0.6f), (int)(rarityValue * 1.3)); 
 	}
+    public virtual int GetRarityValue()
+	{
+		return 3 + Rarity * 7;
+    }
 	public abstract ItemContainerable Clone();
 }
 

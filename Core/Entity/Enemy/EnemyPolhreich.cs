@@ -98,7 +98,7 @@ internal class EnemyPolhreich : EnemyRanged
 		MovementSpeed = 2 + (difficulty / 4);
 		AttackSpeed = 650 - (4 * difficulty);
 		AttackDmg = 1;
-		XpValue = difficulty;
+		XpValue = difficulty + 1;
 	}
 }
 
