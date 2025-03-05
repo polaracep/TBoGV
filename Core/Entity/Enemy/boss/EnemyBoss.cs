@@ -27,9 +27,6 @@ public abstract class EnemyBoss : Enemy
 			if (random.Next(0, 100) >= dropChance)
 				droppedItems.Add(new Coin(Position + Size / 2));
 		}
-		var item = new ItemFixa(Position + Size / 2);
-		item.InitMovement();
-		droppedItems.Add(item);
 		return droppedItems;
 	}
 }
