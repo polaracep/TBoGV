@@ -221,18 +221,19 @@ namespace TBoGV
                         {
                             player.Inventory.AddEffect(new EffectCloseCall());
                             player.Inventory.RemoveItem(itemClone.Item);
-                            if(itemToDrop != null)
+                            if (itemToDrop != null)
                                 player.Inventory.PickUpItem(itemToDrop);
                             player.Hp = hp;
                             player.SetStats();
-                            player.Coins += itemClone.Price;
                         }
-                        else if(itemToDrop != null)
-                            player.Drop(itemToDrop);
-                        player.Coins -= itemClone.Price;
-
-                        itemCache.Clear();
-                        Active = false; // Close shop after purchase.
+                        else
+                        {
+                            if (itemToDrop != null)
+                                player.Drop(itemToDrop);
+                            player.Coins -= itemClone.Price;
+                            itemCache.Clear();
+                        }
+                            Active = false; // Close shop after purchase.
                         return;
                     }
                 }

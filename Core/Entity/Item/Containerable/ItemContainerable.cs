@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 namespace TBoGV;
 
 public abstract class ItemContainerable : Item
@@ -22,7 +23,7 @@ public abstract class ItemContainerable : Item
 	}
 	public virtual int GetCost()
 	{ 
-		return Rarity*3 + Effects.Count*2; 
+		return -3 + Rarity*8 + Effects.Count*2; 
 	}
 	public abstract ItemContainerable Clone();
 }
@@ -56,7 +57,7 @@ public enum ItemTypes : int
 	ARMOR = 2,
 	BASIC = 3,
 }
-public class StatConverter
+public static class StatConverter
 {
 	private static readonly Dictionary<string, StatTypes> stringToStatMap = new()
 	{
@@ -153,4 +154,9 @@ public static class ItemDatabase
 	{
 		return ItemsByName.TryGetValue(name, out var item) ? (ItemContainerable)Activator.CreateInstance(item.GetType()) : null;
 	}
+    public static List<ItemContainerable> GetAllItems()
+    {
+        return ItemsByName.Values.ToList();
+    }
+
 }

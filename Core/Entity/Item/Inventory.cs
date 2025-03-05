@@ -18,7 +18,6 @@ public class Inventory
 	public List<ItemContainer> ItemContainers;
 	public List<Effect> Effects = new List<Effect>();
 	public int selectedItemIndex = 0;
-	private int PrevScrollWheelValue;
 	ItemContainer hoveredItem;
 	Vector2 Position { get; set; }
 	public Inventory()
@@ -67,7 +66,17 @@ public class Inventory
 			}
 		}
 	}
-
+	public void RemoveItem(ItemContainerable item)
+	{
+		foreach (var c in ItemContainers)
+		{
+            if (c.Item != null && c.Item.GetType() == item.GetType())
+            {
+				c.Item = null;
+				return;
+			}
+		}
+	}
 	public void Draw(SpriteBatch spriteBatch)
 	{
 		foreach (var container in ItemContainers)
