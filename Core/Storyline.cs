@@ -87,7 +87,7 @@ public static class Storyline
                 new RoomHallway(p),
                 new RoomHallway(p),
                 new RoomShower(p),
-            ], new RoomStart(p), new RoomBossToilet(p), 6),
+            ], new RoomStart(p), new RoomBossZeman(p), 6),
             // L7
             new Level(p, [
                 new RoomClassroom(p),
