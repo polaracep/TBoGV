@@ -36,7 +36,7 @@ class BossToilet : EnemyBoss
 		InitStats(Storyline.Difficulty);
 		Rage = false;
 		Position = position;
-		Scale = 150f / Math.Max(frameWidth, frameHeight);
+		Scale = 125f / Math.Max(frameWidth, frameHeight);
 		Size = new Vector2(frameWidth * Scale, frameHeight * Scale);
 		phaseChangeElapsed = 0;
 	}
@@ -49,14 +49,16 @@ class BossToilet : EnemyBoss
 		int col = currentFrame % framesPerRow;
 
 		Rectangle sourceRect = new Rectangle(col * frameWidth, row * frameHeight, frameWidth, frameHeight);
-		spriteBatch.Draw(Spritesheet, new Vector2(Position.X, Position.Y), sourceRect, Color.White);
+		spriteBatch.Draw(Spritesheet, new Rectangle((int)Position.X, (int)Position.Y, (int)Size.X, (int)Size.Y), sourceRect, Color.White);
 	}
 
 
 	public override List<Projectile> Attack()
 	{
 		List<Projectile> projectiles = base.Attack();
-		projectiles.Add(new ProjectilePee(Position + Size / 2, Direction, AttackDmg));
+		var projectile = new ProjectilePee(Position + new Vector2(80f,115f)*Scale, Direction, AttackDmg);
+		projectile.MovementSpeed = 5 + 7 * Hp / MaxHp;
+        projectiles.Add(projectile);
 		LastAttackElapsed = 0;
 		return projectiles;
 	}
@@ -137,9 +139,10 @@ class BossToilet : EnemyBoss
 
 	protected override void InitStats(int difficulty)
 	{
-		Hp = 60;
-		MovementSpeed = 2;
-		AttackSpeed = 25;
+		MaxHp = 200;
+		Hp = 200;
+		MovementSpeed = 0;
+		AttackSpeed = 10;
 		AttackDmg = 1;
 		XpValue = 50;
 	}
