@@ -18,7 +18,7 @@ public class ScreenGame : Screen
     private InGameMenuDeath deathMenu;
     private InGameMenuItemJournal itemJournalMenu;
     private InGameMenuShop shopMenu;
-    public bool openShop = false;
+    public ShopState openShop = ShopState.CLOSE;
     private List<Minigame> miniGames = new List<Minigame>();
 
     private UI UI;
@@ -108,11 +108,11 @@ public class ScreenGame : Screen
 
             deathMenu.OpenMenu();
         }
-        if (openShop && !shopMenu.Active)
+        if (openShop != ShopState.CLOSE && !shopMenu.Active)
         {
             inGameMenu = shopMenu;
-            shopMenu.OpenMenu(player);
-            openShop = false;
+            shopMenu.OpenMenu(player, openShop);
+            openShop = ShopState.CLOSE;
         }
 
         UpdateKeyboard();
@@ -131,6 +131,7 @@ public class ScreenGame : Screen
                 activePlace = Storyline.CurrentLevel.ActiveRoom;
             }
             player.LevelChanged = false;
+            shopMenu.ResetShop();
         }
 
 
@@ -253,4 +254,11 @@ public class ScreenGame : Screen
         player.Heal(3);
         player.LastRecievedDmgElapsed = 0;
     }
+}
+
+public enum ShopState : int
+{
+    CLOSE,
+    SARKA,
+    PERLOUN,
 }

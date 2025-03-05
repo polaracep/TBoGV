@@ -334,6 +334,8 @@ public abstract class Room : Place
             item.Draw(spriteBatch);
         foreach (Enemy enemy in Enemies)
             enemy.Draw(spriteBatch);
+        foreach (var e in Entities)
+            e.Draw(spriteBatch);
         foreach (Projectile projectile in player.Projectiles)
             projectile.Draw(spriteBatch);
         foreach (Projectile projectile in Projectiles)
