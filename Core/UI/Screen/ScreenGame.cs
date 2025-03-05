@@ -193,7 +193,7 @@ public class ScreenGame : Screen
         }
         if (KeyReleased(Keys.J) && MinigameRooted.State != minigameState.ONGOING)
         {
-            if (!levelUpMenu.Active && !deathMenu.Active)
+            if (!levelUpMenu.Active && !deathMenu.Active && !shopMenu.Active)
             {
                 itemJournalMenu.ShowAll();
                 inGameMenu = itemJournalMenu;
