@@ -62,11 +62,11 @@ class InGameMenuDeath : InGameMenu
 
 		if (!minigameRunning)
 			buttonRunMinigame.Update(mouseState);
-		if (!minigameCompleted)
+		if (minigameRunning)
 		{
 			minigame.Update(viewport, keyboardState, dt);
 		}
-		else
+		if (minigameCompleted)
 		{
 			if (!minigameSuccess)
 				buttonResetLevel.Update(mouseState);
