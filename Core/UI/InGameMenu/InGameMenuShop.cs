@@ -10,7 +10,6 @@ namespace TBoGV
     class InGameMenuShop : InGameMenu
     {
         private static Viewport Viewport;
-        private static SpriteFont MiddleFont;
 		private ButtonImage ButtonReroll;
         private List<ItemContainerable> SarkaItemPool = ItemDatabase.GetAllItems();
 
@@ -50,7 +49,6 @@ namespace TBoGV
         {
             Viewport = viewport;
             SpriteBackground = TextureManager.GetTexture("blackSquare");
-            MiddleFont = FontManager.GetFont("Arial12");
             Active = false;
             for (int i = 0; i < SarkaItemPool.Count; i++)
             {
@@ -166,7 +164,7 @@ namespace TBoGV
                 {
                     for (int i = 0; i < currentShopItems.Count; i++)
                     {
-                        double multiplier = 2 + random.NextDouble() * 0.7;
+                        double multiplier = 1.3 + random.NextDouble() * 0.7;
                         currentShopItems[i] = new ShopItem(currentShopItems[i].Item, (int)(currentShopItems[i].Price * multiplier));
                     }
                 }
