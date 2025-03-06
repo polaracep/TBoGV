@@ -166,7 +166,8 @@ class BossOIIAOIIA : EnemyBoss
 	}
 	private bool CollidesWithWall(Vector2 testPosition, Place place)
 	{
-		return place.ShouldCollideAt(new Rectangle((int)testPosition.X, (int)testPosition.Y, (int)Size.X, (int)Size.Y));
+		int tolerance = 30;
+		return place.ShouldCollideAt(new Rectangle((int)testPosition.X + tolerance, (int)testPosition.Y + tolerance, (int)Size.X -2* tolerance, (int)Size.Y - 2 * tolerance));
 	}
 	public override bool ReadyToAttack()
 	{
