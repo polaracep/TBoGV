@@ -88,6 +88,7 @@ public static class TextureManager
             "lol",
             "soldier",
             "perloun",
+			"cameraman",
 
 
             // Vitek
