@@ -261,7 +261,8 @@ public class TileFridge : Tile, IInteractable
             var existingEffect = p.Inventory.Effects.FirstOrDefault(effect => effect is EffectCooked);
             if ((existingEffect != null || p.Hp < p.MaxHp) && p.Coins >= 1)
             {
-                p.Inventory.AddEffect(new EffectCooked(-3));
+                if(existingEffect != null)
+                    p.Inventory.AddEffect(new EffectCooked(-3));
                 p.Heal(1);
                 p.Coins -= 1;
             }

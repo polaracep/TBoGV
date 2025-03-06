@@ -14,7 +14,7 @@ class EnemyJirka : EnemyRanged
 	protected int DirectionChangeTime = 4000;
 	public EnemyJirka(Vector2 position)
 	{
-		AttackSpeed = 666;
+		InitStats(Storyline.Difficulty);
 		Position = position;
 		Scale = 50f / Math.Max(Sprite.Width, Sprite.Height);
 		Size = new Vector2(Sprite.Width * Scale, Sprite.Height * Scale);
@@ -95,9 +95,10 @@ class EnemyJirka : EnemyRanged
 	{
 		Hp = 4 + (2 * (difficulty - 1));
 		MovementSpeed = 1;
-		AttackSpeed = 444;
+		AttackSpeed = 666;
 		AttackDmg = 1;
 		XpValue = difficulty;
+		Weight = EnemyWeight.MEDIUM;
 	}
 }
 

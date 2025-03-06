@@ -73,12 +73,18 @@ class BossRichard : EnemyBoss
 	{
 		return Hp <= 0;
 	}
-	public override List<Item> Drop(int looting)
-	{
-		return new List<Item>() { new ItemLabcoat() };
-	}
+    public override List<Item> Drop(int looting)
+    {
+        Random random = new Random();
+        List<Item> droppedItems = new List<Item>();
+        droppedItems = base.Drop(looting);
+        var item = new ItemLabcoat(Position + Size / 2);
+        item.InitMovement();
+        droppedItems.Add(item);
+        return droppedItems;
+    }
 
-	public override void Draw(SpriteBatch spriteBatch)
+    public override void Draw(SpriteBatch spriteBatch)
 	{
 		int row = currentFrame / frameColumns;
 		int col = currentFrame % frameColumns;

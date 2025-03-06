@@ -1,17 +1,17 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using TBoGV;
 
-class EntitySarka : EntityPassive, IInteractable
+class EntityPerloun : EntityPassive, IInteractable
 {
-    public EntitySarka(Vector2 position) : base(position)
+    public EntityPerloun(Vector2 position) : base(position)
     {
     }
-    public EntitySarka() : base() { }
+    public EntityPerloun() : base() { }
 
     public override Texture2D GetSprite()
     {
-        return TextureManager.GetTexture("sarka");
+        return TextureManager.GetTexture("perloun");
     }
 
     public void Interact(Entity e, Place p)
@@ -22,6 +22,6 @@ class EntitySarka : EntityPassive, IInteractable
 
         ScreenGame sg = (ScreenGame)c;
 
-        sg.openShop = ShopState.SARKA;
+        sg.openShop = ShopState.PERLOUN;
     }
 }

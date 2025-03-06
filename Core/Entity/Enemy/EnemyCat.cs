@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework;
 using System;
 using Microsoft.Xna.Framework.Audio;
+using System.Diagnostics.CodeAnalysis;
 
 
 namespace TBoGV;
@@ -77,5 +78,6 @@ class EnemyCat : EnemyMelee
 		AttackSpeed = 444 + (5 * difficulty);
 		AttackDmg = 1;
 		XpValue = difficulty;
+		Weight = EnemyWeight.EASY;
 	}
 }

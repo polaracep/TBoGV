@@ -16,7 +16,7 @@ class ParticleExplosion : Particle
 	private Random rnd = new Random();
 	public ParticleExplosion(Vector2 position)
 	{
-		Size = new Vector2(75, 75);
+		Size = new Vector2(140, 140);
 		Position = position - Size / 2;
 		Sprite = TextureManager.GetTexture("boom");
 
@@ -28,8 +28,8 @@ class ParticleExplosion : Particle
 			(float)(rnd.Next(0, 100) - 50) * 2f, // random X velocity
 			(float)(rnd.Next(0, 100) - 50) * 2f  // random Y velocity
 		);
-
-		rotationSpeed = MathHelper.ToRadians(180 * velocity.X / Math.Abs(velocity.X)); // 180 degrees per second rotation
+		velocity.Normalize();
+        rotationSpeed = MathHelper.ToRadians(40 * velocity.X / Math.Abs(velocity.X)); // 180 degrees per second rotation
 
 		Visible = true;
 		DurationMilliseconds = 200; // total duration in ms
@@ -44,12 +44,12 @@ class ParticleExplosion : Particle
 		float progress = MathHelper.Clamp((float)elapsedTime / DurationMilliseconds, 0f, 1f);
 
 		// Update rotation and scale over time
-		rotation += rotationSpeed * (float)dt;
+		rotation += rotationSpeed * (float)(dt / DurationMilliseconds);
 		scale = Size.X / Sprite.Width + progress / 10; // explosion grows over time
 		alpha = 1f - progress; // fades out
 
 		// Update position (simulate slight dispersion)
-		Position += (velocity * (float)dt);
+		Position += (velocity)*(float)(dt / DurationMilliseconds);
 
 		// Optionally, set Visible to false when finished
 		if (progress >= 1f)

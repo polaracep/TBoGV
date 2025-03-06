@@ -13,6 +13,13 @@ namespace TBoGV
         private static Viewport Viewport;
         private static SpriteFont MiddleFont;
 		private Button ButtonReroll;
+        private List<ItemContainerable> SarkaItemPool = ItemDatabase.GetAllItems();
+
+        private List<ItemContainerable> PerlounItemPool = new List<ItemContainerable>
+            {
+                new ItemDoping(), 
+            };
+
         // A helper class to hold a shop item and its price.
         private class ShopItem
         {
@@ -40,58 +47,56 @@ namespace TBoGV
         private int hoveredBox = -1;
         private MouseState previousMouseState;
         private KeyboardState previousKeyboardState;
-
+        private ShopState prevShopState = ShopState.SARKA;
+        private int resetCount = 0;
+        private int maxResetCount = 1;
         public InGameMenuShop(Viewport viewport, Player player)
         {
             Viewport = viewport;
             SpriteBackground = TextureManager.GetTexture("blackSquare");
             MiddleFont = FontManager.GetFont("Arial12");
             Active = false;
-            InitializeShopItems();
+            for (int i = 0; i < SarkaItemPool.Count; i++)
+            {
+                if (SarkaItemPool[i] is ItemDoping)
+                    SarkaItemPool.RemoveAt(i);
+            }
+
+            InitializeShopItems(ShopState.SARKA);
 			ButtonReroll = new Button("Nová nabídka: $1", FontManager.GetFont("Arial12"),() => 
 			{
 				if (player.Coins < 1)
 					return;
 				ClearShop();
-				OpenMenu(player); 
+                resetCount++;
+				OpenMenu(player, ShopState.SARKA); 
 				player.Coins--;
 			});
         }
 
         // Fill the shop item pool with example items and their prices.
-        private void InitializeShopItems()
+        private void InitializeShopItems(ShopState shopState)
         {
-            // List to hold all the items (add your actual items here)
-            List<ItemContainerable> allItems = new List<ItemContainerable>
-            {
-                new ItemCalculator(),
-                new ItemDoping(),
-                new ItemMonster(),
-                new ItemFancyShoes(),
-                new ItemFlipFlop(),
-                new ItemTrackShoes(),
-                new ItemMap(),
-                new ItemMathProblem(),
-                new ItemTeeth(),
-                new ItemAdBlock(),
-                new ItemExplosive(),
-                new ItemDagger(),
-                new ItemPencil(),
-                new ItemBookBio(),
-                new ItemBookCzech(),
-                new ItemBookMath(),
-                new ItemBookZsv(),
-                new ItemBookPhysics(),
-                new ItemCross(),
-                new ItemBryle(),
-                new ItemBook(),
-                new ItemBookPE(),
-                new ItemPen(),
-                new ItemScissors(),
-                new ItemRubbedBoots(),
-                new ItemFixa(),
-            };
+            shopItemsPool.Clear();
+            itemCache.Clear();
+            prevShopState = shopState;
 
+            List<ItemContainerable> allItems;
+            switch (shopState)
+            {
+                case ShopState.CLOSE:
+                    allItems = SarkaItemPool;
+                    break;
+                case ShopState.SARKA:
+                    allItems = SarkaItemPool;
+                    break;
+                case ShopState.PERLOUN:
+                    allItems = PerlounItemPool;
+                    break;
+                default:
+                    allItems = SarkaItemPool;
+                    break;
+            }
             // Now using a foreach loop to add items to the shopItemsPool
             foreach (var item in allItems)
             {
@@ -100,12 +105,59 @@ namespace TBoGV
             }
 
         }
+        public void ResetShop()
+        {
+            itemCache.Clear();
+            resetCount = 0;
+        }
+        public void OpenMenu(Player player, ShopState shopState)
+        {
+            if(prevShopState != shopState)
+                InitializeShopItems(shopState);
 
-        public void OpenMenu(Player player)
+            switch (shopState)
+            {
+                case ShopState.CLOSE:
+                    break;
+                case ShopState.SARKA:
+                    OpenSarkaMenu(player);
+                    break;
+                case ShopState.PERLOUN:
+                    OpenPerlounMenu(player);
+                    break;
+                default:
+                    break;
+            }
 
+        }
+        public void OpenPerlounMenu(Player player)
         {
             if (itemCache.Count != 0)
                 currentShopItems = itemCache;
+            else
+            {
+                Random random = new Random();
+                currentShopItems = shopItemsPool.OrderBy(x => random.Next()).Take(1).ToList();
+
+                if (player.Inventory.GetEffect().Contains(EffectTypes.EXPENSIVE))
+                {
+                    for (int i = 0; i < currentShopItems.Count; i++)
+                    {
+                        double multiplier = 2 + random.NextDouble() * 0.7;
+                        currentShopItems[i] = new ShopItem(currentShopItems[i].Item, (int)(currentShopItems[i].Price * multiplier));
+                    }
+                }
+
+                itemCache = currentShopItems;
+            }
+            Active = true;
+        }
+        public void OpenSarkaMenu(Player player)
+        {
+            if (itemCache.Count != 0)
+            {
+                currentShopItems = itemCache;
+            }
             else
             {
                 Random random = new Random();
@@ -124,7 +176,6 @@ namespace TBoGV
             }
             Active = true;
         }
-
         public void ClearShop()
         {
             itemCache.Clear();
@@ -159,21 +210,36 @@ namespace TBoGV
                         // "Purchase" the item: add it to the player's inventory.
                         if (player.Coins < currentShopItems[i].Price)
                             return;
-
-                        ShopItem itemClone = currentShopItems[i].Clone(); // Vytvo��me kopii p�edm�tu
-
+                            
+                        ShopItem itemClone = currentShopItems[i].Clone();
+                        ItemContainerable itemToDrop = null;
                         if (!player.Inventory.PickUpItem(itemClone.Item))
-                            player.Drop(player.Inventory.SwapItem(itemClone.Item));
-
-                        player.Coins -= itemClone.Price;
-
-                        itemCache.Clear();
-                        Active = false; // Close shop after purchase.
+                            itemToDrop = (player.Inventory.SwapItem(itemClone.Item));
+                        float hp = player.Hp;
+                        player.SetStats();
+                        if (player.MaxHp <= 0)
+                        {
+                            player.Inventory.AddEffect(new EffectCloseCall());
+                            player.Inventory.RemoveItem(itemClone.Item);
+                            if (itemToDrop != null)
+                                player.Inventory.PickUpItem(itemToDrop);
+                            player.Hp = hp;
+                            player.SetStats();
+                        }
+                        else
+                        {
+                            if (itemToDrop != null)
+                                player.Drop(itemToDrop);
+                            player.Coins -= itemClone.Price;
+                            itemCache.Clear();
+                        }
+                            Active = false; // Close shop after purchase.
                         return;
                     }
                 }
             }
-			ButtonReroll.Update(mouseState);
+            if(prevShopState == ShopState.SARKA && resetCount < maxResetCount)
+			    ButtonReroll.Update(mouseState);
 			previousMouseState = mouseState;
             previousKeyboardState = keyboardState;
         }
@@ -189,7 +255,7 @@ namespace TBoGV
             int boxWidth = 100;    // Fixed width for each shop box.
             int boxHeight = 100;   // Fixed height for each shop box.
             int spacing = 20;      // Space between boxes.
-            int totalWidth = 3 * boxWidth + 2 * spacing;
+            int totalWidth = itemCache.Count * boxWidth + itemCache.Count-1 * spacing;
             int startX = (Viewport.Width - totalWidth) / 2;
             int posY = (Viewport.Height - boxHeight) / 2;
 
@@ -226,9 +292,11 @@ namespace TBoGV
 
 			int buttonX = (Viewport.Width - ButtonReroll.GetRect().Width) / 2;
 			int buttonY = posY + boxHeight + 20;  // Positioned below the shop boxes
-
-			ButtonReroll.Position = new Vector2(buttonX, buttonY);
-			ButtonReroll.Draw(spriteBatch);
+            if(prevShopState == ShopState.SARKA && resetCount< maxResetCount)
+            {
+                ButtonReroll.Position = new Vector2(buttonX, buttonY);
+                ButtonReroll.Draw(spriteBatch);
+            }
         }
     }
 }

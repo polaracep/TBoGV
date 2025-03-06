@@ -21,18 +21,24 @@ public static class Storyline
     /// Difficulty level in base game ranges from 1 to 8
     /// </summary>
     public static int Difficulty = 1;
-	public static int FailedTimes = 0;
+    public static int FailedTimes = 0;
     public static void GenerateStoryline()
     {
+        LevelList = [
+            new Level(p, [
+                new RoomHallway(new Vector2(5), p),
+            ], new RoomStart(p), new RoomHallway(p), 3)
+        ];
+        /*
         LevelList = [
             // L1
             new Level(p, [
                 new RoomClassroom(p),
-				new RoomClassroom(p),
-				new RoomClassroom(p),
-				new RoomHallway(p),
-				new RoomHallway(p),
-				new RoomShower(p)
+                new RoomClassroom(p),
+                new RoomClassroom(p),
+                new RoomHallway(p),
+                new RoomHallway(p),
+                new RoomShower(p)
             ], new RoomStart(p), new RoomBossSvarta(p), 3),
             // L2
             new Level(p, [
@@ -87,7 +93,7 @@ public static class Storyline
                 new RoomHallway(p),
                 new RoomHallway(p),
                 new RoomShower(p),
-            ], new RoomStart(p), new RoomBossToilet(p), 6),
+            ], new RoomStart(p), new RoomBossZeman(p), 6),
             // L7
             new Level(p, [
                 new RoomClassroom(p),
@@ -109,23 +115,25 @@ public static class Storyline
                 new RoomShower(p),
             ], new RoomStart(p), new RoomBossMaturita(p), 6),
         ];
+        */
+
     }
 
     public static void NextLevel()
     {
-		Player.Save(SaveType.AUTO);
-		// wrap na zacatek
-		if (CurrentLevelNumber == LevelList.Count)
+        Player.Save(SaveType.AUTO);
+        // wrap na zacatek
+        if (CurrentLevelNumber == LevelList.Count)
             CurrentLevelNumber = 0;
 
-		CurrentLevel = LevelList[CurrentLevelNumber];
-		CurrentLevelNumber++;
+        CurrentLevel = LevelList[CurrentLevelNumber];
+        CurrentLevelNumber++;
         Difficulty += (CurrentLevelNumber + 1) % 2;
         Player.LevelChanged = true;
 
     }
-	public static void ResetLevel()
-	{
+    public static void ResetLevel()
+    {
         GenerateStoryline();
         CurrentLevel = LevelList[CurrentLevelNumber];
         CurrentLevel.Reset();
@@ -137,7 +145,7 @@ public static class Storyline
         CurrentLevel.Reset();
         CurrentLevelNumber++;
         Difficulty = 1;
-	    FailedTimes = 0;
+        FailedTimes = 0;
         Player.LevelChanged = false;
     }
     public static void End()

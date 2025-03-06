@@ -76,7 +76,7 @@ public abstract class Room : Place
         ClearRoom();
         if (!IsGenerated)
             Generate();
-        GenerateEnemies((int)(40 * (1 / (float)Storyline.Difficulty)));
+        GenerateEnemies();
     }
 
     /* === Update methods === */
@@ -90,15 +90,15 @@ public abstract class Room : Place
             if (!Particles[i].Visible)
                 Particles.Remove(Particles[i]);
         }
-		UpdateDrops();
+        UpdateDrops();
     }
-	protected void UpdateDrops()
-	{
-		foreach (var d in Drops)
-			d.Update(this);
-	}
+    protected void UpdateDrops()
+    {
+        foreach (var d in Drops)
+            d.Update(this);
+    }
 
-	protected void UpdateProjectiles()
+    protected void UpdateProjectiles()
     {
         for (int i = Projectiles.Count - 1; i >= 0; i--)
         {
@@ -202,7 +202,8 @@ public abstract class Room : Place
     }
 
     /* === Generation methods === */
-    protected virtual void GenerateEnemies(int concentration)
+    protected abstract void GenerateEnemies();
+    protected void GenerateEnemies(int roomWeight)
     {
         List<Enemy> chosenEnemies = new List<Enemy>();
         if (EnemyPool.Count == 0)
@@ -217,17 +218,21 @@ public abstract class Room : Place
         }
 
         // 1 enemy for 'concentration' tiles
-        for (int i = 0; i < Math.Round((decimal)GetValidPositionCount() / concentration); i++)
-            chosenEnemies.Add((Enemy)EnemyPool[Random.Shared.Next(EnemyPool.Count)].Clone());
+        int weight = 0;
+        while (weight < roomWeight)
+        {
+            Enemy e = (Enemy)EnemyPool[Random.Shared.Next(EnemyPool.Count)].Clone();
+            chosenEnemies.Add(e);
+            weight += (int)e.Weight;
+        }
 
-        Random rand = new Random();
         foreach (var enemy in chosenEnemies)
         {
             while (true)
             {
-                Vector2 spawnPos = new Vector2(rand.Next((int)Dimensions.X - 2) + 1, rand.Next((int)Dimensions.Y - 2) + 1) * 50;
+                Vector2 spawnPos = new Vector2(Random.Shared.Next(50 * ((int)Dimensions.X - 2)) + 50, Random.Shared.Next(50 * ((int)Dimensions.Y - 2)) + 50);
 
-                if (Doors.Any(d => (d.DoorTpPosition - spawnPos).Length() < 150))
+                if (Doors.Any(d => ((d.DoorTpPosition * 50) - spawnPos).Length() < 100))
                     continue;
 
                 if (!ShouldCollideAt(new Rectangle(spawnPos.ToPoint(), enemy.Size.ToPoint())))
@@ -334,6 +339,8 @@ public abstract class Room : Place
             item.Draw(spriteBatch);
         foreach (Enemy enemy in Enemies)
             enemy.Draw(spriteBatch);
+        foreach (var e in Entities)
+            e.Draw(spriteBatch);
         foreach (Projectile projectile in player.Projectiles)
             projectile.Draw(spriteBatch);
         foreach (Projectile projectile in Projectiles)

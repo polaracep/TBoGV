@@ -100,6 +100,7 @@ internal class EnemyLol : EnemyRanged
         AttackSpeed = 700 - (30 * difficulty);
         AttackDmg = 1;
         XpValue = difficulty;
+        Weight = EnemyWeight.HARD;
     }
 }
 

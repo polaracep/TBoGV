@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 namespace TBoGV;
 
 public abstract class ItemContainerable : Item
@@ -21,9 +22,14 @@ public abstract class ItemContainerable : Item
 			p.Drops.Add(p.player.Inventory.SwapItem(this));
 	}
 	public virtual int GetCost()
-	{ 
-		return Rarity*3 + Effects.Count*2; 
+	{
+		int rarityValue = GetRarityValue();
+		return new Random().Next((int)(rarityValue * 0.6f), (int)(rarityValue * 1.3)); 
 	}
+    public virtual int GetRarityValue()
+	{
+		return 3 + Rarity * 7;
+    }
 	public abstract ItemContainerable Clone();
 }
 
@@ -56,7 +62,7 @@ public enum ItemTypes : int
 	ARMOR = 2,
 	BASIC = 3,
 }
-public class StatConverter
+public static class StatConverter
 {
 	private static readonly Dictionary<string, StatTypes> stringToStatMap = new()
 	{
@@ -153,4 +159,9 @@ public static class ItemDatabase
 	{
 		return ItemsByName.TryGetValue(name, out var item) ? (ItemContainerable)Activator.CreateInstance(item.GetType()) : null;
 	}
+    public static List<ItemContainerable> GetAllItems()
+    {
+        return ItemsByName.Values.ToList();
+    }
+
 }

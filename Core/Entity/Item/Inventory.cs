@@ -18,7 +18,6 @@ public class Inventory
 	public List<ItemContainer> ItemContainers;
 	public List<Effect> Effects = new List<Effect>();
 	public int selectedItemIndex = 0;
-	private int PrevScrollWheelValue;
 	ItemContainer hoveredItem;
 	Vector2 Position { get; set; }
 	public Inventory()
@@ -67,7 +66,17 @@ public class Inventory
 			}
 		}
 	}
-
+	public void RemoveItem(ItemContainerable item)
+	{
+		foreach (var c in ItemContainers)
+		{
+            if (c.Item != null && c.Item.GetType() == item.GetType())
+            {
+				c.Item = null;
+				return;
+			}
+		}
+	}
 	public void Draw(SpriteBatch spriteBatch)
 	{
 		foreach (var container in ItemContainers)
@@ -197,7 +206,9 @@ public class Inventory
 			if (Effects[i].IsExpired())
 				Effects.RemoveAt(i);
 		}
-	}
+		SetActiveItemContainer();
+
+    }
 	private void SetActiveItemContainer()
 	{
 		for (int i = 0; i < ItemContainers.Count; i++)
@@ -248,7 +259,31 @@ public class Inventory
 		);
 		spriteBatch.DrawString(MiddleFont, stats, statsPosition, Color.LightCyan);
 	}
-	public bool PickUpItem(ItemContainerable item)
+	public ItemContainerable DropItem(Vector2 position)
+	{
+		if(ItemContainers[selectedItemIndex].IsEmpty())
+			return null;
+		var item = ItemContainers[selectedItemIndex].Item;
+		item.Position = position;
+		item.InitMovement();
+		ItemContainers[selectedItemIndex].Item = null;
+        return item;
+    }
+    public List<ItemContainerable> DropAllItems(Vector2 position)
+    {
+		int selectedTmp = selectedItemIndex;
+		List<ItemContainerable> items = new List<ItemContainerable>();
+		for (int i = 0; i < ItemContainers.Count; i++)
+		{
+			selectedItemIndex = i;
+			var item = DropItem(position);
+			if(item != null)
+				items.Add(item);
+		}
+		selectedItemIndex = selectedTmp;
+		return items;
+    }
+    public bool PickUpItem(ItemContainerable item)
 	{
 		switch (item.ItemType)
 		{

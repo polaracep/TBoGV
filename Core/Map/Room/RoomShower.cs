@@ -19,13 +19,18 @@ public class RoomShower : Room
     public override void Generate()
     {
         GenerateBase();
-        GenerateEnemies(25);
+        GenerateEnemies();
+        GeneratePassive();
         IsGenerated = true;
+    }
+    protected void GeneratePassive()
+    {
+        Entities.Add(new EntityPerloun(GetTileWorldPos(new Vector2(3, 3))));
     }
 
     protected override void GenerateBase()
     {
-        this.ClearRoom();
+        ClearRoom();
 
         Floor.GenerateFilledRectangleWRotation(
             new Rectangle(0, 0, (int)Dimensions.X, (int)Dimensions.Y),
@@ -133,6 +138,8 @@ public class RoomShower : Room
         }
     }
 
-
-
+    protected override void GenerateEnemies()
+    {
+        GenerateEnemies((Storyline.Difficulty / 2) + 1);
+    }
 }

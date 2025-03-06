@@ -15,13 +15,13 @@ public abstract class RoomBoss : Room
 	public override void Generate()
 	{
 		GenerateBase();
-		GenerateEnemies(0);
+		GenerateEnemies();
 		IsGenerated = true;
 	}
 
 	protected override void GenerateBase()
 	{
-		this.ClearRoom();
+		ClearRoom();
 
 		Floor.GenerateFilledRectangleWRotation(
 			new Rectangle(0, 0, (int)Dimensions.X, (int)Dimensions.Y),
@@ -35,7 +35,7 @@ public abstract class RoomBoss : Room
 		GenerateDecor();
 
 	}
-	protected override void GenerateEnemies(int _)
+	protected override void GenerateEnemies()
 	{
 		if (Boss == null)
 			throw new NullReferenceException("Provide a boss.");

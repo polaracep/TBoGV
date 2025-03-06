@@ -30,7 +30,7 @@ public class RoomClassroom : Room
 
         GenerateBase(FloorTypes.BASIC, WallTypes.WHITE, DoorTypes.BASIC);
         GenerateDecor();
-        GenerateEnemies(40 - (Storyline.Difficulty * 2));
+        GenerateEnemies();
     }
 
     protected override void GenerateBase(FloorTypes floors, WallTypes walls, DoorTypes doors)
@@ -92,5 +92,9 @@ public class RoomClassroom : Room
 
 
         }
+    }
+    protected override void GenerateEnemies()
+    {
+        GenerateEnemies(Storyline.Difficulty * 2);
     }
 }

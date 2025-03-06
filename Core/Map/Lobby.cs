@@ -89,8 +89,13 @@ public class Lobby : Place
     {
         if (player.Inventory.GetEffect().Contains(EffectTypes.EXPENSIVE) && !IsFyjala)
             player.Inventory.RemoveEffect(new EffectFyjalovaDrahota(1));
+        UpdateDrops();
     }
-
+    protected void UpdateDrops()
+    {
+        foreach (var d in Drops)
+            d.Update(this);
+    }
     public override void Reset()
     {
         Drops.Clear();

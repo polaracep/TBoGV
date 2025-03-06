@@ -87,6 +87,7 @@ public static class TextureManager
             "petr",
             "lol",
             "soldier",
+            "perloun",
 
 
             // Vitek
@@ -117,6 +118,7 @@ public static class TextureManager
             "wheat4",
             "arrow",
             "jirkaEffect",
+            "skull",
             "check",
             "cross",
 

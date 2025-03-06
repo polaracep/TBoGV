@@ -117,11 +117,11 @@ public class InGameMenuEffect : InGameMenu
 		return statType switch
 		{
 			StatTypes.MAX_HP => value > 0 ? $"(+{(int)(value * 0.5)} Hp)" : $"({(int)(value * 0.5)} Hp)",
-			StatTypes.DAMAGE => value > 0 ? $"+({(value * 10)}% dmg)" : $"({(value * 10)}% dmg)",
+			StatTypes.DAMAGE => value > 0 ? $"(+{(value * 10)}% dmg)" : $"({(value * 10)}% dmg)",
 			StatTypes.PROJECTILE_COUNT => value > 0 ? $"+({(int)Math.Max(value / 3, 0)} projektilů)" : $"({(int)Math.Max(value / 3, 0)} projektilů)",
-			StatTypes.XP_GAIN => value > 0 ? $"+({value * 10}% xp gain)" : $"({value * 10}% xp gain)",
-			StatTypes.ATTACK_SPEED => value > 0 ? $"+({value * 10}% rychlost útoků)" : $"({value * 10}% rychlost útoků)",
-			StatTypes.MOVEMENT_SPEED => value > 0 ? $"+({value * 10}% rychlost pohybu)" : $"({value * 10}% rychlost pohybu)",
+			StatTypes.XP_GAIN => value > 0 ? $"(+{value * 10}% xp gain)" : $"({value * 10}% xp gain)",
+			StatTypes.ATTACK_SPEED => value > 0 ? $"(+{value * 10}% rychlost útoků)" : $"({value * 10}% rychlost útoků)",
+			StatTypes.MOVEMENT_SPEED => value > 0 ? $"(+{value * 10}% rychlost pohybu)" : $"({value * 10}% rychlost pohybu)",
 			_ => "(N/A)"
 		};
 	}

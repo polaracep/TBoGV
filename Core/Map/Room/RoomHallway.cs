@@ -16,13 +16,12 @@ public class RoomHallway : Room
     public override void Generate()
     {
         GenerateBase();
-        GenerateEnemies(25);
+        GenerateEnemies();
         IsGenerated = true;
     }
-
     protected override void GenerateBase()
     {
-        this.ClearRoom();
+        ClearRoom();
 
         Floor.GenerateFilledRectangleWRotation(
             new Rectangle(0, 0, (int)Dimensions.X, (int)Dimensions.Y),
@@ -35,6 +34,10 @@ public class RoomHallway : Room
 
         GenerateDecor();
 
+    }
+    protected override void GenerateEnemies()
+    {
+        GenerateEnemies(Storyline.Difficulty);
     }
 
     protected override void GenerateDecor()

@@ -12,13 +12,15 @@ public class RoomStart : Room, IDraw
     public override void Generate()
     {
         base.GenerateBase(FloorTypes.BASIC, WallTypes.BASIC, DoorTypes.BASIC);
-#if DEBUG
-        this.AddDecoTile(this.Dimensions / 2, new TileHeal());
-#endif
-        this.GenerateEnemies(20);
+        GenerateEnemies();
 
-        player.Position = this.GetTileWorldPos(Vector2.One);
+#if DEBUG
+        AddDecoTile(this.Dimensions / 2, new TileHeal());
+#endif
     }
 
-
+    protected override void GenerateEnemies()
+    {
+        GenerateEnemies(0);
+    }
 }
