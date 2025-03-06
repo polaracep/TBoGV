@@ -181,7 +181,7 @@ class BossRichard : EnemyBoss
     }
     protected override void InitStats(int difficulty)
 	{
-		Hp = 60;
+		Hp = 120;
 		MovementSpeed = 2;
 		AttackDmg = 1;
 		AttackSpeed = 450;
