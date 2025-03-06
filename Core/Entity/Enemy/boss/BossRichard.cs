@@ -17,8 +17,7 @@ class BossRichard : EnemyBoss
 	static SoundEffect SfxRickroll = SoundManager.GetSound("rickroll");
 	static SoundEffectInstance SfxRickrollInstance = SfxRickroll.CreateInstance();
 	protected double phaseChangeElapsed = 0;
-	protected int chillDuration = 3000;
-	protected int rageDuration = (int)SfxRickroll.Duration.TotalMilliseconds;
+	protected int rageDuration = 3000;
 
 	float Scale;
 	int frameWidth = 420;
@@ -50,14 +49,20 @@ class BossRichard : EnemyBoss
 		Direction.Normalize();
 		SfxRickrollInstance.Volume = Settings.SfxVolume;
 		UpdatePhase(playerPosition);
-		UpdateAnimation();
-	}
+        UpdateScale();
+        UpdateAnimation();
+    }
 	protected void UpdatePhase(Vector2 playerPosition)
 	{
 
 	}
+    private void UpdateScale()
+    {
+        Scale = (0.1f + 0.3f * (Hp / 60f));
+        Size = new Vector2(frameWidth * Scale, frameHeight * Scale);
+    }
 
-	private void UpdateAnimation()
+    private void UpdateAnimation()
 	{
 		if (lastFrameChangeElapsed > frameSpeed)
 		{
@@ -131,7 +136,7 @@ class BossRichard : EnemyBoss
 
 			Position += stepDirection; // Apply the step movement
 		}
-	}
+    }
 	private bool CollidesWithWall(Vector2 testPosition, Place place)
 	{
 		return place.ShouldCollideAt(new Vector2(testPosition.X + Size.X / 2, testPosition.Y + Size.Y / 2));
@@ -153,16 +158,33 @@ class BossRichard : EnemyBoss
 		PickNewDirection();
 		List<Projectile> projectiles = base.Attack();
 		projectiles.Add(new ProjectileNote(Position + Size / 2, Direction, AttackDmg));
-		LastAttackElapsed = 0;
+        if (phaseChangeElapsed > rageDuration)
+        {
+            phaseChangeElapsed = 0;
+			foreach (var projectile in ArealNoteAttack()) 
+				projectiles.Add(projectile);
+        }
+        LastAttackElapsed = 0;
 		return projectiles;
 	}
-
-	protected override void InitStats(int difficulty)
+    public List<Projectile> ArealNoteAttack()
+    {
+        List<Projectile> notes = new List<Projectile>();
+        int noteCount = 8;
+        for (int i = 0; i < noteCount; i++)
+        {
+            float angle = MathHelper.TwoPi * i / noteCount;
+            Vector2 direction = new Vector2((float)Math.Cos(angle), (float)Math.Sin(angle));
+            notes.Add(new ProjectileNote(Position + Size / 2, direction, AttackDmg));
+        }
+        return notes;
+    }
+    protected override void InitStats(int difficulty)
 	{
 		Hp = 60;
 		MovementSpeed = 2;
 		AttackDmg = 1;
-		AttackSpeed = 300;
+		AttackSpeed = 450;
 		XpValue = 50;
 	}
 }
