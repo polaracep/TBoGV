@@ -4,10 +4,8 @@ using Microsoft.Xna.Framework.Input;
 using System;
 
 namespace TBoGV;
-public class Slider : IDraw, IUIElement
+public class Slider : UIElement, IDraw
 {
-    public Vector2 Position { get; set; }
-
     private float minValue;
     private float maxValue;
     private float _value;
@@ -42,8 +40,8 @@ public class Slider : IDraw, IUIElement
     /// <param name="height">The height of the slider track.</param>
     public Slider(float minValue, float maxValue, float initialValue, int width, int height, string label, SpriteFont font, Action<float> onValueChanged)
     {
-        this.Label = label;
-        this.LabelFont = font;
+        Label = label;
+        LabelFont = font;
         this.minValue = minValue;
         this.maxValue = maxValue;
         Value = initialValue;
@@ -92,7 +90,7 @@ public class Slider : IDraw, IUIElement
     /// <summary>
     /// Updates the slider state based on the current mouse input.
     /// </summary>
-    public void Update(MouseState mouseState)
+    public override void Update(MouseState mouseState)
     {
         if (mouseState.LeftButton == ButtonState.Pressed)
         {
@@ -142,8 +140,9 @@ public class Slider : IDraw, IUIElement
         }
     }
 
-    public Rectangle GetRect()
+    public override Rectangle GetRect()
     {
         return Rectangle.Union(Rectangle.Union(GetThumbRect(), GetTrackRect()), GetLabelRect());
     }
+
 }

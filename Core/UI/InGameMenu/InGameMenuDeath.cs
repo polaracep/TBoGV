@@ -50,8 +50,7 @@ class InGameMenuDeath : InGameMenu
 
 	private void GenerateDeathMessage()
 	{
-		Random random = new Random();
-		chosenDeathMessage = deathMessages[random.Next(deathMessages.Count)];
+		chosenDeathMessage = deathMessages[Random.Shared.Next(deathMessages.Count)];
 	}
 
 	public override void Update(Viewport viewport, Player player, MouseState mouseState, KeyboardState keyboardState, double dt)
@@ -89,7 +88,7 @@ class InGameMenuDeath : InGameMenu
 
 		int imageWidth = 100, imageHeight = 150;
 		int buttonHeight = (int)MiddleFont.MeasureString("Opakovat rocnik").Y + 10;
-		int margin = 20;
+		int margin = prcY(2);
 
 		int menuWidth = Math.Max((int)descSize.X + 40, 400);
 		int menuHeight = (int)(headlineSize.Y + descSize.Y + imageHeight + buttonHeight + 5 * margin + 100);

@@ -4,9 +4,8 @@ using Microsoft.Xna.Framework.Input;
 using System;
 
 namespace TBoGV;
-class Checkbox : IDraw, IUIElement
+class Checkbox : UIElement, IDraw
 {
-    public Vector2 Position { get; set; }
     private string Label;
     private SpriteFont Font;
     private static Texture2D BoxTexture = TextureManager.GetTexture("whiteSquare");
@@ -30,7 +29,7 @@ class Checkbox : IDraw, IUIElement
         OnToggle = onToggle;
     }
 
-    public Rectangle GetRect()
+    public override Rectangle GetRect()
     {
         return Rectangle.Union(GetBoxRect(), GetLabelRect());
     }
@@ -57,7 +56,7 @@ class Checkbox : IDraw, IUIElement
         return new Rectangle((int)(Position.X + Font.LineSpacing + spacing), (int)Position.Y, (int)labelSize.X, (int)labelSize.Y);
     }
 
-    public void Update(MouseState mouseState)
+    public override void Update(MouseState mouseState)
     {
         Rectangle boxRect = GetBoxRect();
         // Also consider clicks on the label.

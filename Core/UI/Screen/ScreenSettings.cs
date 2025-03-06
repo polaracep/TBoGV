@@ -12,7 +12,7 @@ public class ScreenSettings : Screen
     private SpriteFont LargerFont = FontManager.GetFont("Arial16");
     private Button escapeButton;
     private FieldInfo[] settings;
-    private List<IUIElement> settingElements = new List<IUIElement>();
+    private List<UIElement> settingElements = new List<UIElement>();
     public Screen LastScreen;
     private KeyboardState previousKeyboardState;
     public override void BeginRun(GraphicsDeviceManager graphics)
