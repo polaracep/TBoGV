@@ -20,7 +20,7 @@ internal class EnemyLol : EnemyRanged
         Scale = 50f / Math.Max(Sprite.Width, Sprite.Height);
         Size = new Vector2(Sprite.Width * Scale, Sprite.Height * Scale);
         PickNewDirection();
-        Spawn();
+		AttackDelay();
     }
     public EnemyLol() : this(Vector2.Zero) { }
 

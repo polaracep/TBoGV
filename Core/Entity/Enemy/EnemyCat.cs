@@ -28,7 +28,7 @@ class EnemyCat : EnemyMelee
 		Position = position;
 		Scale = 50f / Math.Max(frameWidth, frameHeight);
 		Size = new Vector2(frameWidth * Scale, frameHeight * Scale);
-		Spawn();
+		AttackDelay();
 	}
 	public EnemyCat() : this(Vector2.Zero) { }
 

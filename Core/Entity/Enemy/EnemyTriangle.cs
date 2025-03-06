@@ -26,7 +26,9 @@ class EnemyTriangle : EnemyMelee
         Position = position;
         Scale = 50f / Math.Max(frameWidth, frameHeight);
         Size = new Vector2(frameWidth * Scale, frameHeight * Scale);
-    }
+		AttackDelay();
+
+	}
     public EnemyTriangle() : this(Vector2.Zero) { }
 
     public override void Draw(SpriteBatch spriteBatch)

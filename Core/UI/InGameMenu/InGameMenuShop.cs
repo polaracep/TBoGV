@@ -231,7 +231,7 @@ namespace TBoGV
                             if (itemToDrop != null)
                                 player.Drop(itemToDrop);
                             player.Coins -= itemClone.Price;
-                            itemCache.Clear();
+                            itemCache.RemoveAt(i);
                         }
                             Active = false; // Close shop after purchase.
                         return;

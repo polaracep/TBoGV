@@ -37,7 +37,7 @@ class BossRichard : EnemyBoss
 		Scale = 100f / Math.Max(frameWidth, frameHeight);
 		Size = new Vector2(frameWidth * Scale, frameHeight * Scale);
 		PickNewDirection();
-		Spawn();
+		AttackDelay();
 	}
 	public BossRichard() : this(Vector2.Zero) { }
 	public override void Update(Vector2 playerPosition, double dt)
