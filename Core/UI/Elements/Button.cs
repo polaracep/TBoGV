@@ -5,14 +5,14 @@ using Microsoft.Xna.Framework.Input;
 
 namespace TBoGV;
 
-class Button : IDraw, IUIElement
+public class Button : IDraw, IUIElement
 {
 	public Vector2 Position { get; set; }
-	private string Text;
-	private Vector2 Size;
-	private SpriteFont Font;
-	private static Texture2D SpriteBackground = TextureManager.GetTexture("whiteSquare");
-	private int BorderOffset = 5;
+	protected string Text;
+	protected Vector2 Size;
+	protected SpriteFont Font;
+	protected static Texture2D SpriteBackground = TextureManager.GetTexture("whiteSquare");
+	protected int BorderOffset = 5;
 
 	public Action OnClick { get; private set; }
 	protected MouseState PrevMouseState;
@@ -37,14 +37,14 @@ class Button : IDraw, IUIElement
 			ColorIndex = 0;
 		PrevMouseState = mouseState;
 	}
-	public Rectangle GetRect()
+	public virtual Rectangle GetRect()
 	{
 		return new Rectangle(
 			(int)Position.X - BorderOffset, (int)Position.Y - BorderOffset,
 			(int)Size.X + 2 * BorderOffset, (int)Size.Y + 2 * BorderOffset);
 	}
 
-	public void Draw(SpriteBatch spriteBatch)
+	public virtual void Draw(SpriteBatch spriteBatch)
 	{
 		spriteBatch.Draw(SpriteBackground, GetRect(), color[ColorIndex]);
 		spriteBatch.DrawString(Font, Text, new Vector2(Position.X, Position.Y), Color.White);

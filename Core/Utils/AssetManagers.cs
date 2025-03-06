@@ -121,6 +121,7 @@ public static class TextureManager
             "skull",
             "check",
             "cross",
+			"reroll",
 
             // Items
             "heal",

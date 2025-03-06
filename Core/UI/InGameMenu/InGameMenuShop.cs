@@ -12,7 +12,7 @@ namespace TBoGV
     {
         private static Viewport Viewport;
         private static SpriteFont MiddleFont;
-		private Button ButtonReroll;
+		private ButtonImage ButtonReroll;
         private List<ItemContainerable> SarkaItemPool = ItemDatabase.GetAllItems();
 
         private List<ItemContainerable> PerlounItemPool = new List<ItemContainerable>
@@ -63,7 +63,7 @@ namespace TBoGV
             }
 
             InitializeShopItems(ShopState.SARKA);
-			ButtonReroll = new Button("Nová nabídka: $1", FontManager.GetFont("Arial12"),() => 
+			ButtonReroll = new ButtonImage("$1", FontManager.GetFont("Arial12"),() => 
 			{
 				if (player.Coins < 1)
 					return;
@@ -71,7 +71,7 @@ namespace TBoGV
                 resetCount++;
 				OpenMenu(player, ShopState.SARKA); 
 				player.Coins--;
-			});
+			}, TextureManager.GetTexture("reroll"), ImageOrientation.LEFT);
         }
 
         // Fill the shop item pool with example items and their prices.
