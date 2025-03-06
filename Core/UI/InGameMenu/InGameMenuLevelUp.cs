@@ -13,10 +13,10 @@ class InGameMenuLevelUp : InGameMenu
     static SpriteFont SmallFont;
     static SpriteFont MiddleFont;
     static SpriteFont LargerFont;
-    private List<StatTypes> statOptions = new();
-    private Rectangle[] optionBounds = new Rectangle[3]; // Clickable areas for options
+
+    private List<Button> buttons = new();
+
     private string chosenDescription = "";
-    private int hoveredOption = -1; // Track which option is hovered
     private readonly List<string> descriptions = new List<string>
     {
         "odlozil jsi na chvili telefon a proto jsi se soustredil",
@@ -35,8 +35,6 @@ class InGameMenuLevelUp : InGameMenu
     private readonly string understandingHint = "volbou se ti zlepsi pochopeni predmetu";
 
     private const int Padding = 10;
-    private MouseState previousMouseState; // Stores the previous mouse state
-
 
     public InGameMenuLevelUp(Viewport viewport)
     {
@@ -48,14 +46,28 @@ class InGameMenuLevelUp : InGameMenu
         Active = false;
     }
 
-    private void GenerateStatOptions()
+    private void GenerateStatOptions(Player player)
     {
+        buttons.Clear();
         Array statValues = Enum.GetValues(typeof(StatTypes));
         Random random = new Random();
-        statOptions = statValues.Cast<StatTypes>()
+        var statOptions = statValues.Cast<StatTypes>()
                                 .OrderBy(x => random.Next())
                                 .Take(3)
                                 .ToList();
+        foreach (var statOption in statOptions)
+        {
+            buttons.Add(new Button(GetStatName(statOption), MiddleFont, () =>
+            {
+                if (player.LevelUpStats.ContainsKey(statOption))
+                    player.LevelUpStats[statOption] += 1;
+                else
+                    player.LevelUpStats[statOption] = 1;
+                Active = false; // Close menu after selection
+            }));
+        }
+        foreach (var b in buttons)
+            b.SetSize(new Vector2(110,b.GetRect().Height));
 
         chosenDescription = descriptions[random.Next(descriptions.Count)];
     }
@@ -63,34 +75,11 @@ class InGameMenuLevelUp : InGameMenu
     public override void Update(Viewport viewport, Player player, MouseState mouseState, KeyboardState keyboardState, double dt)
     {
         base.Update(viewport, player, mouseState, keyboardState, dt);
-
         if (!Active)
             return;
 
-        hoveredOption = -1; // Reset hover state
-
-        Point mousePos = mouseState.Position;
-        for (int i = 0; i < statOptions.Count; i++)
-        {
-            if (optionBounds[i].Contains(mousePos))
-            {
-                hoveredOption = i; // Mark hovered option
-
-                if (previousMouseState.LeftButton == ButtonState.Pressed &&
-                                    mouseState.LeftButton == ButtonState.Released)
-                {
-                    StatTypes selectedStat = statOptions[i];
-                    if (player.LevelUpStats.ContainsKey(selectedStat))
-                        player.LevelUpStats[selectedStat] += 1;
-                    else
-                        player.LevelUpStats[selectedStat] = 1;
-
-                    Active = false; // Close menu after selection
-                    return;
-                }
-            }
-        }
-        previousMouseState = mouseState;
+        foreach (var b in buttons)
+            b.Update(mouseState);
     }
 
     public override void Draw(SpriteBatch spriteBatch)
@@ -103,8 +92,8 @@ class InGameMenuLevelUp : InGameMenu
         Vector2 hintSize = SmallFont.MeasureString(understandingHint);
         Vector2 descSize = MiddleFont.MeasureString(chosenDescription);
         Vector2 headlineSize = LargerFont.MeasureString(headline);
-        int menuHeight = (int)Math.Max(descSize.Y, Viewport.Height / 2);
-        int menuWidth = (int)Math.Max(descSize.X + 30, Viewport.Width / 2);
+        int menuHeight = (int)(descSize.Y + hintSize.Y + headlineSize.Y + buttons[0].GetRect().Height + 80);
+        int menuWidth = (int)Math.Max(descSize.X + 30, buttons.Count * buttons[0].GetRect().Width + 20 * (buttons.Count - 1) + 40);
         Rectangle menuBackground = new Rectangle(
             Viewport.Width / 4 - (menuWidth - Viewport.Width / 2) / 2, Viewport.Height / 4,
             menuWidth, menuHeight
@@ -123,51 +112,16 @@ class InGameMenuLevelUp : InGameMenu
         spriteBatch.DrawString(SmallFont, understandingHint, hintPos, Color.LightGray);
 
 
-
-        // Determine positions for the 3 horizontal option rectangles.
-        int totalOptions = statOptions.Count;
-        float optionsY = hintPos.Y + hintSize.Y + 30;
-
-        List<Vector2> optionTextSizes = new List<Vector2>();
-        List<Rectangle> backgrounds = new List<Rectangle>();
-        int totalWidth = 0;
-
-        for (int i = 0; i < totalOptions; i++)
-        {
-            string statName = GetStatName(statOptions[i]);
-            Vector2 textSize = MiddleFont.MeasureString(statName);
-            optionTextSizes.Add(textSize);
-
-            Rectangle rect = new Rectangle(0, 0, (int)textSize.X + Padding * 2, (int)textSize.Y + Padding * 2);
-            backgrounds.Add(rect);
-
-            totalWidth += rect.Width;
-        }
-
-        int spacing = 20;
-        totalWidth += spacing * (totalOptions - 1);
+        float startY = hintPos.Y + hintSize.Y + 30;
+        int totalWidth = buttons.Count * buttons[0].GetRect().Width + 20 * (buttons.Count-1);
+        
         float startX = Viewport.Width / 2 - totalWidth / 2;
 
-        for (int i = 0; i < totalOptions; i++)
+        for (int i = 0; i < buttons.Count; i++)
         {
-            string statName = GetStatName(statOptions[i]);
-            Rectangle bgRect = backgrounds[i];
-            bgRect.X = (int)startX;
-            bgRect.Y = (int)optionsY;
-            optionBounds[i] = bgRect;
-
-            // Change color if hovered
-            Color backgroundColor = (hoveredOption == i) ? Color.Gray * 0.8f : Color.Black * 0.5f;
-            spriteBatch.Draw(SpriteBackground, bgRect, backgroundColor);
-
-            Vector2 textSize = optionTextSizes[i];
-            Vector2 textPos = new Vector2(
-                bgRect.X + Padding + (bgRect.Width - Padding * 2 - textSize.X) / 2,
-                bgRect.Y + Padding + (bgRect.Height - Padding * 2 - textSize.Y) / 2
-            );
-            spriteBatch.DrawString(MiddleFont, statName, textPos, Color.White);
-
-            startX += bgRect.Width + spacing;
+            buttons[i].Position = new Vector2(startX, startY);
+            buttons[i].Draw(spriteBatch);
+            startX += buttons[i].GetRect().Width + 20;
         }
     }
 
@@ -179,15 +133,15 @@ class InGameMenuLevelUp : InGameMenu
             StatTypes.DAMAGE => "Matematika",
             StatTypes.PROJECTILE_COUNT => "Fyzika",
             StatTypes.XP_GAIN => "Zsv",
-            StatTypes.ATTACK_SPEED => "Cestina",
-            StatTypes.MOVEMENT_SPEED => "Telocvik",
+            StatTypes.ATTACK_SPEED => "Čeština",
+            StatTypes.MOVEMENT_SPEED => "Tělocvik",
             _ => statType.ToString()
         };
     }
 
-    public void OpenMenu()
+    public void OpenMenu(Player player)
     {
-        GenerateStatOptions();
+        GenerateStatOptions(player);
         Active = true;
     }
 }

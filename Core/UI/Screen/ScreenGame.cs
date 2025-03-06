@@ -99,7 +99,7 @@ public class ScreenGame : Screen
         if (player.Level != levelStatsCount && !levelUpMenu.Active)
         {
             inGameMenu = levelUpMenu;
-            levelUpMenu.OpenMenu();
+            levelUpMenu.OpenMenu(player);
         }
         if (player.Hp < 1 && !deathMenu.Active)
         {

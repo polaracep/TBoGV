@@ -54,10 +54,19 @@ public class Button : UIElement, IDraw
 			(int)Size.X + 2 * BorderOffset, (int)Size.Y + 2 * BorderOffset);
 	}
 
-	public virtual void Draw(SpriteBatch spriteBatch)
-	{
-		spriteBatch.Draw(SpriteBackground, GetRect(), color[ColorIndex]);
-		spriteBatch.DrawString(Font, Text, new Vector2(Position.X, Position.Y), TextColor);
-	}
+    public virtual void Draw(SpriteBatch spriteBatch)
+    {
+        spriteBatch.Draw(SpriteBackground, GetRect(), color[ColorIndex]);
+
+        // Calculate text position to center it
+        Vector2 textSize = Font.MeasureString(Text);
+        Vector2 textPosition = new Vector2(
+            Position.X + (Size.X - textSize.X) / 2,
+            Position.Y + (Size.Y - textSize.Y) / 2
+        );
+
+        spriteBatch.DrawString(Font, Text, textPosition, TextColor);
+    }
+
 }
 
