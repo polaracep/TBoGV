@@ -131,13 +131,13 @@ public class InGameMenuEffect : InGameMenu
 	{
 		return statType switch
 		{
-			StatTypes.MAX_HP => "Biologie",
-			StatTypes.DAMAGE => "Matematika",
-			StatTypes.PROJECTILE_COUNT => "Fyzika",
-			StatTypes.XP_GAIN => "Zsv",
-			StatTypes.ATTACK_SPEED => "Cestina",
-			StatTypes.MOVEMENT_SPEED => "Telocvik",
-			_ => statType.ToString()
+            StatTypes.MAX_HP => "Biologie",
+            StatTypes.DAMAGE => "Matematika",
+            StatTypes.PROJECTILE_COUNT => "Fyzika",
+            StatTypes.XP_GAIN => "Zsv",
+            StatTypes.ATTACK_SPEED => "Čeština",
+            StatTypes.MOVEMENT_SPEED => "Tělocvik",
+            _ => statType.ToString()
 		};
 	}
 	public void DrawEffects(SpriteBatch spriteBatch)

@@ -19,20 +19,20 @@ class InGameMenuLevelUp : InGameMenu
     private string chosenDescription = "";
     private readonly List<string> descriptions = new List<string>
     {
-        "odlozil jsi na chvili telefon a proto jsi se soustredil",
-        "dlouho jsi neposlouchal sigma boy",
-        "uvaril jsi neohlaseny test",
-        "daval jsi pozor alespon 5 minut v kuse",
-        "rozbil se ti endless scroll",
-        "dneska ti nikdo neposlal reel",
-        "prinesl jsi si veci do skoly",
-        "dneska se ti nezdaly sny o neexistujicich lego dilcich",
-        "schovanek byl cooked vic nez ty na TFY",
-        "dostal jsi pridano na obede"
+"Odložil jsi na chvíli telefon a proto jsi se soustředil",
+"Dlouho jsi neposlouchal Sigma boy",
+"Uvařil jsi neohlášený test",
+"Dával jsi pozor alespoň 5 minut v kuse",
+"Rozbil se ti endless scroll",
+"Dneska ti nikdo neposlal reel",
+"Přinesl jsi si věci do školy",
+"Dneska se ti nezdály sny o neexistujících lego dílcích",
+"Schovánek byl cooked víc než ty na TFY",
+"Dostal jsi přidáno na obědě"
     };
 
     // Extra text to implicitly indicate that the option improves understanding
-    private readonly string understandingHint = "volbou se ti zlepsi pochopeni predmetu";
+    private readonly string understandingHint = "Volbou se ti zlepší pochopení předmětu";
 
     private const int Padding = 10;
 

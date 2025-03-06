@@ -252,11 +252,11 @@ class InGameMenuItemJournal : InGameMenu
 			string displayName = stat.Key switch
 			{
 				StatTypes.MAX_HP => "Biologie",
-				StatTypes.DAMAGE => weapon ? "Sila zbrane" : "Matematika",
+				StatTypes.DAMAGE => weapon ? "Síla zbraně" : "Matematika",
 				StatTypes.PROJECTILE_COUNT => "Fyzika",
 				StatTypes.XP_GAIN => "Zsv",
-				StatTypes.ATTACK_SPEED => weapon ? "Rychlost utoku" : "Cestina",
-				StatTypes.MOVEMENT_SPEED => "Telocvik",
+				StatTypes.ATTACK_SPEED => weapon ? "Rychlost útoků" : "Čeština",
+				StatTypes.MOVEMENT_SPEED => "Tělocvik",
 				_ => stat.Key.ToString()
 			};
 

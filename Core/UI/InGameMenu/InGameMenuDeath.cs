@@ -25,17 +25,17 @@ class InGameMenuDeath : InGameMenu
 
 	private readonly List<string> deathMessages = new List<string>
 	{
-		"Zapl jsi Youtube shorts",
-		"Nemel jsi se divat na posledni skibidi toilet episodu",
-		"Zoned out - mozna zkus spat vic nez 2h",
-		"Nepozdravil jsi vratnou",
-		"Nezavrel jsi dvere pred skolnikem",
-		"Nepipl jsi si u vydeje",
-		"Mikes te videl s mobilem",
-		"Potkal jsi Prochazkovou",
-		"Neprisel jsi na hodinu Predescu",
-		"O prestavce jsi poslal pivko a nabils",
-	};
+"Zapnul jsi YouTube Shorts",
+"Neměl jsi se dívat na poslední Skibidi Toilet epizodu",
+"Zoned out - možná zkus spát víc než 2h",
+"Nepozdravil jsi vrátnou",
+"Nezavřel jsi dveře před školníkem",
+"Nepípl jsi si u výdeje",
+"Mikeš tě viděl s mobilem",
+"Potkal jsi Procházkovou",
+"Nepřišel jsi na hodinu Predescu",
+"O přestávce jsi poslal pivko a nabils",
+    };
 
 	public InGameMenuDeath(Viewport viewport)
 	{
@@ -43,9 +43,9 @@ class InGameMenuDeath : InGameMenu
 		SpriteBackground = TextureManager.GetTexture("blackSquare");
 		Active = false;
 
-		buttonRunMinigame = new Button("Pokusit se o komisionalky", MiddleFont, () => { minigameRunning = true; });
-		buttonResetLevel = new Button("Opakovat rocnik", MiddleFont, () => ResetLevel());
-		buttonPassTest = new Button("Slozit komisionalky", MiddleFont, () => PassTest());
+		buttonRunMinigame = new Button("Pokusit se o komisionálky", MiddleFont, () => { minigameRunning = true; });
+		buttonResetLevel = new Button("Opakovat ročník", MiddleFont, () => ResetLevel());
+		buttonPassTest = new Button("Složit komisionálky", MiddleFont, () => PassTest());
 	}
 
 	private void GenerateDeathMessage()
@@ -82,12 +82,12 @@ class InGameMenuDeath : InGameMenu
 
 		base.Draw(spriteBatch);
 
-		string headline = "Komisionalky";
+		string headline = "Komisionálky";
 		Vector2 headlineSize = LargerFont.MeasureString(headline);
 		Vector2 descSize = MiddleFont.MeasureString(chosenDeathMessage);
 
 		int imageWidth = 100, imageHeight = 150;
-		int buttonHeight = (int)MiddleFont.MeasureString("Opakovat rocnik").Y + 10;
+		int buttonHeight = (int)MiddleFont.MeasureString("Opakovat ročník").Y + 10;
 		int margin = prcY(2);
 
 		int menuWidth = Math.Max((int)descSize.X + 40, 400);
