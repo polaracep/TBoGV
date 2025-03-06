@@ -34,7 +34,9 @@ class BossZeman : EnemyBoss
 		Scale = 50f / Math.Max(frameWidth, frameHeight);
 		Size = new Vector2(frameWidth * Scale, frameHeight * Scale);
 		phaseChangeElapsed = 0;
-	}
+		InitStats(Storyline.Difficulty);
+
+    }
 	public BossZeman() : this(Vector2.Zero) { }
 
 	public override void Update(Vector2 playerPosition, double dt)
