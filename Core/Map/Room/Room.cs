@@ -184,14 +184,15 @@ public abstract class Room : Place
     }
     protected void UpdateEnemies(double dt)
     {
-        foreach (Enemy enemy in Enemies)
-        {
-            enemy.Update(player.Position + player.Size / 2, dt);
-            enemy.Move(this);
 
-            if (enemy.ReadyToAttack())
+		for(int i = 0; i< Enemies.Count; i++)
+        {
+            Enemies[i].Update(player.Position + player.Size / 2, dt);
+            Enemies[i].Move(this);
+
+            if (Enemies[i].ReadyToAttack())
             {
-                foreach (var projectile in enemy.Attack())
+                foreach (var projectile in Enemies[i].Attack())
                 {
                     Projectiles.Add(projectile);
                 }

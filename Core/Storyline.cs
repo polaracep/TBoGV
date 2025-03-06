@@ -24,22 +24,23 @@ public static class Storyline
     public static int FailedTimes = 0;
     public static void GenerateStoryline()
     {
+		/*
         LevelList = [
             new Level(p, [
                 new RoomHallway(new Vector2(5), p),
             ], new RoomStart(p), new RoomHallway(p), 3)
         ];
-        /*
+        */
         LevelList = [
             // L1
             new Level(p, [
-                new RoomClassroom(p),
-                new RoomClassroom(p),
-                new RoomClassroom(p),
-                new RoomHallway(p),
-                new RoomHallway(p),
-                new RoomShower(p)
-            ], new RoomStart(p), new RoomBossSvarta(p), 3),
+                //new RoomClassroom(p),
+                //new RoomClassroom(p),
+                //new RoomClassroom(p),
+                //new RoomHallway(p),
+                //new RoomHallway(p),
+                //new RoomShower(p)
+            ], new RoomStart(p), new RoomBossToilet(p), 3),
             // L2
             new Level(p, [
                 new RoomClassroom(p),
@@ -115,7 +116,7 @@ public static class Storyline
                 new RoomShower(p),
             ], new RoomStart(p), new RoomBossMaturita(p), 6),
         ];
-        */
+        
 
     }
 

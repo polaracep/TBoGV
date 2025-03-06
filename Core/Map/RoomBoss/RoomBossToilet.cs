@@ -5,9 +5,12 @@ namespace TBoGV;
 public class RoomBossToilet : RoomBoss
 {
     protected static Vector2 dimensions = new Vector2(12);
-    public RoomBossToilet(Player p) : base(dimensions, p) { }
+    public RoomBossToilet(Player p) : base(dimensions, p) 
+	{ 
+		Boss = new BossToilet(this); 
+	}
 
-    protected override EnemyBoss Boss { get; set; } = new BossToilet();
+    protected override EnemyBoss Boss { get; set; }
     protected override void GenerateEnemies()
     {
         while (true)

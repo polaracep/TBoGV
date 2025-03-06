@@ -13,7 +13,7 @@ class BossToilet : EnemyBoss
 	protected double phaseChangeElapsed = 0;
 	protected int chillDuration = 3000;
 	protected int rageDuration = (int)Sfx.Duration.TotalMilliseconds;
-
+	protected bool SpawnAttack = false;
 	static float Scale;
 	static int frameWidth = 155;
 	static int frameHeight = 191;
@@ -21,7 +21,7 @@ class BossToilet : EnemyBoss
 	int currentFrame = 0;
 	double lastFrameChangeElapsed = 0;
 	static double frameSpeed = Sfx.Duration.TotalMilliseconds / frameCount;
-
+	Action SpawnCameraman;
 	protected bool Rage { get; set; }
 
 	protected new enum BossPhases : int
@@ -31,8 +31,14 @@ class BossToilet : EnemyBoss
 	}
 	protected BossPhases Phase { get; set; }
 
-	public BossToilet(Vector2 position)
+	public BossToilet(Vector2 position, Place place)
 	{
+		SpawnCameraman = () =>
+		{
+			var cameraman = new EnemyCameraman(Position + new Vector2(80f, 115f) * Scale);
+			place.Enemies.Add(cameraman);
+		};
+
 		InitStats(Storyline.Difficulty);
 		Rage = false;
 		Position = position;
@@ -40,7 +46,7 @@ class BossToilet : EnemyBoss
 		Size = new Vector2(frameWidth * Scale, frameHeight * Scale);
 		phaseChangeElapsed = 0;
 	}
-	public BossToilet() : this(Vector2.Zero) { }
+	public BossToilet(Place place) : this(Vector2.Zero, place) { }
 
 	public override void Draw(SpriteBatch spriteBatch)
 	{
@@ -89,8 +95,14 @@ class BossToilet : EnemyBoss
 
 			if (Rage)
 			{
-				rageDuration = (int)Sfx.Duration.TotalMilliseconds; // Reset to normal
-				SfxInstance.Play();
+				if(random.Next(0,100) < 50)
+				{
+					Rage = false;
+					int count = random.Next(1, (int)(Hp/(MaxHp/6)) + 2);
+					for (int i = 0; i < count; i++)
+						SpawnCameraman();
+				}else
+					SfxInstance.Play();
 			}
 		}
 	}
