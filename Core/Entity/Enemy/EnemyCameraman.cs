@@ -32,8 +32,8 @@ class EnemyCameraman : EnemyMelee
 			new Rectangle((int)Position.X, (int)Position.Y, (int)Size.X, (int)Size.Y),
 			null,
 			Color.White,
-			rotation,
-			new Vector2(Sprite.Width / 2, Sprite.Height / 2), // Střed rotace
+			0,
+			new Vector2(0), // Střed rotace
 			SpriteEffects.None,
 			0
 		);
@@ -59,7 +59,7 @@ class EnemyCameraman : EnemyMelee
 	}
 	protected override void InitStats(int difficulty)
 	{
-		Hp = 4;
+		Hp = 2;
 		MovementSpeed = 2;
 		AttackSpeed = 10;
 		AttackDmg = 1;
