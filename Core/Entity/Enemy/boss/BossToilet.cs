@@ -98,7 +98,7 @@ class BossToilet : EnemyBoss
 				if(random.Next(0,100) < 50)
 				{
 					Rage = false;
-					int count = random.Next(1, (int)(Hp/(MaxHp/6)) + 2);
+					int count = random.Next(1, (int)(Hp/(MaxHp/3)) + 1);
 					for (int i = 0; i < count; i++)
 						SpawnCameraman();
 				}else
