@@ -13,10 +13,10 @@ public abstract class Enemy : Entity, IRecieveDmg, IDealDmg, ICloneable
   public int XpValue { get; set; }
   public List<Projectile> projectilesRecieved = new List<Projectile>();
   public Vector2 HeadedDirection { get; set; }
-  protected readonly Random random = new Random();
-  public virtual void Spawn()
+  protected static readonly Random random = new Random();
+  public virtual void AttackDelay()
   {
-    LastAttackElapsed = -random.Next(50, 800);
+    LastAttackElapsed = -random.Next(50, 3500);
   }
   public abstract bool ReadyToAttack();
   public abstract void Update(Vector2 playerPosition, double dt);
@@ -63,6 +63,7 @@ public abstract class Enemy : Entity, IRecieveDmg, IDealDmg, ICloneable
 
   public object Clone()
   {
+	AttackDelay();
     return this.MemberwiseClone();
   }
 }
