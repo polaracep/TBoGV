@@ -76,7 +76,7 @@ public abstract class Room : Place
         ClearRoom();
         if (!IsGenerated)
             Generate();
-        GenerateEnemies((int)(40 * (1 / (float)Storyline.Difficulty)));
+        GenerateEnemies();
     }
 
     /* === Update methods === */
@@ -202,7 +202,8 @@ public abstract class Room : Place
     }
 
     /* === Generation methods === */
-    protected virtual void GenerateEnemies(int roomWeight)
+    protected abstract void GenerateEnemies();
+    protected void GenerateEnemies(int roomWeight)
     {
         List<Enemy> chosenEnemies = new List<Enemy>();
         if (EnemyPool.Count == 0)
@@ -229,9 +230,9 @@ public abstract class Room : Place
         {
             while (true)
             {
-                Vector2 spawnPos = new Vector2(Random.Shared.Next((int)Dimensions.X - 2) + 1, Random.Shared.Next((int)Dimensions.Y - 2) + 1) * 50;
+                Vector2 spawnPos = new Vector2(Random.Shared.Next(50 * ((int)Dimensions.X - 2)) + 50, Random.Shared.Next(50 * ((int)Dimensions.Y - 2)) + 50);
 
-                if (Doors.Any(d => (d.DoorTpPosition - spawnPos).Length() < 150))
+                if (Doors.Any(d => ((d.DoorTpPosition * 50) - spawnPos).Length() < 100))
                     continue;
 
                 if (!ShouldCollideAt(new Rectangle(spawnPos.ToPoint(), enemy.Size.ToPoint())))

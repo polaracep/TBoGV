@@ -18,7 +18,8 @@ public class RoomEmpty : Room, IDraw
     public override void Generate()
     {
         base.GenerateBase(FloorTypes.BASIC, WallTypes.BASIC, DoorTypes.BASIC);
-        this.GenerateEnemies(6);
     }
+
+    protected override void GenerateEnemies() { }
 
 }

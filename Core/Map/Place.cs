@@ -172,8 +172,8 @@ public abstract class Place : IDraw
     public abstract void Generate();
     public virtual void Draw(SpriteBatch spriteBatch)
     {
-        if (!this.IsGenerated)
-            this.Generate();
+        if (!IsGenerated)
+            Generate();
         for (int i = 0; i < Dimensions.X; i++)
             for (var j = 0; j < Dimensions.Y; j++)
             {
