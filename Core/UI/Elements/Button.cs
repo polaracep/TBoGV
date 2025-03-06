@@ -5,9 +5,8 @@ using Microsoft.Xna.Framework.Input;
 
 namespace TBoGV;
 
-class Button : IDraw, IUIElement
+class Button : UIElement, IDraw
 {
-	public Vector2 Position { get; set; }
 	private string Text;
 	private Vector2 Size;
 	private SpriteFont Font;
@@ -26,7 +25,8 @@ class Button : IDraw, IUIElement
 		Text = text;
 		OnClick = onClick;
 	}
-	public void Update(MouseState mouseState)
+
+	public override void Update(MouseState mouseState)
 	{
 		if (mouseState.LeftButton == ButtonState.Pressed && PrevMouseState.LeftButton == ButtonState.Released
 			&& GetRect().Contains(mouseState.Position))
@@ -37,7 +37,8 @@ class Button : IDraw, IUIElement
 			ColorIndex = 0;
 		PrevMouseState = mouseState;
 	}
-	public Rectangle GetRect()
+
+	public override Rectangle GetRect()
 	{
 		return new Rectangle(
 			(int)Position.X - BorderOffset, (int)Position.Y - BorderOffset,
