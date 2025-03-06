@@ -74,21 +74,27 @@ public class ButtonImage : Button
 	public override void SetSize(Vector2 size)
 	{
 		Vector2 textSize = Font.MeasureString(Text);
+		float maxScaleX = 1f, maxScaleY = 1f;
 
 		switch (ImageOrientation)
 		{
 			case ImageOrientation.TOP:
 			case ImageOrientation.BOTTOM:
-				ImageScale = (size.Y - textSize.Y - BorderOffset) / Sprite.Height;
+				maxScaleY = (size.Y - textSize.Y - BorderOffset) / Sprite.Height;
+				maxScaleX = size.X / Sprite.Width;
 				break;
 			case ImageOrientation.LEFT:
 			case ImageOrientation.RIGHT:
-				ImageScale = (size.X - textSize.X - BorderOffset) / Sprite.Width;
+				maxScaleX = (size.X - textSize.X - BorderOffset) / Sprite.Width;
+				maxScaleY = size.Y / Sprite.Height;
 				break;
 		}
 
+		ImageScale = Math.Min(maxScaleX, maxScaleY);
+
 		Size = size;
 	}
+
 
 }
 

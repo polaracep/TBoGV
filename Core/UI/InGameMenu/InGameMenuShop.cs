@@ -59,7 +59,7 @@ namespace TBoGV
             }
 
             InitializeShopItems(ShopState.SARKA);
-			ButtonReroll = new ButtonImage("1¢", FontManager.GetFont("Arial24"),() => 
+			ButtonReroll = new ButtonImage("  1¢", FontManager.GetFont("Arial24"),() => 
 			{
 				if (player.Coins < 1)
 					return;
@@ -69,6 +69,7 @@ namespace TBoGV
 				player.Coins--;
 			}, TextureManager.GetTexture("reroll"), ImageOrientation.LEFT);
 			ButtonReroll.SetTextColor(Color.Yellow);
+			ButtonReroll.SetSize(new Vector2(160, ButtonReroll.GetRect().Height));
         }
 
         // Fill the shop item pool with example items and their prices.
