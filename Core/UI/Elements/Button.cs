@@ -13,11 +13,10 @@ public class Button : UIElement, IDraw
 	protected SpriteFont Font;
 	protected static Texture2D SpriteBackground = TextureManager.GetTexture("whiteSquare");
 	protected int BorderOffset = 5;
-
-
+	protected Color TextColor = Color.White;
 	public Action OnClick { get; private set; }
 	protected MouseState PrevMouseState;
-	protected Color[] color = [Color.Gray * 0.8f, Color.Black * 0.5f];
+	protected Color[] color = [new Color(40,40,40)* 0.5f, Color.Black * 0.5f];
 	protected int ColorIndex = 0;
 
 	public Button(string text, SpriteFont font, Action onClick)
@@ -40,7 +39,14 @@ public class Button : UIElement, IDraw
 		PrevMouseState = mouseState;
 	}
 
-
+	public virtual void SetSize(Vector2 size)
+	{
+		Size = size;
+	}
+	public void SetTextColor(Color color)
+	{
+		TextColor = color;
+	}
 	public override Rectangle GetRect()
 	{
 		return new Rectangle(
@@ -51,7 +57,7 @@ public class Button : UIElement, IDraw
 	public virtual void Draw(SpriteBatch spriteBatch)
 	{
 		spriteBatch.Draw(SpriteBackground, GetRect(), color[ColorIndex]);
-		spriteBatch.DrawString(Font, Text, new Vector2(Position.X, Position.Y), Color.White);
+		spriteBatch.DrawString(Font, Text, new Vector2(Position.X, Position.Y), TextColor);
 	}
 }
 

@@ -40,36 +40,58 @@ public class ButtonImage : Button
 		spriteBatch.Draw(SpriteBackground, rect, color[ColorIndex]);
 
 		Vector2 textSize = Font.MeasureString(Text);
+		Vector2 imageSize = new Vector2(Sprite.Bounds.Width * ImageScale, Sprite.Bounds.Height * ImageScale);
 		Vector2 imagePos = Vector2.Zero;
 		Vector2 textPos = Vector2.Zero;
 
 		switch (ImageOrientation)
 		{
 			case ImageOrientation.TOP:
-				imagePos = new Vector2(rect.X + (rect.Width - Sprite.Width) / 2, rect.Y + BorderOffset);
-				textPos = new Vector2(rect.X + (rect.Width - textSize.X) / 2, imagePos.Y + Sprite.Height + BorderOffset);
+				imagePos = new Vector2(rect.X + (rect.Width - imageSize.X) / 2, rect.Y + (rect.Height - (imageSize.Y + textSize.Y + BorderOffset)) / 2);
+				textPos = new Vector2(rect.X + (rect.Width - textSize.X) / 2, imagePos.Y + imageSize.Y + BorderOffset);
 				break;
 
 			case ImageOrientation.BOTTOM:
-				textPos = new Vector2(rect.X + (rect.Width - textSize.X) / 2, rect.Y + BorderOffset);
-				imagePos = new Vector2(rect.X + (rect.Width - Sprite.Width) / 2, textPos.Y + textSize.Y + BorderOffset);
+				textPos = new Vector2(rect.X + (rect.Width - textSize.X) / 2, rect.Y + (rect.Height - (imageSize.Y + textSize.Y + BorderOffset)) / 2);
+				imagePos = new Vector2(rect.X + (rect.Width - imageSize.X) / 2, textPos.Y + textSize.Y + BorderOffset);
 				break;
 
 			case ImageOrientation.LEFT:
-				imagePos = new Vector2(rect.X + BorderOffset, rect.Y + (rect.Height - Sprite.Height * ImageScale) / 2);
-				textPos = new Vector2(imagePos.X + Sprite.Width * ImageScale + BorderOffset, rect.Y + (rect.Height - textSize.Y) / 2);
+				imagePos = new Vector2(rect.X + (rect.Width - (imageSize.X + textSize.X + BorderOffset)) / 2, rect.Y + (rect.Height - imageSize.Y) / 2);
+				textPos = new Vector2(imagePos.X + imageSize.X + BorderOffset, rect.Y + (rect.Height - textSize.Y) / 2);
 				break;
 
 			case ImageOrientation.RIGHT:
-				textPos = new Vector2(rect.X + BorderOffset, rect.Y + (rect.Height - textSize.Y) / 2);
-				imagePos = new Vector2(textPos.X + textSize.X + BorderOffset, rect.Y + (rect.Height - Sprite.Height * ImageScale) / 2);
+				textPos = new Vector2(rect.X + (rect.Width - (imageSize.X + textSize.X + BorderOffset)) / 2, rect.Y + (rect.Height - textSize.Y) / 2);
+				imagePos = new Vector2(textPos.X + textSize.X + BorderOffset, rect.Y + (rect.Height - imageSize.Y) / 2);
 				break;
 		}
 
+
 		spriteBatch.Draw(Sprite, imagePos, null, Color.White, 0, Vector2.Zero, ImageScale, SpriteEffects.None, 0);
-		spriteBatch.DrawString(Font, Text, textPos, Color.White);
+		spriteBatch.DrawString(Font, Text, textPos, TextColor);
 	}
+	public override void SetSize(Vector2 size)
+	{
+		Vector2 textSize = Font.MeasureString(Text);
+
+		switch (ImageOrientation)
+		{
+			case ImageOrientation.TOP:
+			case ImageOrientation.BOTTOM:
+				ImageScale = (size.Y - textSize.Y - BorderOffset) / Sprite.Height;
+				break;
+			case ImageOrientation.LEFT:
+			case ImageOrientation.RIGHT:
+				ImageScale = (size.X - textSize.X - BorderOffset) / Sprite.Width;
+				break;
+		}
+
+		Size = size;
+	}
+
 }
+
 
 public enum ImageOrientation : int
 {
