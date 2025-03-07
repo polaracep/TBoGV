@@ -47,8 +47,8 @@ class BossSvarta : EnemyBoss
 	public override void Update(Vector2 playerPosition, double dt)
 	{
 		phaseChangeElapsed += dt;
-		SfxJeMuHodneInstance.Volume = Settings.SfxVolume;
-		SfxSvartaDelejInstance.Volume = Settings.SfxVolume;
+		SfxJeMuHodneInstance.Volume = (float)Settings.SfxVolume.GetValue();
+		SfxSvartaDelejInstance.Volume = (float)Settings.SfxVolume.GetValue();
 		UpdatePhase(playerPosition);
 	}
 
@@ -101,17 +101,17 @@ class BossSvarta : EnemyBoss
 	{
 		return Hp <= 0;
 	}
-    public override List<Item> Drop(int looting)
-    {
-        Random random = new Random();
-        List<Item> droppedItems = new List<Item>();
-        droppedItems = base.Drop(looting);
-        var item = new ItemMonster(Position + Size / 2);
-        item.InitMovement();
-        droppedItems.Add(item);
-        return droppedItems;
-    }
-    public override float RecieveDmg(Projectile projectile)
+	public override List<Item> Drop(int looting)
+	{
+		Random random = new Random();
+		List<Item> droppedItems = new List<Item>();
+		droppedItems = base.Drop(looting);
+		var item = new ItemMonster(Position + Size / 2);
+		item.InitMovement();
+		droppedItems.Add(item);
+		return droppedItems;
+	}
+	public override float RecieveDmg(Projectile projectile)
 	{
 		if (!projectilesRecieved.Contains(projectile) && State == SvartaState.SPINKS)
 		{

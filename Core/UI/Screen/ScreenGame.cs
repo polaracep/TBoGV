@@ -51,7 +51,7 @@ public class ScreenGame : Screen
             MediaPlayer.Stop();
         }
         // MediaPlayer.Play(Song);
-        MediaPlayer.Volume = Settings.MusicVolume;
+        MediaPlayer.Volume = (float)Settings.MusicVolume.GetValue();
     }
 
     public override void Draw(SpriteBatch _spriteBatch, GraphicsDeviceManager graphics)
@@ -130,14 +130,14 @@ public class ScreenGame : Screen
             player.Update(keyboardState, mouseState, _camera.Transform, activePlace, _viewport, dt);
             activePlace.Update(dt);
             UI.Update(player, graphics);
-            if (Settings.FixedCamera)
+            if ((bool)Settings.FixedCamera.GetValue())
                 _camera.SetCenter(_viewport, player.Position);
             else
                 _camera.SetCenter(_viewport, activePlace.Dimensions * Tile.GetSize() / 2);
             _camera.Update(_viewport, player.Position + player.Size / 2);
 
             // update volume
-            MediaPlayer.Volume = Settings.MusicVolume;
+            MediaPlayer.Volume = (float)Settings.MusicVolume.GetValue();
             if (MediaPlayer.State == MediaState.Paused)
                 MediaPlayer.Resume();
             else if (MediaPlayer.State == MediaState.Stopped)

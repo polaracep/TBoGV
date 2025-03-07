@@ -91,8 +91,8 @@ public class BossAles : EnemyBoss
 			Teleport();
 		LastAttackElapsed += dt;
 		phaseChangeElapsed += dt;
-		SfxDzojkInstance.Volume = Settings.SfxVolume;
-		SfxKavesInstance.Volume = Settings.SfxVolume;
+		SfxDzojkInstance.Volume = (float)Settings.SfxVolume.GetValue();
+		SfxKavesInstance.Volume = (float)Settings.SfxVolume.GetValue();
 		UpdatePhase();
 	}
 	protected void UpdatePhase()

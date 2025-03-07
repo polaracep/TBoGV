@@ -66,7 +66,7 @@ class BossOIIAOIIA : EnemyBoss
 	{
 		phaseChangeElapsed += dt;
 		lastFrameChangeElapsed += dt;
-		SfxOIIAInstance.Volume = Settings.SfxVolume;
+		SfxOIIAInstance.Volume = (float)Settings.SfxVolume.GetValue();
 		UpdatePhase(playerPosition);
 		UpdateAnimation();
 	}
@@ -167,7 +167,7 @@ class BossOIIAOIIA : EnemyBoss
 	private bool CollidesWithWall(Vector2 testPosition, Place place)
 	{
 		int tolerance = 30;
-		return place.ShouldCollideAt(new Rectangle((int)testPosition.X + tolerance, (int)testPosition.Y + tolerance, (int)Size.X -2* tolerance, (int)Size.Y - 2 * tolerance));
+		return place.ShouldCollideAt(new Rectangle((int)testPosition.X + tolerance, (int)testPosition.Y + tolerance, (int)Size.X - 2 * tolerance, (int)Size.Y - 2 * tolerance));
 	}
 	public override bool ReadyToAttack()
 	{
@@ -177,17 +177,17 @@ class BossOIIAOIIA : EnemyBoss
 	{
 		return Hp <= 0;
 	}
-    public override List<Item> Drop(int looting)
-    {
-        Random random = new Random();
-        List<Item> droppedItems = new List<Item>();
-        droppedItems = base.Drop(looting);
-        var item = new ItemBryle(Position + Size / 2);
-        item.InitMovement();
-        droppedItems.Add(item);
-        return droppedItems;
-    }
-    public override float RecieveDmg(Projectile projectile)
+	public override List<Item> Drop(int looting)
+	{
+		Random random = new Random();
+		List<Item> droppedItems = new List<Item>();
+		droppedItems = base.Drop(looting);
+		var item = new ItemBryle(Position + Size / 2);
+		item.InitMovement();
+		droppedItems.Add(item);
+		return droppedItems;
+	}
+	public override float RecieveDmg(Projectile projectile)
 	{
 		if (!projectilesRecieved.Contains(projectile) && !Rage)
 		{

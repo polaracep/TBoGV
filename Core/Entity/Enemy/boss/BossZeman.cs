@@ -36,14 +36,14 @@ class BossZeman : EnemyBoss
 		phaseChangeElapsed = 0;
 		InitStats(Storyline.Difficulty);
 
-    }
+	}
 	public BossZeman() : this(Vector2.Zero) { }
 
 	public override void Update(Vector2 playerPosition, double dt)
 	{
 		PlayerPosition = playerPosition;
 		lookingLeft = playerPosition.X - Position.X < 0;
-		AligatorSfxInstance.Volume = Settings.SfxVolume;
+		AligatorSfxInstance.Volume = (float)Settings.SfxVolume.GetValue();
 		UpdatePhase(dt);
 	}
 	protected void UpdatePhase(double dt)
@@ -190,18 +190,18 @@ class BossZeman : EnemyBoss
 		return Hp <= 0;
 	}
 
-    public override List<Item> Drop(int looting)
-    {
-        Random random = new Random();
-        List<Item> droppedItems = new List<Item>();
-        droppedItems = base.Drop(looting);
-        var item = new ItemFancyShoes(Position + Size / 2);
-        item.InitMovement();
-        droppedItems.Add(item);
-        return droppedItems;
-    }
+	public override List<Item> Drop(int looting)
+	{
+		Random random = new Random();
+		List<Item> droppedItems = new List<Item>();
+		droppedItems = base.Drop(looting);
+		var item = new ItemFancyShoes(Position + Size / 2);
+		item.InitMovement();
+		droppedItems.Add(item);
+		return droppedItems;
+	}
 
-    public override float RecieveDmg(Projectile projectile)
+	public override float RecieveDmg(Projectile projectile)
 	{
 		if (!projectilesRecieved.Contains(projectile))
 		{

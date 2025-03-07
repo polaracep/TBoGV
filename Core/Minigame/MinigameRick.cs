@@ -38,7 +38,7 @@ public class MinigameRick : Minigame
 		LargerFont = FontManager.GetFont("Arial16");
 		OnSuccess = onSuccess;
 		rickrollInstance.IsLooped = true;
-		rickrollInstance.Volume = Settings.SfxVolume;
+		rickrollInstance.Volume = (float)Settings.SfxVolume.GetValue();
 		rickrollInstance.Play();
 	}
 
