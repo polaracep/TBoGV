@@ -99,7 +99,7 @@ public class Player : Entity, IRecieveDmg, IDealDmg
 					subjectValue = BaseStats[item.Key] * (1 - item.Value * 0.025f);
 					break;
 				case StatTypes.MOVEMENT_SPEED:
-					subjectValue = ((item.Value * 0.1f) + 1) * BaseStats[item.Key];
+					subjectValue = ((item.Value * 0.05f) + 1) * BaseStats[item.Key];
 					break;
 				default:
 					subjectValue = 0;
@@ -228,13 +228,13 @@ public class Player : Entity, IRecieveDmg, IDealDmg
 		}
 		if (keyboardState.IsKeyDown(Keys.Q))
 		{
-			var item = Inventory.DropItem(Position + Size / 2);
+			var item = Inventory.DropItem(Position + Size / 2, this);
 			if (item != null)
 				place.Drops.Add(item);
 		}
 		if (keyboardState.IsKeyDown(Keys.Q) && keyboardState.IsKeyDown(Keys.LeftShift))
 		{
-			var items = Inventory.DropAllItems(Position + Size / 2);
+			var items = Inventory.DropAllItems(Position + Size / 2, this);
 			foreach (var item in items)
 				place.Drops.Add(item);
 		}
