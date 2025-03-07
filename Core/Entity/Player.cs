@@ -99,7 +99,7 @@ public class Player : Entity, IRecieveDmg, IDealDmg
 					subjectValue = BaseStats[item.Key] * (1 - item.Value * 0.025f);
 					break;
 				case StatTypes.MOVEMENT_SPEED:
-					subjectValue = ((item.Value * 0.1f) + 1) * BaseStats[item.Key];
+					subjectValue = ((item.Value * 0.05f) + 1) * BaseStats[item.Key];
 					break;
 				default:
 					subjectValue = 0;
