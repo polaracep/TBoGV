@@ -47,22 +47,22 @@ class BossRichard : EnemyBoss
 		DirectionChangeElapsed += dt;
 		Direction = new Vector2(playerPosition.X, playerPosition.Y) - Position - Size / 2;
 		Direction.Normalize();
-		SfxRickrollInstance.Volume = Settings.SfxVolume;
+		SfxRickrollInstance.Volume = (float)Settings.SfxVolume.GetValue();
 		UpdatePhase(playerPosition);
-        UpdateScale();
-        UpdateAnimation();
-    }
+		UpdateScale();
+		UpdateAnimation();
+	}
 	protected void UpdatePhase(Vector2 playerPosition)
 	{
 
 	}
-    private void UpdateScale()
-    {
-        Scale = (0.1f + 0.3f * (Hp / 60f));
-        Size = new Vector2(frameWidth * Scale, frameHeight * Scale);
-    }
+	private void UpdateScale()
+	{
+		Scale = (0.1f + 0.3f * (Hp / 60f));
+		Size = new Vector2(frameWidth * Scale, frameHeight * Scale);
+	}
 
-    private void UpdateAnimation()
+	private void UpdateAnimation()
 	{
 		if (lastFrameChangeElapsed > frameSpeed)
 		{
@@ -78,18 +78,18 @@ class BossRichard : EnemyBoss
 	{
 		return Hp <= 0;
 	}
-    public override List<Item> Drop(int looting)
-    {
-        Random random = new Random();
-        List<Item> droppedItems = new List<Item>();
-        droppedItems = base.Drop(looting);
-        var item = new ItemLabcoat(Position + Size / 2);
-        item.InitMovement();
-        droppedItems.Add(item);
-        return droppedItems;
-    }
+	public override List<Item> Drop(int looting)
+	{
+		Random random = new Random();
+		List<Item> droppedItems = new List<Item>();
+		droppedItems = base.Drop(looting);
+		var item = new ItemLabcoat(Position + Size / 2);
+		item.InitMovement();
+		droppedItems.Add(item);
+		return droppedItems;
+	}
 
-    public override void Draw(SpriteBatch spriteBatch)
+	public override void Draw(SpriteBatch spriteBatch)
 	{
 		int row = currentFrame / frameColumns;
 		int col = currentFrame % frameColumns;
@@ -136,7 +136,7 @@ class BossRichard : EnemyBoss
 
 			Position += stepDirection; // Apply the step movement
 		}
-    }
+	}
 	private bool CollidesWithWall(Vector2 testPosition, Place place)
 	{
 		return place.ShouldCollideAt(new Vector2(testPosition.X + Size.X / 2, testPosition.Y + Size.Y / 2));
@@ -158,28 +158,28 @@ class BossRichard : EnemyBoss
 		PickNewDirection();
 		List<Projectile> projectiles = base.Attack();
 		projectiles.Add(new ProjectileNote(Position + Size / 2, Direction, AttackDmg));
-        if (phaseChangeElapsed > rageDuration)
-        {
-            phaseChangeElapsed = 0;
-			foreach (var projectile in ArealNoteAttack()) 
+		if (phaseChangeElapsed > rageDuration)
+		{
+			phaseChangeElapsed = 0;
+			foreach (var projectile in ArealNoteAttack())
 				projectiles.Add(projectile);
-        }
-        LastAttackElapsed = 0;
+		}
+		LastAttackElapsed = 0;
 		return projectiles;
 	}
-    public List<Projectile> ArealNoteAttack()
-    {
-        List<Projectile> notes = new List<Projectile>();
-        int noteCount = 8;
-        for (int i = 0; i < noteCount; i++)
-        {
-            float angle = MathHelper.TwoPi * i / noteCount;
-            Vector2 direction = new Vector2((float)Math.Cos(angle), (float)Math.Sin(angle));
-            notes.Add(new ProjectileNote(Position + Size / 2, direction, AttackDmg));
-        }
-        return notes;
-    }
-    protected override void InitStats(int difficulty)
+	public List<Projectile> ArealNoteAttack()
+	{
+		List<Projectile> notes = new List<Projectile>();
+		int noteCount = 8;
+		for (int i = 0; i < noteCount; i++)
+		{
+			float angle = MathHelper.TwoPi * i / noteCount;
+			Vector2 direction = new Vector2((float)Math.Cos(angle), (float)Math.Sin(angle));
+			notes.Add(new ProjectileNote(Position + Size / 2, direction, AttackDmg));
+		}
+		return notes;
+	}
+	protected override void InitStats(int difficulty)
 	{
 		Hp = 120;
 		MovementSpeed = 2;

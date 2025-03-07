@@ -62,9 +62,9 @@ class BossToilet : EnemyBoss
 	public override List<Projectile> Attack()
 	{
 		List<Projectile> projectiles = base.Attack();
-		var projectile = new ProjectilePee(Position + new Vector2(80f,115f)*Scale, Direction, AttackDmg);
+		var projectile = new ProjectilePee(Position + new Vector2(80f, 115f) * Scale, Direction, AttackDmg);
 		projectile.MovementSpeed = 5 + 7 * Hp / MaxHp;
-        projectiles.Add(projectile);
+		projectiles.Add(projectile);
 		LastAttackElapsed = 0;
 		return projectiles;
 	}
@@ -81,7 +81,7 @@ class BossToilet : EnemyBoss
 		LastAttackElapsed += dt;
 		Direction = new Vector2(playerPosition.X, playerPosition.Y) - Position - Size / 2;
 		Direction.Normalize();
-		SfxInstance.Volume = Settings.SfxVolume;
+		SfxInstance.Volume = (float)Settings.SfxVolume.GetValue();
 		UpdatePhase(playerPosition);
 		UpdateAnimation();
 	}
@@ -95,13 +95,14 @@ class BossToilet : EnemyBoss
 
 			if (Rage)
 			{
-				if(random.Next(0,100) < 50)
+				if (random.Next(0, 100) < 50)
 				{
 					Rage = false;
-					int count = random.Next(1, (int)(Hp/(MaxHp/3)) + 1);
+					int count = random.Next(1, (int)(Hp / (MaxHp / 3)) + 1);
 					for (int i = 0; i < count; i++)
 						SpawnCameraman();
-				}else
+				}
+				else
 					SfxInstance.Play();
 			}
 		}
@@ -125,17 +126,17 @@ class BossToilet : EnemyBoss
 	{
 		return Hp <= 0;
 	}
-    public override List<Item> Drop(int looting)
-    {
-        Random random = new Random();
-        List<Item> droppedItems = new List<Item>();
-        droppedItems = base.Drop(looting);
-        var item = new ItemCross(Position + Size / 2);
-        item.InitMovement();
-        droppedItems.Add(item);
-        return droppedItems;
-    }
-    public override float RecieveDmg(Projectile projectile)
+	public override List<Item> Drop(int looting)
+	{
+		Random random = new Random();
+		List<Item> droppedItems = new List<Item>();
+		droppedItems = base.Drop(looting);
+		var item = new ItemCross(Position + Size / 2);
+		item.InitMovement();
+		droppedItems.Add(item);
+		return droppedItems;
+	}
+	public override float RecieveDmg(Projectile projectile)
 	{
 		if (!projectilesRecieved.Contains(projectile) && Rage)
 		{
