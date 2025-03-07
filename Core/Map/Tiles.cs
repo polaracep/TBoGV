@@ -34,7 +34,7 @@ public abstract class Tile : ICloneable
 
     public object Clone()
     {
-        return this.MemberwiseClone();
+        return MemberwiseClone();
     }
 }
 
@@ -157,6 +157,10 @@ public class TileExit : Tile, IInteractable
         // return to lobby
         p.LevelChanged = true;
         p.Position = new Lobby(p).SpawnPos;
+
+        // reset shops
+        InGameMenuShop.ResetShop();
+
         p.Inventory.RemoveEffect(new EffectFyjalovaDrahota(1));
     }
 }

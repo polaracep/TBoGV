@@ -120,7 +120,6 @@ public class ScreenGame : Screen
                 player.IsPlaying = true;
                 activePlace = Storyline.CurrentLevel.ActiveRoom;
             }
-            InGameMenuShop.ResetShop();
             player.LevelChanged = false;
             player.Position = activePlace.SpawnPos * 50;
         }
@@ -227,6 +226,7 @@ public class ScreenGame : Screen
             FileHelper.ResetSaves();
             Storyline.ResetStoryline();
             Storyline.CurrentLevelNumber = 0;
+            InGameMenuShop.ResetShop();
             player.Reset();
             lobby.Reset();
             TBoGVGame.screenCurrent = ScreenManager.ScreenDeath;
