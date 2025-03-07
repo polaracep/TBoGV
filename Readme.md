@@ -4,6 +4,11 @@
 
 Epická úžasná nepřekonatelná hra odehrávající se na gymvodu[^1] (takhle to tam opravdu vypadá!!).
 
+#### Building
+
+`dotnet run -c Release`
+
+
 #### Ovládání 
 WASD - Movement
 E/RMB - Use/Interact
