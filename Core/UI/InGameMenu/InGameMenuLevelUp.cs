@@ -34,11 +34,11 @@ class InGameMenuLevelUp : InGameMenu
 
     private const int Padding = 10;
 
-    public InGameMenuLevelUp(Viewport viewport)
+    public InGameMenuLevelUp(Viewport viewport, Player player)
     {
         Viewport = viewport;
         SpriteBackground = TextureManager.GetTexture("blackSquare");
-        GenerateStatOptions();
+        GenerateStatOptions(player);
     }
 
     private void GenerateStatOptions(Player player)
@@ -58,7 +58,6 @@ class InGameMenuLevelUp : InGameMenu
                     player.LevelUpStats[statOption] += 1;
                 else
                     player.LevelUpStats[statOption] = 1;
-                Active = false; // Close menu after selection
             }));
         }
         foreach (var b in buttons)
@@ -70,8 +69,6 @@ class InGameMenuLevelUp : InGameMenu
     public override void Update(Viewport viewport, Player player, MouseState mouseState, KeyboardState keyboardState, double dt)
     {
         base.Update(viewport, player, mouseState, keyboardState, dt);
-        if (!Active)
-            return;
 
         foreach (var b in buttons)
             b.Update(mouseState);

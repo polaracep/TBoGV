@@ -97,7 +97,7 @@ public class ScreenGame : Screen
         }
         if (player.Level != levelStatsCount && activeMenu is not InGameMenuLevelUp)
         {
-            activeMenu = new InGameMenuLevelUp(_viewport);
+            activeMenu = new InGameMenuLevelUp(_viewport, player);
         }
         if (player.Hp < 1 && activeMenu is not InGameMenuDeath)
         {
