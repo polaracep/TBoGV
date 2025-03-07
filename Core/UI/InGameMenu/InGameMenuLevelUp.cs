@@ -10,12 +10,10 @@ namespace TBoGV;
 class InGameMenuLevelUp : InGameMenu
 {
     private static Viewport Viewport;
-    static SpriteFont SmallFont;
-    static SpriteFont MiddleFont;
-    static SpriteFont LargerFont;
-
+    private static SpriteFont SmallFont = FontManager.GetFont("Arial8");
+    private static SpriteFont MiddleFont = FontManager.GetFont("Arial12");
+    private static SpriteFont LargerFont = FontManager.GetFont("Arial16");
     private List<Button> buttons = new();
-
     private string chosenDescription = "";
     private readonly List<string> descriptions = new List<string>
     {
@@ -40,10 +38,7 @@ class InGameMenuLevelUp : InGameMenu
     {
         Viewport = viewport;
         SpriteBackground = TextureManager.GetTexture("blackSquare");
-        SmallFont = FontManager.GetFont("Arial8");
-        MiddleFont = FontManager.GetFont("Arial12");
-        LargerFont = FontManager.GetFont("Arial16");
-        Active = false;
+        GenerateStatOptions();
     }
 
     private void GenerateStatOptions(Player player)
@@ -67,7 +62,7 @@ class InGameMenuLevelUp : InGameMenu
             }));
         }
         foreach (var b in buttons)
-            b.SetSize(new Vector2(110,b.GetRect().Height));
+            b.SetSize(new Vector2(110, b.GetRect().Height));
 
         chosenDescription = descriptions[random.Next(descriptions.Count)];
     }
@@ -84,9 +79,6 @@ class InGameMenuLevelUp : InGameMenu
 
     public override void Draw(SpriteBatch spriteBatch)
     {
-        if (!Active)
-            return;
-
         base.Draw(spriteBatch);
         string headline = "Vyber";
         Vector2 hintSize = SmallFont.MeasureString(understandingHint);
@@ -113,8 +105,8 @@ class InGameMenuLevelUp : InGameMenu
 
 
         float startY = hintPos.Y + hintSize.Y + 30;
-        int totalWidth = buttons.Count * buttons[0].GetRect().Width + 20 * (buttons.Count-1);
-        
+        int totalWidth = buttons.Count * buttons[0].GetRect().Width + 20 * (buttons.Count - 1);
+
         float startX = Viewport.Width / 2 - totalWidth / 2;
 
         for (int i = 0; i < buttons.Count; i++)
@@ -137,11 +129,5 @@ class InGameMenuLevelUp : InGameMenu
             StatTypes.MOVEMENT_SPEED => "Tělocvik",
             _ => statType.ToString()
         };
-    }
-
-    public void OpenMenu(Player player)
-    {
-        GenerateStatOptions(player);
-        Active = true;
     }
 }

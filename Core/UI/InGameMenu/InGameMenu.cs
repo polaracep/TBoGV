@@ -1,13 +1,14 @@
 ﻿using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
+using System;
 namespace TBoGV;
 
 public abstract class InGameMenu : IDraw
 {
+    public static Action CloseMenu;
     public static Texture2D SpriteBackground;
     static Viewport Viewport;
-    public bool Active;
 
     public virtual void Update(Viewport viewport, Player player, MouseState mouseState, KeyboardState keyboardState, double dt)
     {

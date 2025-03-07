@@ -20,8 +20,8 @@ class InGameMenuDeath : InGameMenu
 	private Button buttonPassTest;
 	private Button buttonRunMinigame;
 
-	public Action ResetLevel;
-	public Action PassTest;
+	public static Action ResetLevel;
+	public static Action PassTest;
 
 	private readonly List<string> deathMessages = new List<string>
 	{
@@ -35,17 +35,20 @@ class InGameMenuDeath : InGameMenu
 "Potkal jsi Procházkovou",
 "Nepřišel jsi na hodinu Predescu",
 "O přestávce jsi poslal pivko a nabils",
-    };
+	};
 
 	public InGameMenuDeath(Viewport viewport)
 	{
 		Viewport = viewport;
 		SpriteBackground = TextureManager.GetTexture("blackSquare");
-		Active = false;
 
-		buttonRunMinigame = new Button("Pokusit se o komisionálky", MiddleFont, () => { minigameRunning = true; });
-		buttonResetLevel = new Button("Opakovat ročník", MiddleFont, () => ResetLevel());
-		buttonPassTest = new Button("Složit komisionálky", MiddleFont, () => PassTest());
+		buttonRunMinigame = new Button("Pokusit se o komisionalky", MiddleFont, () => { minigameRunning = true; });
+		buttonResetLevel = new Button("Opakovat rocnik", MiddleFont, () => ResetLevel());
+		buttonPassTest = new Button("Slozit komisionalky", MiddleFont, () => PassTest());
+		GenerateDeathMessage();
+
+		minigame = new MinigameKomisionalky(() => OnSuccess(), () => OnFailure(), new Random().Next(-10, 5));
+		minigameCompleted = false;
 	}
 
 	private void GenerateDeathMessage()
@@ -56,9 +59,6 @@ class InGameMenuDeath : InGameMenu
 	public override void Update(Viewport viewport, Player player, MouseState mouseState, KeyboardState keyboardState, double dt)
 	{
 		base.Update(viewport, player, mouseState, keyboardState, dt);
-
-		if (!Active)
-			return;
 
 		if (!minigameRunning)
 			buttonRunMinigame.Update(mouseState);
@@ -77,9 +77,6 @@ class InGameMenuDeath : InGameMenu
 
 	public override void Draw(SpriteBatch spriteBatch)
 	{
-		if (!Active)
-			return;
-
 		base.Draw(spriteBatch);
 
 		string headline = "Komisionálky";
@@ -148,14 +145,6 @@ class InGameMenuDeath : InGameMenu
 		}
 	}
 
-	public void OpenMenu()
-	{
-		GenerateDeathMessage();
-		minigame = new MinigameKomisionalky(() => OnSuccess(), () => OnFailure(), new Random().Next(-10, 5));
-		minigameCompleted = false;
-		Active = true;
-	}
-
 	private void OnSuccess()
 	{
 		minigameCompleted = true;
@@ -167,4 +156,5 @@ class InGameMenuDeath : InGameMenu
 		minigameCompleted = true;
 		minigameSuccess = false;
 	}
+
 }

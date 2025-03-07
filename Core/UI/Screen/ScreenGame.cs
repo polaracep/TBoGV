@@ -12,14 +12,9 @@ public class ScreenGame : Screen
     private Camera _camera;
     private Lobby lobby;
     private Place activePlace;
-    private InGameMenu inGameMenu;
-    private InGameMenuEffect effectMenu;
-    private InGameMenuLevelUp levelUpMenu;
-    private InGameMenuDeath deathMenu;
-    private InGameMenuItemJournal itemJournalMenu;
-    private InGameMenuShop shopMenu;
-    public ShopState openShop = ShopState.CLOSE;
+    private InGameMenu activeMenu = null;
     private List<Minigame> miniGames = new List<Minigame>();
+    private Viewport _viewport;
 
     private UI UI;
     private MouseState mouseState;
@@ -31,25 +26,23 @@ public class ScreenGame : Screen
     {
         player = new Player();
 
-		player.Load(SaveType.USER);
+        player.Load(SaveType.USER);
         Storyline.Player = player;
 
         Storyline.GenerateStoryline();
-		player.Save(SaveType.AUTO);
+        player.Save(SaveType.AUTO);
 
         lobby = new Lobby(player);
         activePlace = lobby;
 
         UI = new UI();
         _camera = new Camera();
-        inGameMenu = effectMenu = new InGameMenuEffect(graphics.GraphicsDevice.Viewport, player);
-        levelUpMenu = new InGameMenuLevelUp(graphics.GraphicsDevice.Viewport);
-        deathMenu = new InGameMenuDeath(graphics.GraphicsDevice.Viewport);
-        shopMenu = new InGameMenuShop(graphics.GraphicsDevice.Viewport, player);
+        _viewport = graphics.GraphicsDevice.Viewport;
 
-        deathMenu.ResetLevel = Reset;
-        deathMenu.PassTest = Revive;
-        itemJournalMenu = new InGameMenuItemJournal(graphics.GraphicsDevice.Viewport);
+        InGameMenu.CloseMenu = () => activeMenu = null;
+
+        InGameMenuDeath.ResetLevel = Reset;
+        InGameMenuDeath.PassTest = Revive;
 
         // In-game Soundtrack
         Song = SongManager.GetSong("soundtrack");
@@ -64,6 +57,7 @@ public class ScreenGame : Screen
     public override void Draw(SpriteBatch _spriteBatch, GraphicsDeviceManager graphics)
     {
         // _camera.SetCenter(graphics.GraphicsDevice.Viewport, activePlace.Dimensions * Tile.GetSize() / 2);
+        _viewport = graphics.GraphicsDevice.Viewport;
 
         _spriteBatch.Begin(transformMatrix: _camera.Transform);
         activePlace.Draw(_spriteBatch);
@@ -73,10 +67,8 @@ public class ScreenGame : Screen
         _spriteBatch.Begin();
         UI.Draw(_spriteBatch);
         player.Inventory.Draw(_spriteBatch);
-        if (inGameMenu.Active)
-        {
-            inGameMenu.Draw(_spriteBatch);
-        }
+        if (activeMenu != null)
+            activeMenu.Draw(_spriteBatch);
         foreach (Minigame miniGame in miniGames)
             miniGame.Draw(_spriteBatch);
         _spriteBatch.End();
@@ -84,35 +76,33 @@ public class ScreenGame : Screen
 
     public override void Update(GameTime gameTime, GraphicsDeviceManager graphics)
     {
-        double dt = gameTime.ElapsedGameTime.TotalMilliseconds;
+        _viewport = graphics.GraphicsDevice.Viewport;
 
+        double dt = gameTime.ElapsedGameTime.TotalMilliseconds;
+        mouseState = Mouse.GetState();
+        int levelStatsCount = 0;
+
+        // check right activeplace
         if (Storyline.CurrentLevel?.ActiveRoom != activePlace && player.IsPlaying)
             activePlace = Storyline.CurrentLevel.ActiveRoom;
 
-        mouseState = Mouse.GetState();
-        int levelStatsCount = 0;
-        itemJournalMenu.Update(graphics.GraphicsDevice.Viewport, player, mouseState, keyboardState, dt);
+        // ingamemenu update
+        if (activeMenu != null)
+            activeMenu.Update(_viewport, player, mouseState, keyboardState, dt);
+
+        // check for level up
         foreach (var item in player.LevelUpStats)
         {
-            levelStatsCount += (int)player.LevelUpStats[item.Key];
+            levelStatsCount += player.LevelUpStats[item.Key];
         }
-        if (player.Level != levelStatsCount && !levelUpMenu.Active)
+        if (player.Level != levelStatsCount && activeMenu is not InGameMenuLevelUp)
         {
-            inGameMenu = levelUpMenu;
-            levelUpMenu.OpenMenu(player);
+            activeMenu = new InGameMenuLevelUp(_viewport);
         }
-        if (player.Hp < 1 && !deathMenu.Active)
+        if (player.Hp < 1 && activeMenu is not InGameMenuDeath)
         {
-            inGameMenu = deathMenu;
+            activeMenu = new InGameMenuDeath(_viewport);
             MinigameRooted.State = minigameState.SUCCESS;
-
-            deathMenu.OpenMenu();
-        }
-        if (openShop != ShopState.CLOSE && !shopMenu.Active)
-        {
-            inGameMenu = shopMenu;
-            shopMenu.OpenMenu(player, openShop);
-            openShop = ShopState.CLOSE;
         }
 
         UpdateKeyboard();
@@ -130,21 +120,21 @@ public class ScreenGame : Screen
                 player.IsPlaying = true;
                 activePlace = Storyline.CurrentLevel.ActiveRoom;
             }
+            InGameMenuShop.ResetShop();
             player.LevelChanged = false;
-            shopMenu.ResetShop();
         }
 
 
-        if (!inGameMenu.Active)
+        if (activeMenu == null)
         {
-            player.Update(keyboardState, mouseState, _camera.Transform, activePlace, graphics.GraphicsDevice.Viewport, dt);
+            player.Update(keyboardState, mouseState, _camera.Transform, activePlace, _viewport, dt);
             activePlace.Update(dt);
             UI.Update(player, graphics);
             if (Settings.FixedCamera)
-                _camera.SetCenter(graphics.GraphicsDevice.Viewport, player.Position);
+                _camera.SetCenter(_viewport, player.Position);
             else
-                _camera.SetCenter(graphics.GraphicsDevice.Viewport, activePlace.Dimensions * Tile.GetSize() / 2);
-            _camera.Update(graphics.GraphicsDevice.Viewport, player.Position + player.Size / 2);
+                _camera.SetCenter(_viewport, activePlace.Dimensions * Tile.GetSize() / 2);
+            _camera.Update(_viewport, player.Position + player.Size / 2);
 
             // update volume
             MediaPlayer.Volume = Settings.MusicVolume;
@@ -157,8 +147,8 @@ public class ScreenGame : Screen
         }
         else
         {
-            inGameMenu.Update(graphics.GraphicsDevice.Viewport, player, mouseState, keyboardState, dt);
-			UI.Update(player, graphics);
+            activeMenu.Update(_viewport, player, mouseState, keyboardState, dt);
+            UI.Update(player, graphics);
             if (MediaPlayer.State == MediaState.Playing)
             {
                 MediaPlayer.Pause();
@@ -170,7 +160,7 @@ public class ScreenGame : Screen
             miniGames.Add(new MinigameRick(() => player.Inventory.RemoveEffect(new EffectRickroll(1))));
 
         foreach (Minigame miniGame in miniGames)
-            miniGame.Update(graphics.GraphicsDevice.Viewport, keyboardState, dt);
+            miniGame.Update(_viewport, keyboardState, dt);
 
         for (int i = 0; i < miniGames.Count; i++)
             if (miniGames[i].GetState() != minigameState.ONGOING)
@@ -185,20 +175,15 @@ public class ScreenGame : Screen
 
         if (keyboardState.IsKeyDown(Keys.Escape) && previousKeyboardState.IsKeyUp(Keys.Escape))
         {
-            if (!levelUpMenu.Active && !deathMenu.Active && !shopMenu.Active)
-            {
-                inGameMenu = effectMenu;
-                effectMenu.Active = !effectMenu.Active;
-            }
+            if (activeMenu == null)
+                activeMenu = new InGameMenuEffect(player);
+            else
+                activeMenu = null;
         }
         if (KeyReleased(Keys.J) && MinigameRooted.State != minigameState.ONGOING)
         {
-            if (!levelUpMenu.Active && !deathMenu.Active && !shopMenu.Active)
-            {
-                itemJournalMenu.ShowAll();
-                inGameMenu = itemJournalMenu;
-                itemJournalMenu.Active = !itemJournalMenu.Active;
-            }
+            if (activeMenu == null)
+                activeMenu = new InGameMenuItemJournal(_viewport);
         }
 
 #if DEBUG
@@ -210,12 +195,12 @@ public class ScreenGame : Screen
                 Storyline.NextLevel();
             }
         }
-        if (keyboardState.IsKeyDown(Keys.R) && previousKeyboardState.IsKeyUp(Keys.R) && !inGameMenu.Active)
+        if (keyboardState.IsKeyDown(Keys.R) && previousKeyboardState.IsKeyUp(Keys.R) && activeMenu == null)
         {
             activePlace.Reset();
-            shopMenu.ClearShop();
+            InGameMenuShop.ResetShop();
         }
-        if (keyboardState.IsKeyDown(Keys.C) && previousKeyboardState.IsKeyUp(Keys.C) && !inGameMenu.Active)
+        if (keyboardState.IsKeyDown(Keys.C) && previousKeyboardState.IsKeyUp(Keys.C) && activeMenu == null)
         {
             activePlace.Enemies.Clear();
         }
@@ -229,36 +214,38 @@ public class ScreenGame : Screen
     }
     void Reset()
     {
+        activeMenu = null;
         player.Heal((uint)player.MaxHp);
-        deathMenu.Active = false;
         player.LastRecievedDmgElapsed = 0;
-		player.Load(SaveType.AUTO);
-		Storyline.FailedTimes++;
-		Storyline.ResetLevel();
+        player.Load(SaveType.AUTO);
+        Storyline.FailedTimes++;
+        Storyline.ResetLevel();
 
-		if (Storyline.FailedTimes >= 3)
-		{
-			FileHelper.ResetSaves();
+        if (Storyline.FailedTimes >= 3)
+        {
+            FileHelper.ResetSaves();
             Storyline.ResetStoryline();
             Storyline.CurrentLevelNumber = 0;
             player.Reset();
             lobby.Reset();
-			TBoGVGame.screenCurrent = ScreenManager.ScreenDeath;
-		}
+            TBoGVGame.screenCurrent = ScreenManager.ScreenDeath;
+        }
         player.LevelChanged = true;
         player.IsPlaying = true;
     }
     void Revive()
     {
-        deathMenu.Active = false;
+        activeMenu = null;
         player.Heal(3);
         player.LastRecievedDmgElapsed = 0;
     }
-}
-
-public enum ShopState : int
-{
-    CLOSE,
-    SARKA,
-    PERLOUN,
+    public void OpenShop(ShopTypes shop)
+    {
+        activeMenu = shop switch
+        {
+            ShopTypes.SARKA => new InGameMenuShop(_viewport, player, ShopTypes.SARKA),
+            ShopTypes.PERLOUN => new InGameMenuShop(_viewport, player, ShopTypes.PERLOUN),
+            _ => throw new Exception("No shop provided"),
+        };
+    }
 }

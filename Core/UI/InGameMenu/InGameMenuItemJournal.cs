@@ -10,9 +10,9 @@ namespace TBoGV;
 class InGameMenuItemJournal : InGameMenu
 {
 	private static Viewport Viewport;
-	private static SpriteFont MiddleFont;
-	private static SpriteFont LargerFont;
-	private static Texture2D JournalBackground;
+	private static SpriteFont MiddleFont = FontManager.GetFont("Arial12");
+	private static SpriteFont LargerFont = FontManager.GetFont("Arial16");
+	private static Texture2D JournalBackground = TextureManager.GetTexture("blackSquare");
 	private static Texture2D TooltipTexture;  // Tooltip background texture
 
 	// All the item objects that we want to show in the journal.
@@ -38,15 +38,11 @@ class InGameMenuItemJournal : InGameMenu
 	public InGameMenuItemJournal(Viewport viewport)
 	{
 		Viewport = viewport;
-		JournalBackground = TextureManager.GetTexture("blackSquare");
 		TooltipTexture = TextureManager.GetTexture("blackSquare");
-		MiddleFont = FontManager.GetFont("Arial12");
-		LargerFont = FontManager.GetFont("Arial16");
 
-		// Create and add all item instances
 		AddAllItems();
 
-		Active = false;
+		ShowAll();
 	}
 
 	private void AddAllItems()
@@ -94,9 +90,6 @@ class InGameMenuItemJournal : InGameMenu
 	public override void Update(Viewport viewport, Player player, MouseState mouseState, KeyboardState keyboardState, double dt)
 	{
 		base.Update(viewport, player, mouseState, keyboardState, dt);
-
-		if (!Active)
-			return;
 
 		UpdateKnownItems(player.Inventory.ItemContainers);
 
@@ -149,9 +142,6 @@ class InGameMenuItemJournal : InGameMenu
 
 	public override void Draw(SpriteBatch spriteBatch)
 	{
-		if (!Active)
-			return;
-
 		base.Draw(spriteBatch);
 
 		// 1) Measure items to find the largest item width/height
@@ -267,15 +257,5 @@ class InGameMenuItemJournal : InGameMenu
 			sb.AppendLine($"{displayName}: {valueString}");
 		}
 		return sb.ToString();
-	}
-
-	public void OpenMenu()
-	{
-		Active = true;
-	}
-
-	private void ResetJournal()
-	{
-		Active = false;
 	}
 }

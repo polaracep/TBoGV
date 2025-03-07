@@ -27,7 +27,7 @@ public static class Storyline
 		/*
         LevelList = [
             new Level(p, [
-                new RoomHallway(new Vector2(5), p),
+                new RoomShower(new Vector2(10), p),
             ], new RoomStart(p), new RoomHallway(p), 3)
         ];
         */

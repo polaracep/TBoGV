@@ -21,7 +21,7 @@ class EntityPerloun : EntityPassive, IInteractable
             return;
 
         ScreenGame sg = (ScreenGame)c;
+        sg.OpenShop(ShopTypes.PERLOUN);
 
-        sg.openShop = ShopState.PERLOUN;
     }
 }

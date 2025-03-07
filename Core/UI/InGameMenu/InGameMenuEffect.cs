@@ -5,7 +5,6 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework;
 using System.Text;
-using System.Security.AccessControl;
 namespace TBoGV;
 
 public class InGameMenuEffect : InGameMenu
@@ -21,7 +20,7 @@ public class InGameMenuEffect : InGameMenu
 	private Button settingsButton;
 	private Button saveButton;
 
-	public InGameMenuEffect(Viewport viewport, Player player)
+	public InGameMenuEffect(Player player)
 	{
 		SpriteBackground = TextureManager.GetTexture("blackSquare");
 		MiddleFont = FontManager.GetFont("Arial12");
@@ -39,7 +38,6 @@ public class InGameMenuEffect : InGameMenu
 		{
 			player.Save(SaveType.USER);
 		});
-		Active = false;
 	}
 	public override void Update(Viewport viewport, Player player, MouseState mouseState, KeyboardState keyboardState, double dt)
 	{

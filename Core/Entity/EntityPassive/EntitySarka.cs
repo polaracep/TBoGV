@@ -21,7 +21,6 @@ class EntitySarka : EntityPassive, IInteractable
             return;
 
         ScreenGame sg = (ScreenGame)c;
-
-        sg.openShop = ShopState.SARKA;
+        sg.OpenShop(ShopTypes.SARKA);
     }
 }
