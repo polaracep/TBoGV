@@ -58,6 +58,7 @@ class InGameMenuLevelUp : InGameMenu
                     player.LevelUpStats[statOption] += 1;
                 else
                     player.LevelUpStats[statOption] = 1;
+				CloseMenu.Invoke();
             }));
         }
         foreach (var b in buttons)
