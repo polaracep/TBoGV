@@ -21,7 +21,7 @@ class BossMaturita : EnemyBoss
 
     public override bool IsDead()
     {
-        return true;
+        return false;
     }
 
     protected override void InitStats(int difficulty)
@@ -41,4 +41,5 @@ class BossMaturita : EnemyBoss
     public override void Draw(SpriteBatch spriteBatch)
     {
     }
+
 }

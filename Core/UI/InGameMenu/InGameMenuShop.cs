@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Xna.Framework;
@@ -16,13 +16,10 @@ public class InGameMenuShop : InGameMenu
 
     // The three items currently offered in the shop.
     private List<ShopItem> currentShopItems = new List<ShopItem>();
+	private List<ButtonImage> Buttons = new List<ButtonImage>();
 
-    // Rectangles representing the clickable areas for the 3 boxes.
-    private Rectangle[] boxBounds = new Rectangle[3];
-    private int hoveredBox = -1;
-    private MouseState previousMouseState;
     private KeyboardState previousKeyboardState;
-    // private ShopState prevShopState = ShopState.SARKA;
+
     private static ShopBase ActiveShop = null;
     private Player player;
     private static int resetCount = 0;
@@ -40,7 +37,7 @@ public class InGameMenuShop : InGameMenu
 
         SpriteBackground = TextureManager.GetTexture("blackSquare");
 
-        ButtonReroll = new ButtonImage("$1", FontManager.GetFont("Arial12"), () =>
+        ButtonReroll = new ButtonImage("  1¢", FontManager.GetFont("Arial12"), () =>
         {
             if (player.Coins < 1)
                 return;
@@ -50,7 +47,9 @@ public class InGameMenuShop : InGameMenu
             player.Coins--;
         }, TextureManager.GetTexture("reroll"), ImageOrientation.LEFT);
 
-        OpenShop();
+		ButtonReroll.SetTextColor(Color.Yellow);
+		ButtonReroll.SetSize(new Vector2(160, ButtonReroll.GetRect().Height));
+		OpenShop();
     }
 
     public static void ResetShop()
@@ -61,6 +60,7 @@ public class InGameMenuShop : InGameMenu
     }
     public void OpenShop()
     {
+		Buttons.Clear();
         // if there's something in the cache, use it
         if (ActiveShop.GetCachedItems().Count != 0)
             currentShopItems = ActiveShop.GetCachedItems();
@@ -76,6 +76,48 @@ public class InGameMenuShop : InGameMenu
 
             ActiveShop.SetCachedItems(currentShopItems);
         }
+		foreach (var item in currentShopItems)
+		{
+			Buttons.Add(new ButtonImage(Convert.ToString(item.Price) + "c", MiddleFont, () =>
+			{
+				// "Purchase" the item: add it to the player's inventory.
+				if (player.Coins < item.Price)
+					return;
+
+				ShopItem itemClone = item.Clone();
+				ItemContainerable itemToDrop = null;
+				if (!player.Inventory.PickUpItem(itemClone.Item))
+					itemToDrop = (player.Inventory.SwapItem(itemClone.Item));
+				float hp = player.Hp;
+				player.SetStats();
+				if (player.MaxHp <= 0)
+				{
+					player.Inventory.AddEffect(new EffectCloseCall());
+					player.Inventory.RemoveItem(itemClone.Item);
+					if (itemToDrop != null)
+						player.Inventory.PickUpItem(itemToDrop);
+					player.Hp = hp;
+					player.SetStats();
+				}
+				else
+				{
+					if (itemToDrop != null)
+					{
+						itemToDrop.InitMovement();
+						player.Drop(itemToDrop);
+					}
+					player.Coins -= itemClone.Price;
+					ActiveShop.GetCachedItems().Remove(item);
+				}
+
+				CloseMenu.Invoke();
+			}, item.Item.GetSprite(),ImageOrientation.TOP));
+		}
+		foreach (var b in Buttons)
+		{
+			b.SetTextColor(Color.Yellow);
+			b.SetSize(new Vector2(100,100));
+		}
     }
 
     public override void Update(Viewport viewport, Player player, MouseState mouseState, KeyboardState keyboardState, double dt)
@@ -89,106 +131,50 @@ public class InGameMenuShop : InGameMenu
             return;
         }
 
-        hoveredBox = -1; // Reset hover state.
-
-        Point mousePos = mouseState.Position;
-        for (int i = 0; i < currentShopItems.Count; i++)
-        {
-            if (boxBounds[i].Contains(mousePos))
-            {
-                hoveredBox = i;
-                // Check for a click (release after press).
-                if (previousMouseState.LeftButton == ButtonState.Pressed &&
-                    mouseState.LeftButton == ButtonState.Released)
-                {
-                    // "Purchase" the item: add it to the player's inventory.
-                    if (player.Coins < currentShopItems[i].Price)
-                        return;
-
-                    ShopItem itemClone = currentShopItems[i].Clone();
-                    ItemContainerable itemToDrop = null;
-                    if (!player.Inventory.PickUpItem(itemClone.Item))
-                        itemToDrop = (player.Inventory.SwapItem(itemClone.Item));
-                    float hp = player.Hp;
-                    player.SetStats();
-                    if (player.MaxHp <= 0)
-                    {
-                        player.Inventory.AddEffect(new EffectCloseCall());
-                        player.Inventory.RemoveItem(itemClone.Item);
-                        if (itemToDrop != null)
-                            player.Inventory.PickUpItem(itemToDrop);
-                        player.Hp = hp;
-                        player.SetStats();
-                    }
-                    else
-                    {
-                        if (itemToDrop != null)
-                            player.Drop(itemToDrop);
-                        player.Coins -= itemClone.Price;
-                        ActiveShop.GetCachedItems().Remove(currentShopItems[i]);
-                    }
-                    CloseMenu.Invoke();
-                    return;
-                }
-            }
-        }
         if (ActiveShop is ShopSarka && resetCount < maxResetCount)
             ButtonReroll.Update(mouseState);
-        previousMouseState = mouseState;
+		foreach (var b in Buttons)
+			b.Update(mouseState);
+		
         previousKeyboardState = keyboardState;
     }
 
-    public override void Draw(SpriteBatch spriteBatch)
-    {
-        base.Draw(spriteBatch);
+	public override void Draw(SpriteBatch spriteBatch)
+	{
+		base.Draw(spriteBatch);
 
-        // Layout the 3 boxes horizontally centered.
-        int boxWidth = 100;    // Fixed width for each shop box.
-        int boxHeight = 100;   // Fixed height for each shop box.
-        int spacing = 20;      // Space between boxes.
-        int totalWidth = ActiveShop.ItemCount * boxWidth + ActiveShop.ItemCount - 1 * spacing;
-        int startX = (Viewport.Width - totalWidth) / 2;
-        int posY = (Viewport.Height - boxHeight) / 2;
+		int totalWidth = 0;
+		int boxHeight = 0;
 
-        for (int i = 0; i < currentShopItems.Count; i++)
-        {
-            int boxX = startX + i * (boxWidth + spacing);
-            Rectangle boxRect = new Rectangle(boxX, posY, boxWidth, boxHeight);
-            boxBounds[i] = boxRect;
 
-            // Draw the box background; change color if hovered.
-            Color boxColor = (hoveredBox == i) ? Color.Gray * 0.8f : Color.Black * 0.5f;
-            spriteBatch.Draw(SpriteBackground, boxRect, boxColor);
 
-            // Draw the item centered in the box.
-            ShopItem shopItem = currentShopItems[i];
-            Vector2 itemSize = shopItem.Item.Size;
-            Vector2 itemPos = new Vector2(
-                boxRect.X + (boxWidth - itemSize.X) / 2,
-                boxRect.Y + (boxHeight - itemSize.Y) / 2 - 10  // Slightly upward to leave room for price
-            );
-            shopItem.Item.Position = itemPos;
-            shopItem.Item.Draw(spriteBatch);
+		for (int i = 0; i < Buttons.Count; i++)
+		{
+			totalWidth += Buttons[i].GetRect().Width;
+			boxHeight = Math.Max(boxHeight, Buttons[i].GetRect().Height);
+		}
+		totalWidth += (Buttons.Count - 1) * 20;
+		int startX = (Viewport.Width - totalWidth) / 2;
+		int posY = (Viewport.Height - boxHeight) / 2;
 
-            // Draw the price text below the item.
-            string priceText = $"${shopItem.Price}";
-            Vector2 priceSize = MiddleFont.MeasureString(priceText);
-            Vector2 pricePos = new Vector2(
-                boxRect.X + (boxWidth - priceSize.X) / 2,
-                boxRect.Y + boxHeight - priceSize.Y - 5
-            );
-            spriteBatch.DrawString(MiddleFont, priceText, pricePos, Color.Yellow);
-        }
+		for (int i = 0; i < Buttons.Count; i++)
+		{
+			Buttons[i].Position = new Vector2(startX, posY);
+			Buttons[i].Draw(spriteBatch);
+			startX += Buttons[i].GetRect().Width + 20;
+		}
 
-        // Reroll button placement
-        int buttonX = (Viewport.Width - ButtonReroll.GetRect().Width) / 2;
-        int buttonY = posY + boxHeight + 20;  // Positioned below the shop boxes
-        if (ActiveShop is ShopSarka && resetCount < maxResetCount)
-        {
-            ButtonReroll.Position = new Vector2(buttonX, buttonY);
-            ButtonReroll.Draw(spriteBatch);
-        }
-    }
+
+		// Reroll button placement
+		if (ActiveShop is ShopSarka && resetCount < maxResetCount)
+		{
+			int buttonX = (Viewport.Width - ButtonReroll.GetRect().Width) / 2;
+			int buttonY = posY + boxHeight + 20;
+			ButtonReroll.Position = new Vector2(buttonX, buttonY);
+			ButtonReroll.Draw(spriteBatch);
+		} 
+	
+	}
 
 }
 
