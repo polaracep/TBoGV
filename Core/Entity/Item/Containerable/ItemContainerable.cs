@@ -18,8 +18,30 @@ public abstract class ItemContainerable : Item
 	public bool IsKnown = true;
 	public override void Interact(Entity e, Place p)
 	{
+		ItemContainerable itemToDrop = null;
 		if (!p.player.Inventory.PickUpItem(this))
-			p.Drops.Add(p.player.Inventory.SwapItem(this));
+			itemToDrop = (p.player.Inventory.SwapItem(this));
+		float hp = p.player.Hp;
+		p.player.SetStats();
+		if (p.player.MaxHp <= 0)
+		{
+			p.player.Inventory.AddEffect(new EffectCloseCall());
+			p.player.Inventory.RemoveItem(this);
+			if (itemToDrop != null)
+				p.player.Inventory.PickUpItem(itemToDrop);
+			p.player.Hp = hp;
+			p.player.SetStats();
+			p.player.Drop(this);
+			InitMovement();
+		}
+		else
+		{
+			if (itemToDrop != null)
+			{
+				itemToDrop.InitMovement();
+				p.player.Drop(itemToDrop);
+			}
+		}
 	}
 	public virtual int GetCost()
 	{

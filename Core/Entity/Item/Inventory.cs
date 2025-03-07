@@ -259,24 +259,36 @@ public class Inventory
 		);
 		spriteBatch.DrawString(MiddleFont, stats, statsPosition, Color.LightCyan);
 	}
-	public ItemContainerable DropItem(Vector2 position)
+	public ItemContainerable DropItem(Vector2 position, Player player)
 	{
 		if(ItemContainers[selectedItemIndex].IsEmpty())
 			return null;
 		var item = ItemContainers[selectedItemIndex].Item;
-		item.Position = position;
-		item.InitMovement();
+		float hp = player.Hp;
 		ItemContainers[selectedItemIndex].Item = null;
+		player.SetStats();
+		if (player.MaxHp <= 0)
+		{
+			player.Inventory.AddEffect(new EffectCloseCall());
+			player.Hp = hp;
+			ItemContainers[selectedItemIndex].Item = item;
+			player.SetStats();
+		}
+		else
+		{
+			item.Position = position;
+			item.InitMovement();
+		}
         return item;
-    }
-    public List<ItemContainerable> DropAllItems(Vector2 position)
+	}
+    public List<ItemContainerable> DropAllItems(Vector2 position, Player player)
     {
 		int selectedTmp = selectedItemIndex;
 		List<ItemContainerable> items = new List<ItemContainerable>();
 		for (int i = 0; i < ItemContainers.Count; i++)
 		{
 			selectedItemIndex = i;
-			var item = DropItem(position);
+			var item = DropItem(position, player);
 			if(item != null)
 				items.Add(item);
 		}

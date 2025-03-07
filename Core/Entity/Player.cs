@@ -228,13 +228,13 @@ public class Player : Entity, IRecieveDmg, IDealDmg
 		}
 		if (keyboardState.IsKeyDown(Keys.Q))
 		{
-			var item = Inventory.DropItem(Position + Size / 2);
+			var item = Inventory.DropItem(Position + Size / 2, this);
 			if (item != null)
 				place.Drops.Add(item);
 		}
 		if (keyboardState.IsKeyDown(Keys.Q) && keyboardState.IsKeyDown(Keys.LeftShift))
 		{
-			var items = Inventory.DropAllItems(Position + Size / 2);
+			var items = Inventory.DropAllItems(Position + Size / 2, this);
 			foreach (var item in items)
 				place.Drops.Add(item);
 		}

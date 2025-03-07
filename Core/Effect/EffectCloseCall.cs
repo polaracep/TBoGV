@@ -16,7 +16,7 @@ class EffectCloseCall : Effect
         Stats = new Dictionary<StatTypes, int>() { { StatTypes.MOVEMENT_SPEED, -666 }};
         Effects = new List<EffectTypes>();
         Level = 0;
-        LevelCap = 4;
+        LevelCap = 1;
         ChangeLevel(level);
         // Get original sprite dimensions
         float originalWidth = Sprite.Width;
@@ -30,7 +30,6 @@ class EffectCloseCall : Effect
     public override void ChangeLevel(int delta)
     {
         Level += delta;
-        effectTime += delta * 400;
         EnsureLevelCap();
         UpdateSize();
     }
