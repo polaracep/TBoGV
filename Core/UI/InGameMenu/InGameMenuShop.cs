@@ -55,7 +55,8 @@ public class InGameMenuShop : InGameMenu
 
     public static void ResetShop()
     {
-        ActiveShop.ClearCache();
+        if (ActiveShop != null)
+            ActiveShop.ClearCache();
         resetCount = 0;
     }
     public void OpenShop()

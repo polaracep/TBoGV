@@ -141,11 +141,11 @@ public class TileExit : Tile, IInteractable
     }
     public TileExit() : this(0f, SpriteEffects.None) { }
 
-    public void Interact(Entity e, Place p)
+    public void Interact(Entity e, Place _)
     {
         if (e is not Player)
             return;
-        Player pl = (Player)e;
+        Player p = (Player)e;
 
         // we're coming to an end!!!
         if (Storyline.CurrentLevelNumber == Storyline.LevelList.Count)
@@ -154,8 +154,10 @@ public class TileExit : Tile, IInteractable
             Storyline.End();
         }
 
-        pl.ReturnToLobby();
-        pl.Inventory.RemoveEffect(new EffectFyjalovaDrahota(1));
+        // return to lobby
+        p.LevelChanged = true;
+        p.Position = new Lobby(p).SpawnPos;
+        p.Inventory.RemoveEffect(new EffectFyjalovaDrahota(1));
     }
 }
 public class TileStart : Tile, IInteractable
@@ -261,7 +263,7 @@ public class TileFridge : Tile, IInteractable
             var existingEffect = p.Inventory.Effects.FirstOrDefault(effect => effect is EffectCooked);
             if ((existingEffect != null || p.Hp < p.MaxHp) && p.Coins >= 1)
             {
-                if(existingEffect != null)
+                if (existingEffect != null)
                     p.Inventory.AddEffect(new EffectCooked(-3));
                 p.Heal(1);
                 p.Coins -= 1;

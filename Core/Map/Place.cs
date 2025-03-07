@@ -49,6 +49,10 @@ public abstract class Place : IDraw
     public Player player;
 
     /// <summary>
+    /// Default player spawn position
+    /// </summary>
+    public Vector2 SpawnPos = Vector2.One;
+    /// <summary>
     /// Returns the left-top world position for any tile position
     /// </summary>
     /// <param name="coords"></param>

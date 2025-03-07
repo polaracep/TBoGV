@@ -12,44 +12,43 @@ public class Level
     public Room ActiveRoom { get; private set; }
     protected Vector2 ActiveRoomCoords;
     protected Player Player;
-	protected Vector2 StartRoomCoords;
+    protected Vector2 StartRoomCoords;
 
 
-	protected RoomStart StartRoom;
+    protected RoomStart StartRoom;
 
-	public Level(Player player, List<Room> roomList, RoomStart startRoom, Room endRoom, uint maxSize, Vector2 startRoomPos)
+    public Level(Player player, List<Room> roomList, RoomStart startRoom, Room endRoom, uint maxSize, Vector2 startRoomPos)
     {
         if (startRoomPos.X > maxSize || startRoomPos.Y > maxSize)
             throw new ArgumentOutOfRangeException("The startPos is not in the level");
         if (startRoom == null || endRoom == null)
             throw new ArgumentNullException();
-		StartRoom = startRoom;
+        StartRoom = startRoom;
 
+        Size = (int)maxSize;
+        RoomCount = roomList.Count + 2;
 
-		this.Size = (int)maxSize;
-        this.RoomCount = roomList.Count + 2;
-
-        this.Player = player;
+        Player = player;
 
         endRoom.IsEndRoom = true;
         LevelCreator lC = new LevelCreator(roomList, startRoom, endRoom, 7, startRoomPos);
-        this.RoomMap = lC.GenerateLevel(out startRoomPos);
-        this.ActiveRoom = this.RoomMap[(int)startRoomPos.X, (int)startRoomPos.Y];
-        this.ActiveRoomCoords = startRoomPos;
+        RoomMap = lC.GenerateLevel(out startRoomPos);
+        ActiveRoom = RoomMap[(int)startRoomPos.X, (int)startRoomPos.Y];
+        ActiveRoomCoords = startRoomPos;
 
         TileDoor.TileInteract += OnRoomChanged;
-        LevelCreator.PrintMap(this.RoomMap);
+        LevelCreator.PrintMap(RoomMap);
     }
 
     public Level(Player player, List<Room> roomList, RoomStart roomStart, Room roomBoss, uint maxSize) : this(player, roomList, roomStart, roomBoss, maxSize, new Vector2(maxSize) / 2) { }
-	private void OnRoomChanged(object sender, TileInteractEventArgs e)
+    private void OnRoomChanged(object sender, TileInteractEventArgs e)
     {
         // ten event projede proste tolikrat, kolik je levelu...
         // check, jestli se nachazime v tom levelu, ve kterym jsme ty dvere otevreli
-        if (this.ActiveRoom != e.Place)
+        if (ActiveRoom != e.Place)
             return;
 
-        if (this.ActiveRoom.Enemies.Count != 0)
+        if (ActiveRoom.Enemies.Count != 0)
             return;
 
         switch (e.Directions)
@@ -78,19 +77,19 @@ public class Level
         ActiveRoom.ClearProjectiles();
         Player.Position = e.OppositeDoor.DoorTpPosition * 50;
     }
-	public void Reset()
-	{
-		ActiveRoom = StartRoom;
-		ActiveRoomCoords = StartRoom.Position;
-		Player.Position = ActiveRoomCoords + new Vector2(50);
-		//foreach (var room in RoomMap)
-		//{
-		//	if (room != null)
-		//	{
-		//		room.Reset();
-		//	}
-		//}
-	}
+    public void Reset()
+    {
+        ActiveRoom = StartRoom;
+        ActiveRoomCoords = StartRoom.Position;
+        Player.Position = ActiveRoomCoords + new Vector2(50);
+        //foreach (var room in RoomMap)
+        //{
+        //	if (room != null)
+        //	{
+        //		room.Reset();
+        //	}
+        //}
+    }
 }
 
 public class LevelCreator

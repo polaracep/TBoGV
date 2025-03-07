@@ -231,7 +231,9 @@ public abstract class Room : Place
         {
             while (true)
             {
-                Vector2 spawnPos = new Vector2(Random.Shared.Next(50 * ((int)Dimensions.X - 2)) + 50, Random.Shared.Next(50 * ((int)Dimensions.Y - 2)) + 50);
+                Vector2 spawnPos = new Vector2(
+                    Random.Shared.Next(50 * ((int)Dimensions.X - 3)) + 50,
+                    Random.Shared.Next(50 * ((int)Dimensions.Y - 3)) + 50);
 
                 if (Doors.Any(d => ((d.DoorTpPosition * 50) - spawnPos).Length() < 100))
                     continue;

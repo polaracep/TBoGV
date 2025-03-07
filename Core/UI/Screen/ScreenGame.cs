@@ -122,6 +122,7 @@ public class ScreenGame : Screen
             }
             InGameMenuShop.ResetShop();
             player.LevelChanged = false;
+            player.Position = activePlace.SpawnPos * 50;
         }
 
 

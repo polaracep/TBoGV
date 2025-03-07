@@ -226,20 +226,20 @@ public class Player : Entity, IRecieveDmg, IDealDmg
 				place.Drops.Remove(place.Drops[i]);
 			}
 		}
-		if(keyboardState.IsKeyDown(Keys.Q))
+		if (keyboardState.IsKeyDown(Keys.Q))
 		{
 			var item = Inventory.DropItem(Position + Size / 2);
-			if(item != null)
+			if (item != null)
 				place.Drops.Add(item);
 		}
-        if (keyboardState.IsKeyDown(Keys.Q) && keyboardState.IsKeyDown(Keys.LeftShift))
-        {
-            var items = Inventory.DropAllItems(Position + Size / 2);
-            foreach (var item in items)
-                place.Drops.Add(item);
-        }
+		if (keyboardState.IsKeyDown(Keys.Q) && keyboardState.IsKeyDown(Keys.LeftShift))
+		{
+			var items = Inventory.DropAllItems(Position + Size / 2);
+			foreach (var item in items)
+				place.Drops.Add(item);
+		}
 
-        Inventory.Update(viewport, this, mouseState, dt);
+		Inventory.Update(viewport, this, mouseState, dt);
 
 		// Calculate the direction from the player to the world mouse position
 		Vector2 screenMousePos = new Vector2(mouseState.X, mouseState.Y);
@@ -354,11 +354,11 @@ public class Player : Entity, IRecieveDmg, IDealDmg
 		}
 		if (Inventory.GetEffect().Contains(EffectTypes.LIFE_STEAL))
 		{
-            Heal(0.5f);
-            var existingEffect = Inventory.Effects.FirstOrDefault(effect => effect is EffectCooked);
-            if (existingEffect != null)
-                Inventory.AddEffect(new EffectCooked(-1));
-        }
+			Heal(0.5f);
+			var existingEffect = Inventory.Effects.FirstOrDefault(effect => effect is EffectCooked);
+			if (existingEffect != null)
+				Inventory.AddEffect(new EffectCooked(-1));
+		}
 	}
 	public int XpForLevel()
 	{
@@ -380,45 +380,41 @@ public class Player : Entity, IRecieveDmg, IDealDmg
 	{
 		return Sprite;
 	}
-
-	public void ReturnToLobby()
-	{
-		LevelChanged = true;
-		Position = Lobby.SpawnPos * 50;
-	}
 	public void Reset()
 	{
-        BaseStats = new Dictionary<StatTypes, float>()
-        {
-            { StatTypes.MAX_HP, 3 },
-            { StatTypes.DAMAGE, 1 },
-            { StatTypes.PROJECTILE_COUNT, 1 },
-            { StatTypes.XP_GAIN, 1 },
-            { StatTypes.ATTACK_SPEED, 1500 },
-            { StatTypes.MOVEMENT_SPEED, 5 }
-        };
-        LevelUpStats = new Dictionary<StatTypes, int>()
-        {
-            { StatTypes.MAX_HP, 0 },
-            { StatTypes.DAMAGE, 0 },
-            { StatTypes.PROJECTILE_COUNT, 0 },
-            { StatTypes.XP_GAIN, 0 },
-            { StatTypes.ATTACK_SPEED, 0 },
-            { StatTypes.MOVEMENT_SPEED, 0 }
-        };
+		BaseStats = new Dictionary<StatTypes, float>()
+		{
+			{ StatTypes.MAX_HP, 3 },
+			{ StatTypes.DAMAGE, 1 },
+			{ StatTypes.PROJECTILE_COUNT, 1 },
+			{ StatTypes.XP_GAIN, 1 },
+			{ StatTypes.ATTACK_SPEED, 1500 },
+			{ StatTypes.MOVEMENT_SPEED, 5 }
+		};
+		LevelUpStats = new Dictionary<StatTypes, int>()
+		{
+			{ StatTypes.MAX_HP, 0 },
+			{ StatTypes.DAMAGE, 0 },
+			{ StatTypes.PROJECTILE_COUNT, 0 },
+			{ StatTypes.XP_GAIN, 0 },
+			{ StatTypes.ATTACK_SPEED, 0 },
+			{ StatTypes.MOVEMENT_SPEED, 0 }
+		};
 
-        Level = 0;
-        Coins = 1;
-        ItemCapacity = 3;
-        Inventory = new();
-        SetStats();
-        Hp = MaxHp;
-        LastRecievedDmgElapsed = InvulnerabilityFrame;
-        Position = Lobby.SpawnPos * 50;
-    }
-    public class PlayerData
+		Level = 0;
+		Coins = 1;
+		ItemCapacity = 3;
+		Inventory = new();
+		SetStats();
+		Hp = MaxHp;
+		LastRecievedDmgElapsed = InvulnerabilityFrame;
+		// fuj
+		Position = new Lobby(this).SpawnPos * 50;
+
+	}
+	public class PlayerData
 	{
-		public int CurrentLevelNumber {  get; set; }
+		public int CurrentLevelNumber { get; set; }
 		public int Difficulty { get; set; }
 		public int Level { get; set; }
 		public float Xp { get; set; }
@@ -450,19 +446,19 @@ public class Player : Entity, IRecieveDmg, IDealDmg
 	}
 	public void Save(SaveType saveType)
 	{
-		List < ItemContainerData > containerData = new List < ItemContainerData > ();
+		List<ItemContainerData> containerData = new List<ItemContainerData>();
 		foreach (var i in Inventory.ItemContainers)
 			if (!i.IsEmpty())
-				containerData.Add(new ItemContainerData {ItemName =i.Item.Name, IsEmpty = false, Type = i.ContainerType });
+				containerData.Add(new ItemContainerData { ItemName = i.Item.Name, IsEmpty = false, Type = i.ContainerType });
 			else
 				containerData.Add(new ItemContainerData { ItemName = "null", IsEmpty = true, Type = i.ContainerType });
-		List<EffectData> EffectsData = new List < EffectData> ();
+		List<EffectData> EffectsData = new List<EffectData>();
 		foreach (var e in Inventory.Effects)
-			EffectsData.Add(new EffectData {Level = e.Level, Name = e.Name, Stats = StatConverter.ConvertToStringDictionary(e.Stats)});
+			EffectsData.Add(new EffectData { Level = e.Level, Name = e.Name, Stats = StatConverter.ConvertToStringDictionary(e.Stats) });
 
 		PlayerData data = new PlayerData
 		{
-			Position = new float[2]{ Position.X, Position.Y},
+			Position = new float[2] { Position.X, Position.Y },
 			Level = Level,
 			Xp = Xp,
 			Hp = Hp,
@@ -490,7 +486,7 @@ public class Player : Entity, IRecieveDmg, IDealDmg
 			LevelUpStats = StatConverter.ConvertToStatDictionary(data.LevelUpStats);
 			LastAttackElapsed = data.LastAttackElapsed;
 			LastRecievedDmgElapsed = data.LastRecievedDmgElapsed;
-			Storyline.CurrentLevelNumber = data.CurrentLevelNumber; 
+			Storyline.CurrentLevelNumber = data.CurrentLevelNumber;
 			Storyline.Difficulty = data.Difficulty;
 			// Restore Item Containers
 			Inventory.ItemContainers.Clear();
@@ -499,7 +495,7 @@ public class Player : Entity, IRecieveDmg, IDealDmg
 				if (!itemData.IsEmpty && itemData.ItemName != "null")
 				{
 					var item = ItemDatabase.GetItemByName(itemData.ItemName);
-					Inventory.ItemContainers.Add(new ItemContainer() { Item = item, ContainerType = itemData.Type});
+					Inventory.ItemContainers.Add(new ItemContainer() { Item = item, ContainerType = itemData.Type });
 				}
 				else
 				{

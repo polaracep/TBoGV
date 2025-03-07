@@ -7,11 +7,10 @@ using TBoGV;
 public class Lobby : Place
 {
     protected bool IsFyjala;
-    public static Vector2 SpawnPos;
     public Lobby(Player p)
     {
-        this.player = p;
-        this.Dimensions = new Vector2(15, 6);
+        player = p;
+        Dimensions = new Vector2(15, 6);
         SpawnPos = new Vector2(Dimensions.X - 2, 2);
     }
 
