@@ -5,8 +5,8 @@
         ],
         "1": {
             "question": "59. Místo je nádherný výsledek.",
-            "Děkuji": "a",
-            "pěkně nahovno": "b"
+            "Děkuji": "",
+            "No to je výsledek pěkně nahovno": "a"
         },
         "2": [
             "Zde je tutorial, jak se pohybovat po škole:"
@@ -14,10 +14,7 @@
     },
     "choices": {
         "a": [
-            "super"
-        ],
-        "b": [
-            "jseš debil teda",
+            "To já vím, ale ze zdvořilosti to říct nemůžu.",
             1
         ]
     }

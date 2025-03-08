@@ -29,6 +29,8 @@ public class Dialogue
 
     public void Respond(string choice)
     {
+        if (choice == "")
+            return;
         JsonElement selected = root.GetProperty("choices").GetProperty(choice);
         if (selected.ValueKind != JsonValueKind.Array)
             throw new Exception("The response has to be an array");
@@ -78,17 +80,8 @@ public class Dialogue
 
     public bool Advance()
     {
-        DialogueElement element;
-        try
-        {
-            element = dialogue[index];
-        }
-        catch
-        {
-            return false;
-        }
         index++;
-        return true;
+        return index < dialogue.Count;
     }
 
 

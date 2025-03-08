@@ -117,7 +117,11 @@ public class InGameMenuDialogue : InGameMenu
     protected void AdvanceDialogue()
     {
         choiceButtons.Clear();
-        dialogue.Advance();
+        if (!dialogue.Advance())
+        {
+            CloseMenu.Invoke();
+            return;
+        }
 
         var element = dialogue.CurrentElement;
 
