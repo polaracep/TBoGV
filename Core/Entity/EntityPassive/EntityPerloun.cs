@@ -4,10 +4,11 @@ using TBoGV;
 
 class EntityPerloun : EntityPassive, IInteractable
 {
-    public EntityPerloun(Vector2 position) : base(position)
+    private const string NAME = "Perloun";
+    public EntityPerloun(Vector2 position) : base(position, NAME)
     {
     }
-    public EntityPerloun() : base() { }
+    public EntityPerloun() : base(NAME) { }
 
     public override Texture2D GetSprite()
     {

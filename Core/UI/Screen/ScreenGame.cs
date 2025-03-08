@@ -205,6 +205,10 @@ public class ScreenGame : Screen
         {
             activePlace.Enemies.Clear();
         }
+        if (keyboardState.IsKeyDown(Keys.O) && previousKeyboardState.IsKeyUp(Keys.O) && activeMenu == null)
+        {
+            activeMenu = new InGameMenuDialogue(_viewport, new EntitySarka());
+        }
 #endif
 
     }

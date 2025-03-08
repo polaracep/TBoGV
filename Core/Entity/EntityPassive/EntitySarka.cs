@@ -4,10 +4,9 @@ using TBoGV;
 
 class EntitySarka : EntityPassive, IInteractable
 {
-    public EntitySarka(Vector2 position) : base(position)
-    {
-    }
-    public EntitySarka() : base() { }
+    private const string NAME = "Šárka";
+    public EntitySarka(Vector2 position) : base(NAME) { }
+    public EntitySarka() : base(NAME) { }
 
     public override Texture2D GetSprite()
     {
@@ -23,4 +22,5 @@ class EntitySarka : EntityPassive, IInteractable
         ScreenGame sg = (ScreenGame)c;
         sg.OpenShop(ShopTypes.SARKA);
     }
+
 }

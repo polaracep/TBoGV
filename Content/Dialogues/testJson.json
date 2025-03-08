@@ -1,3 +1,24 @@
 {
-    
+    "story": {
+        "0": [
+            "Vítej na gymvodu! Gratuluji za úspěšné složení přjmacích zkoušek.",
+            "59. Místo je nádherný výsledek."
+        ],
+        "1": {
+            "Děkuji": "a",
+            "pěkně nahovno": "b"
+        },
+        "2": [
+            "Zde je tutorial, jak se pohybovat po škole:"
+        ]
+    },
+    "choices": {
+        "a": [
+            "super"
+        ],
+        "b": [
+            "jseš debil teda",
+            1
+        ]
+    }
 }

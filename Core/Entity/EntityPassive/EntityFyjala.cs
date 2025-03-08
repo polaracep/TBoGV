@@ -4,10 +4,11 @@ using TBoGV;
 
 class EntityFyjala : EntityPassive
 {
-	public EntityFyjala(Vector2 position) : base(position)
+	const string NAME = "Pert Fyjala";
+	public EntityFyjala(Vector2 position) : base(position, NAME)
 	{
 	}
-	public EntityFyjala() : base() { }
+	public EntityFyjala() : base(NAME) { }
 
 	public override Texture2D GetSprite()
 	{
