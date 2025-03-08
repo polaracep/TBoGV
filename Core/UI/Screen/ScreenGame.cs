@@ -52,6 +52,7 @@ public class ScreenGame : Screen
         }
         // MediaPlayer.Play(Song);
         MediaPlayer.Volume = (float)Settings.MusicVolume.GetValue();
+
     }
 
     public override void Draw(SpriteBatch _spriteBatch, GraphicsDeviceManager graphics)
@@ -220,13 +221,13 @@ public class ScreenGame : Screen
         player.Load(SaveType.AUTO);
         Storyline.FailedTimes++;
         Storyline.ResetLevel();
+        InGameMenuShop.ResetShop();
 
         if (Storyline.FailedTimes >= 3)
         {
             FileHelper.ResetSaves();
             Storyline.ResetStoryline();
             Storyline.CurrentLevelNumber = 0;
-            InGameMenuShop.ResetShop();
             player.Reset();
             lobby.Reset();
             TBoGVGame.screenCurrent = ScreenManager.ScreenDeath;

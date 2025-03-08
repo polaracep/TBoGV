@@ -1,13 +1,19 @@
+using System.Text.Json;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using TBoGV;
 
 public class InGameMenuDialogue : InGameMenu
 {
-
-    public InGameMenuDialogue(Texture2D LeftSprite, Texture2D RightSprite)
+    JsonElement currentDialogue;
+    public InGameMenuDialogue(string dialogueName, Texture2D LeftSprite, Texture2D RightSprite)
     {
+        currentDialogue = DialogueManager.GetDialogue(dialogueName).RootElement;
 
+        foreach (var item in currentDialogue.EnumerateArray())
+        {
+
+        }
     }
 
     public override void Update(Viewport viewport, Player player, MouseState mouseState, KeyboardState keyboardState, double dt)

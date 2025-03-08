@@ -4,6 +4,7 @@ public interface ISetting
 {
     public string Name { get; }
     public object GetValue();
+    public void SetValue(object val);
 }
 public class Setting<T> : ISetting
 {
@@ -20,6 +21,11 @@ public class Setting<T> : ISetting
     public object GetValue()
     {
         return Value;
+    }
+
+    public void SetValue(object val)
+    {
+        Value = (T)val;
     }
 }
 public static class Settings

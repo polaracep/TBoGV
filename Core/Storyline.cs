@@ -34,13 +34,13 @@ public static class Storyline
         LevelList = [
             // L1
             new Level(p, [
-                //new RoomClassroom(p),
-                //new RoomClassroom(p),
-                //new RoomClassroom(p),
-                //new RoomHallway(p),
-                //new RoomHallway(p),
-                //new RoomShower(p)
-            ], new RoomStart(p), new RoomBossToilet(p), 3),
+                new RoomClassroom(p),
+                new RoomClassroom(p),
+                new RoomClassroom(p),
+                new RoomHallway(p),
+                new RoomHallway(p),
+                new RoomShower(p)
+            ], new RoomStart(p), new RoomBossSvarta(p), 3),
             // L2
             new Level(p, [
                 new RoomClassroom(p),

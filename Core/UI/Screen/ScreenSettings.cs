@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -11,7 +10,6 @@ public class ScreenSettings : Screen
 {
     private SpriteFont LargerFont = FontManager.GetFont("Arial16");
     private Button escapeButton;
-    private FieldInfo[] settings;
     private List<UIElement> settingElements = new List<UIElement>();
     public Screen LastScreen;
     private KeyboardState previousKeyboardState;
@@ -23,29 +21,28 @@ public class ScreenSettings : Screen
             Settings.Save();
             TBoGVGame.screenCurrent = LastScreen;
         });
+        var list = Settings.SettingsList;
 
-        Type type = typeof(Settings);
         // MemberInfo[] a = ;
-        settings = type.GetFields(BindingFlags.Public | BindingFlags.Static).ToArray();
-        int hp = v.Height / (settings.Length + 4); // Pad 2 top and 2 bottom
+        int hp = v.Height / (list.Count + 4); // Pad 2 top and 2 bottom
 
-        foreach (var (setting, index) in settings.Select((setting, index) => (setting, index)))
+        foreach (var (setting, index) in list.Select((setting, index) => (setting, index)))
         {
-            Type t = setting.GetValue(null).GetType();
+            Type t = setting.GetValue().GetType();
             if (t == typeof(bool))
             {
                 settingElements.Add(new Checkbox(setting.Name,
                     Vector2.Zero,
-                    (bool)setting.GetValue(null),
-                    x => setting.SetValue(null, x)));
+                    (bool)setting.GetValue(),
+                    x => setting.SetValue(x)));
             }
             else if (t == typeof(float))
             {
                 settingElements.Add(new Slider(0f, 1f,
-                    (float)setting.GetValue(null), v.Width / 10, 10,
+                    (float)setting.GetValue(), v.Width / 10, 10,
                     setting.Name,
                     LargerFont,
-                    x => setting.SetValue(null, x)));
+                    x => setting.SetValue(x)));
             }
 
         }
@@ -64,7 +61,7 @@ public class ScreenSettings : Screen
         int menuX = viewport.Width / 2;
         int menuY = viewport.Height / 2;
 
-        int settingsCount = settings.Length;
+        int settingsCount = Settings.SettingsList.Count;
 
         int hp = viewport.Height / (settingsCount + 4); // Pad 2 top and 2 bottom
 
