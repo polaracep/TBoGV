@@ -1,10 +1,10 @@
 {
     "story": {
         "0": [
-            "Vítej na gymvodu! Gratuluji za úspěšné složení přjmacích zkoušek.",
-            "59. Místo je nádherný výsledek."
+            "Vítej na gymvodu! Gratuluji za úspěšné složení přjmacích zkoušek."
         ],
         "1": {
+            "question": "59. Místo je nádherný výsledek.",
             "Děkuji": "a",
             "pěkně nahovno": "b"
         },

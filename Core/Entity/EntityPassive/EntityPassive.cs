@@ -8,6 +8,7 @@ public abstract class EntityPassive : Entity
     protected Texture2D Sprite;
     protected float Scale;
     public string Name;
+    public virtual Dialogue Dialogue { get; set; } = null;
     public EntityPassive(Vector2 position, string name)
     {
         Name = name;

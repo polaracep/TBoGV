@@ -1,5 +1,6 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -13,24 +14,29 @@ public class InGameMenuDialogue : InGameMenu
 
     private EntityPassive npc;
     private string npcText = "prdis";
-    private DialogueElement currentElement = null;
+    private Dialogue dialogue;
 
     // Menu buttons.
-    private readonly List<Button> buttons = new List<Button>();
+    private List<Button> choiceButtons = new List<Button>();
+    private Button nextButton;
 
     public InGameMenuDialogue(Viewport viewport, EntityPassive entity)
     {
         Viewport = viewport;
         npc = entity;
+        // dialogue = entity.Dialogue;
+        dialogue = new Dialogue();
 
         SpriteBackground = TextureManager.GetTexture("blackSquare");
 
-        // Create buttons with sample actions.
-        buttons.Add(new Button("", buttonFont, null));
-        buttons.Add(new Button("", buttonFont, null));
-        buttons.Add(new Button("", buttonFont, null));
+        nextButton = new Button("Dále", buttonFont, () => dialogue.Advance());
+
+        // choice buttons
+        choiceButtons.Add(new Button("", buttonFont, null));
+        choiceButtons.Add(new Button("", buttonFont, null));
+        choiceButtons.Add(new Button("", buttonFont, null));
         // Set a uniform size and text color for each button.
-        foreach (var button in buttons)
+        foreach (var button in choiceButtons)
         {
             button.SetSize(new Vector2(400, 50));
             button.SetTextColor(Color.White);
@@ -73,20 +79,42 @@ public class InGameMenuDialogue : InGameMenu
         spriteBatch.Draw(SpriteBackground, textBlockRect, new Color(0, 0, 0, 100));
         spriteBatch.DrawString(mainTextFont, npcText, mainTextPos, Color.White);
 
-        // Moznosti
         int buttonSpacing = 20;
-        // Calculate total height needed for the buttons.
-        int totalButtonsHeight = buttons.Sum(b => b.GetRect().Height) + (buttons.Count - 1) * buttonSpacing;
-        // Start drawing buttons at about mid-screen (adjust prcY value as needed).
-        float startY = prcY(60);
-
-        foreach (var button in buttons)
+        // jen pokud mame moznost odpovidat 
+        if (dialogue.CurrentElement.Choices == null)
         {
-            int buttonWidth = button.GetRect().Width;
-            float posX = (Viewport.Width - buttonWidth) / 2;
-            button.Position = new Vector2(posX, startY);
-            button.Draw(spriteBatch);
-            startY += button.GetRect().Height + buttonSpacing;
+            nextButton.Position = new Vector2(
+                (Viewport.Width - nextButton.GetRect().Width) / 2,
+                prcY(60) + nextButton.GetRect().Height + buttonSpacing);
+            nextButton.Draw(spriteBatch);
         }
+        else
+        {
+            // Calculate total height needed for the buttons.
+            int totalButtonsHeight = choiceButtons.Sum(b => b.GetRect().Height) + (choiceButtons.Count - 1) * buttonSpacing;
+            // Start drawing buttons at about mid-screen (adjust prcY value as needed).
+            float startY = prcY(60);
+
+            foreach (var button in choiceButtons)
+            {
+                int buttonWidth = button.GetRect().Width;
+                float posX = (Viewport.Width - buttonWidth) / 2;
+                button.Position = new Vector2(posX, startY);
+                button.Draw(spriteBatch);
+                startY += button.GetRect().Height + buttonSpacing;
+            }
+        }
+    }
+
+    public override void Update(Viewport viewport, Player player, MouseState mouseState, KeyboardState keyboardState, double dt)
+    {
+        base.Update(viewport, player, mouseState, keyboardState, dt);
+        if (npcText != dialogue.CurrentElement.Text && dialogue.CurrentElement.Text != null)
+            npcText = dialogue.CurrentElement.Text;
+
+        if (dialogue.CurrentElement.Choices == null)
+            nextButton.Update(mouseState);
+        else
+            choiceButtons.ForEach(b => b.Update(mouseState));
     }
 }

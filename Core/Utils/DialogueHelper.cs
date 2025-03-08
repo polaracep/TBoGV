@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using System.Linq;
-using System.Linq.Expressions;
 using System.Text.Json;
 using TBoGV;
 
@@ -13,6 +12,11 @@ public class Dialogue
 {
     protected JsonElement root = DialogueManager.GetDialogue("testJson").RootElement;
     protected List<DialogueElement> dialogue = [];
+    public DialogueElement CurrentElement
+    {
+        get => dialogue[index];
+        protected set => CurrentElement = value;
+    }
     protected int index = 0;
     public int Length { get; protected set; }
     public Dialogue()
@@ -37,13 +41,19 @@ public class Dialogue
             if (val.ValueKind == JsonValueKind.Object)
             {
                 Dictionary<string, string> pairs = [];
+                // get the question
+                JsonElement question = val.GetProperty("question");
+                // remove it 
+                val.EnumerateObject().ToList().RemoveAll(x => x.Name == "question");
+                // rest will be the options
                 val.EnumerateObject().ToList().ForEach(x => pairs.Add(x.Name, x.Value.GetString()));
-                dialogue.Add(new DialogueElement(pairs));
+
+                dialogue.Add(new DialogueElement(question.GetString(), pairs));
             }
         }
     }
 
-    public DialogueElement Advance()
+    public bool Advance()
     {
         DialogueElement element;
         try
@@ -52,10 +62,10 @@ public class Dialogue
         }
         catch
         {
-            return null;
+            return false;
         }
         index++;
-        return element;
+        return true;
     }
 
 
@@ -73,8 +83,9 @@ public class DialogueElement
     /// </summary>
     public Dictionary<string, string> Choices { get; protected set; }
 
-    public DialogueElement(Dictionary<string, string> choices)
+    public DialogueElement(string text, Dictionary<string, string> choices)
     {
+        Text = text;
         Choices = choices;
     }
     public DialogueElement(string text)

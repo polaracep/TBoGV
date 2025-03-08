@@ -5,6 +5,9 @@ using TBoGV;
 class EntityPerloun : EntityPassive, IInteractable
 {
     private const string NAME = "Perloun";
+
+    public override Dialogue Dialogue { get; set; }
+
     public EntityPerloun(Vector2 position) : base(position, NAME)
     {
     }
