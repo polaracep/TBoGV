@@ -268,7 +268,7 @@ public static class DialogueManager
     {
         List<string> names = new List<string>
         {
-            "testJson",
+            "intro",
         };
 
         foreach (string name in names)

@@ -14,10 +14,10 @@
 
 #---------------------------------- Content ---------------------------------#
 
-#begin Dialogues/testJson.json
+#begin Dialogues/intro.json
 /importer:JsonDocumentImporter
 /processor:JsonDocumentProcessor
-/build:Dialogues/testJson.json
+/build:Dialogues/intro.json
 
 #begin Fonts/Arial12.spritefont
 /importer:FontDescriptionImporter

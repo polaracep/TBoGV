@@ -5,6 +5,7 @@ using TBoGV;
 class EntitySarka : EntityPassive, IInteractable
 {
     private const string NAME = "Šárka";
+    public override Dialogue Dialogue { get; set; } = new DialogueIntro();
     public EntitySarka(Vector2 position) : base(NAME) { }
     public EntitySarka() : base(NAME) { }
 

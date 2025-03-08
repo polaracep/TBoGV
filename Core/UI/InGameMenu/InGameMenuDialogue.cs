@@ -1,6 +1,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -24,8 +25,10 @@ public class InGameMenuDialogue : InGameMenu
     {
         Viewport = viewport;
         npc = entity;
-        // dialogue = entity.Dialogue;
-        dialogue = new Dialogue();
+        if (entity.Dialogue == null)
+            throw new Exception("Entity has no dialogue!");
+
+        dialogue = entity.Dialogue;
 
         SpriteBackground = TextureManager.GetTexture("blackSquare");
 
@@ -106,16 +109,16 @@ public class InGameMenuDialogue : InGameMenu
             nextButton.Update(mouseState);
         else
         {
-            try
-            {
-                choiceButtons.ForEach(b => b.Update(mouseState));
-            }
-            catch { }
+            choiceButtons.ForEach(b => b.Update(mouseState));
+            if (shouldAdvance)
+                AdvanceDialogue();
         }
     }
+    bool shouldAdvance = false;
 
     protected void AdvanceDialogue()
     {
+        shouldAdvance = false;
         choiceButtons.Clear();
         if (!dialogue.Advance())
         {
@@ -135,7 +138,7 @@ public class InGameMenuDialogue : InGameMenu
                 choiceButtons.Add(new Button(t, buttonFont, () =>
                 {
                     dialogue.Respond(reference);
-                    AdvanceDialogue();
+                    shouldAdvance = true;
                 }));
                 choiceButtons.Last().SetSize(new Vector2(400, 50));
                 choiceButtons.Last().SetTextColor(Color.White);
