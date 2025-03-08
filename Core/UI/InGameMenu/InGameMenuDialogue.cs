@@ -29,18 +29,8 @@ public class InGameMenuDialogue : InGameMenu
 
         SpriteBackground = TextureManager.GetTexture("blackSquare");
 
-        nextButton = new Button("Dále", buttonFont, () => dialogue.Advance());
+        nextButton = new Button("Dále", buttonFont, () => AdvanceDialogue());
 
-        // choice buttons
-        choiceButtons.Add(new Button("", buttonFont, null));
-        choiceButtons.Add(new Button("", buttonFont, null));
-        choiceButtons.Add(new Button("", buttonFont, null));
-        // Set a uniform size and text color for each button.
-        foreach (var button in choiceButtons)
-        {
-            button.SetSize(new Vector2(400, 50));
-            button.SetTextColor(Color.White);
-        }
     }
 
     public override void Draw(SpriteBatch spriteBatch)
@@ -115,6 +105,43 @@ public class InGameMenuDialogue : InGameMenu
         if (dialogue.CurrentElement.Choices == null)
             nextButton.Update(mouseState);
         else
-            choiceButtons.ForEach(b => b.Update(mouseState));
+        {
+            try
+            {
+                choiceButtons.ForEach(b => b.Update(mouseState));
+            }
+            catch { }
+        }
+    }
+
+    protected void AdvanceDialogue()
+    {
+        choiceButtons.Clear();
+        dialogue.Advance();
+
+        var element = dialogue.CurrentElement;
+
+        if (element.Choices != null)
+        {
+            Dictionary<string, string> choices = dialogue.CurrentElement.Choices;
+            // choice buttons
+            // Set a uniform size and text color for each button.
+            foreach ((string t, string reference) in choices)
+            {
+                choiceButtons.Add(new Button(t, buttonFont, () =>
+                {
+                    dialogue.Respond(reference);
+                    AdvanceDialogue();
+                }));
+                choiceButtons.Last().SetSize(new Vector2(400, 50));
+                choiceButtons.Last().SetTextColor(Color.White);
+            }
+            return;
+        }
+        if (element.Action != null)
+        {
+            element.Action.Invoke();
+            AdvanceDialogue();
+        }
     }
 }
