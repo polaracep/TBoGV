@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -36,6 +37,10 @@ public abstract class Tile : ICloneable
     {
         return MemberwiseClone();
     }
+	public virtual void Draw(SpriteBatch spriteBatch, Vector2 position)
+	{
+		spriteBatch.Draw(Sprite, position, null, Color.White, Rotation, new Vector2(25,25),1f,SpriteEffects,0f);
+	}
 }
 
 public class TileFloor : Tile
@@ -225,9 +230,13 @@ public class TileTreasure : Tile, IInteractable
 }
 public class TileShower : Tile, IInteractable
 {
+	Texture2D SpriteWater = TextureManager.GetTexture("showerWater");
+	double InteractElapsed = 1000;
+	double InteractDuration = 1000;
     public TileShower(float rotation, SpriteEffects fx) : base(false, rotation, fx)
     {
-        this.Sprite = TextureManager.GetTexture("showerClean");
+		List<string> spriteNames = new() { "showerClean", "showerPiss", "showerVomit", "showerRust" };	
+        this.Sprite = TextureManager.GetTexture(spriteNames[new Random().Next(spriteNames.Count)]);
     }
 
     public TileShower(float rotation) : this(0f, SpriteEffects.None) { }
@@ -245,8 +254,25 @@ public class TileShower : Tile, IInteractable
             existingEffect = p.Inventory.Effects.FirstOrDefault(effect => effect is EffectCooked);
             if (existingEffect != null)
                 p.Inventory.AddEffect(new EffectCooked(-1));
+			InteractElapsed = 0;
         }
     }
+	public override void Draw(SpriteBatch spriteBatch, Vector2 position)
+	{
+		spriteBatch.Draw(Sprite, position, null, Color.White, Rotation, new Vector2(25, 25), 1f, SpriteEffects, 0f);
+		if(IsAnimated())
+		{
+			spriteBatch.Draw(SpriteWater, position, null, Color.White, Rotation, new Vector2(25, 25), 1f, SpriteEffects, 0f);
+		}
+	}
+	public void Update(double dt)
+	{
+		InteractElapsed += dt;
+	}
+	public bool IsAnimated()
+	{
+		return InteractElapsed <= InteractDuration;
+	}
 }
 
 public class TileFridge : Tile, IInteractable

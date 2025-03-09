@@ -185,14 +185,14 @@ public abstract class Place : IDraw
                 if (t != null)
                 {
                     Vector2 origin = new Vector2(25, 25);
-                    spriteBatch.Draw(t.Sprite, new Vector2(i * Tile.GetSize().X, j * Tile.GetSize().Y) + origin, null, Color.White, t.Rotation, origin, 1f, t.SpriteEffects, 0f);
-                }
+					t.Draw(spriteBatch, new Vector2(i * Tile.GetSize().X, j * Tile.GetSize().Y) + origin);
+				}
                 t = Decorations[i, j];
                 if (t != null)
                 {
                     Vector2 origin = new Vector2(25, 25);
-                    spriteBatch.Draw(t.Sprite, new Vector2(i * Tile.GetSize().X, j * Tile.GetSize().Y) + origin, null, Color.White, t.Rotation, origin, 1f, t.SpriteEffects, 0f);
-                }
+					t.Draw(spriteBatch, new Vector2(i * Tile.GetSize().X, j * Tile.GetSize().Y) + origin);
+				}
             }
     }
 }

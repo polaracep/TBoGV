@@ -91,8 +91,16 @@ public abstract class Room : Place
                 Particles.Remove(Particles[i]);
         }
         UpdateDrops();
-    }
-    protected void UpdateDrops()
+		foreach (var t in Decorations)
+		{
+			if (t is TileShower shower)
+			{
+				shower.Update(dt);
+			}
+		}
+
+	}
+	protected void UpdateDrops()
     {
         foreach (var d in Drops)
             d.Update(this);

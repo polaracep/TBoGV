@@ -22,6 +22,7 @@ public static class TextureManager
             "showerPiss",
             "showerRust",
             "showerFloor",
+			"showerWater",
 
             // "floorHallway",
 
