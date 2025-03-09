@@ -223,8 +223,15 @@ public class ShopPerloun : Shop<ShopPerloun>
         new ItemDoping(),
         ];
 }
+public class ShopLocker : Shop<ShopLocker>
+{
+	public override List<ItemContainerable> ItemPool { get; set; } = ItemDatabase.GetAllItems().Where(x => x is not ItemDoping).ToList();
+	public override int ItemCount { get; protected set; } = 1;
+}
+
 public enum ShopTypes : int
 {
     SARKA,
     PERLOUN,
+	LOCKER,
 }
