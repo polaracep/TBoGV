@@ -13,6 +13,7 @@ public class DialogueIntro : Dialogue
             if (TBoGVGame.screenCurrent is ScreenGame)
             {
                 ScreenGame sg = (ScreenGame)TBoGVGame.screenCurrent;
+                sg.SendPlayerToTutorial();
             }
         });
 

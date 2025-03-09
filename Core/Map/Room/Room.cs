@@ -33,8 +33,7 @@ public abstract class Room : Place
     /// <summary>
     /// List of spawnable enemies
     /// </summary>
-    protected List<Enemy> EnemyPool = [];
-    public bool Peaceful = false;
+    protected List<Enemy> EnemyPool = new List<Enemy>();
     protected abstract List<Enemy> validEnemies { get; set; }
     protected Directions? direction = null;
 
@@ -207,9 +206,6 @@ public abstract class Room : Place
     protected abstract void GenerateEnemies();
     protected void GenerateEnemies(int roomWeight)
     {
-        if (Peaceful)
-            return;
-
         List<Enemy> chosenEnemies = new List<Enemy>();
         if (EnemyPool.Count == 0)
         {

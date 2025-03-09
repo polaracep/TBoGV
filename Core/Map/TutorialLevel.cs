@@ -12,9 +12,9 @@ public class TutorialLevel
         _player = player;
         TileDoor.TileInteract += OnRoomChanged;
         RoomMap = new Room[,]{
-            {new RoomClassroom(new Vector2(13), _player, [])},
-            {new RoomClassroom(new Vector2(9), _player, [])},
-            {new RoomClassroom(_player, [new EnemyCat(), new EnemySoldier()])},
+            {new TutorialRoom(new Vector2(13), _player, true, [])},
+            {new TutorialRoom(new Vector2(9), _player, true, [])},
+            {new TutorialRoom(_player, false, [new EnemyCat(), new EnemySoldier()])},
         };
 
         // tvorba dveri
@@ -29,8 +29,6 @@ public class TutorialLevel
         RoomMap[1, 0].Doors[1].OppositeDoor = RoomMap[2, 0].Doors[0];
         RoomMap[2, 0].Doors[0].OppositeDoor = RoomMap[1, 0].Doors[1];
 
-        RoomMap[0, 0].Peaceful = true;
-        RoomMap[1, 0].Peaceful = true;
         RoomMap[2, 0].IsEndRoom = true;
 
         // generate
