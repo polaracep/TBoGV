@@ -40,7 +40,7 @@ public static class Settings
         FixedCamera,
     ];
 
-    private static string settingsPath = "tbogv_settings.json";
+    private static string settingsPath = "./tbogv_settings.json";
 
     public static void Save()
     {

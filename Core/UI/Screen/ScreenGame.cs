@@ -35,7 +35,6 @@ public class ScreenGame : Screen
         player.Save(SaveType.AUTO);
 
         lobby = new Lobby(player);
-        activePlace = lobby;
 
         tutorial = new TutorialLevel(player);
 
@@ -57,6 +56,7 @@ public class ScreenGame : Screen
         // MediaPlayer.Play(Song);
         MediaPlayer.Volume = (float)Settings.MusicVolume.GetValue();
 
+        SendPlayerToLobby();
     }
 
     public override void Draw(SpriteBatch _spriteBatch, GraphicsDeviceManager graphics)
@@ -248,27 +248,39 @@ public class ScreenGame : Screen
         };
     }
 
+    public void OpenDialogue(EntityPassive entity) { OpenDialogue(entity.Dialogue, entity.Name, entity.GetSprite()); }
+    public void OpenDialogue(Dialogue dialogue, string name, Texture2D sprite)
+    {
+        activeMenu = new InGameMenuDialogue(_viewport, dialogue, name, sprite);
+    }
+
     public void SendPlayerToLobby()
     {
+        if (activePlace != null)
+            activePlace.OnExit();
         InTutorial = false;
         player.IsPlaying = false;
         activePlace = lobby;
         player.Position = lobby.SpawnPos * 50;
+        activePlace.OnEntry();
     }
-
     public void SendPlayerToLevel()
     {
+        activePlace.OnExit();
         player.IsPlaying = true;
         Storyline.NextLevel();
         activePlace = Storyline.CurrentLevel.ActiveRoom;
         player.Position = activePlace.SpawnPos * 50;
+        activePlace.OnEntry();
     }
-
     public void SendPlayerToTutorial()
     {
+        activePlace.OnExit();
         player.IsPlaying = true;
         InTutorial = true;
         activePlace = tutorial.ActiveRoom;
+        player.Position = activePlace.SpawnPos * 50;
+        activePlace.OnEntry();
     }
 
 }

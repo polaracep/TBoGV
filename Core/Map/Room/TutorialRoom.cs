@@ -6,14 +6,20 @@ using TBoGV;
 class TutorialRoom : RoomClassroom
 {
     private bool Peaceful = true;
-    public TutorialRoom(Vector2 dimensions, Player p, bool noEnemies, List<Entity> enemies) : this(p, noEnemies, enemies)
+    private bool PlayedDialogueStart = false;
+    private bool PlayedDialogueEnd = false;
+    private Dialogue DialogueStart;
+    private Dialogue DialogueEnd;
+    public TutorialRoom(Vector2 dimensions, Player p, bool noEnemies, List<Entity> enemies, Dialogue dialogueStart, Dialogue dialogueEnd)
+        : base(dimensions, p, enemies)
     {
+        DialogueStart = dialogueStart;
+        DialogueEnd = dialogueEnd;
+        Peaceful = noEnemies;
         Dimensions = dimensions;
     }
-    public TutorialRoom(Player p, bool noEnemies, List<Entity> enemies) : base(p, enemies)
-    {
-        Peaceful = noEnemies;
-    }
+    public TutorialRoom(Vector2 dimensions, Player p, bool noEnemies, Dialogue dialogueStart, Dialogue dialogueEnd)
+        : this(dimensions, p, noEnemies, null, dialogueStart, dialogueEnd) { }
 
     protected override List<Enemy> validEnemies { get; set; } = [
         new EnemyTriangle(),
@@ -29,5 +35,23 @@ class TutorialRoom : RoomClassroom
         GenerateDecor();
         if (!Peaceful)
             GenerateEnemies();
+    }
+
+    public override void OnEntry()
+    {
+        if (PlayedDialogueStart || DialogueStart == null)
+            return;
+
+        ScreenManager.ScreenGame.OpenDialogue(DialogueStart, TutorialLevel.NpcName, TutorialLevel.NpcSprite);
+        PlayedDialogueStart = true;
+    }
+
+    public override void OnExit()
+    {
+        if (PlayedDialogueEnd || DialogueEnd == null)
+            return;
+
+        ScreenManager.ScreenGame.OpenDialogue(DialogueEnd, TutorialLevel.NpcName, TutorialLevel.NpcSprite);
+        PlayedDialogueEnd = true;
     }
 }

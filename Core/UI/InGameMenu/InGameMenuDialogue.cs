@@ -13,27 +13,27 @@ public class InGameMenuDialogue : InGameMenu
     private readonly SpriteFont mainTextFont = FontManager.GetFont("Arial16");
     private readonly SpriteFont buttonFont = FontManager.GetFont("Arial16");
 
-    private EntityPassive npc;
     private string npcText = "prdis";
+    private string npcName = "";
+    private Texture2D npcSprite;
     private Dialogue dialogue;
 
     // Menu buttons.
     private List<Button> choiceButtons = new List<Button>();
     private Button nextButton;
 
-    public InGameMenuDialogue(Viewport viewport, EntityPassive entity)
+    public InGameMenuDialogue(Viewport viewport, EntityPassive entity) : this(viewport, entity.Dialogue, entity.Name, entity.GetSprite()) { }
+    public InGameMenuDialogue(Viewport viewport, Dialogue dialogue, string name, Texture2D sprite)
     {
         Viewport = viewport;
-        npc = entity;
-        if (entity.Dialogue == null)
-            throw new Exception("Entity has no dialogue!");
-
-        dialogue = entity.Dialogue;
-
         SpriteBackground = TextureManager.GetTexture("blackSquare");
 
-        nextButton = new Button("Dále", buttonFont, () => AdvanceDialogue());
+        this.dialogue = dialogue;
+        npcName = name;
+        npcSprite = sprite;
 
+        nextButton = new Button("Dále", buttonFont, () => AdvanceDialogue());
+        nextButton.SetSize(buttonFont.MeasureString("Dále") + new Vector2(50, 25));
     }
 
     public override void Draw(SpriteBatch spriteBatch)
@@ -43,22 +43,19 @@ public class InGameMenuDialogue : InGameMenu
         // Npc jmeno
         spriteBatch.DrawString(
             titleFont,
-            npc.Name,
-            new Vector2((Viewport.Width - titleFont.MeasureString(npc.Name).X) / 2, prcY(12)),
+            npcName,
+            new Vector2((Viewport.Width - titleFont.MeasureString(npcName).X) / 2, prcY(12)),
             Color.White
         );
 
-        // Hlava npccka
-        Texture2D sprite = npc.GetSprite();
-
         int size = 2;
-        Vector2 spritePos = new Vector2((Viewport.Width - (size * sprite.Width)) / 2, prcY(20));
+        Vector2 spritePos = new Vector2((Viewport.Width - (size * npcSprite.Width)) / 2, prcY(20));
         Rectangle spriteRect = new Rectangle(
             (int)spritePos.X,
             (int)spritePos.Y,
-            size * sprite.Width,
-            size * sprite.Height);
-        spriteBatch.Draw(sprite, spriteRect, Color.White);
+            size * npcSprite.Width,
+            size * npcSprite.Height);
+        spriteBatch.Draw(npcSprite, spriteRect, Color.White);
 
 
         // Draw the npc's text
@@ -140,7 +137,7 @@ public class InGameMenuDialogue : InGameMenu
                     dialogue.Respond(reference);
                     shouldAdvance = true;
                 }));
-                choiceButtons.Last().SetSize(new Vector2(400, 50));
+                choiceButtons.Last().SetSize(buttonFont.MeasureString(t) + new Vector2(50, 25));
                 choiceButtons.Last().SetTextColor(Color.White);
             }
             return;

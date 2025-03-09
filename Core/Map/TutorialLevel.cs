@@ -1,4 +1,5 @@
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using TBoGV;
 public class TutorialLevel
 {
@@ -7,14 +8,18 @@ public class TutorialLevel
     private Vector2 ActiveRoomCoords;
     private Player _player;
 
+    public static string NpcName { get; private set; } = "Schovánek";
+    // TODO: Schovanek
+    public static Texture2D NpcSprite { get; private set; } = TextureManager.GetTexture("sarka");
+
     public TutorialLevel(Player player)
     {
         _player = player;
         TileDoor.TileInteract += OnRoomChanged;
         RoomMap = new Room[,]{
-            {new TutorialRoom(new Vector2(13), _player, true, [])},
-            {new TutorialRoom(new Vector2(9), _player, true, [])},
-            {new TutorialRoom(_player, false, [new EnemyCat(), new EnemySoldier()])},
+            {new TutorialRoom(new Vector2(13), _player, true, new DialogueIntro(), null)},
+            {new TutorialRoom(new Vector2(9), _player, true, new DialogueIntro(), null)},
+            {new TutorialRoom(new Vector2(13), _player, false, [new EnemyCat(), new EnemySoldier()], new DialogueIntro(), new DialogueIntro())},
         };
 
         // tvorba dveri
@@ -59,7 +64,10 @@ public class TutorialLevel
                 break;
         }
         ActiveRoom.ClearProjectiles();
+
+        ActiveRoom.OnExit();
         ActiveRoom = RoomMap[(int)ActiveRoomCoords.X, (int)ActiveRoomCoords.Y];
+        ActiveRoom.OnEntry();
 
         _player.Position = e.OppositeDoor.DoorTpPosition * 50;
     }
