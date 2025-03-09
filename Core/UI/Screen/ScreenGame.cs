@@ -11,10 +11,12 @@ public class ScreenGame : Screen
     private Player player;
     private Camera _camera;
     private Lobby lobby;
+    private TutorialLevel tutorial;
     private Place activePlace;
     private InGameMenu activeMenu = null;
     private List<Minigame> miniGames = new List<Minigame>();
     private Viewport _viewport;
+    private bool InTutorial;
 
     private UI UI;
     private MouseState mouseState;
@@ -24,7 +26,7 @@ public class ScreenGame : Screen
 
     public override void BeginRun(GraphicsDeviceManager graphics)
     {
-        player = new Player();
+        player = GameManager.Player;
 
         player.Load(SaveType.USER);
         Storyline.Player = player;
@@ -34,6 +36,8 @@ public class ScreenGame : Screen
 
         lobby = new Lobby(player);
         activePlace = lobby;
+
+        tutorial = new TutorialLevel(player);
 
         UI = new UI();
         _camera = new Camera();
@@ -84,8 +88,12 @@ public class ScreenGame : Screen
         int levelStatsCount = 0;
 
         // check right activeplace
-        if (Storyline.CurrentLevel?.ActiveRoom != activePlace && player.IsPlaying)
+        // if (Storyline.CurrentLevel?.ActiveRoom != activePlace && player.IsPlaying)
+        //activePlace = Storyline.CurrentLevel.ActiveRoom;
+        if (Storyline.CurrentLevel?.ActiveRoom != activePlace && player.IsPlaying && !InTutorial)
             activePlace = Storyline.CurrentLevel.ActiveRoom;
+        if (Storyline.CurrentLevel?.ActiveRoom != activePlace && player.IsPlaying && InTutorial)
+            activePlace = tutorial.ActiveRoom;
 
         // ingamemenu update
         if (activeMenu != null)
@@ -107,24 +115,6 @@ public class ScreenGame : Screen
         }
 
         UpdateKeyboard();
-
-        // Level checker
-        if (player.LevelChanged)
-        {
-            if (player.IsPlaying)
-            {
-                player.IsPlaying = false;
-                activePlace = lobby;
-            }
-            else
-            {
-                player.IsPlaying = true;
-                activePlace = Storyline.CurrentLevel.ActiveRoom;
-            }
-            player.LevelChanged = false;
-            player.Position = activePlace.SpawnPos * 50;
-        }
-
 
         if (activeMenu == null)
         {
@@ -190,11 +180,10 @@ public class ScreenGame : Screen
 #if DEBUG
         if (keyboardState.IsKeyDown(Keys.P) && previousKeyboardState.IsKeyUp(Keys.P))
         {
-            player.LevelChanged = true;
-            if (!player.IsPlaying)
-            {
-                Storyline.NextLevel();
-            }
+            if (activePlace is Lobby)
+                SendPlayerToLevel();
+            else
+                SendPlayerToLobby();
         }
         if (keyboardState.IsKeyDown(Keys.R) && previousKeyboardState.IsKeyUp(Keys.R) && activeMenu == null)
         {
@@ -208,6 +197,10 @@ public class ScreenGame : Screen
         if (keyboardState.IsKeyDown(Keys.O) && previousKeyboardState.IsKeyUp(Keys.O) && activeMenu == null)
         {
             activeMenu = new InGameMenuDialogue(_viewport, new EntitySarka());
+        }
+        if (keyboardState.IsKeyDown(Keys.T) && previousKeyboardState.IsKeyUp(Keys.T) && activeMenu == null)
+        {
+            SendPlayerToTutorial();
         }
 #endif
 
@@ -236,7 +229,7 @@ public class ScreenGame : Screen
             lobby.Reset();
             TBoGVGame.screenCurrent = ScreenManager.ScreenDeath;
         }
-        player.LevelChanged = true;
+        SendPlayerToLobby();
         player.IsPlaying = true;
     }
     void Revive()
@@ -254,4 +247,28 @@ public class ScreenGame : Screen
             _ => throw new Exception("No shop provided"),
         };
     }
+
+    public void SendPlayerToLobby()
+    {
+        InTutorial = false;
+        player.IsPlaying = false;
+        activePlace = lobby;
+        player.Position = lobby.SpawnPos * 50;
+    }
+
+    public void SendPlayerToLevel()
+    {
+        player.IsPlaying = true;
+        Storyline.NextLevel();
+        activePlace = Storyline.CurrentLevel.ActiveRoom;
+        player.Position = activePlace.SpawnPos * 50;
+    }
+
+    public void SendPlayerToTutorial()
+    {
+        player.IsPlaying = true;
+        InTutorial = true;
+        activePlace = tutorial.ActiveRoom;
+    }
+
 }

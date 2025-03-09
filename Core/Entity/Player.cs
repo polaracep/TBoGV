@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text.Json;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using Newtonsoft.Json;
 
 namespace TBoGV;
 
@@ -14,7 +12,6 @@ public class Player : Entity, IRecieveDmg, IDealDmg
 	static Texture2D Sprite;
 	public int Level { get; set; }
 	public bool IsPlaying = false;
-	public bool LevelChanged = false;
 	public float Xp { get; set; }
 	public float AttackSpeed { get; set; }
 	public float AttackDmg { get; set; }
@@ -444,6 +441,7 @@ public class Player : Entity, IRecieveDmg, IDealDmg
 		public Dictionary<string, int> Stats { get; set; } = new();
 		public EffectData() { }
 	}
+
 	public void Save(SaveType saveType)
 	{
 		List<ItemContainerData> containerData = new List<ItemContainerData>();

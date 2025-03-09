@@ -129,8 +129,6 @@ public static class Storyline
         CurrentLevel = LevelList[CurrentLevelNumber];
         CurrentLevelNumber++;
         Difficulty += (CurrentLevelNumber + 1) % 2;
-        Player.LevelChanged = true;
-
     }
     public static void ResetLevel()
     {
@@ -146,7 +144,6 @@ public static class Storyline
         CurrentLevelNumber++;
         Difficulty = 1;
         FailedTimes = 0;
-        Player.LevelChanged = false;
     }
     public static void End()
     {

@@ -8,7 +8,13 @@ public class DialogueIntro : Dialogue
 
     public DialogueIntro() : base()
     {
-        Actions.Add(1, () => Console.WriteLine("A"));
+        Actions.Add(1, () =>
+        {
+            if (TBoGVGame.screenCurrent is ScreenGame)
+            {
+                ScreenGame sg = (ScreenGame)TBoGVGame.screenCurrent;
+            }
+        });
 
     }
 }
