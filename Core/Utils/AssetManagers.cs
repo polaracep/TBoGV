@@ -1,9 +1,11 @@
 using System.Collections.Generic;
+using System.Text.Json;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Media;
 
+namespace TBoGV;
 public static class TextureManager
 {
     private static Dictionary<string, Texture2D> textures = new Dictionary<string, Texture2D>();
@@ -33,7 +35,7 @@ public static class TextureManager
             "wallWhiteCorner",
             "wallLobby",
             "wallLobbyCorner",
-			"wallShower",
+            "wallShower",
             "wallGreen",
             "wallGreenCorner",
 
@@ -89,7 +91,7 @@ public static class TextureManager
             "lol",
             "soldier",
             "perloun",
-			"cameraman",
+            "cameraman",
 
 
             // Vitek
@@ -123,7 +125,7 @@ public static class TextureManager
             "skull",
             "check",
             "cross",
-			"reroll",
+            "reroll",
 
             // Items
             "heal",
@@ -170,6 +172,7 @@ public static class TextureManager
         {
             textures.Add(name, content.Load<Texture2D>("Textures/" + name));
         }
+
     }
     public static Texture2D GetTexture(string name)
     {
@@ -255,5 +258,38 @@ public static class FontManager
     public static SpriteFont GetFont(string name)
     {
         return fonts.GetValueOrDefault(name);
+    }
+}
+
+public static class DialogueManager
+{
+    private static Dictionary<string, JsonDocument> dialogues = new Dictionary<string, JsonDocument>();
+
+    public static void Load(ContentManager content)
+    {
+        List<string> names = new List<string>
+        {
+            "intro",
+        };
+
+        foreach (string name in names)
+        {
+            dialogues.Add(name, content.Load<JsonDocument>("Dialogues/" + name));
+        }
+    }
+    public static JsonDocument GetDialogue(string name)
+    {
+        return dialogues.GetValueOrDefault(name);
+    }
+}
+// Runtime reader for JsonDocument.
+public class JsonDocumentReader : ContentTypeReader<JsonDocument>
+{
+    protected override JsonDocument Read(ContentReader input, JsonDocument existingInstance)
+    {
+        // Read the raw JSON string written by the writer.
+        string json = input.ReadString();
+        // Parse the string into a JsonDocument.
+        return JsonDocument.Parse(json);
     }
 }

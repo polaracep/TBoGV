@@ -4,6 +4,7 @@ public interface ISetting
 {
     public string Name { get; }
     public object GetValue();
+    public void SetValue(object val);
 }
 public class Setting<T> : ISetting
 {
@@ -21,6 +22,11 @@ public class Setting<T> : ISetting
     {
         return Value;
     }
+
+    public void SetValue(object val)
+    {
+        Value = (T)val;
+    }
 }
 public static class Settings
 {
@@ -34,7 +40,7 @@ public static class Settings
         FixedCamera,
     ];
 
-    private static string settingsPath = "tbogv_settings.json";
+    private static string settingsPath = "./tbogv_settings.json";
 
     public static void Save()
     {

@@ -58,7 +58,7 @@ monodroid*.msi
 /CompiledContent/Windows8/IgnoreMe.dll
 /CompiledContent/Windows/IgnoreMe.dll
 *.cachefile
-*.dll
+.dll
 *.VC.db
 *.VC.opendb
 

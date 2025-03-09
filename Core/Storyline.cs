@@ -34,13 +34,13 @@ public static class Storyline
         LevelList = [
             // L1
             new Level(p, [
-                //new RoomClassroom(p),
-                //new RoomClassroom(p),
-                //new RoomClassroom(p),
-                //new RoomHallway(p),
-                //new RoomHallway(p),
-                //new RoomShower(p)
-            ], new RoomStart(p), new RoomBossToilet(p), 3),
+                new RoomClassroom(p),
+                new RoomClassroom(p),
+                new RoomClassroom(p),
+                new RoomHallway(p),
+                new RoomHallway(p),
+                new RoomShower(p)
+            ], new RoomStart(p), new RoomBossSvarta(p), 3),
             // L2
             new Level(p, [
                 new RoomClassroom(p),
@@ -129,8 +129,6 @@ public static class Storyline
         CurrentLevel = LevelList[CurrentLevelNumber];
         CurrentLevelNumber++;
         Difficulty += (CurrentLevelNumber + 1) % 2;
-        Player.LevelChanged = true;
-
     }
     public static void ResetLevel()
     {
@@ -146,7 +144,6 @@ public static class Storyline
         CurrentLevelNumber++;
         Difficulty = 1;
         FailedTimes = 0;
-        Player.LevelChanged = false;
     }
     public static void End()
     {

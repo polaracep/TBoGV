@@ -9,20 +9,19 @@ public class TBoGVGame : Game
     private GraphicsDeviceManager _graphics;
     private SpriteBatch _spriteBatch;
     public static Screen screenCurrent;
-	public TBoGVGame()
-	{
-		_graphics = new GraphicsDeviceManager(this);
-		_graphics.PreferredBackBufferWidth = 1280; 
-		_graphics.PreferredBackBufferHeight = 720; 
-		_graphics.ApplyChanges();
-
-		Content.RootDirectory = "Content";
-		IsMouseVisible = true;
-	}
-
-	protected override void Initialize()
+    public TBoGVGame()
     {
-        GameManager.game = this;
+        _graphics = new GraphicsDeviceManager(this);
+        _graphics.PreferredBackBufferWidth = 1280;
+        _graphics.PreferredBackBufferHeight = 720;
+        _graphics.ApplyChanges();
+
+        Content.RootDirectory = "Content";
+        IsMouseVisible = true;
+    }
+
+    protected override void Initialize()
+    {
         base.Initialize();
     }
 
@@ -33,17 +32,19 @@ public class TBoGVGame : Game
         SongManager.Load(Content);
         FontManager.Load(Content);
         SoundManager.Load(Content);
+        DialogueManager.Load(Content);
         Settings.Load();
     }
 
     // Run after LoadContent
     protected override void BeginRun()
     {
+        base.BeginRun();
+
+        GameManager.Start(this);
         ScreenManager.Init(_graphics);
         screenCurrent = ScreenManager.ScreenStart;
 
-
-        base.BeginRun();
     }
 
     protected override void Update(GameTime gameTime)
@@ -65,10 +66,17 @@ public class TBoGVGame : Game
 
 public static class GameManager
 {
-    public static Game game;
+    public static Game Game;
+    public static Player Player;
 
-    public static void Shutdown()
+    public static void Start(Game game)
     {
-        game.Exit();
+        Game = game;
+        Player = new Player();
+    }
+
+    public static void Exit()
+    {
+        Game.Exit();
     }
 }

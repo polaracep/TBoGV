@@ -7,18 +7,21 @@ public abstract class EntityPassive : Entity
 {
     protected Texture2D Sprite;
     protected float Scale;
-    public EntityPassive(Vector2 position)
+    public string Name;
+    public virtual Dialogue Dialogue { get; set; } = null;
+    public EntityPassive(Vector2 position, string name)
     {
-        this.Position = position;
-        this.Sprite = GetSprite();
-        this.Scale = 50f / Math.Max(Sprite.Width, Sprite.Height);
-        this.Size = new Vector2(this.Sprite.Width * Scale, this.Sprite.Height * Scale);
+        Name = name;
+        Position = position;
+        Sprite = GetSprite();
+        Scale = 50f / Math.Max(Sprite.Width, Sprite.Height);
+        Size = new Vector2(Sprite.Width * Scale, Sprite.Height * Scale);
     }
-    public EntityPassive() : this(Vector2.Zero) { }
+    public EntityPassive(string name) : this(Vector2.Zero, name) { }
 
     public override void Draw(SpriteBatch spriteBatch)
     {
-        spriteBatch.Draw(this.GetSprite(), new Rectangle((int)this.Position.X, (int)this.Position.Y, (int)this.Size.X, (int)this.Size.Y), Color.White);
+        spriteBatch.Draw(GetSprite(), new Rectangle((int)Position.X, (int)Position.Y, (int)Size.X, (int)Size.Y), Color.White);
     }
 
     public override abstract Texture2D GetSprite();

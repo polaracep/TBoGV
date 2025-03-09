@@ -5,7 +5,7 @@ using TBoGV;
 public class RoomHallway : Room
 {
     public RoomHallway(Vector2 dimensions, Player p) : base(dimensions, p) { }
-    public RoomHallway(Player p) : base((5, 7, 17), p, null) { }
+    public RoomHallway(Player p) : base((7, 9, 17), p, null) { }
     public RoomHallway(Vector2 dimensions, Player p, List<Entity> entityList) : base(dimensions, p, entityList) { }
 
     protected override List<Enemy> validEnemies { get; set; } = [

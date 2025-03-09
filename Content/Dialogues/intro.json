@@ -1,0 +1,30 @@
+{
+  "story": {
+    "0": [
+      "Vítej na gymvodu! Gratuluji ti za úspěšné složení přjmacích zkoušek."
+    ],
+    "1": {
+      "question": "59. Místo je opravdu nádherný výsledek.",
+      "": "Děkuji",
+      "_": "No to je výsledek akorát tak pěkně na hovno"
+    },
+    "2": {
+      "question": "Už si byl někdy u nás na škole?",
+      "tutorial": "Ještě ne",
+      "b": "Ano, už to tu znám"
+    },
+    "3": [
+      "Přeji tedy hodně štěstí při studiu"
+    ]
+  },
+  "choices": {
+    "b": {
+      "question": "Opravdu? Takže zvládáš základy?",
+      "tutorial": "Radši si je zopakuju.",
+      "": "Jo, chodil jsem na přípravky."
+    },
+    "tutorial": [
+      1
+    ]
+  }
+}

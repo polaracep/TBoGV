@@ -55,7 +55,7 @@ public static class FileHelper
 				JsonSerializerSettings settings = new JsonSerializerSettings
 				{
 					Formatting = Formatting.Indented,
-					Converters = { new StringEnumConverter() } 
+					Converters = { new StringEnumConverter() }
 				};
 
 				return JsonConvert.DeserializeObject<T>(json, settings);

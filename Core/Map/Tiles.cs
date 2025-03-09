@@ -160,8 +160,7 @@ public class TileExit : Tile, IInteractable
         }
 
         // return to lobby
-        p.LevelChanged = true;
-        p.Position = new Lobby(p).SpawnPos;
+        ScreenManager.ScreenGame.SendPlayerToLobby();
 
         // reset shops
         InGameMenuShop.ResetShop();
@@ -183,7 +182,7 @@ public class TileStart : Tile, IInteractable
         if (e is not Player)
             return;
 
-        Storyline.NextLevel();
+        ScreenManager.ScreenGame.SendPlayerToLevel();
     }
 
 }

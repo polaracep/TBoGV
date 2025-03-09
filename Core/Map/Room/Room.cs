@@ -71,14 +71,6 @@ public abstract class Room : Place
     public Room((int sMin, int sMax, int bMax) dimensions, Player p) : this(dimensions, p, null) { }
     public Room(Vector2 dimensions, Player p) : this(dimensions, p, null) { }
 
-    public override void Reset()
-    {
-        ClearRoom();
-        if (!IsGenerated)
-            Generate();
-        GenerateEnemies();
-    }
-
     /* === Update methods === */
     public override void Update(double dt)
     {
@@ -105,7 +97,6 @@ public abstract class Room : Place
         foreach (var d in Drops)
             d.Update(this);
     }
-
     protected void UpdateProjectiles()
     {
         for (int i = Projectiles.Count - 1; i >= 0; i--)
@@ -193,7 +184,7 @@ public abstract class Room : Place
     protected void UpdateEnemies(double dt)
     {
 
-		for(int i = 0; i< Enemies.Count; i++)
+        for (int i = 0; i < Enemies.Count; i++)
         {
             Enemies[i].Update(player.Position + player.Size / 2, dt);
             Enemies[i].Move(this);
@@ -255,6 +246,17 @@ public abstract class Room : Place
             }
         }
     }
+    protected int GetValidPositionCount()
+    {
+        // Generate random enemies
+        int validPositions = 0;
+
+        for (int x = 0; x < Dimensions.X; x++)
+            for (int y = 0; y < Dimensions.Y; y++)
+                validPositions += (Floor[x, y]?.DoCollision ?? false) || (Decorations[x, y]?.DoCollision ?? false) ? 0 : 1;
+        return validPositions;
+    }
+
     protected virtual void GenerateBase() { GenerateBase(FloorTypes.BASIC, WallTypes.BASIC, DoorTypes.BASIC); }
     protected virtual void GenerateBase(FloorTypes floors, WallTypes walls, DoorTypes doors)
     {
@@ -319,47 +321,6 @@ public abstract class Room : Place
             }
         }
     }
-    public virtual void ClearDrops()
-    {
-        Drops.Clear();
-    }
-    public virtual void ClearEnemies()
-    {
-        Enemies.Clear();
-    }
-    public virtual void ClearProjectiles()
-    {
-        Projectiles.Clear();
-        player.Projectiles.Clear();
-    }
-    public virtual void ClearRoom()
-    {
-        ClearProjectiles();
-        ClearEnemies();
-        ClearDrops();
-    }
-    public virtual void AddEnemy(Enemy enemy)
-    {
-        Enemies.Add(enemy);
-    }
-    public override void Draw(SpriteBatch spriteBatch)
-    {
-        base.Draw(spriteBatch);
-
-        foreach (Item item in Drops)
-            item.Draw(spriteBatch);
-        foreach (Enemy enemy in Enemies)
-            enemy.Draw(spriteBatch);
-        foreach (var e in Entities)
-            e.Draw(spriteBatch);
-        foreach (Projectile projectile in player.Projectiles)
-            projectile.Draw(spriteBatch);
-        foreach (Projectile projectile in Projectiles)
-            projectile.Draw(spriteBatch);
-        foreach (Particle particle in Particles)
-            particle.Draw(spriteBatch);
-    }
-
     public virtual void GenerateExit()
     {
         Random rand = new Random();
@@ -388,17 +349,6 @@ public abstract class Room : Place
         }
     }
 
-    protected int GetValidPositionCount()
-    {
-        // Generate random enemies
-        int validPositions = 0;
-
-        for (int x = 0; x < Dimensions.X; x++)
-            for (int y = 0; y < Dimensions.Y; y++)
-                validPositions += (Floor[x, y]?.DoCollision ?? false) || (Decorations[x, y]?.DoCollision ?? false) ? 0 : 1;
-        return validPositions;
-    }
-
     /// <summary>
     /// Generate the dimensions for a room
     /// </summary>
@@ -424,4 +374,55 @@ public abstract class Room : Place
             Dimensions = new Vector2(smaller, bigger);
     }
     protected virtual void GenerateDimensions((int sMin, int sMax, int bMax) dim) { GenerateDimensions(dim.sMin, dim.sMax, dim.bMax); }
+
+    /* === Clear methods === */
+    public override void Reset()
+    {
+        ClearRoom();
+        if (!IsGenerated)
+            Generate();
+        GenerateEnemies();
+    }
+    public virtual void ClearDrops()
+    {
+        Drops.Clear();
+    }
+    public virtual void ClearEnemies()
+    {
+        Enemies.Clear();
+    }
+    public virtual void ClearProjectiles()
+    {
+        Projectiles.Clear();
+        player.Projectiles.Clear();
+    }
+    public virtual void ClearRoom()
+    {
+        ClearProjectiles();
+        ClearEnemies();
+        ClearDrops();
+    }
+
+    public virtual void AddEnemy(Enemy enemy)
+    {
+        Enemies.Add(enemy);
+    }
+    public override void Draw(SpriteBatch spriteBatch)
+    {
+        base.Draw(spriteBatch);
+
+        foreach (Item item in Drops)
+            item.Draw(spriteBatch);
+        foreach (Enemy enemy in Enemies)
+            enemy.Draw(spriteBatch);
+        foreach (var e in Entities)
+            e.Draw(spriteBatch);
+        foreach (Projectile projectile in player.Projectiles)
+            projectile.Draw(spriteBatch);
+        foreach (Projectile projectile in Projectiles)
+            projectile.Draw(spriteBatch);
+        foreach (Particle particle in Particles)
+            particle.Draw(spriteBatch);
+    }
+
 }

@@ -69,7 +69,9 @@ public class Level
                 break;
         }
         ActiveRoom.ClearProjectiles();
+        ActiveRoom.OnExit();
         ActiveRoom = RoomMap[(int)ActiveRoomCoords.X, (int)ActiveRoomCoords.Y];
+        ActiveRoom.OnEntry();
 
         if (!ActiveRoom.IsGenerated)
             ActiveRoom.Generate();
@@ -82,13 +84,6 @@ public class Level
         ActiveRoom = StartRoom;
         ActiveRoomCoords = StartRoom.Position;
         Player.Position = ActiveRoomCoords + new Vector2(50);
-        //foreach (var room in RoomMap)
-        //{
-        //	if (room != null)
-        //	{
-        //		room.Reset();
-        //	}
-        //}
     }
 }
 
