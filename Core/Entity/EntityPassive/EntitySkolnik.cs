@@ -4,10 +4,11 @@ using TBoGV;
 
 class EntitySkolnik : EntityPassive
 {
-	public EntitySkolnik(Vector2 position) : base(position)
+	public const string NAME = "Školník";
+	public EntitySkolnik(Vector2 position) : base(position, NAME)
 	{
 	}
-	public EntitySkolnik() : base() { }
+	public EntitySkolnik() : base(NAME) { }
 
 	public override Texture2D GetSprite()
 	{
