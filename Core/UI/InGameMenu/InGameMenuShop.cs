@@ -24,14 +24,19 @@ public class InGameMenuShop : InGameMenu
     private Player player;
     private static int resetCount = 0;
     private const int maxResetCount = 1;
-    public InGameMenuShop(Viewport viewport, Player player, ShopTypes type)
+    private static ShopTypes? previousShopType = null;
+    public InGameMenuShop(Viewport viewport, Player player, ShopTypes type, int lockerId)
     {
         Viewport = viewport;
         this.player = player;
+        if (previousShopType != type || (!ShopLocker.ShopItemById.ContainsKey(lockerId) && lockerId != 0))
+            ResetShop();
+        previousShopType = type;
         ActiveShop = type switch
         {
             ShopTypes.SARKA => new ShopSarka(),
             ShopTypes.PERLOUN => new ShopPerloun(),
+            ShopTypes.LOCKER => new ShopLocker(lockerId),
             _ => throw new Exception(),
         };
 
@@ -49,8 +54,12 @@ public class InGameMenuShop : InGameMenu
 
 		ButtonReroll.SetTextColor(Color.Yellow);
 		ButtonReroll.SetSize(new Vector2(160, ButtonReroll.GetRect().Height));
-		OpenShop();
+        if (ActiveShop is ShopLocker)
+            OpenShop(lockerId);
+        else
+            OpenShop();
     }
+    public InGameMenuShop(Viewport viewport, Player player, ShopTypes type) : this(viewport, player, type, 0) { }
 
     public static void ResetShop()
     {
@@ -58,67 +67,96 @@ public class InGameMenuShop : InGameMenu
             ActiveShop.ClearCache();
         resetCount = 0;
     }
-    public void OpenShop()
+    public void OpenShop(int? lockerId = null)
     {
-		Buttons.Clear();
-        // if there's something in the cache, use it
+        Buttons.Clear();
+        if (lockerId.HasValue && ActiveShop is ShopLocker && ShopLocker.ShopItemById.ContainsKey(lockerId.Value))
+        { 
+            currentShopItems = new List<ShopItem>() { ShopLocker.ShopItemById[lockerId.Value] };
+            ActiveShop.SetCachedItems(currentShopItems);
+        }
         if (ActiveShop.GetCachedItems().Count != 0)
-            currentShopItems = ActiveShop.GetCachedItems();
+        {
+            if (lockerId.HasValue && ActiveShop is ShopLocker)
+                currentShopItems = new List<ShopItem>() { ShopLocker.ShopItemById[lockerId.Value] };
+            else
+                currentShopItems = ActiveShop.GetCachedItems();
+        }
         else
         {
-            // fill the cache with n random items
-            ActiveShop.ItemPool.OrderBy(x => Random.Shared.Next()).Take(ActiveShop.ItemCount).ToList()
-                .ForEach(item => currentShopItems.Add(new ShopItem(item, item.GetCost())));
+            if (lockerId.HasValue && ActiveShop is ShopLocker)
+            {
+                if (ShopLocker.RenewedById[lockerId.Value])
+                    return;
 
-            // if expensive, make them more expensive
+                ShopLocker.RenewedById[lockerId.Value] = true;
+            }
+
+            ActiveShop.ItemPool.OrderBy(x => Random.Shared.Next())
+                .Take(ActiveShop.ItemCount)
+                .ToList()
+                .ForEach(item => currentShopItems.Add(new ShopItem(item, ActiveShop is ShopLocker ? 0 : item.GetCost())));
+
             if (player.Inventory.GetEffect().Contains(EffectTypes.EXPENSIVE))
                 currentShopItems.ForEach(x => x.Price *= (int)(2 + Random.Shared.NextDouble() * 0.7));
 
             ActiveShop.SetCachedItems(currentShopItems);
+            if (lockerId.HasValue && ActiveShop is ShopLocker)
+            {
+                foreach (var item in currentShopItems)
+                    ShopLocker.ShopItemById[lockerId.Value] = item;
+            }
         }
-		foreach (var item in currentShopItems)
-		{
-			Buttons.Add(new ButtonImage(Convert.ToString(item.Price) + "c", MiddleFont, () =>
-			{
-				// "Purchase" the item: add it to the player's inventory.
-				if (player.Coins < item.Price)
-					return;
 
-				ShopItem itemClone = item.Clone();
-				ItemContainerable itemToDrop = null;
-				if (!player.Inventory.PickUpItem(itemClone.Item))
-					itemToDrop = (player.Inventory.SwapItem(itemClone.Item));
-				float hp = player.Hp;
-				player.SetStats();
-				if (player.MaxHp <= 0)
-				{
-					player.Inventory.AddEffect(new EffectCloseCall());
-					player.Inventory.RemoveItem(itemClone.Item);
-					if (itemToDrop != null)
-						player.Inventory.PickUpItem(itemToDrop);
-					player.Hp = hp;
-					player.SetStats();
-				}
-				else
-				{
-					if (itemToDrop != null)
-					{
-						itemToDrop.InitMovement();
-						player.Drop(itemToDrop);
-					}
-					player.Coins -= itemClone.Price;
-					ActiveShop.GetCachedItems().Remove(item);
-				}
+        foreach (var item in currentShopItems)
+        {
+            Buttons.Add(new ButtonImage(ActiveShop is ShopLocker ? "" : Convert.ToString(item.Price) + "c", MiddleFont, () =>
+            {
+                if (player.Coins < item.Price)
+                    return;
 
-				CloseMenu.Invoke();
-			}, item.Item.GetSprite(),ImageOrientation.TOP));
-		}
-		foreach (var b in Buttons)
-		{
-			b.SetTextColor(Color.Yellow);
-			b.SetSize(new Vector2(100,100));
-		}
+                ShopItem itemClone = item.Clone();
+                ItemContainerable itemToDrop = null;
+
+                if (!player.Inventory.PickUpItem(itemClone.Item))
+                    itemToDrop = player.Inventory.SwapItem(itemClone.Item);
+
+                float hp = player.Hp;
+                player.SetStats();
+
+                if (player.MaxHp <= 0)
+                {
+                    player.Inventory.AddEffect(new EffectCloseCall());
+                    player.Inventory.RemoveItem(itemClone.Item);
+                    if (itemToDrop != null)
+                        player.Inventory.PickUpItem(itemToDrop);
+                    player.Hp = hp;
+                    player.SetStats();
+                }
+                else
+                {
+                    if (itemToDrop != null)
+                    {
+                        itemToDrop.InitMovement();
+                        player.Drop(itemToDrop);
+                    }
+                    player.Coins -= itemClone.Price;
+                    ActiveShop.GetCachedItems().Remove(item);
+                    if (lockerId.HasValue && ActiveShop is ShopLocker)
+                        ShopLocker.ShopItemById.Remove(lockerId.Value); 
+                }
+
+                CloseMenu.Invoke();
+            }, item.Item.GetSprite(), ImageOrientation.TOP));
+        }
+
+        foreach (var b in Buttons)
+        {
+            b.SetTextColor(Color.Yellow);
+            b.SetSize(new Vector2(100, 100));
+        }
     }
+
 
     public override void Update(Viewport viewport, Player player, MouseState mouseState, KeyboardState keyboardState, double dt)
     {
@@ -225,7 +263,14 @@ public class ShopPerloun : Shop<ShopPerloun>
 }
 public class ShopLocker : Shop<ShopLocker>
 {
-	public override List<ItemContainerable> ItemPool { get; set; } = ItemDatabase.GetAllItems().Where(x => x is not ItemDoping).ToList();
+    public static Dictionary<int, bool> RenewedById = new Dictionary<int, bool>();
+    public static Dictionary<int, ShopItem> ShopItemById = new Dictionary<int, ShopItem>();
+    public ShopLocker(int id)
+    {
+        if (!RenewedById.ContainsKey(id))
+        RenewedById[id] = false;
+    }
+	public override List<ItemContainerable> ItemPool { get; set; } = ItemDatabase.GetAllItems().Where(x => x.Rarity == 1).ToList();
 	public override int ItemCount { get; protected set; } = 1;
 }
 

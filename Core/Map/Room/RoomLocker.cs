@@ -5,7 +5,9 @@ using TBoGV;
 
 public class RoomLocker : Room
 {
-	public RoomLocker(Player p) : base((17, 29, 30), p) { }
+    private static HashSet<int> usedLockerIds = new HashSet<int>();
+    private static Random rand = new Random();
+    public RoomLocker(Player p) : base((17, 29, 30), p) { }
 	public RoomLocker(Vector2 dimensions, Player p) : base(dimensions, p) { }
 	public RoomLocker(Player p, List<Entity> entityList) : base((17, 29, 30), p, entityList) { }
 	public RoomLocker(Vector2 dimensions, Player p, List<Entity> entityList) : base(dimensions, p, entityList) { }
@@ -101,9 +103,9 @@ public class RoomLocker : Room
 	}
 	protected override void GenerateDecor()
 	{
-		bool openLockerSet = false; // Flag to ensure only one locker is open
+        int openLockerCount = rand.Next(1, 3); // 1 or 2 open lockers
 
-		if (direction == Directions.LEFT || direction == Directions.RIGHT)
+        if (direction == Directions.LEFT || direction == Directions.RIGHT)
 		{
 			// Vertical double-row lockers
 			for (int x = 2; x < Dimensions.X - 2; x += 3) // Space every 3 tiles
@@ -113,7 +115,7 @@ public class RoomLocker : Room
 					// First locker in the row
 					Vector2 lockerPos1 = new Vector2(x, y);
 					TileLocker locker1 = new TileLocker();
-					if (!openLockerSet) { locker1.Open(); openLockerSet = true; }
+					if (openLockerCount > 0) { locker1.Open(); locker1.SetId(GetUniqueLockerId()); openLockerCount--; ; }
 					this.AddDecoTile(lockerPos1, locker1);
 
 					// Second locker in the row (directly next to the first)
@@ -136,8 +138,8 @@ public class RoomLocker : Room
 					// First locker in the row
 					Vector2 lockerPos1 = new Vector2(x, y);
 					TileLocker locker1 = new TileLocker(MathHelper.PiOver2, false);
-					if (!openLockerSet) { locker1.Open(); openLockerSet = true; }
-					this.AddDecoTile(lockerPos1, locker1);
+                    if (openLockerCount > 0) { locker1.Open(); locker1.SetId(GetUniqueLockerId()); openLockerCount--; ; }
+                    this.AddDecoTile(lockerPos1, locker1);
 
 					// Second locker in the row (directly below the first)
 					if (y + 1 < Dimensions.Y - 1) // Prevent out-of-bounds
@@ -150,10 +152,21 @@ public class RoomLocker : Room
 			}
 		}
 	}
+    private int GetUniqueLockerId()
+    {
+        int id;
+        do
+        {
+            id = rand.Next(1000, 9999); // Generate a random ID
+        } while (usedLockerIds.Contains(id)); // Ensure it's unique
+
+        usedLockerIds.Add(id);
+        return id;
+    }
 
 
 
-	protected override void GenerateEnemies()
+    protected override void GenerateEnemies()
 	{
 		GenerateEnemies((Storyline.Difficulty / 2) + 1);
 	}

@@ -344,9 +344,10 @@ public class TileComputer : Tile, IInteractable
 public class TileLocker : Tile, IInteractable
 {
 	protected bool IsOpen {  get; set; }
+    protected int Id {  get; set; }
 	public TileLocker(float rotation, SpriteEffects fx, bool isOpen) : base(true, rotation, fx)
 	{
-		this.Sprite = TextureManager.GetTexture(DecorationTypes.KATEDRA.Value);
+		this.Sprite = TextureManager.GetTexture("lockerClosed");
 		this.IsOpen = isOpen;
 	}
 	public TileLocker(float rotation, bool isOpen) : this(rotation, SpriteEffects.None, isOpen) { }
@@ -359,10 +360,15 @@ public class TileLocker : Tile, IInteractable
 			return;
 
 		ScreenGame sg = (ScreenGame)c;
-		sg.OpenShop(ShopTypes.LOCKER);
+		sg.OpenShop(ShopTypes.LOCKER, Id);
 	}
+    public void SetId(int id)
+    {
+        Id = id;
+    }
 	public void Open()
 	{
 		IsOpen = true;
-	}
+        this.Sprite = TextureManager.GetTexture("lockerOpen");
+    }
 }

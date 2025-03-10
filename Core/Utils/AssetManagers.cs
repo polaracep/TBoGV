@@ -62,6 +62,8 @@ public static class TextureManager
             "decoFridge2",
             "coffeeMachine",
             "showerSink",
+            "lockerOpen",
+            "lockerClosed",
 
             // Entities
             "korenovy_vezen",
