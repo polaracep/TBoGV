@@ -62,7 +62,8 @@ public class ScreenGame : Screen
         // _camera.SetCenter(graphics.GraphicsDevice.Viewport, activePlace.Dimensions * Tile.GetSize() / 2);
         _viewport = graphics.GraphicsDevice.Viewport;
 
-        _spriteBatch.Begin(transformMatrix: _camera.Transform);
+        _spriteBatch.Begin( SpriteSortMode.Deferred, BlendState.AlphaBlend, transformMatrix: _camera.Transform);
+
         activePlace.Draw(_spriteBatch);
         player.Draw(_spriteBatch);
         _spriteBatch.End();
