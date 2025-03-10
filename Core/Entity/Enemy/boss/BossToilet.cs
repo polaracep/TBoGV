@@ -81,7 +81,7 @@ class BossToilet : EnemyBoss
 		LastAttackElapsed += dt;
 		Direction = new Vector2(playerPosition.X, playerPosition.Y) - Position - Size / 2;
 		Direction.Normalize();
-		SfxInstance.Volume = (float)Settings.SfxVolume.GetValue();
+		SfxInstance.Volume = (float)(double)Settings.SfxVolume.Value;
 		UpdatePhase(playerPosition);
 		UpdateAnimation();
 	}

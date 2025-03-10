@@ -57,7 +57,7 @@ public class MinigameRooted : Minigame
 		UpdateState(keyboardState);
 		prevKeyboardState = keyboardState;
 		timeSinceLastHint += dt;
-		rootTapInstance.Volume = (float)Settings.SfxVolume.GetValue();
+		rootTapInstance.Volume = (float)(double)Settings.SfxVolume.Value;
 		if (timeSinceLastHint > 500)
 		{
 			timeSinceLastHint = 0;
