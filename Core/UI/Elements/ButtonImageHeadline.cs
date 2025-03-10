@@ -7,13 +7,11 @@ namespace TBoGV;
 public class ButtonImageHeadline : Button
 {
     Texture2D Sprite;
-    ImageOrientation ImageOrientation;
     float ImageScale;
     protected string Headline;
     public ButtonImageHeadline(string headline, string text, SpriteFont font, Action onClick, Texture2D sprite) : base(text, font, onClick)
     {
         Sprite = sprite;
-        ImageOrientation = ImageOrientation.TOP;
         Headline = headline;
         int sizeX = (int)Math.Max(Math.Max(font.MeasureString(headline).X, font.MeasureString(text).X), Sprite.Width) + 2*BorderOffset;
         int sizeY = (int)(font.MeasureString(headline).Y + font.MeasureString(text).Y + Sprite.Height);
