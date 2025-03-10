@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace TBoGV;
@@ -37,10 +38,10 @@ public abstract class Tile : ICloneable
     {
         return MemberwiseClone();
     }
-	public virtual void Draw(SpriteBatch spriteBatch, Vector2 position)
-	{
-		spriteBatch.Draw(Sprite, position, null, Color.White, Rotation, new Vector2(25,25),1f,SpriteEffects,0f);
-	}
+    public virtual void Draw(SpriteBatch spriteBatch, Vector2 position)
+    {
+        spriteBatch.Draw(Sprite, position, null, Color.White, Rotation, new Vector2(25, 25), 1f, SpriteEffects, 0f);
+    }
 }
 
 public class TileFloor : Tile
@@ -150,6 +151,7 @@ public class TileExit : Tile, IInteractable
     {
         if (e is not Player)
             return;
+
         Player p = (Player)e;
 
         // we're coming to an end!!!
@@ -199,9 +201,8 @@ public class TileHeal : Tile, IInteractable
     public TileHeal() : this(0f) { }
     public void Interact(Entity e, Place _)
     {
-        if (e is Player)
+        if (e is Player p)
         {
-            Player p = (Player)e;
             p.Heal(1);
         }
     }
@@ -219,22 +220,22 @@ public class TileTreasure : Tile, IInteractable
     public TileTreasure() : this(0f) { }
     public void Interact(Entity e, Place _)
     {
-        if (e is Player)
+        if (e is Player p)
         {
             Random r = new Random();
-            Player p = (Player)e;
             p.Coins += r.Next(20);
         }
     }
 }
 public class TileShower : Tile, IInteractable
 {
-	Texture2D SpriteWater = TextureManager.GetTexture("showerWater");
-	double InteractElapsed = 3000;
-	double InteractDuration = 3000;
+    Texture2D SpriteWater = TextureManager.GetTexture("showerWater");
+    private static SoundEffectInstance showerSoundInstance = SoundManager.GetSound("shower").CreateInstance();
+    double InteractElapsed = 3000;
+    double InteractDuration = 3000;
     public TileShower(float rotation, SpriteEffects fx) : base(false, rotation, fx)
     {
-		List<string> spriteNames = new() { "showerClean", "showerPiss", "showerVomit", "showerRust" };	
+        List<string> spriteNames = new() { "showerClean", "showerPiss", "showerVomit", "showerRust" };
         this.Sprite = TextureManager.GetTexture(spriteNames[new Random().Next(spriteNames.Count)]);
     }
 
@@ -243,9 +244,11 @@ public class TileShower : Tile, IInteractable
     public TileShower() : this(0f) { }
     public void Interact(Entity e, Place _)
     {
-        if (e is Player)
+        if (e is Player p)
         {
-            Player p = (Player)e;
+            showerSoundInstance.Volume = (float)(double)Settings.SfxVolume.Value;
+            showerSoundInstance.Play();
+
             var existingEffect = p.Inventory.Effects.FirstOrDefault(effect => effect is EffectLol);
             if (existingEffect != null)
                 p.Inventory.AddEffect(new EffectLol(-1));
@@ -253,25 +256,25 @@ public class TileShower : Tile, IInteractable
             existingEffect = p.Inventory.Effects.FirstOrDefault(effect => effect is EffectCooked);
             if (existingEffect != null)
                 p.Inventory.AddEffect(new EffectCooked(-1));
-			InteractElapsed = 0;
+            InteractElapsed = 0;
         }
     }
-	public override void Draw(SpriteBatch spriteBatch, Vector2 position)
-	{
-		spriteBatch.Draw(Sprite, position, null, Color.White, Rotation, new Vector2(25, 25), 1f, SpriteEffects, 0f);
-		if(IsAnimated())
-		{
-			spriteBatch.Draw(SpriteWater, position, null, Color.White * (float)Math.Min(1f, Math.Min(InteractElapsed / 400f, InteractDuration/400f - InteractElapsed / 400f)), Rotation, new Vector2(25, 25), 1f, SpriteEffects, 0f);
-		}
-	}
-	public void Update(double dt)
-	{
-		InteractElapsed += dt;
-	}
-	public bool IsAnimated()
-	{
-		return InteractElapsed <= InteractDuration;
-	}
+    public override void Draw(SpriteBatch spriteBatch, Vector2 position)
+    {
+        spriteBatch.Draw(Sprite, position, null, Color.White, Rotation, new Vector2(25, 25), 1f, SpriteEffects, 0f);
+        if (IsAnimated())
+        {
+            spriteBatch.Draw(SpriteWater, position, null, Color.White * (float)Math.Min(1f, Math.Min(InteractElapsed / 400f, InteractDuration / 400f - InteractElapsed / 400f)), Rotation, new Vector2(25, 25), 1f, SpriteEffects, 0f);
+        }
+    }
+    public void Update(double dt)
+    {
+        InteractElapsed += dt;
+    }
+    public bool IsAnimated()
+    {
+        return InteractElapsed <= InteractDuration;
+    }
 }
 
 public class TileFridge : Tile, IInteractable
@@ -286,9 +289,8 @@ public class TileFridge : Tile, IInteractable
     public TileFridge() : this(DecorationTypes.FRIDGE1, 0f) { }
     public void Interact(Entity e, Place _)
     {
-        if (e is Player)
+        if (e is Player p)
         {
-            Player p = (Player)e;
             var existingEffect = p.Inventory.Effects.FirstOrDefault(effect => effect is EffectCooked);
             if ((existingEffect != null || p.Hp < p.MaxHp) && p.Coins >= 1)
             {
@@ -311,9 +313,8 @@ public class TileCoffeeMachine : Tile, IInteractable
     public TileCoffeeMachine() : this(0f) { }
     public void Interact(Entity e, Place _)
     {
-        if (e is Player)
+        if (e is Player p)
         {
-            Player p = (Player)e;
             if (p.Hp < p.MaxHp && p.Coins >= 1)
             {
                 p.Heal(2);
@@ -333,9 +334,8 @@ public class TileComputer : Tile, IInteractable
     public TileComputer() : this(0f) { }
     public void Interact(Entity e, Place _)
     {
-        if (e is Player)
+        if (e is Player p)
         {
-            Player p = (Player)e;
             p.Inventory.AddEffect(new EffectLol(1));
         }
     }
@@ -343,26 +343,26 @@ public class TileComputer : Tile, IInteractable
 
 public class TileLocker : Tile, IInteractable
 {
-	protected bool IsOpen {  get; set; }
-	public TileLocker(float rotation, SpriteEffects fx, bool isOpen) : base(true, rotation, fx)
-	{
-		this.Sprite = TextureManager.GetTexture(DecorationTypes.KATEDRA.Value);
-		this.IsOpen = isOpen;
-	}
-	public TileLocker(float rotation, bool isOpen) : this(rotation, SpriteEffects.None, isOpen) { }
-	public TileLocker(bool isOpen) : this(0f, isOpen) { }
-	public TileLocker() : this(0f, false) { }
-	public void Interact(Entity e, Place _)
-	{
-		Screen c = TBoGVGame.screenCurrent;
-		if (c is not ScreenGame || !IsOpen)
-			return;
+    protected bool IsOpen { get; set; }
+    public TileLocker(float rotation, SpriteEffects fx, bool isOpen) : base(true, rotation, fx)
+    {
+        this.Sprite = TextureManager.GetTexture(DecorationTypes.KATEDRA.Value);
+        this.IsOpen = isOpen;
+    }
+    public TileLocker(float rotation, bool isOpen) : this(rotation, SpriteEffects.None, isOpen) { }
+    public TileLocker(bool isOpen) : this(0f, isOpen) { }
+    public TileLocker() : this(0f, false) { }
+    public void Interact(Entity e, Place _)
+    {
+        Screen c = TBoGVGame.screenCurrent;
+        if (c is not ScreenGame || !IsOpen)
+            return;
 
-		ScreenGame sg = (ScreenGame)c;
-		sg.OpenShop(ShopTypes.LOCKER);
-	}
-	public void Open()
-	{
-		IsOpen = true;
-	}
+        ScreenGame sg = (ScreenGame)c;
+        sg.OpenShop(ShopTypes.LOCKER);
+    }
+    public void Open()
+    {
+        IsOpen = true;
+    }
 }
