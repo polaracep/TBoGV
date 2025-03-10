@@ -230,8 +230,8 @@ public class TileTreasure : Tile, IInteractable
 public class TileShower : Tile, IInteractable
 {
 	Texture2D SpriteWater = TextureManager.GetTexture("showerWater");
-	double InteractElapsed = 1000;
-	double InteractDuration = 1000;
+	double InteractElapsed = 3000;
+	double InteractDuration = 3000;
     public TileShower(float rotation, SpriteEffects fx) : base(false, rotation, fx)
     {
 		List<string> spriteNames = new() { "showerClean", "showerPiss", "showerVomit", "showerRust" };	
@@ -261,7 +261,7 @@ public class TileShower : Tile, IInteractable
 		spriteBatch.Draw(Sprite, position, null, Color.White, Rotation, new Vector2(25, 25), 1f, SpriteEffects, 0f);
 		if(IsAnimated())
 		{
-			spriteBatch.Draw(SpriteWater, position, null, Color.White, Rotation, new Vector2(25, 25), 1f, SpriteEffects, 0f);
+			spriteBatch.Draw(SpriteWater, position, null, Color.White * (float)Math.Min(1f, Math.Min(InteractElapsed / 400f, InteractDuration/400f - InteractElapsed / 400f)), Rotation, new Vector2(25, 25), 1f, SpriteEffects, 0f);
 		}
 	}
 	public void Update(double dt)
