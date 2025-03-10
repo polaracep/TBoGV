@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Security.AccessControl;
 using System.Text;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
@@ -15,6 +14,12 @@ public static class FileHelper
 		{SaveType.AUTO, "autoSave/" },
 		{SaveType.GENERIC, "" },
 	};
+
+	private static JsonSerializerSettings settings = new JsonSerializerSettings
+	{
+		Formatting = Formatting.Indented,
+		Converters = { new StringEnumConverter() }
+	};
 	public static void Save<T>(string filePath, T data, SaveType saveType)
 	{
 		try
@@ -27,11 +32,6 @@ public static class FileHelper
 				Directory.CreateDirectory(directory);
 			}
 
-			JsonSerializerSettings settings = new JsonSerializerSettings
-			{
-				Formatting = Formatting.Indented,
-				Converters = { new StringEnumConverter() }
-			};
 
 			string json = JsonConvert.SerializeObject(data, settings);
 			File.WriteAllText(fullPath, json, Encoding.UTF8);

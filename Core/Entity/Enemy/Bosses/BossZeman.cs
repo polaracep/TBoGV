@@ -43,7 +43,7 @@ class BossZeman : EnemyBoss
 	{
 		PlayerPosition = playerPosition;
 		lookingLeft = playerPosition.X - Position.X < 0;
-		AligatorSfxInstance.Volume = (float)Settings.SfxVolume.GetValue();
+		AligatorSfxInstance.Volume = (float)(double)Settings.SfxVolume.Value;
 		UpdatePhase(dt);
 	}
 	protected void UpdatePhase(double dt)

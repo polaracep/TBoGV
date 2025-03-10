@@ -28,21 +28,21 @@ public class ScreenSettings : Screen
 
         foreach (var (setting, index) in list.Select((setting, index) => (setting, index)))
         {
-            Type t = setting.GetValue().GetType();
+            Type t = setting.Value.GetType();
             if (t == typeof(bool))
             {
                 settingElements.Add(new Checkbox(setting.Name,
                     Vector2.Zero,
-                    (bool)setting.GetValue(),
-                    x => setting.SetValue(x)));
+                    (bool)setting.Value,
+                    x => setting.Value = x));
             }
-            else if (t == typeof(float))
+            else if (t == typeof(double))
             {
                 settingElements.Add(new Slider(0f, 1f,
-                    (float)setting.GetValue(), v.Width / 10, 10,
+                    (float)(double)setting.Value, v.Width / 10, 10,
                     setting.Name,
                     LargerFont,
-                    x => setting.SetValue(x)));
+                    x => setting.Value = x));
             }
 
         }

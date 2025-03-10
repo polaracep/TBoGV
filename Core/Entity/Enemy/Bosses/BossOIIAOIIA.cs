@@ -66,7 +66,7 @@ class BossOIIAOIIA : EnemyBoss
 	{
 		phaseChangeElapsed += dt;
 		lastFrameChangeElapsed += dt;
-		SfxOIIAInstance.Volume = (float)Settings.SfxVolume.GetValue();
+		SfxOIIAInstance.Volume = (float)(double)Settings.SfxVolume.Value;
 		UpdatePhase(playerPosition);
 		UpdateAnimation();
 	}

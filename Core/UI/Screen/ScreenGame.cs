@@ -16,7 +16,7 @@ public class ScreenGame : Screen
     private InGameMenu activeMenu = null;
     private List<Minigame> miniGames = new List<Minigame>();
     private Viewport _viewport;
-    private bool InTutorial;
+    private bool inTutorial;
 
     private UI UI;
     private MouseState mouseState;
@@ -36,7 +36,6 @@ public class ScreenGame : Screen
 
         lobby = new Lobby(player);
 
-
         UI = new UI();
         _camera = new Camera();
         _viewport = graphics.GraphicsDevice.Viewport;
@@ -53,7 +52,7 @@ public class ScreenGame : Screen
             MediaPlayer.Stop();
         }
         // MediaPlayer.Play(Song);
-        MediaPlayer.Volume = (float)Settings.MusicVolume.GetValue();
+        MediaPlayer.Volume = (float)Convert.ToDouble(Settings.MusicVolume.Value);
 
         SendPlayerToLobby();
     }
@@ -90,9 +89,9 @@ public class ScreenGame : Screen
         // check right activeplace
         // if (Storyline.CurrentLevel?.ActiveRoom != activePlace && player.IsPlaying)
         //activePlace = Storyline.CurrentLevel.ActiveRoom;
-        if (Storyline.CurrentLevel?.ActiveRoom != activePlace && player.IsPlaying && !InTutorial)
+        if (Storyline.CurrentLevel?.ActiveRoom != activePlace && player.IsPlaying && !inTutorial)
             activePlace = Storyline.CurrentLevel.ActiveRoom;
-        if (Storyline.CurrentLevel?.ActiveRoom != activePlace && player.IsPlaying && InTutorial)
+        if (Storyline.CurrentLevel?.ActiveRoom != activePlace && player.IsPlaying && inTutorial)
             activePlace = tutorial.ActiveRoom;
 
         // ingamemenu update
@@ -121,14 +120,14 @@ public class ScreenGame : Screen
             player.Update(keyboardState, mouseState, _camera.Transform, activePlace, _viewport, dt);
             activePlace.Update(dt);
             UI.Update(player, graphics);
-            if ((bool)Settings.FixedCamera.GetValue())
+            if ((bool)Settings.FixedCamera.Value)
                 _camera.SetCenter(_viewport, player.Position);
             else
                 _camera.SetCenter(_viewport, activePlace.Dimensions * Tile.GetSize() / 2);
             _camera.Update(_viewport, player.Position + player.Size / 2);
 
             // update volume
-            MediaPlayer.Volume = (float)Settings.MusicVolume.GetValue();
+            MediaPlayer.Volume = Convert.ToSingle(Settings.MusicVolume.Value);
             if (MediaPlayer.State == MediaState.Paused)
                 MediaPlayer.Resume();
             else if (MediaPlayer.State == MediaState.Stopped)
@@ -263,7 +262,7 @@ public class ScreenGame : Screen
         if (player != GameManager.Player)
             player = GameManager.Player;
 
-        InTutorial = false;
+        inTutorial = false;
         player.IsPlaying = false;
         activePlace = lobby;
         player.Position = lobby.SpawnPos * 50;
@@ -289,7 +288,7 @@ public class ScreenGame : Screen
         tutorial = new TutorialLevel(player);
 
         player.IsPlaying = true;
-        InTutorial = true;
+        inTutorial = true;
 
         activePlace = tutorial.ActiveRoom;
         player.Position = activePlace.SpawnPos * 50;

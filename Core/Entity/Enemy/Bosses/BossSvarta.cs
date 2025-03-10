@@ -47,8 +47,8 @@ class BossSvarta : EnemyBoss
 	public override void Update(Vector2 playerPosition, double dt)
 	{
 		phaseChangeElapsed += dt;
-		SfxJeMuHodneInstance.Volume = (float)Settings.SfxVolume.GetValue();
-		SfxSvartaDelejInstance.Volume = (float)Settings.SfxVolume.GetValue();
+		SfxJeMuHodneInstance.Volume = (float)(double)Settings.SfxVolume.Value;
+		SfxSvartaDelejInstance.Volume = (float)(double)Settings.SfxVolume.Value;
 		UpdatePhase(playerPosition);
 	}
 

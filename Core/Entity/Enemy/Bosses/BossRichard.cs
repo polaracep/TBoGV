@@ -47,7 +47,7 @@ class BossRichard : EnemyBoss
 		DirectionChangeElapsed += dt;
 		Direction = new Vector2(playerPosition.X, playerPosition.Y) - Position - Size / 2;
 		Direction.Normalize();
-		SfxRickrollInstance.Volume = (float)Settings.SfxVolume.GetValue();
+		SfxRickrollInstance.Volume = (float)(double)Settings.SfxVolume.Value;
 		UpdatePhase(playerPosition);
 		UpdateScale();
 		UpdateAnimation();
