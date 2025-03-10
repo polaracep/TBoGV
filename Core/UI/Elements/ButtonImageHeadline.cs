@@ -7,7 +7,6 @@ namespace TBoGV;
 public class ButtonImageHeadline : Button
 {
     Texture2D Sprite;
-    ImageOrientation ImageOrientation;
     float ImageScale;
     protected string Headline;
     public ButtonImageHeadline(string headline, string text, SpriteFont font, Action onClick, Texture2D sprite) : base(text, font, onClick)
