@@ -17,7 +17,7 @@ public class MinigameKomisionalky : Minigame
 	private int arrowPosition;
 	private int successCount = 0;
 	private int RequiredSuccesses = 3;
-	private float arrowSpeed = 500f;
+	private float arrowSpeed = 225f;
 	private bool movingRight = true;
 	private bool highlightSegment = false;
 	private double highlightTime = 0;
@@ -131,13 +131,13 @@ public class MinigameKomisionalky : Minigame
 				successCount++;
 				highlightedSegment = (arrowPosition / SegmentWidth) * SegmentWidth;
 				highlightSegment = true;
-				highlightTime = 0.2;
+				highlightTime = 0.4;
 			}
 			else
 			{
 				highlightedSegment = (arrowPosition / SegmentWidth) * SegmentWidth;
 				highlightSegment = true;
-				highlightTime = 0.2;
+				highlightTime = 0.4;
 				State = minigameState.FAILURE;
 			}
 		}
