@@ -1,5 +1,4 @@
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using TBoGV;
 public class TutorialLevel
 {
@@ -8,18 +7,15 @@ public class TutorialLevel
     private Vector2 ActiveRoomCoords;
     private Player _player;
 
-    public static string NpcName { get; private set; } = "Schovánek";
-    // TODO: Schovanek
-    public static Texture2D NpcSprite { get; private set; } = TextureManager.GetTexture("sarka");
 
     public TutorialLevel(Player player)
     {
         _player = player;
         TileDoor.TileInteract += OnRoomChanged;
         RoomMap = new Room[,]{
-            {new TutorialRoom(new Vector2(13), _player, true, new DialogueIntro(), null)},
-            {new TutorialRoom(new Vector2(9), _player, true, new DialogueIntro(), null)},
-            {new TutorialRoom(new Vector2(13), _player, false, [new EnemyCat(), new EnemySoldier()], new DialogueIntro(), new DialogueIntro())},
+            {new TutorialRoom(new Vector2(13), _player, true, new DialogueTutorial1(), null)},
+            {new TutorialRoom(new Vector2(9), _player, true, new DialogueTutorial2(), null)},
+            {new TutorialRoom(new Vector2(13), _player, false, [new EnemyCat(), new EnemySoldier()], new DialogueTutorial3(), new DialogueTutorial4())},
         };
 
         // tvorba dveri

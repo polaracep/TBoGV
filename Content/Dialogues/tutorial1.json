@@ -1,0 +1,10 @@
+{
+    "story": {
+        "0": [
+        "Pohybovat se můžeš pomocí WASD, nebo šipek na klávesnici.",
+        "S okolím interaguješ pomocí klávesy E nebo pravého myšítka",
+        "Zkus dojít ke dveřím a projdi do další místnosti."
+        ]
+    },
+    "choices": { }
+}

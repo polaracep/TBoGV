@@ -66,12 +66,16 @@ public class Inventory
 			}
 		}
 	}
+	public void RemoveAllItems()
+	{
+		ItemContainers.RemoveAll(x => true);
+	}
 	public void RemoveItem(ItemContainerable item)
 	{
 		foreach (var c in ItemContainers)
 		{
-            if (c.Item != null && c.Item.GetType() == item.GetType())
-            {
+			if (c.Item != null && c.Item.GetType() == item.GetType())
+			{
 				c.Item = null;
 				return;
 			}
@@ -208,7 +212,7 @@ public class Inventory
 		}
 		SetActiveItemContainer();
 
-    }
+	}
 	private void SetActiveItemContainer()
 	{
 		for (int i = 0; i < ItemContainers.Count; i++)
@@ -261,7 +265,7 @@ public class Inventory
 	}
 	public ItemContainerable DropItem(Vector2 position, Player player)
 	{
-		if(ItemContainers[selectedItemIndex].IsEmpty())
+		if (ItemContainers[selectedItemIndex].IsEmpty())
 			return null;
 		var item = ItemContainers[selectedItemIndex].Item;
 		float hp = player.Hp;
@@ -279,23 +283,23 @@ public class Inventory
 			item.Position = position;
 			item.InitMovement();
 		}
-        return item;
+		return item;
 	}
-    public List<ItemContainerable> DropAllItems(Vector2 position, Player player)
-    {
+	public List<ItemContainerable> DropAllItems(Vector2 position, Player player)
+	{
 		int selectedTmp = selectedItemIndex;
 		List<ItemContainerable> items = new List<ItemContainerable>();
 		for (int i = 0; i < ItemContainers.Count; i++)
 		{
 			selectedItemIndex = i;
 			var item = DropItem(position, player);
-			if(item != null)
+			if (item != null)
 				items.Add(item);
 		}
 		selectedItemIndex = selectedTmp;
 		return items;
-    }
-    public bool PickUpItem(ItemContainerable item)
+	}
+	public bool PickUpItem(ItemContainerable item)
 	{
 		switch (item.ItemType)
 		{

@@ -36,7 +36,6 @@ public class ScreenGame : Screen
 
         lobby = new Lobby(player);
 
-        tutorial = new TutorialLevel(player);
 
         UI = new UI();
         _camera = new Camera();
@@ -248,16 +247,19 @@ public class ScreenGame : Screen
         };
     }
 
-    public void OpenDialogue(EntityPassive entity) { OpenDialogue(entity.Dialogue, entity.Name, entity.GetSprite()); }
-    public void OpenDialogue(Dialogue dialogue, string name, Texture2D sprite)
+    public void OpenDialogue(Dialogue dialogue)
     {
-        activeMenu = new InGameMenuDialogue(_viewport, dialogue, name, sprite);
+        activeMenu = new InGameMenuDialogue(_viewport, dialogue);
     }
 
     public void SendPlayerToLobby()
     {
         if (activePlace != null)
             activePlace.OnExit();
+
+        if (player != GameManager.Player)
+            player = GameManager.Player;
+
         InTutorial = false;
         player.IsPlaying = false;
         activePlace = lobby;
@@ -267,6 +269,10 @@ public class ScreenGame : Screen
     public void SendPlayerToLevel()
     {
         activePlace.OnExit();
+
+        if (player != GameManager.Player)
+            player = GameManager.Player;
+
         player.IsPlaying = true;
         Storyline.NextLevel();
         activePlace = Storyline.CurrentLevel.ActiveRoom;
@@ -276,8 +282,12 @@ public class ScreenGame : Screen
     public void SendPlayerToTutorial()
     {
         activePlace.OnExit();
+        player = new Player();
+        tutorial = new TutorialLevel(player);
+
         player.IsPlaying = true;
         InTutorial = true;
+
         activePlace = tutorial.ActiveRoom;
         player.Position = activePlace.SpawnPos * 50;
         activePlace.OnEntry();

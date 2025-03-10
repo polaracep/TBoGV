@@ -24,7 +24,7 @@ public static class TextureManager
             "showerPiss",
             "showerRust",
             "showerFloor",
-			"showerWater",
+            "showerWater",
 
             // "floorHallway",
 
@@ -166,6 +166,7 @@ public static class TextureManager
             "tbogv",
             "richard",
             "vyzo",
+            "wiseman",
         };
 
         foreach (string name in names)
@@ -270,6 +271,10 @@ public static class DialogueManager
         List<string> names = new List<string>
         {
             "intro",
+            "tutorial1",
+            "tutorial2",
+            "tutorial3",
+            "tutorial4",
         };
 
         foreach (string name in names)

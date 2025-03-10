@@ -2,12 +2,17 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.Json;
+using Microsoft.Xna.Framework.Graphics;
 
 public abstract class Dialogue
 {
     protected abstract JsonElement root { get; set; }
     protected List<DialogueElement> dialogue = [];
     public Dictionary<int, Action> Actions = [];
+    public abstract string NpcName { get; set; }
+    // TODO: Schovanek
+    public abstract Texture2D NpcSprite { get; set; }
+
     public DialogueElement CurrentElement
     {
         get => dialogue[index];
@@ -39,7 +44,7 @@ public abstract class Dialogue
     public bool Advance()
     {
         index++;
-        return index < dialogue.Count - 1;
+        return index < dialogue.Count;
     }
 
     protected void ParseDialogue()

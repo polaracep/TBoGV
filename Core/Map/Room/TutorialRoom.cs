@@ -42,7 +42,7 @@ class TutorialRoom : RoomClassroom
         if (PlayedDialogueStart || DialogueStart == null)
             return;
 
-        ScreenManager.ScreenGame.OpenDialogue(DialogueStart, TutorialLevel.NpcName, TutorialLevel.NpcSprite);
+        ScreenManager.ScreenGame.OpenDialogue(DialogueStart);
         PlayedDialogueStart = true;
     }
 
@@ -51,7 +51,7 @@ class TutorialRoom : RoomClassroom
         if (PlayedDialogueEnd || DialogueEnd == null)
             return;
 
-        ScreenManager.ScreenGame.OpenDialogue(DialogueEnd, TutorialLevel.NpcName, TutorialLevel.NpcSprite);
+        ScreenManager.ScreenGame.OpenDialogue(DialogueEnd);
         PlayedDialogueEnd = true;
     }
 }

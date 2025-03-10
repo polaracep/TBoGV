@@ -1,7 +1,6 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -18,22 +17,26 @@ public class InGameMenuDialogue : InGameMenu
     private Texture2D npcSprite;
     private Dialogue dialogue;
 
+    bool shouldAdvance = false;
+
     // Menu buttons.
     private List<Button> choiceButtons = new List<Button>();
     private Button nextButton;
+    private Vector2 buttonPadding = new Vector2(20, 10);
 
-    public InGameMenuDialogue(Viewport viewport, EntityPassive entity) : this(viewport, entity.Dialogue, entity.Name, entity.GetSprite()) { }
-    public InGameMenuDialogue(Viewport viewport, Dialogue dialogue, string name, Texture2D sprite)
+    public InGameMenuDialogue(Viewport viewport, EntityPassive entity) : this(viewport, entity.Dialogue) { }
+    public InGameMenuDialogue(Viewport viewport, Dialogue dialogue)
     {
         Viewport = viewport;
         SpriteBackground = TextureManager.GetTexture("blackSquare");
 
+
         this.dialogue = dialogue;
-        npcName = name;
-        npcSprite = sprite;
+        npcName = dialogue.NpcName;
+        npcSprite = dialogue.NpcSprite;
 
         nextButton = new Button("Dále", buttonFont, () => AdvanceDialogue());
-        nextButton.SetSize(buttonFont.MeasureString("Dále") + new Vector2(50, 25));
+        nextButton.SetSize(buttonFont.MeasureString("Dále") + buttonPadding);
     }
 
     public override void Draw(SpriteBatch spriteBatch)
@@ -48,13 +51,13 @@ public class InGameMenuDialogue : InGameMenu
             Color.White
         );
 
-        int size = 2;
+        float size = 100 / npcSprite.Width;
         Vector2 spritePos = new Vector2((Viewport.Width - (size * npcSprite.Width)) / 2, prcY(20));
         Rectangle spriteRect = new Rectangle(
             (int)spritePos.X,
             (int)spritePos.Y,
-            size * npcSprite.Width,
-            size * npcSprite.Height);
+            (int)size * npcSprite.Width,
+            (int)size * npcSprite.Height);
         spriteBatch.Draw(npcSprite, spriteRect, Color.White);
 
 
@@ -111,7 +114,6 @@ public class InGameMenuDialogue : InGameMenu
                 AdvanceDialogue();
         }
     }
-    bool shouldAdvance = false;
 
     protected void AdvanceDialogue()
     {
@@ -137,7 +139,7 @@ public class InGameMenuDialogue : InGameMenu
                     dialogue.Respond(reference);
                     shouldAdvance = true;
                 }));
-                choiceButtons.Last().SetSize(buttonFont.MeasureString(t) + new Vector2(50, 25));
+                choiceButtons.Last().SetSize(buttonFont.MeasureString(t) + buttonPadding);
                 choiceButtons.Last().SetTextColor(Color.White);
             }
             return;
