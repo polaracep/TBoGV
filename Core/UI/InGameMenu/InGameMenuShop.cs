@@ -16,7 +16,7 @@ public class InGameMenuShop : InGameMenu
 
     // The three items currently offered in the shop.
     private List<ShopItem> currentShopItems = new List<ShopItem>();
-	private List<ButtonImage> Buttons = new List<ButtonImage>();
+	private List<ButtonImageHeadline> Buttons = new List<ButtonImageHeadline>();
 
     private KeyboardState previousKeyboardState;
 
@@ -110,7 +110,7 @@ public class InGameMenuShop : InGameMenu
 
         foreach (var item in currentShopItems)
         {
-            Buttons.Add(new ButtonImage(ActiveShop is ShopLocker ? "" : Convert.ToString(item.Price) + "c", MiddleFont, () =>
+            Buttons.Add(new ButtonImageHeadline(item.Item.Name, ActiveShop is ShopLocker ? "" : Convert.ToString(item.Price) + "c", MiddleFont, () =>
             {
                 if (player.Coins < item.Price)
                     return;
@@ -147,13 +147,13 @@ public class InGameMenuShop : InGameMenu
                 }
 
                 CloseMenu.Invoke();
-            }, item.Item.GetSprite(), ImageOrientation.TOP));
+            }, item.Item.GetSprite()));
         }
 
         foreach (var b in Buttons)
         {
             b.SetTextColor(Color.Yellow);
-            b.SetSize(new Vector2(100, 100));
+            b.SetSize(new Vector2(200, 200));
         }
     }
 
