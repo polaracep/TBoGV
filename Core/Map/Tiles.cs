@@ -230,9 +230,9 @@ public class TileTreasure : Tile, IInteractable
 public class TileShower : Tile, IInteractable
 {
     Texture2D SpriteWater = TextureManager.GetTexture("showerWater");
-    private static SoundEffectInstance showerSoundInstance = SoundManager.GetSound("shower").CreateInstance();
-    double InteractElapsed = 3000;
-    double InteractDuration = 3000;
+    private SoundEffectInstance showerSoundInstance = SoundManager.GetSound("shower").CreateInstance();
+    double InteractElapsed = SoundManager.GetSound("shower").Duration.TotalMilliseconds;
+    double InteractDuration = SoundManager.GetSound("shower").Duration.TotalMilliseconds;
     public TileShower(float rotation, SpriteEffects fx) : base(false, rotation, fx)
     {
         List<string> spriteNames = new() { "showerClean", "showerPiss", "showerVomit", "showerRust" };
