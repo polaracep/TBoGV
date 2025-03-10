@@ -28,7 +28,23 @@ public class RoomLocker : Room
 	}
 	protected void GeneratePassive()
 	{
-		Entities.Add(new EntitySkolnik(GetTileWorldPos(new Vector2(3, 3))));
+        var skolnik = new EntitySkolnik();
+        while (true)
+        {
+            Vector2 spawnPos = new Vector2(
+                Random.Shared.Next(50 * ((int)Dimensions.X - 3)) + 50,
+                Random.Shared.Next(50 * ((int)Dimensions.Y - 3)) + 50);
+
+            if (Doors.Any(d => ((d.DoorTpPosition * 50) - spawnPos).Length() < 100))
+                continue;
+
+            if (!ShouldCollideAt(new Rectangle(spawnPos.ToPoint(), skolnik.Size.ToPoint())))
+            {
+                skolnik.Position = spawnPos;
+                Entities.Add(skolnik);
+                break;
+            }
+        }
 	}
 
 	protected override void GenerateBase()
@@ -198,4 +214,16 @@ public class RoomLocker : Room
 	{
 		GenerateEnemies((Storyline.Difficulty / 2) + 1);
 	}
+    public override void Update(double dt)
+    {
+        base.Update(dt);
+        foreach (var e in Entities)
+        {
+            if( e is EntitySkolnik skolnik)
+            {
+                skolnik.Move(this);
+                skolnik.Update(dt);
+            }
+        }
+    }
 }

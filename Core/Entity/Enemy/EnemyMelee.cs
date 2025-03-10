@@ -10,7 +10,7 @@ public abstract class EnemyMelee : Enemy
 	protected double lastPathUpdateElapsed = 0;
 	protected Vector2 PlayerPosition;
 	protected Vector2 targetPosition;
-	protected float pathUpdateCooldown = 0.1f;
+	protected float pathUpdateCooldown = 100;
 	protected Queue<Vector2> path = new Queue<Vector2>();
 	protected bool Moving;
 	protected double phaseChangeElapsed = 0;
