@@ -25,6 +25,16 @@ public class InGameMenuShop : InGameMenu
     private static int resetCount = 0;
     private const int maxResetCount = 1;
     private static ShopTypes? previousShopType = null;
+
+    private static Random rng = new Random();
+
+    private static Dictionary<int, double> rarityWeights = new Dictionary<int, double>
+{
+    { 1, 0.35 }, // Common
+    { 2, 0.35 }, // Uncommon
+    { 3, 0.2 }, // Rare
+    { 4, 0.1 }  // Legendary
+};
     public InGameMenuShop(Viewport viewport, Player player, ShopTypes type, int lockerId)
     {
         Viewport = viewport;
@@ -92,10 +102,15 @@ public class InGameMenuShop : InGameMenu
                 ShopLocker.RenewedById[lockerId.Value] = true;
             }
 
-            ActiveShop.ItemPool.OrderBy(x => Random.Shared.Next())
+            // Get weighted items list
+            var weightedItems = ActiveShop.ItemPool
+                .SelectMany(item => Enumerable.Repeat(item, (int)(rarityWeights.GetValueOrDefault(item.Rarity, 0) * 100)))
+                .OrderBy(_ => rng.Next()) 
                 .Take(ActiveShop.ItemCount)
-                .ToList()
-                .ForEach(item => currentShopItems.Add(new ShopItem(item, ActiveShop is ShopLocker ? 0 : item.GetCost())));
+                .ToList();
+
+            // Add selected items to shop
+            weightedItems.ForEach(item => currentShopItems.Add(new ShopItem(item, ActiveShop is ShopLocker ? 0 : item.GetCost())));
 
             if (player.Inventory.GetEffect().Contains(EffectTypes.EXPENSIVE))
                 currentShopItems.ForEach(x => x.Price *= (int)(2 + Random.Shared.NextDouble() * 0.7));
