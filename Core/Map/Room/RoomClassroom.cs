@@ -88,13 +88,10 @@ public class RoomClassroom : Room
             AddDecoTile(new Vector2(3, Dimensions.Y - 4), new TileComputer(-MathHelper.PiOver2));
             AddDecoTile(new Vector2(3, Dimensions.Y - 3), new TileDecoration(false, DecorationTypes.CHAIR_CLASSROOM, -MathHelper.PiOver2));
             AddDecoTile(new Vector2(Dimensions.X / 2, Dimensions.Y - 1), new TileDecoration(true, DecorationTypes.BLACKBOARD, MathHelper.PiOver2));
-
-
-
         }
     }
     protected override void GenerateEnemies()
     {
-        GenerateEnemies(Storyline.Difficulty * 2);
+        GenerateEnemies((int)(2 + (Storyline.Difficulty -1)*1.5));
     }
 }
