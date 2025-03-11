@@ -30,13 +30,15 @@ public abstract class Room : Place
     protected List<Projectile> Projectiles = new List<Projectile>();
 
     public bool IsEndRoom = false;
+    public bool IsVisited = false;
     /// <summary>
     /// List of spawnable enemies
     /// </summary>
     protected List<Enemy> EnemyPool = new List<Enemy>();
     protected abstract List<Enemy> validEnemies { get; set; }
     protected Directions? direction = null;
-
+    protected static Texture2D SpriteBlacksquare = TextureManager.GetTexture("blackSquare");
+    protected static Texture2D SpriteWhitesquare = TextureManager.GetTexture("whiteSquare");
     public Room((int sMin, int sMax, int bMax) dimensions, Player p, List<Entity> entityList)
     {
         player = p;
@@ -424,5 +426,25 @@ public abstract class Room : Place
         foreach (Particle particle in Particles)
             particle.Draw(spriteBatch);
     }
+    public Vector2 IconBaseSize = new Vector2(10);
+    public virtual void DrawMinimapIcon(SpriteBatch spriteBatch, Vector2 position, float scale = 20f, bool active = false)
+    {
+        int width = (int)(IconBaseSize.X * scale);
+        int height = (int)(IconBaseSize.Y * scale);
+
+        // Draw the black filled rectangle (inside of the room)
+        spriteBatch.Draw(SpriteBlacksquare, new Rectangle((int)position.X, (int)position.Y, width, height), Color.White);
+
+        // Draw the white outline
+        // Top border
+        spriteBatch.Draw(SpriteWhitesquare, new Rectangle((int)position.X, (int)position.Y, width, 1), active ? Color.Aqua :Color.White);
+        // Bottom border
+        spriteBatch.Draw(SpriteWhitesquare, new Rectangle((int)position.X, (int)(position.Y + height - 1), width, 1), active ? Color.Aqua : Color.White);
+        // Left border
+        spriteBatch.Draw(SpriteWhitesquare, new Rectangle((int)position.X, (int)position.Y, 1, height), active ? Color.Aqua : Color.White);
+        // Right border
+        spriteBatch.Draw(SpriteWhitesquare, new Rectangle((int)(position.X + width - 1), (int)position.Y, 1, height), active ? Color.Aqua : Color.White);
+    }
+
 
 }

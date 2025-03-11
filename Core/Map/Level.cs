@@ -8,14 +8,14 @@ public class Level
 {
     protected int Size;
     protected int RoomCount;
-    protected Room[,] RoomMap;
+    public Room[,] RoomMap;
     public Room ActiveRoom { get; private set; }
     protected Vector2 ActiveRoomCoords;
     protected Player Player;
     protected Vector2 StartRoomCoords;
 
 
-    protected RoomStart StartRoom;
+    public RoomStart StartRoom;
 
     public Level(Player player, List<Room> roomList, RoomStart startRoom, Room endRoom, uint maxSize, Vector2 startRoomPos)
     {
@@ -34,6 +34,7 @@ public class Level
         LevelCreator lC = new LevelCreator(roomList, startRoom, endRoom, 7, startRoomPos);
         RoomMap = lC.GenerateLevel(out startRoomPos);
         ActiveRoom = RoomMap[(int)startRoomPos.X, (int)startRoomPos.Y];
+        ActiveRoom.IsVisited = true;
         ActiveRoomCoords = startRoomPos;
 
         TileDoor.TileInteract += OnRoomChanged;
@@ -72,6 +73,7 @@ public class Level
         ActiveRoom.OnExit();
         ActiveRoom = RoomMap[(int)ActiveRoomCoords.X, (int)ActiveRoomCoords.Y];
         ActiveRoom.OnEntry();
+        ActiveRoom.IsVisited = true;
 
         if (!ActiveRoom.IsGenerated)
             ActiveRoom.Generate();

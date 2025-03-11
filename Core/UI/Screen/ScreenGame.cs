@@ -175,7 +175,11 @@ public class ScreenGame : Screen
             if (activeMenu == null)
                 activeMenu = new InGameMenuItemJournal(_viewport);
         }
-
+        if (KeyReleased(Keys.M) && MinigameRooted.State != minigameState.ONGOING)
+        {
+            if (activeMenu == null)
+                activeMenu = new InGameMenuMinimap(_viewport, player);
+        }
 #if DEBUG
         if (keyboardState.IsKeyDown(Keys.P) && previousKeyboardState.IsKeyUp(Keys.P))
         {

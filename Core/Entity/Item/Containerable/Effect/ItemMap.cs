@@ -15,7 +15,7 @@ class ItemMap : ItemContainerable
 		Position = position;
 		Size = new Vector2(50, 50);
 		Name = "Gymvod plánek";
-		Description = "S ním se neztratíš. \n(minimapu otevřeš M)\n--není implementováno--";
+		Description = "S ním se neztratíš. \n(minimapu otevřeš M)\n";
 		Stats = new Dictionary<StatTypes, int>() { };
 		Effects = new List<EffectTypes>() { EffectTypes.MAP_REVEAL };
 		Sprite = TextureManager.GetTexture("gymvodMap");

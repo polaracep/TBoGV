@@ -32,6 +32,7 @@ public class Inventory
 		// kalkulacka.Item = new ItemCalculator(Vector2.Zero);
 		// kalkulacka.Selected = true;
 		weapon.Item = new ItemPencil(Vector2.Zero);
+		//effect.Item = new ItemMap();
 		ItemContainers = new List<ItemContainer>() { weapon, armor, effect, kalkulacka, new ItemContainer(), new ItemContainer() };
 		SpriteForeground = TextureManager.GetTexture("whiteSquare");
 		SpriteToolTip = TextureManager.GetTexture("containerBorder");

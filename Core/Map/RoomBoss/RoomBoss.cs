@@ -2,11 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using TBoGV;
 
 public abstract class RoomBoss : Room
 {
-	public RoomBoss(Vector2 dimensions, Player p) : base(dimensions, p) { }
+	public RoomBoss(Vector2 dimensions, Player p) : base(dimensions, p) {  }
 
 	// this won't be used, bosses have a different way of generating
 	protected override List<Enemy> validEnemies { get; set; } = [];
@@ -56,5 +57,14 @@ public abstract class RoomBoss : Room
 			}
 		}
 	}
+    protected static Texture2D SpriteIcon = TextureManager.GetTexture("bossIcon");
+    public override void DrawMinimapIcon(SpriteBatch spriteBatch, Vector2 position, float scale = 2, bool active = false)
+    {
+        base.DrawMinimapIcon(spriteBatch, position, scale, active);
+        int width = (int)(IconBaseSize.X * scale);
+        int height = (int)(IconBaseSize.Y * scale);
+
+        spriteBatch.Draw(SpriteIcon, position + (new Vector2(width, height) - new Vector2(SpriteIcon.Width, SpriteIcon.Height)) / 2, Color.White);
+    }
 }
 

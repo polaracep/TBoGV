@@ -128,6 +128,9 @@ public static class TextureManager
             "check",
             "cross",
             "reroll",
+            "bossIcon",
+            "showerIcon",
+            "lockerIcon",
 
             // Items
             "heal",

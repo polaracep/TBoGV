@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using TBoGV;
 
 public class RoomLocker : Room
@@ -225,5 +226,14 @@ public class RoomLocker : Room
                 skolnik.Update(dt);
             }
         }
+    }
+    protected static Texture2D SpriteIcon = TextureManager.GetTexture("lockerIcon");
+    public override void DrawMinimapIcon(SpriteBatch spriteBatch, Vector2 position, float scale = 2, bool active = false)
+    {
+        base.DrawMinimapIcon(spriteBatch, position, scale, active);
+        int width = (int)(IconBaseSize.X * scale);
+        int height = (int)(IconBaseSize.Y * scale);
+
+        spriteBatch.Draw(SpriteIcon, position + (new Vector2(width, height) - new Vector2(SpriteIcon.Width, SpriteIcon.Height)) / 2, Color.White);
     }
 }
