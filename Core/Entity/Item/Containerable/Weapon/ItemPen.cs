@@ -10,12 +10,12 @@ class ItemPen : ItemContainerable
 	static Texture2D Sprite;
 	public ItemPen(Vector2 position)
 	{
-		Rarity = 3;
+		Rarity = 2;
 		Position = position;
 		Size = new Vector2(50, 50);
 		Name = "Propiska";
 		Description = "Nerýsuj s tím proboha";
-		Stats = new Dictionary<StatTypes, float>() { { StatTypes.DAMAGE, 2 }, { StatTypes.ATTACK_SPEED, 1500 } };
+		Stats = new Dictionary<StatTypes, float>() { { StatTypes.DAMAGE, 2 }, { StatTypes.ATTACK_SPEED, 1212 } };
 		Effects = new List<EffectTypes>();
 		Sprite = TextureManager.GetTexture("pen");
 		ItemType = ItemTypes.WEAPON;

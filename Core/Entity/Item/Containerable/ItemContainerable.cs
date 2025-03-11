@@ -169,6 +169,7 @@ public static class ItemDatabase
 			new ItemFixa(),
 			new ItemLabcoat(),
 			new ItemPencil(),
+			new ItemRuler(),
 		};
 
 		foreach (var item in itemsList)

@@ -161,6 +161,7 @@ public static class TextureManager
             "scissors",
             "fialovaFixa",
             "labCoat",
+            "pravyuhel",
 
             // Misc
             "gymvod",
