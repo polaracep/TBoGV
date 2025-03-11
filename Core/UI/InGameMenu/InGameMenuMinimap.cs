@@ -13,6 +13,7 @@ class InGameMenuMinimap : InGameMenu
     private static SpriteFont MiddleFont = FontManager.GetFont("Arial12");
     private static Level LevelToDraw = Storyline.CurrentLevel;
     private static Texture2D WhiteSquare = TextureManager.GetTexture("whiteSquare");
+    private KeyboardState previousKeyboardState;
 
     public InGameMenuMinimap(Viewport viewport, Player player)
     {
@@ -26,7 +27,12 @@ class InGameMenuMinimap : InGameMenu
     public override void Update(Viewport viewport, Player player, MouseState mouseState, KeyboardState keyboardState, double dt)
     {
         base.Update(viewport, player, mouseState, keyboardState, dt);
-
+        if (previousKeyboardState.IsKeyDown(Keys.M) && keyboardState.IsKeyUp(Keys.M))
+        {
+            CloseMenu.Invoke();
+            return;
+        }
+        previousKeyboardState = keyboardState;
     }
 
     public override void Draw(SpriteBatch spriteBatch)
