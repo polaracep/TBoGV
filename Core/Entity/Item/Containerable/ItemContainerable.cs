@@ -13,7 +13,7 @@ public abstract class ItemContainerable : Item
 	// rarity 3 - epic
 	// rarity 4 - legendary
  	public ItemTypes ItemType { get; set; }
-	public Dictionary<StatTypes, int> Stats { get; set; }
+	public Dictionary<StatTypes, float> Stats { get; set; }
 	public List<EffectTypes> Effects { get; set; }
 	public bool IsKnown = true;
 	public override void Interact(Entity e, Place p)
@@ -104,9 +104,9 @@ public static class StatConverter
 		{ StatTypes.ATTACK_SPEED, "ATTACK_SPEED" },
 		{ StatTypes.MOVEMENT_SPEED, "MOVEMENT_SPEED" }
 	};
-	public static Dictionary<StatTypes, int> ConvertToStatDictionary(Dictionary<string, int> input)
+	public static Dictionary<StatTypes, float> ConvertToStatDictionary(Dictionary<string, float> input)
 	{
-		Dictionary<StatTypes, int> result = new();
+		Dictionary<StatTypes, float> result = new();
 
 		foreach (var pair in input)
 		{
@@ -118,9 +118,9 @@ public static class StatConverter
 
 		return result;
 	}
-	public static Dictionary<string, int> ConvertToStringDictionary(Dictionary<StatTypes, int> input)
+	public static Dictionary<string, float> ConvertToStringDictionary(Dictionary<StatTypes, float> input)
 	{
-		Dictionary<string, int> result = new();
+		Dictionary<string, float> result = new();
 
 		foreach (var pair in input)
 		{

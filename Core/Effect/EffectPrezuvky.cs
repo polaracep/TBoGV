@@ -22,7 +22,7 @@ class EffectPrezuvky : Effect
         Name = "Kde je přezutí?";
         Description = "Ano, možná máš na sobě nějaké boty, ale určitě to nejsou přezůvky.";
         Positive = false;
-        Stats = new Dictionary<StatTypes, int>();
+        Stats = new Dictionary<StatTypes, float>();
         Level = 0;
         LevelCap = 1;
         ChangeLevel(level);

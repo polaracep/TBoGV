@@ -22,7 +22,7 @@ public class Player : Entity, IRecieveDmg, IDealDmg
 	public int ProjectileCount { get; set; }
 	public int Coins { get; set; }
 	public Dictionary<StatTypes, float> BaseStats { get; set; }
-	public Dictionary<StatTypes, int> LevelUpStats { get; set; }
+	public Dictionary<StatTypes, float> LevelUpStats { get; set; }
 	public double LastAttackElapsed { get; set; }
 	public double LastRecievedDmgElapsed { get; set; }
 	public int InvulnerabilityFrame = 1000;
@@ -44,7 +44,7 @@ public class Player : Entity, IRecieveDmg, IDealDmg
 			{ StatTypes.ATTACK_SPEED, 1500 },
 			{ StatTypes.MOVEMENT_SPEED, 3.5f }
 		};
-		LevelUpStats = new Dictionary<StatTypes, int>()
+		LevelUpStats = new Dictionary<StatTypes, float>()
 		{
 			{ StatTypes.MAX_HP, 0 },
 			{ StatTypes.DAMAGE, 0 },
@@ -74,7 +74,7 @@ public class Player : Entity, IRecieveDmg, IDealDmg
 		BaseStats[StatTypes.DAMAGE] = Inventory.GetWeaponDmg();
 		BaseStats[StatTypes.ATTACK_SPEED] = Inventory.GetWeaponAttackSpeed();
 		Dictionary<StatTypes, float> finalStats = new Dictionary<StatTypes, float>();
-		Dictionary<StatTypes, int> subjectStats = Inventory.SetStats(LevelUpStats);
+		Dictionary<StatTypes, float> subjectStats = Inventory.SetStats(LevelUpStats);
 		foreach (var item in subjectStats)
 		{
 			float subjectValue;
@@ -392,7 +392,7 @@ public class Player : Entity, IRecieveDmg, IDealDmg
 			{ StatTypes.ATTACK_SPEED, 1500 },
 			{ StatTypes.MOVEMENT_SPEED, 5 }
 		};
-		LevelUpStats = new Dictionary<StatTypes, int>()
+		LevelUpStats = new Dictionary<StatTypes, float>()
 		{
 			{ StatTypes.MAX_HP, 0 },
 			{ StatTypes.DAMAGE, 0 },
@@ -421,7 +421,7 @@ public class Player : Entity, IRecieveDmg, IDealDmg
 		public float Xp { get; set; }
 		public float Hp { get; set; }
 		public int Coins { get; set; }
-		public Dictionary<string, int> LevelUpStats { get; set; }
+		public Dictionary<string, float> LevelUpStats { get; set; }
 		public double LastAttackElapsed { get; set; }
 		public double LastRecievedDmgElapsed { get; set; }
 		public float[] Position { get; set; }
@@ -442,7 +442,7 @@ public class Player : Entity, IRecieveDmg, IDealDmg
 	{
 		public string Name { get; set; }
 		public int Level { get; set; }
-		public Dictionary<string, int> Stats { get; set; } = new();
+		public Dictionary<string, float> Stats { get; set; } = new();
 		public EffectData() { }
 	}
 

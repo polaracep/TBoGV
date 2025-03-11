@@ -13,7 +13,7 @@ class EffectLol : Effect
         Name = "Hráč ligy legend";
         Description = "Osprchuj se prosím";
         Positive = false;
-        Stats = new Dictionary<StatTypes, int>();
+        Stats = new Dictionary<StatTypes, float>();
         Level = 0;
         LevelCap = 5;
         ChangeLevel(level);

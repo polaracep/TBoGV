@@ -16,7 +16,7 @@ class ItemFancyShoes : ItemContainerable
 		Size = new Vector2(50, 50);
 		Name = "Společenské boty";
 		Description = "Florian style. Dej si pozor, ať to nevidí Fišerová";
-		Stats = new Dictionary<StatTypes, int>() { { StatTypes.MOVEMENT_SPEED, 1 }, { StatTypes.XP_GAIN, 3 } };
+		Stats = new Dictionary<StatTypes, float>() { { StatTypes.MOVEMENT_SPEED, 1 }, { StatTypes.XP_GAIN, 3 } };
 		Effects = new List<EffectTypes>();
 		Sprite = TextureManager.GetTexture("fancyShoes");
 		ItemType = ItemTypes.ARMOR;

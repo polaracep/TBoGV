@@ -14,7 +14,7 @@ public class InGameMenuEffect : InGameMenu
 	static SpriteFont LargerFont;
 	static SpriteFont LargestFont;
 	static Texture2D SpriteForeground;
-	public Dictionary<StatTypes, int> Stats { get; set; }
+	public Dictionary<StatTypes, float> Stats { get; set; }
 	public List<Effect> Effects { get; set; }
 
 	private Button settingsButton;
@@ -204,7 +204,7 @@ public class InGameMenuEffect : InGameMenu
 
 		spriteBatch.DrawString(MiddleFont, statsText, textPos, Color.LightCyan);
 	}
-	private string FormatStats(Dictionary<StatTypes, int> stats)
+	private string FormatStats(Dictionary<StatTypes, float> stats)
 	{
 		if (stats == null || stats.Count == 0) return "";
 

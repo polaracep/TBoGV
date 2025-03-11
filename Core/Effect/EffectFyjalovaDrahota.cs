@@ -13,7 +13,7 @@ class EffectFyjalovaDrahota : Effect
         Name = "Fyjalova drahota";
         Description = "Ceny nejsou co bývaly..";
         Positive = false;
-        Stats = new Dictionary<StatTypes, int>();
+        Stats = new Dictionary<StatTypes, float>();
         Effects = new List<EffectTypes>() { EffectTypes.EXPENSIVE};
         Level = 0;
         LevelCap = 1;

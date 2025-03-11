@@ -13,7 +13,7 @@ class ItemMathProblem : ItemContainerable
 		Size = new Vector2(50, 50);
 		Name = "Složitý matematický problém";
 		Description = "Vyžaduje přílišně soustředění, šance ignorace brainrotu.";
-		Stats = new Dictionary<StatTypes, int>() { { StatTypes.DAMAGE, 4 } };
+		Stats = new Dictionary<StatTypes, float>() { { StatTypes.DAMAGE, 4 } };
 		Effects = new List<EffectTypes>() { EffectTypes.DODGE };
 		Sprite = TextureManager.GetTexture("mathProblem");
 		ItemType = ItemTypes.EFFECT;

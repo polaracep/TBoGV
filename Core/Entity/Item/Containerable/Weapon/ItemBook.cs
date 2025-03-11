@@ -15,7 +15,7 @@ public class ItemBook : ItemContainerable
 		Size = new Vector2(50, 50);
 		Name = "Neumělecká literatura";
 		Description = "Moc se nedovíš, ale jako zbraň dobrá";
-		Stats = new Dictionary<StatTypes, int>() { { StatTypes.DAMAGE, 3 }, { StatTypes.ATTACK_SPEED, 4000 } };
+		Stats = new Dictionary<StatTypes, float>() { { StatTypes.DAMAGE, 3 }, { StatTypes.ATTACK_SPEED, 4000 } };
 		Effects = new List<EffectTypes>();
 		Sprite = TextureManager.GetTexture("bookWeapon");
 		ItemType = ItemTypes.WEAPON;

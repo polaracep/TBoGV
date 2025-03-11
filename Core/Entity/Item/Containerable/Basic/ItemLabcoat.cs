@@ -15,7 +15,7 @@ public class ItemLabcoat : ItemContainerable
         Size = new Vector2(50, 50);
         Name = "Laboratorní plášť";
         Description = "Měl by tě ochránit, ale nezakáže ti vypít kádinku.";
-        Stats = new Dictionary<StatTypes, int>() { { StatTypes.MAX_HP, 2 }, { StatTypes.MOVEMENT_SPEED, -1 } };
+        Stats = new Dictionary<StatTypes, float>() { { StatTypes.MAX_HP, 2 }, { StatTypes.MOVEMENT_SPEED, -1 } };
         Effects = new List<EffectTypes>();
         Sprite = TextureManager.GetTexture("labCoat");
         ItemType = ItemTypes.BASIC;

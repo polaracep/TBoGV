@@ -15,7 +15,7 @@ public class ItemCross : ItemContainerable
 		Size = new Vector2(50, 50);
 		Name = "Křesťanský kříž";
 		Description = "Třeba tě ochrání";
-		Stats = new Dictionary<StatTypes, int>() { { StatTypes.XP_GAIN, 4 } };
+		Stats = new Dictionary<StatTypes, float>() { { StatTypes.XP_GAIN, 4 } };
 		Effects = new List<EffectTypes>();
 		Sprite = TextureManager.GetTexture("kriz");
 		ItemType = ItemTypes.BASIC;

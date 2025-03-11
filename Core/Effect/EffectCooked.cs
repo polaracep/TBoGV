@@ -23,7 +23,7 @@ class EffectCooked : Effect
 		Name = "Cooked";
 		Description = "Nadmerna konzumace brainrotu, \nnebo jsi se pokousel pochopit TFY";
 		Positive = false;
-		Stats = new Dictionary<StatTypes, int>();
+		Stats = new Dictionary<StatTypes, float>();
 		Level = 0;
 		LevelCap = 50;
 		ChangeLevel(level);

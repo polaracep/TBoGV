@@ -15,7 +15,7 @@ public class ItemBookPE : ItemContainerable
 		Size = new Vector2(50, 50);
 		Name = "Učebnice tělocviku";
 		Description = "Co sis to proboha koupil..";
-		Stats = new Dictionary<StatTypes, int>() { { StatTypes.MOVEMENT_SPEED, 4 } };
+		Stats = new Dictionary<StatTypes, float>() { { StatTypes.MOVEMENT_SPEED, 4 } };
 		Effects = new List<EffectTypes>();
 		Sprite = TextureManager.GetTexture("bookPE");
 		ItemType = ItemTypes.BASIC;

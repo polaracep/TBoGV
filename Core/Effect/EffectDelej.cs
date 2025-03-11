@@ -13,7 +13,7 @@ class EffectDelej : Effect
 		Name = "Deleeej";
 		Description = "Uz jsi tam mel byt 4 minuty ty magore";
 		Positive = false;
-		Stats = new Dictionary<StatTypes, int>() { { StatTypes.MOVEMENT_SPEED, -8 } };
+		Stats = new Dictionary<StatTypes, float>() { { StatTypes.MOVEMENT_SPEED, -8 } };
 		Effects = new List<EffectTypes>();
 		Level = 0;
 		LevelCap = 4;

@@ -16,7 +16,7 @@ class ItemTrackShoes : ItemContainerable
 		Size = new Vector2(50, 50);
 		Name = "Vojenske trekovky";
 		Description = "Tohle asi nebudou přezůvky...";
-		Stats = new Dictionary<StatTypes, int>() { { StatTypes.MOVEMENT_SPEED, 5 } };
+		Stats = new Dictionary<StatTypes, float>() { { StatTypes.MOVEMENT_SPEED, 5 } };
 		Effects = new List<EffectTypes>() { };
 		Sprite = TextureManager.GetTexture("trackShoes");
 		ItemType = ItemTypes.ARMOR;

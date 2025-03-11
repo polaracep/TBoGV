@@ -232,7 +232,7 @@ class InGameMenuItemJournal : InGameMenu
 	}
 
 	// A simple helper to format stats text; adjust as needed.
-	private string FormatStats(Dictionary<StatTypes, int> stats, bool weapon)
+	private string FormatStats(Dictionary<StatTypes, float> stats, bool weapon)
 	{
 		if (stats == null || stats.Count == 0) return "";
 

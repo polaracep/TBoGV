@@ -16,7 +16,7 @@ public class ItemBookBio : ItemContainerable
 		Name = "Učebnice biologie";
 		Description = "Když počet stránek nahradí hmotnost knihy." +
 			"Enjoy";
-		Stats = new Dictionary<StatTypes, int>() { { StatTypes.MAX_HP, 4 } };
+		Stats = new Dictionary<StatTypes, float>() { { StatTypes.MAX_HP, 4 } };
 		Effects = new List<EffectTypes>();
 		Sprite = TextureManager.GetTexture("bookBio");
 		ItemType = ItemTypes.BASIC;

@@ -14,7 +14,7 @@ public abstract class Effect : IDraw
 	public int LevelCap { get; set; }
 	protected double effectTime = -1;
 	protected double timeElapsed { get; set; }
-	public Dictionary<StatTypes, int> Stats = new Dictionary<StatTypes, int>();
+	public Dictionary<StatTypes, float> Stats = new Dictionary<StatTypes, float>();
 	public List<EffectTypes> Effects  = new List<EffectTypes>();
 	public Vector2 Position { get; set; }
 	public Vector2 Size { get; set; }

@@ -15,7 +15,7 @@ public class ItemBookPhysics : ItemContainerable
 		Size = new Vector2(50, 50);
 		Name = "Matematicko fyzikální tabulky";
 		Description = "Goated, vyřeší všechny problémy";
-		Stats = new Dictionary<StatTypes, int>() { { StatTypes.DAMAGE, 4 }, { StatTypes.PROJECTILE_COUNT, 4 } };
+		Stats = new Dictionary<StatTypes, float>() { { StatTypes.DAMAGE, 4 }, { StatTypes.PROJECTILE_COUNT, 4 } };
 		Effects = new List<EffectTypes>();
 		Sprite = TextureManager.GetTexture("bookTabulky");
 		ItemType = ItemTypes.BASIC;

@@ -15,7 +15,7 @@ public class ItemVysvedceni : ItemContainerable
         Size = new Vector2(50, 50);
         Name = "Maturitní vysvědčení";
         Description = "To se hodí";
-        Stats = new Dictionary<StatTypes, int>() {
+        Stats = new Dictionary<StatTypes, float>() {
             { StatTypes.ATTACK_SPEED, 3},
             { StatTypes.DAMAGE, 3},
             { StatTypes.MAX_HP, 3},

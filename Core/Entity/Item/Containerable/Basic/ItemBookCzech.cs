@@ -15,7 +15,7 @@ public class ItemBookCzech : ItemContainerable
 		Size = new Vector2(50, 50);
 		Name = "Učebnice češtiny";
 		Description = "S tím ten didakťák musíš dát.";
-		Stats = new Dictionary<StatTypes, int>() { { StatTypes.ATTACK_SPEED, 4 } };
+		Stats = new Dictionary<StatTypes, float>() { { StatTypes.ATTACK_SPEED, 4 } };
 		Effects = new List<EffectTypes>();
 		Sprite = TextureManager.GetTexture("bookCj");
 		ItemType = ItemTypes.BASIC;

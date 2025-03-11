@@ -13,7 +13,7 @@ class EffectRickroll : Effect
 		Name = "Dostals bidu";
 		Description = "GG EZ";
 		Positive = false;
-		Stats = new Dictionary<StatTypes, int>() { };
+		Stats = new Dictionary<StatTypes, float>() { };
 		Effects = new List<EffectTypes> { EffectTypes.RICKROLL };
 		Level = 0;
 		LevelCap = 1;

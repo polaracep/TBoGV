@@ -13,7 +13,7 @@ class ItemTeeth : ItemContainerable
 		Size = new Vector2(50, 50);
 		Name = "Masochismus";
 		Description = "Co tě nezabije to tě posílí. \nBrainrot ti vlezl do mozku a tobě se to líbilo.\nZabíjení nepřátel ti bude navracet zdraví.";
-		Stats = new Dictionary<StatTypes, int>() { { StatTypes.DAMAGE, 4 }, { StatTypes.MAX_HP, -6 }, { StatTypes.ATTACK_SPEED, -4 }, { StatTypes.XP_GAIN, -4 }, { StatTypes.PROJECTILE_COUNT, -2 }, { StatTypes.MOVEMENT_SPEED, -4 } };
+		Stats = new Dictionary<StatTypes, float>() { { StatTypes.DAMAGE, 4 }, { StatTypes.MAX_HP, -6 }, { StatTypes.ATTACK_SPEED, -4 }, { StatTypes.XP_GAIN, -4 }, { StatTypes.PROJECTILE_COUNT, -2 }, { StatTypes.MOVEMENT_SPEED, -4 } };
 		Effects = new List<EffectTypes>() { EffectTypes.LIFE_STEAL };
 		Sprite = TextureManager.GetTexture("maso");
 		ItemType = ItemTypes.EFFECT;

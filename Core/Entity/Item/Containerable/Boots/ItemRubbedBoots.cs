@@ -16,7 +16,7 @@ class ItemRubbedBoots : ItemContainerable
 		Size = new Vector2(50, 50);
 		Name = "Gumáky";
 		Description = "Snad to nějak okecáš, ale radši nemluv se školníkem.";
-		Stats = new Dictionary<StatTypes, int>() { { StatTypes.MOVEMENT_SPEED, 4 }, { StatTypes.XP_GAIN, -3 } };
+		Stats = new Dictionary<StatTypes, float>() { { StatTypes.MOVEMENT_SPEED, 4 }, { StatTypes.XP_GAIN, -3 } };
 		Effects = new List<EffectTypes>();
 		Sprite = TextureManager.GetTexture("gumaky");
 		ItemType = ItemTypes.ARMOR;

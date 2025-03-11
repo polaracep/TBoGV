@@ -15,7 +15,7 @@ class ItemPencil : ItemContainerable
         Size = new Vector2(50, 50);
         Name = "Tužka";
         Description = "Čerstvě naostřená";
-        Stats = new Dictionary<StatTypes, int>() { { StatTypes.DAMAGE, 1 }, { StatTypes.ATTACK_SPEED, 1250 } };
+        Stats = new Dictionary<StatTypes, float>() { { StatTypes.DAMAGE, 1 }, { StatTypes.ATTACK_SPEED, 1250 } };
         Effects = new List<EffectTypes>();
         Sprite = TextureManager.GetTexture("pencil");
         ItemType = ItemTypes.WEAPON;

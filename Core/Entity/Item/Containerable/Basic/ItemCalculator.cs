@@ -15,7 +15,7 @@ class ItemCalculator : ItemContainerable
         Size = new Vector2(50, 50);
         Name = "Kalkulačka";
         Description = "Rychlá jako schovánkovo opravování testů";
-        Stats = new Dictionary<StatTypes, int>() { { StatTypes.DAMAGE, 4 } };
+        Stats = new Dictionary<StatTypes, float>() { { StatTypes.DAMAGE, 4 } };
         Effects = new List<EffectTypes>();
         Sprite = TextureManager.GetTexture("calculator");
         ItemType = ItemTypes.BASIC;

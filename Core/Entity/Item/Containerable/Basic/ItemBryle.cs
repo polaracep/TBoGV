@@ -15,7 +15,7 @@ public class ItemBryle : ItemContainerable
 		Size = new Vector2(50, 50);
 		Name = "Brýle";
 		Description = "Cítíš se chytřejší";
-		Stats = new Dictionary<StatTypes, int>() { { StatTypes.XP_GAIN, 2 } };
+		Stats = new Dictionary<StatTypes, float>() { { StatTypes.XP_GAIN, 2 } };
 		Effects = new List<EffectTypes>();
 		Sprite = TextureManager.GetTexture("bryle");
 		ItemType = ItemTypes.BASIC;

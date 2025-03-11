@@ -101,7 +101,7 @@ public class ScreenGame : Screen
         // check for level up
         foreach (var item in player.LevelUpStats)
         {
-            levelStatsCount += player.LevelUpStats[item.Key];
+            levelStatsCount += (int)player.LevelUpStats[item.Key];
         }
         if (player.Level != levelStatsCount && activeMenu is not InGameMenuLevelUp)
         {

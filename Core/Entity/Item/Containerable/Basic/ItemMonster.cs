@@ -13,7 +13,7 @@ class ItemMonster : ItemContainerable
 		Size = new Vector2(50, 50);
 		Name = "Monster";
 		Description = "Asi bys to neměl přehánět";
-		Stats = new Dictionary<StatTypes, int>() { { StatTypes.MOVEMENT_SPEED, 3 }, { StatTypes.DAMAGE, 1 }, { StatTypes.ATTACK_SPEED, 2 }, { StatTypes.XP_GAIN, 2 }, { StatTypes.PROJECTILE_COUNT, 1}, { StatTypes.MAX_HP, -4 } };
+		Stats = new Dictionary<StatTypes, float>() { { StatTypes.MOVEMENT_SPEED, 3 }, { StatTypes.DAMAGE, 1 }, { StatTypes.ATTACK_SPEED, 2 }, { StatTypes.XP_GAIN, 2 }, { StatTypes.PROJECTILE_COUNT, 1}, { StatTypes.MAX_HP, -4 } };
 		Effects = new List<EffectTypes>() { };
 		Sprite = TextureManager.GetTexture("monster");
 		ItemType = ItemTypes.BASIC;

@@ -10,10 +10,10 @@ class EffectRooted : Effect
 	protected static Texture2D Sprite = TextureManager.GetTexture("koren");
 	public EffectRooted(int level)
 	{
-		Name = "Korenovy vezen";
-		Description = "Bouchani nikdo neslysel, \nOdskocit jsi si nemohl, takze te zahriva tepla moc";
+		Name = "Kořenový vězeň";
+		Description = "Bouchání nikdo neslyšel, \nOdskočit jsi si nemohl, takže tě zahřívá teplá moč";
 		Positive = false;
-		Stats = new Dictionary<StatTypes, int>() { };
+		Stats = new Dictionary<StatTypes, float>() { };
 		Effects = new List<EffectTypes> { EffectTypes.ROOTED };
 		Level = 0;
 		LevelCap = 3;

@@ -15,7 +15,7 @@ class ItemScissors : ItemContainerable
 		Size = new Vector2(50, 50);
 		Name = "Nůžky";
 		Description = "Jestli si je zapomeneš, Jirušová tě nechá propadnout";
-		Stats = new Dictionary<StatTypes, int>() { { StatTypes.DAMAGE, 2 }, { StatTypes.ATTACK_SPEED, 1000 } };
+		Stats = new Dictionary<StatTypes, float>() { { StatTypes.DAMAGE, 2 }, { StatTypes.ATTACK_SPEED, 1000 } };
 		Effects = new List<EffectTypes>();
 		Sprite = TextureManager.GetTexture("scissors");
 		ItemType = ItemTypes.WEAPON;

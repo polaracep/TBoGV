@@ -15,7 +15,7 @@ class ItemDagger : ItemContainerable
 		Size = new Vector2(50, 50);
 		Name = "Nůž";
 		Description = "Školní pomůcka londýnských studentů\nTenhle ale asi tolik efektivní nebude...\n(Je ze školní jídelny)";
-		Stats = new Dictionary<StatTypes, int>() { { StatTypes.DAMAGE, 1 }, { StatTypes.ATTACK_SPEED, 350 } };
+		Stats = new Dictionary<StatTypes, float>() { { StatTypes.DAMAGE, 1 }, { StatTypes.ATTACK_SPEED, 350 } };
 		Effects = new List<EffectTypes>();
 		Sprite = TextureManager.GetTexture("dagger");
 		ItemType = ItemTypes.WEAPON;

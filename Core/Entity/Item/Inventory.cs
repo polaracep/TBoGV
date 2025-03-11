@@ -95,9 +95,9 @@ public class Inventory
 			DrawTooltip(spriteBatch, hoveredItem);
 		}
 	}
-	public Dictionary<StatTypes, int> SetStats()
+	public Dictionary<StatTypes, float> SetStats()
 	{
-		return SetStats(new Dictionary<StatTypes, int>()
+		return SetStats(new Dictionary<StatTypes, float>()
 		{
 			{ StatTypes.MAX_HP, 0 },
 			{ StatTypes.DAMAGE, 0 },
@@ -108,9 +108,9 @@ public class Inventory
 		});
 	}
 
-	public Dictionary<StatTypes, int> SetStats(Dictionary<StatTypes, int> BaseStats)
+	public Dictionary<StatTypes, float> SetStats(Dictionary<StatTypes, float> BaseStats)
 	{
-		Dictionary<StatTypes, int> finalStats = new Dictionary<StatTypes, int>(BaseStats);
+		Dictionary<StatTypes, float> finalStats = new Dictionary<StatTypes, float>(BaseStats);
 
 		foreach (var container in ItemContainers)
 		{
@@ -369,7 +369,7 @@ public class Inventory
 		return itemToDrop;
 	}
 
-	private string FormatStats(Dictionary<StatTypes, int> stats, bool weapon)
+	private string FormatStats(Dictionary<StatTypes, float> stats, bool weapon)
 	{
 		if (stats == null || stats.Count == 0) return "";
 

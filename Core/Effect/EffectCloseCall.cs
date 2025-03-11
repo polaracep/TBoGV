@@ -13,7 +13,7 @@ class EffectCloseCall : Effect
         Name = "Málem jsi umřel";
         Description = "Netuším, co jsi se snažil udělat,\nale raději to zkoušej znovu, až budeš mít více síly..";
         Positive = false;
-        Stats = new Dictionary<StatTypes, int>() { { StatTypes.MOVEMENT_SPEED, -666 }};
+        Stats = new Dictionary<StatTypes, float>() { { StatTypes.MOVEMENT_SPEED, -666 }};
         Effects = new List<EffectTypes>();
         Level = 0;
         LevelCap = 1;

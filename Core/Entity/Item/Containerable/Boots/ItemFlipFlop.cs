@@ -16,7 +16,7 @@ class ItemFlipFlop : ItemContainerable
 		Size = new Vector2(50, 50);
 		Name = "Crocs";
 		Description = "Legendary tier přezůvky";
-		Stats = new Dictionary<StatTypes, int>() { { StatTypes.MOVEMENT_SPEED, 6 } };
+		Stats = new Dictionary<StatTypes, float>() { { StatTypes.MOVEMENT_SPEED, 6 } };
 		Effects = new List<EffectTypes>() { EffectTypes.BOOTS };
 		Sprite = TextureManager.GetTexture("crocs");
 		ItemType = ItemTypes.ARMOR;
