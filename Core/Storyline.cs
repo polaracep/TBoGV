@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using TBoGV;
@@ -24,99 +25,38 @@ public static class Storyline
     public static int FailedTimes = 0;
     public static void GenerateStoryline()
     {
-        /*
         LevelList = [
-            new Level(p, [
-                new RoomShower(new Vector2(10), p),
-            ], new RoomStart(p), new RoomHallway(p), 3)
-        ];
-        */
-        LevelList = [
-            // L1
-            new Level(p, [
-                new RoomClassroom(p),
-                new RoomClassroom(p),
-                new RoomClassroom(p),
-                new RoomHallway(p),
-                new RoomHallway(p),
-                new RoomShower(p)
-            ], new RoomStart(p), new RoomBossSvarta(p), 3),
-            // L2
-            new Level(p, [
-                new RoomClassroom(p),
-                new RoomClassroom(p),
-                new RoomClassroom(p),
-                new RoomClassroom(p),
-                new RoomHallway(p),
-                new RoomHallway(p),
-                new RoomHallway(p),
-                new RoomHallway(p),
-                new RoomHallway(p),
-                new RoomShower(p),
-                new RoomShower(p),
-            ], new RoomStart(p), new RoomBossAles(p), 6),
-            // L3
-            new Level(p, [
-                new RoomClassroom(p),
-                new RoomClassroom(p),
-                new RoomClassroom(p),
-                new RoomHallway(p),
-                new RoomHallway(p),
-                new RoomHallway(p),
-                new RoomShower(p),
-            ], new RoomStart(p), new RoomBossCat(p), 6),
-            // L4
-            new Level(p, [
-                new RoomClassroom(p),
-                new RoomClassroom(p),
-                new RoomClassroom(p),
-                new RoomHallway(p),
-                new RoomHallway(p),
-                new RoomHallway(p),
-                new RoomShower(p),
-            ], new RoomStart(p), new RoomBossToilet(p), 6),
-            // L5
-            new Level(p, [
-                new RoomClassroom(p),
-                new RoomClassroom(p),
-                new RoomClassroom(p),
-                new RoomHallway(p),
-                new RoomHallway(p),
-                new RoomHallway(p),
-                new RoomShower(p),
-            ], new RoomStart(p), new RoomBossRichard(p), 6),
-            // L6
-            new Level(p, [
-                new RoomClassroom(p),
-                new RoomClassroom(p),
-                new RoomClassroom(p),
-                new RoomHallway(p),
-                new RoomHallway(p),
-                new RoomHallway(p),
-                new RoomShower(p),
-            ], new RoomStart(p), new RoomBossZeman(p), 6),
-            // L7
-            new Level(p, [
-                new RoomClassroom(p),
-                new RoomClassroom(p),
-                new RoomClassroom(p),
-                new RoomHallway(p),
-                new RoomHallway(p),
-                new RoomHallway(p),
-                new RoomShower(p),
-            ], new RoomStart(p), new RoomBossAmogus(p), 6),
-            // L8
-            new Level(p, [
-                new RoomClassroom(p),
-                new RoomClassroom(p),
-                new RoomClassroom(p),
-                new RoomHallway(p),
-                new RoomHallway(p),
-                new RoomHallway(p),
-                new RoomShower(p),
-            ], new RoomStart(p), new RoomBossMaturita(p), 6),
-        ];
+            new Level(p, GenerateLevelRooms(5, 8), new RoomStart(p), new RoomBossSvarta(p), 3),
+        new Level(p, GenerateLevelRooms(5, 8), new RoomStart(p), new RoomBossAles(p), 6),
+        new Level(p, GenerateLevelRooms(6, 10), new RoomStart(p), new RoomBossCat(p), 6),
+        new Level(p, GenerateLevelRooms(6, 10), new RoomStart(p), new RoomBossToilet(p), 6),
+        new Level(p, GenerateLevelRooms(8, 12), new RoomStart(p), new RoomBossRichard(p), 6),
+        new Level(p, GenerateLevelRooms(8, 12), new RoomStart(p), new RoomBossZeman(p), 6),
+        new Level(p, GenerateLevelRooms(10, 14), new RoomStart(p), new RoomBossAmogus(p), 6),
+        new Level(p, GenerateLevelRooms(10, 14), new RoomStart(p), new RoomBossMaturita(p), 6),
+    ];
+    }
 
+    public static List<Room> GenerateLevelRooms(int minR, int maxR)
+    {
+        List<Room> rooms = new List<Room>();
+        Random rand = new Random();
+        int roomCount = rand.Next(minR, maxR + 1);
+        int classroomCount = rand.Next(roomCount / 2, roomCount - 1);
+        int specialRoomCount = rand.Next(1, 3);
+        int hallwayCount = roomCount - classroomCount - specialRoomCount;
+        
+
+        for (int i = 0; i < classroomCount; i++)
+            rooms.Add(new RoomClassroom(p));
+
+        for (int i = 0; i < hallwayCount; i++)
+            rooms.Add(new RoomHallway(p));
+
+        for (int i = 0; i < specialRoomCount; i++)
+            rooms.Add(rand.Next(2) == 0 ? new RoomShower(p) : new RoomLocker(p));
+
+        return rooms;
     }
 
     public static void NextLevel()
