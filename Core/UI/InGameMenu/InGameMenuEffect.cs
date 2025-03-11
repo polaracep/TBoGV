@@ -34,10 +34,12 @@ public class InGameMenuEffect : InGameMenu
 			TBoGVGame.screenCurrent = ScreenManager.ScreenSettings;
 		});
 
-		saveButton = new Button("Ulož", LargerFont, () =>
+		saveButton = new Button("Vymazat postup", LargerFont, () =>
 		{
-			player.Save(SaveType.USER);
-		});
+			FileHelper.ResetSaves();
+			Storyline.FailedTimes = 3;
+			InGameMenuDeath.ResetLevel();
+        });
 	}
 	public override void Update(Viewport viewport, Player player, MouseState mouseState, KeyboardState keyboardState, double dt)
 	{
@@ -114,9 +116,9 @@ public class InGameMenuEffect : InGameMenu
 	{
 		return statType switch
 		{
-			StatTypes.MAX_HP => value > 0 ? $"(+{(int)(value * 0.5)} Hp)" : $"({(int)(value * 0.5)} Hp)",
+			StatTypes.MAX_HP => value > 0 ? $"(+{(int)(value * 0.25)} Hp)" : $"({(int)(value * 0.25)} Hp)",
 			StatTypes.DAMAGE => value > 0 ? $"(+{(value * 10)}% dmg)" : $"({(value * 10)}% dmg)",
-			StatTypes.PROJECTILE_COUNT => value > 0 ? $"+({(int)Math.Max(value / 3, 0)} projektilů)" : $"({(int)Math.Max(value / 3, 0)} projektilů)",
+			StatTypes.PROJECTILE_COUNT =>  $"+({(int)Math.Max(value * 0.25, 0)} projektilů)",
 			StatTypes.XP_GAIN => value > 0 ? $"(+{value * 10}% xp gain)" : $"({value * 10}% xp gain)",
 			StatTypes.ATTACK_SPEED => value > 0 ? $"(+{value * 10}% rychlost útoků)" : $"({value * 10}% rychlost útoků)",
 			StatTypes.MOVEMENT_SPEED => value > 0 ? $"(+{value * 5}% rychlost pohybu)" : $"({value * 5}% rychlost pohybu)",

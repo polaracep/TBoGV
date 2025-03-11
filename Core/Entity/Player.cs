@@ -81,13 +81,13 @@ public class Player : Entity, IRecieveDmg, IDealDmg
 			switch (item.Key)
 			{
 				case StatTypes.MAX_HP:
-					subjectValue = (int)item.Value * 0.5f + BaseStats[item.Key];
+					subjectValue = (int)item.Value * 0.25f + BaseStats[item.Key];
 					break;
 				case StatTypes.DAMAGE:
 					subjectValue = ((item.Value * 0.1f) + 1) * BaseStats[item.Key];
 					break;
 				case StatTypes.PROJECTILE_COUNT:
-					subjectValue = (int)item.Value * 1 / 3 + BaseStats[item.Key];
+					subjectValue = (int)item.Value * 0.25f + BaseStats[item.Key];
 					break;
 				case StatTypes.XP_GAIN:
 					subjectValue = ((item.Value * 0.1f) + 1) * BaseStats[item.Key];
