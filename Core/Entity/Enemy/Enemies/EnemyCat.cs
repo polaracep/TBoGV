@@ -45,6 +45,7 @@ class EnemyCat : EnemyMelee
 	{
 		base.Update(playerPosition, dt);
 		vibeSfxInstance.Volume = (float)(double)Settings.SfxVolume.Value;
+
 		lastFrameChangeElapsed += dt;
 		UpdateAnimation();
 	}

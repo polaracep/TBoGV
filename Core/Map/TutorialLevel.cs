@@ -14,7 +14,7 @@ public class TutorialLevel
         TileDoor.TileInteract += OnRoomChanged;
         RoomMap = new Room[,]{
             {new TutorialRoom(new Vector2(13), _player, true, new DialogueTutorial1(), null)},
-            {new TutorialRoom(new Vector2(9), _player, true, new DialogueTutorial2(), null)},
+            {new TutorialRoom(new Vector2(9), _player, false, [new EnemyDummy(new Vector2(5))], new DialogueTutorial2(), null)},
             {new TutorialRoom(new Vector2(13), _player, false, [new EnemyCat(), new EnemySoldier()], new DialogueTutorial3(), new DialogueTutorial4())},
         };
 
