@@ -93,12 +93,12 @@ class EnemyJirka : EnemyRanged
 
 	protected override void InitStats(int difficulty)
 	{
-		Hp = 4 + (2 * (difficulty - 1));
+		Hp = 2 + (2f * (difficulty - 1));
 		MovementSpeed = 1;
-		AttackSpeed = 666;
+		AttackSpeed = 800;
 		AttackDmg = 1;
-		XpValue = difficulty;
-		Weight = EnemyWeight.MEDIUM;
+        XpValue = 1 + difficulty / 2;
+        Weight = EnemyWeight.HARD;
 	}
 }
 

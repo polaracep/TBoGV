@@ -40,7 +40,7 @@ class EnemyZdena : EnemyRanged
 
 	protected override void InitStats(int difficulty)
 	{
-		Hp = 2 + difficulty;
+		Hp = 2 + difficulty*1.5f;
 		MovementSpeed = 4;
 		AttackSpeed = 2500 - (100 * difficulty);
 		AttackDmg = 1;

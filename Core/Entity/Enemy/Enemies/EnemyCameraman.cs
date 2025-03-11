@@ -59,7 +59,7 @@ class EnemyCameraman : EnemyMelee
 	}
 	protected override void InitStats(int difficulty)
 	{
-		Hp = 2;
+		Hp = 3;
 		MovementSpeed = 2;
 		AttackSpeed = 10;
 		AttackDmg = 1;

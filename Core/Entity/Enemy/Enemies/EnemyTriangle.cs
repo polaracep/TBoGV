@@ -68,11 +68,11 @@ class EnemyTriangle : EnemyMelee
 
     protected override void InitStats(int difficulty)
     {
-        Hp = 3 * difficulty;
+        Hp = 3 * difficulty*2;
         MovementSpeed = difficulty;
         AttackSpeed = 444;
         AttackDmg = 1;
-        XpValue = difficulty / 4;
+        XpValue =1 + difficulty/2;
         Weight = EnemyWeight.EASY;
     }
 }

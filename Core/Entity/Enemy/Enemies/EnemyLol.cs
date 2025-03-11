@@ -95,9 +95,9 @@ internal class EnemyLol : EnemyRanged
 
     protected override void InitStats(int difficulty)
     {
-        Hp = 3;
+        Hp = 2 + difficulty;
         MovementSpeed = 2;
-        AttackSpeed = 700 - (30 * difficulty);
+        AttackSpeed = 700 - (40 * difficulty);
         AttackDmg = 1;
         XpValue = difficulty;
         Weight = EnemyWeight.HARD;
