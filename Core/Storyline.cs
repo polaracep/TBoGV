@@ -26,15 +26,23 @@ public static class Storyline
     public static void GenerateStoryline()
     {
         LevelList = [
-            new Level(p, GenerateLevelRooms(5, 8), new RoomStart(p), new RoomBossSvarta(p), 3),
-        new Level(p, GenerateLevelRooms(5, 8), new RoomStart(p), new RoomBossAles(p), 6),
-        new Level(p, GenerateLevelRooms(6, 10), new RoomStart(p), new RoomBossCat(p), 6),
-        new Level(p, GenerateLevelRooms(6, 10), new RoomStart(p), new RoomBossToilet(p), 6),
-        new Level(p, GenerateLevelRooms(8, 12), new RoomStart(p), new RoomBossRichard(p), 6),
-        new Level(p, GenerateLevelRooms(8, 12), new RoomStart(p), new RoomBossZeman(p), 6),
-        new Level(p, GenerateLevelRooms(10, 14), new RoomStart(p), new RoomBossAmogus(p), 6),
-        new Level(p, GenerateLevelRooms(10, 14), new RoomStart(p), new RoomBossMaturita(p), 6),
-    ];
+                new Level(p, GenerateLevelRooms(5, 8), new RoomStart(p), new RoomClassroom(p), 3),
+                new Level(p, GenerateLevelRooms(5, 8), new RoomStart(p), new RoomBossSvarta(p), 3),
+                new Level(p, GenerateLevelRooms(5, 8), new RoomStart(p), new RoomClassroom(p), 6),
+                new Level(p, GenerateLevelRooms(5, 8), new RoomStart(p), new RoomBossAles(p), 6),
+                new Level(p, GenerateLevelRooms(6, 10), new RoomStart(p), new RoomClassroom(p), 6),
+                new Level(p, GenerateLevelRooms(6, 10), new RoomStart(p), new RoomBossCat(p), 6),
+                new Level(p, GenerateLevelRooms(6, 10), new RoomStart(p), new RoomClassroom(p), 6),
+                new Level(p, GenerateLevelRooms(6, 10), new RoomStart(p), new RoomBossToilet(p), 6),
+                new Level(p, GenerateLevelRooms(8, 12), new RoomStart(p), new RoomClassroom(p), 6),
+                new Level(p, GenerateLevelRooms(8, 12), new RoomStart(p), new RoomBossRichard(p), 6),
+                new Level(p, GenerateLevelRooms(8, 12), new RoomStart(p), new RoomClassroom(p), 6),
+                new Level(p, GenerateLevelRooms(8, 12), new RoomStart(p), new RoomBossZeman(p), 6),
+                new Level(p, GenerateLevelRooms(8, 12), new RoomStart(p), new RoomClassroom(p), 6),
+                new Level(p, GenerateLevelRooms(10, 14), new RoomStart(p), new RoomBossAmogus(p), 6),
+                new Level(p, GenerateLevelRooms(8, 12), new RoomStart(p), new RoomClassroom(p), 6),
+                new Level(p, GenerateLevelRooms(10, 14), new RoomStart(p), new RoomBossMaturita(p), 6),
+        ];
     }
 
     public static List<Room> GenerateLevelRooms(int minR, int maxR)
@@ -68,7 +76,7 @@ public static class Storyline
 
         CurrentLevel = LevelList[CurrentLevelNumber];
         CurrentLevelNumber++;
-        Difficulty += (CurrentLevelNumber + 1) % 2;
+        Difficulty += (CurrentLevelNumber) % 2;
     }
     public static void ResetLevel()
     {
