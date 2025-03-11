@@ -98,8 +98,8 @@ internal class EnemyPolhreich : EnemyRanged
 		MovementSpeed = 2;
 		AttackSpeed = 650 - (4 * difficulty);
 		AttackDmg = 1;
-		XpValue = difficulty + 1;
-		Weight = EnemyWeight.HARD;
+        XpValue = 1 + difficulty / 2;
+        Weight = EnemyWeight.HARD;
 	}
 }
 

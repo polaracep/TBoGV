@@ -98,8 +98,8 @@ class EnemySoldier : EnemyRanged
 		MovementSpeed = 1 + (difficulty / 3);
 		AttackSpeed = 800 - (difficulty * 25);
 		AttackDmg = 1;
-		XpValue = difficulty;
-		Weight = EnemyWeight.MEDIUM;
+        XpValue = 1 + difficulty / 2;
+        Weight = EnemyWeight.MEDIUM;
 	}
 }
 
