@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Microsoft.Xna.Framework;
 using TBoGV;
 
@@ -10,9 +11,11 @@ class TutorialRoom : RoomClassroom
     private bool PlayedDialogueEnd = false;
     private Dialogue DialogueStart;
     private Dialogue DialogueEnd;
+    private new List<Entity> Enemies;
     public TutorialRoom(Vector2 dimensions, Player p, bool noEnemies, List<Entity> enemies, Dialogue dialogueStart, Dialogue dialogueEnd)
         : base(dimensions, p, enemies)
     {
+        Enemies = enemies;
         DialogueStart = dialogueStart;
         DialogueEnd = dialogueEnd;
         Peaceful = noEnemies;
@@ -35,6 +38,31 @@ class TutorialRoom : RoomClassroom
         GenerateDecor();
         if (!Peaceful)
             GenerateEnemies();
+    }
+
+    protected override void GenerateEnemies()
+    {
+        foreach (var entity in Enemies)
+        {
+            if (entity is not Enemy enemy)
+                break;
+            while (true)
+            {
+                Vector2 spawnPos = new Vector2(
+                    Random.Shared.Next(50 * ((int)Dimensions.X - 3)) + 50,
+                    Random.Shared.Next(50 * ((int)Dimensions.Y - 3)) + 50);
+
+                if (Doors.Any(d => ((d.DoorTpPosition * 50) - spawnPos).Length() < 100))
+                    continue;
+
+                if (!ShouldCollideAt(new Rectangle(spawnPos.ToPoint(), enemy.Size.ToPoint())))
+                {
+                    enemy.Position = spawnPos;
+                    AddEnemy(enemy);
+                    break;
+                }
+            }
+        }
     }
 
     public override void OnEntry()
