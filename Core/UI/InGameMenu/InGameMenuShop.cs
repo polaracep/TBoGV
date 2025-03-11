@@ -105,7 +105,8 @@ public class InGameMenuShop : InGameMenu
             // Get weighted items list
             var weightedItems = ActiveShop.ItemPool
                 .SelectMany(item => Enumerable.Repeat(item, (int)(rarityWeights.GetValueOrDefault(item.Rarity, 0) * 100)))
-                .OrderBy(_ => rng.Next()) 
+                .OrderBy(_ => rng.Next())
+                .Distinct()
                 .Take(ActiveShop.ItemCount)
                 .ToList();
 
