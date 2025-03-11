@@ -7,7 +7,7 @@ namespace TBoGV;
 public abstract class InGameMenu : IDraw
 {
     public static Action CloseMenu;
-    public static Texture2D SpriteBackground;
+    public static Texture2D SpriteBackground = TextureManager.GetTexture("blackSquare");
     static Viewport Viewport;
 
     public virtual void Update(Viewport viewport, Player player, MouseState mouseState, KeyboardState keyboardState, double dt)
