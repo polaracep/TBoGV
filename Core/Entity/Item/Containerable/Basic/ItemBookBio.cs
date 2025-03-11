@@ -10,13 +10,13 @@ public class ItemBookBio : ItemContainerable
 	static Texture2D Sprite;
 	public ItemBookBio(Vector2 position)
 	{
-		Rarity = 2;
+		Rarity = 3;
 		Position = position;
 		Size = new Vector2(50, 50);
 		Name = "Učebnice biologie";
 		Description = "Když počet stránek nahradí hmotnost knihy." +
 			"Enjoy";
-		Stats = new Dictionary<StatTypes, int>() { { StatTypes.MAX_HP, 6 } };
+		Stats = new Dictionary<StatTypes, int>() { { StatTypes.MAX_HP, 4 } };
 		Effects = new List<EffectTypes>();
 		Sprite = TextureManager.GetTexture("bookBio");
 		ItemType = ItemTypes.BASIC;

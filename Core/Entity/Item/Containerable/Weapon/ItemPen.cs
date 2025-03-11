@@ -15,7 +15,7 @@ class ItemPen : ItemContainerable
 		Size = new Vector2(50, 50);
 		Name = "Propiska";
 		Description = "Nerýsuj s tím proboha";
-		Stats = new Dictionary<StatTypes, int>() { { StatTypes.DAMAGE, 2 }, { StatTypes.ATTACK_SPEED, 750 } };
+		Stats = new Dictionary<StatTypes, int>() { { StatTypes.DAMAGE, 2 }, { StatTypes.ATTACK_SPEED, 1500 } };
 		Effects = new List<EffectTypes>();
 		Sprite = TextureManager.GetTexture("pen");
 		ItemType = ItemTypes.WEAPON;

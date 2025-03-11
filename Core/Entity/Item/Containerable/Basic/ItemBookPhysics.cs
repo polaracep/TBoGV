@@ -10,7 +10,7 @@ public class ItemBookPhysics : ItemContainerable
 	static Texture2D Sprite;
 	public ItemBookPhysics(Vector2 position)
 	{
-		Rarity = 3;
+		Rarity = 4;
 		Position = position;
 		Size = new Vector2(50, 50);
 		Name = "Matematicko fyzikální tabulky";

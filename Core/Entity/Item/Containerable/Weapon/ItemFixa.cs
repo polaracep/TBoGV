@@ -15,7 +15,7 @@ class ItemFixa : ItemContainerable
 		Size = new Vector2(50, 50);
 		Name = "Ukradená fialová fixa";
 		Description = "Hlavně ať to nezjistí Schovánek. \nNepřeháněj to, ať ti chvíli vydrží.";
-		Stats = new Dictionary<StatTypes, int>() { { StatTypes.DAMAGE, 5 }, { StatTypes.ATTACK_SPEED, 1150 }, { StatTypes.MAX_HP, -2 }};
+		Stats = new Dictionary<StatTypes, int>() { { StatTypes.DAMAGE, 3 }, { StatTypes.ATTACK_SPEED, 1750 }, { StatTypes.MAX_HP, -4 }};
 		Effects = new List<EffectTypes>();
 		Sprite = TextureManager.GetTexture("fialovaFixa");
 		ItemType = ItemTypes.WEAPON;
