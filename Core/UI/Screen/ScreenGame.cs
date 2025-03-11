@@ -237,15 +237,17 @@ public class ScreenGame : Screen
         player.Heal(3);
         player.LastRecievedDmgElapsed = 0;
     }
-    public void OpenShop(ShopTypes shop)
+    public void OpenShop(ShopTypes shop, int? lockerId = null)
     {
-        activeMenu = shop switch
+        activeMenu = (shop, lockerId) switch
         {
-            ShopTypes.SARKA => new InGameMenuShop(_viewport, player, ShopTypes.SARKA),
-            ShopTypes.PERLOUN => new InGameMenuShop(_viewport, player, ShopTypes.PERLOUN),
-            _ => throw new Exception("No shop provided"),
+            (ShopTypes.SARKA, _) => new InGameMenuShop(_viewport, player, ShopTypes.SARKA),
+            (ShopTypes.PERLOUN, _) => new InGameMenuShop(_viewport, player, ShopTypes.PERLOUN),
+            (ShopTypes.LOCKER, var id) when id.HasValue => new InGameMenuShop(_viewport, player, ShopTypes.LOCKER, id.Value),
+            _ => throw new Exception("No shop provided or invalid parameters"),
         };
     }
+
 
     public void OpenDialogue(Dialogue dialogue)
     {

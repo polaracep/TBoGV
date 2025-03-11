@@ -1,11 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Microsoft.Xna.Framework;
 using TBoGV;
 
 public class RoomLocker : Room
 {
-	public RoomLocker(Player p) : base((17, 29, 30), p) { }
+    private static HashSet<int> usedLockerIds = new HashSet<int>();
+    private static Random rand = new Random();
+    public RoomLocker(Player p) : base((17, 29, 30), p) { }
 	public RoomLocker(Vector2 dimensions, Player p) : base(dimensions, p) { }
 	public RoomLocker(Player p, List<Entity> entityList) : base((17, 29, 30), p, entityList) { }
 	public RoomLocker(Vector2 dimensions, Player p, List<Entity> entityList) : base(dimensions, p, entityList) { }
@@ -25,7 +28,23 @@ public class RoomLocker : Room
 	}
 	protected void GeneratePassive()
 	{
-		Entities.Add(new EntitySkolnik(GetTileWorldPos(new Vector2(3, 3))));
+        var skolnik = new EntitySkolnik();
+        while (true)
+        {
+            Vector2 spawnPos = new Vector2(
+                Random.Shared.Next(50 * ((int)Dimensions.X - 3)) + 50,
+                Random.Shared.Next(50 * ((int)Dimensions.Y - 3)) + 50);
+
+            if (Doors.Any(d => ((d.DoorTpPosition * 50) - spawnPos).Length() < 100))
+                continue;
+
+            if (!ShouldCollideAt(new Rectangle(spawnPos.ToPoint(), skolnik.Size.ToPoint())))
+            {
+                skolnik.Position = spawnPos;
+                Entities.Add(skolnik);
+                break;
+            }
+        }
 	}
 
 	protected override void GenerateBase()
@@ -99,62 +118,112 @@ public class RoomLocker : Room
 			}
 		}
 	}
-	protected override void GenerateDecor()
-	{
-		bool openLockerSet = false; // Flag to ensure only one locker is open
+    protected override void GenerateDecor()
+    {
+        int openLockerCount = rand.Next(1, 3); // 1 or 2 open lockers
+        Dictionary<Vector2, TileLocker> lockerTiles = new Dictionary<Vector2, TileLocker>(); // Dictionary to store LockerTile objects by position
 
-		if (direction == Directions.LEFT || direction == Directions.RIGHT)
-		{
-			// Vertical double-row lockers
-			for (int x = 2; x < Dimensions.X - 2; x += 3) // Space every 3 tiles
-			{
-				for (int y = 2; y < Dimensions.Y - 2; y++)
-				{
-					// First locker in the row
-					Vector2 lockerPos1 = new Vector2(x, y);
-					TileLocker locker1 = new TileLocker();
-					if (!openLockerSet) { locker1.Open(); openLockerSet = true; }
-					this.AddDecoTile(lockerPos1, locker1);
+        if (direction == Directions.LEFT || direction == Directions.RIGHT)
+        {
+            // Vertical double-row lockers
+            for (int x = 3; x < Dimensions.X - 3; x += 3) // Space every 3 tiles
+            {
+                for (int y = 2; y < Dimensions.Y - 2; y++)
+                {
+                    // First locker in the row
+                    Vector2 lockerPos1 = new Vector2(x, y);
+                    TileLocker locker1 = new TileLocker();
+                    lockerTiles[lockerPos1] = locker1; // Add to the dictionary with position as key
 
-					// Second locker in the row (directly next to the first)
-					if (x + 1 < Dimensions.X - 1) // Prevent out-of-bounds
-					{
-						Vector2 lockerPos2 = new Vector2(x + 1, y);
-						TileLocker locker2 = new TileLocker(MathHelper.Pi, false);
-						this.AddDecoTile(lockerPos2, locker2);
-					}
-				}
-			}
-		}
-		else if (direction == Directions.UP || direction == Directions.DOWN)
-		{
-			// Horizontal double-row lockers
-			for (int y = 2; y < Dimensions.Y - 2; y += 3) // Space every 3 tiles
-			{
-				for (int x = 2; x < Dimensions.X - 2; x++)
-				{
-					// First locker in the row
-					Vector2 lockerPos1 = new Vector2(x, y);
-					TileLocker locker1 = new TileLocker(MathHelper.PiOver2, false);
-					if (!openLockerSet) { locker1.Open(); openLockerSet = true; }
-					this.AddDecoTile(lockerPos1, locker1);
+                    // Second locker in the row (directly next to the first)
+                    if (x + 1 < Dimensions.X - 1) // Prevent out-of-bounds
+                    {
+                        Vector2 lockerPos2 = new Vector2(x + 1, y);
+                        TileLocker locker2 = new TileLocker(MathHelper.Pi, false); // Set rotation (adjust as needed)
+                        lockerTiles[lockerPos2] = locker2; // Add to the dictionary with position as key
+                    }
+                }
+            }
+        }
+        else if (direction == Directions.UP || direction == Directions.DOWN)
+        {
+            // Horizontal double-row lockers
+            for (int y = 3; y < Dimensions.Y - 3; y += 3) // Space every 3 tiles
+            {
+                for (int x = 2; x < Dimensions.X - 2; x++)
+                {
+                    // First locker in the row
+                    Vector2 lockerPos1 = new Vector2(x, y);
+                    TileLocker locker1 = new TileLocker(MathHelper.PiOver2, false); // Set rotation (adjust as needed)
+                    lockerTiles[lockerPos1] = locker1; // Add to the dictionary with position as key
 
-					// Second locker in the row (directly below the first)
-					if (y + 1 < Dimensions.Y - 1) // Prevent out-of-bounds
-					{
-						Vector2 lockerPos2 = new Vector2(x, y + 1);
-						TileLocker locker2 = new TileLocker(-MathHelper.PiOver2, false);
-						this.AddDecoTile(lockerPos2, locker2);
-					}
-				}
-			}
-		}
-	}
+                    // Second locker in the row (directly below the first)
+                    if (y + 1 < Dimensions.Y - 1) // Prevent out-of-bounds
+                    {
+                        Vector2 lockerPos2 = new Vector2(x, y + 1);
+                        TileLocker locker2 = new TileLocker(-MathHelper.PiOver2, false); // Set rotation (adjust as needed)
+                        lockerTiles[lockerPos2] = locker2; // Add to the dictionary with position as key
+                    }
+                }
+            }
+        }
+
+        // Randomly select open lockers from the dictionary
+        List<Vector2> lockerKeys = new List<Vector2>(lockerTiles.Keys); // Get list of all locker positions (keys)
+        for (int i = 0; i < openLockerCount; i++)
+        {
+            if (lockerKeys.Count > 0)
+            {
+                int randomIndex = rand.Next(lockerKeys.Count); // Randomly select an index
+                Vector2 selectedPos = lockerKeys[randomIndex]; // Get the selected position
+                lockerKeys.RemoveAt(randomIndex); // Remove the selected position from the list
+
+                // Open the selected locker
+                TileLocker selectedLocker = lockerTiles[selectedPos];
+                selectedLocker.Open();
+                selectedLocker.SetId(GetUniqueLockerId()); // Set unique ID
+                this.AddDecoTile(selectedPos, selectedLocker); // Add the open locker to the decor
+            }
+        }
+
+        // Add closed lockers for the rest of the positions
+        foreach (Vector2 lockerPos in lockerKeys)
+        {
+            TileLocker closedLocker = lockerTiles[lockerPos];
+            this.AddDecoTile(lockerPos, closedLocker); // Add closed lockers
+        }
+    }
 
 
 
-	protected override void GenerateEnemies()
+    private int GetUniqueLockerId()
+    {
+        int id;
+        do
+        {
+            id = rand.Next(1000, 9999); // Generate a random ID
+        } while (usedLockerIds.Contains(id)); // Ensure it's unique
+
+        usedLockerIds.Add(id);
+        return id;
+    }
+
+
+
+    protected override void GenerateEnemies()
 	{
 		GenerateEnemies((Storyline.Difficulty / 2) + 1);
 	}
+    public override void Update(double dt)
+    {
+        base.Update(dt);
+        foreach (var e in Entities)
+        {
+            if( e is EntitySkolnik skolnik)
+            {
+                skolnik.Move(this);
+                skolnik.Update(dt);
+            }
+        }
+    }
 }

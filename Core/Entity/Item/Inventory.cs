@@ -43,6 +43,8 @@ public class Inventory
 	}
 	public void AddEffect(Effect effect)
 	{
+		if (effect is EffectPrezuvky && GetEffect().Contains(EffectTypes.BOOTS))
+			return;
 		foreach (var e in Effects)
 		{
 			if (effect.Name == e.Name)

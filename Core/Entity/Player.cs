@@ -235,6 +235,10 @@ public class Player : Entity, IRecieveDmg, IDealDmg
 			foreach (var item in items)
 				place.Drops.Add(item);
 		}
+		// pokud ma hrac prezuvky tak nemuze mit postih za to ze nema prezuvky
+        var existingEffect = Inventory.Effects.FirstOrDefault(effect => effect is EffectPrezuvky);
+        if (Inventory.GetEffect().Contains(EffectTypes.BOOTS) && existingEffect != null)
+			Inventory.RemoveEffect(existingEffect);
 
 		Inventory.Update(viewport, this, mouseState, dt);
 
