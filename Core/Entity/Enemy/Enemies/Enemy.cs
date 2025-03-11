@@ -21,7 +21,7 @@ public abstract class Enemy : Entity, IRecieveDmg, IDealDmg, ICloneable
   protected static readonly Random random = new Random();
   public virtual void AttackDelay()
   {
-    LastAttackElapsed = -random.Next(50, 3500);
+    LastAttackElapsed = -random.Next(0, 1000);
   }
   public abstract bool ReadyToAttack();
   public abstract void Update(Vector2 playerPosition, double dt);
