@@ -9,6 +9,7 @@ class UI : IDraw
 {
     List<Heart> hearts;
     static SpriteFont Font;
+    static SpriteFont MiddleFont = FontManager.GetFont("Arial12");
     static Texture2D SpriteCoin;
     static Texture2D SpriteXpBar;
 	protected Vector2 screenSize;
@@ -91,5 +92,46 @@ class UI : IDraw
                 (Effects[i].SpriteSize.X + 5)
             );
         }
+        string pololetiText =Storyline.CurrentLevelNumber % 2 == 1 ? "1. " : "2. ";
+        pololetiText += "Pololetí";
+
+        string yearText;
+        switch (((Storyline.CurrentLevelNumber -1)/ 2))
+        {
+            case 0:
+                yearText = "prima";
+                break;
+            case 1:
+                yearText = "sekunda";
+                break;
+            case 2:
+                yearText = "tercie";
+                break;
+            case 3:
+                yearText = "kvarta";
+                break;
+            case 4:
+                yearText = "kvinta";
+                break;
+            case 5:
+                yearText = "sexta";
+                break;
+            case 6:
+                yearText = "septima";
+                break;
+            case 7:
+                yearText = "oktava";
+                break;
+            default:
+                yearText = "";
+                break;
+        }
+        if (Storyline.CurrentLevelNumber == 0)
+        {
+            pololetiText = "";
+            yearText = "";
+        }
+        spriteBatch.DrawString(MiddleFont, yearText, new Vector2(30,screenSize.Y- MiddleFont.MeasureString(yearText).Y-30), Color.White);
+        spriteBatch.DrawString(MiddleFont, pololetiText, new Vector2(30, screenSize.Y - MiddleFont.MeasureString(yearText).Y - MiddleFont.MeasureString(pololetiText).Y - 30), Color.White);
     }
 }
