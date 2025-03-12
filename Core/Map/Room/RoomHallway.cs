@@ -57,7 +57,7 @@ public class RoomHallway : Room
         {
             spriteBatch.Draw(SpriteIconExit, position + (new Vector2(width, height) - new Vector2(SpriteIconExit.Width, SpriteIconExit.Height)) / 2, Color.White);
         }
-        else if (Enemies.Count > 0)
+        else if (!IsGenerated || Enemies.Count > 0)
         {
             spriteBatch.Draw(SpriteIconNotCleared, position + (new Vector2(width, height) - new Vector2(SpriteIconNotCleared.Width, SpriteIconNotCleared.Height)) / 2, Color.White);
         }
