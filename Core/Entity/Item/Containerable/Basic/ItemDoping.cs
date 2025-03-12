@@ -15,7 +15,7 @@ class ItemDoping : ItemContainerable
         Size = new Vector2(50, 50);
         Name = "Řešitel problémů";
         Description = "Nedělejte drogy";
-        Stats = new Dictionary<StatTypes, float>() { { StatTypes.DAMAGE, 12 }, { StatTypes.MAX_HP, -9 }, { StatTypes.MOVEMENT_SPEED, 12 } };
+        Stats = new Dictionary<StatTypes, float>() { { StatTypes.DAMAGE, 12 }, { StatTypes.MAX_HP, -12 }, { StatTypes.MOVEMENT_SPEED, 12 }, { StatTypes.ATTACK_SPEED, -12 }, { StatTypes.PROJECTILE_COUNT, -4 } };
         Effects = new List<EffectTypes>() { };
         Sprite = TextureManager.GetTexture("heal");
         ItemType = ItemTypes.BASIC;
