@@ -8,7 +8,10 @@ namespace TBoGV;
 class EnemyTriangle : EnemyMelee
 {
     static Texture2D Spritesheet = TextureManager.GetTexture("triangleSpritesheet");
-    //static SoundEffect vibeSfx = SoundManager.GetSound("vibe");
+  
+    protected static SoundEffectInstance Sfx = SoundManager.GetSound("triangle").CreateInstance();
+    static double SfxDuration = SoundManager.GetSound("triangle").Duration.TotalMilliseconds;
+    protected double SfxTimeElapsed = SfxDuration;
     static float Scale;
 
     int frameWidth = 98;
@@ -26,7 +29,8 @@ class EnemyTriangle : EnemyMelee
         Position = position;
         Scale = 50f / Math.Max(frameWidth, frameHeight);
         Size = new Vector2(frameWidth * Scale, frameHeight * Scale);
-		AttackDelay();
+        
+        AttackDelay();
 
 	}
     public EnemyTriangle() : this(Vector2.Zero) { }
@@ -42,17 +46,30 @@ class EnemyTriangle : EnemyMelee
     }
     public override void Update(Vector2 playerPosition, double dt)
     {
+        Sfx.Volume = (float)(double)Settings.SfxVolume.Value;
         base.Update(playerPosition, dt);
         lastFrameChangeElapsed += dt;
+        SfxTimeElapsed += dt;
+        UpdateSfx();
         UpdateAnimation();
     }
     protected override void UpdateMoving(double dt)
     {
+        if(Sfx.State == SoundState.Stopped)
+            Sfx.Resume();
         if ((phaseChangeElapsed > movingDuration && Moving) ||
             (phaseChangeElapsed > chillDuration && !Moving))
         {
             Moving = !Moving;
             phaseChangeElapsed = 0;
+        }
+    }
+    private void UpdateSfx()
+    {
+        if (SfxTimeElapsed >= SfxDuration)
+        {
+            Sfx.Play();
+            SfxTimeElapsed = 0;
         }
     }
     private void UpdateAnimation()

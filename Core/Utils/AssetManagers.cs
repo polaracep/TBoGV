@@ -238,6 +238,7 @@ public static class SoundManager
             "rickroll",
             "neverGonnaGiveUUp",
             "shower",
+            "triangle",
         };
 
         foreach (string name in names)
