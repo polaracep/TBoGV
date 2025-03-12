@@ -131,6 +131,8 @@ public static class TextureManager
             "bossIcon",
             "showerIcon",
             "lockerIcon",
+            "iconExit",
+            "iconNotCleared",
 
             // Items
             "heal",

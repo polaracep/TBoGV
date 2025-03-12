@@ -94,4 +94,21 @@ public class RoomClassroom : Room
     {
         GenerateEnemies((int)(2 + (Storyline.Difficulty -1)*1.5));
     }
+    Texture2D SpriteIconExit = TextureManager.GetTexture("iconExit");
+    Texture2D SpriteIconNotCleared = TextureManager.GetTexture("iconNotCleared");
+    public override void DrawMinimapIcon(SpriteBatch spriteBatch, Vector2 position, float scale = 20, bool active = false)
+    {
+        base.DrawMinimapIcon(spriteBatch, position, scale, active);
+
+        int width = (int)(IconBaseSize.X * scale);
+        int height = (int)(IconBaseSize.Y * scale);
+        if (IsEndRoom)
+        {
+            spriteBatch.Draw(SpriteIconExit, position + (new Vector2(width, height) - new Vector2(SpriteIconExit.Width, SpriteIconExit.Height)) / 2, Color.White);
+        }
+        else if (Enemies.Count > 0)
+        {
+            spriteBatch.Draw(SpriteIconNotCleared, position + (new Vector2(width, height) - new Vector2(SpriteIconNotCleared.Width, SpriteIconNotCleared.Height)) / 2, Color.White);
+        }
+    }
 }
