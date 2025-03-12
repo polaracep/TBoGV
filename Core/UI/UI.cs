@@ -14,7 +14,7 @@ class UI : IDraw
 	protected Vector2 screenSize;
 
 	int Coins;
-    int Xp;
+    float Xp;
     int MaxXp;
     const int MaxHeartsPerRow = 5;
     protected List<Effect> Effects = new List<Effect>();

@@ -28,12 +28,80 @@ public class InGameMenuShop : InGameMenu
 
     private static Random rng = new Random();
 
-    private static Dictionary<int, double> rarityWeights = new Dictionary<int, double>
+    private static List<Dictionary<int, double>> rarityWeightsList = new List<Dictionary<int, double>>()
 {
-    { 1, 0.35 }, // Common
-    { 2, 0.35 }, // Uncommon
-    { 3, 0.2 }, // Rare
-    { 4, 0.1 }  // Legendary
+    {
+        new Dictionary<int, double>()
+        {
+            { 1, 1 }, // Common
+            { 2, 0 }, // Uncommon
+            { 3, 0 }, // Rare
+            { 4, 0 }  // Legendary
+        }
+    },
+    {
+        new Dictionary<int, double>()
+        {
+            { 1, 0.7 }, // Common
+            { 2, 0.3 }, // Uncommon
+            { 3, 0 }, // Rare
+            { 4, 0 }  // Legendary
+        }
+    },
+    {
+        new Dictionary<int, double>()
+        {
+            { 1, 0.5 }, // Common
+            { 2, 0.5 }, // Uncommon
+            { 3, 0 }, // Rare
+            { 4, 0 }  // Legendary
+        }
+    },
+    {
+        new Dictionary<int, double>()
+        {
+            { 1, 0.3 }, // Common
+            { 2, 0.5 }, // Uncommon
+            { 3, 0.2 }, // Rare
+            { 4, 0 }  // Legendary
+        }
+    },
+    {
+        new Dictionary<int, double>()
+        {
+            { 1, 0.1 }, // Common
+            { 2, 0.5 }, // Uncommon
+            { 3, 0.4 }, // Rare
+            { 4, 0 }  // Legendary
+        }
+    },
+    {
+        new Dictionary<int, double>()
+        {
+            { 1, 0.1 }, // Common
+            { 2, 0.4 }, // Uncommon
+            { 3, 0.4 }, // Rare
+            { 4, 0.1 }  // Legendary
+        }
+    },
+    {
+        new Dictionary<int, double>()
+        {
+            { 1, 0 }, // Common
+            { 2, 0.3 }, // Uncommon
+            { 3, 0.6 }, // Rare
+            { 4, 0.1 }  // Legendary
+        }
+    },
+    {
+        new Dictionary<int, double>()
+        {
+            { 1, 0 }, // Common
+            { 2, 0.3 }, // Uncommon
+            { 3, 0.5 }, // Rare
+            { 4, 0.2 }  // Legendary
+        }
+    }
 };
     public InGameMenuShop(Viewport viewport, Player player, ShopTypes type, int lockerId)
     {
@@ -101,7 +169,7 @@ public class InGameMenuShop : InGameMenu
 
                 ShopLocker.RenewedById[lockerId.Value] = true;
             }
-
+            Dictionary<int, double> rarityWeights = rarityWeightsList[(int)Math.Min(7,(Storyline.CurrentLevelNumber/2))];
             // Get weighted items list
             var weightedItems = ActiveShop.ItemPool
                 .SelectMany(item => Enumerable.Repeat(item, (int)(rarityWeights.GetValueOrDefault(item.Rarity, 0) * 100)))
