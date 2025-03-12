@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO.Pipes;
 using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -38,14 +39,30 @@ class InGameMenuMinimap : InGameMenu
 
         if (roomBossLoc.X >= 0 && roomBossLoc.Y >= 0)
         {
-            List<Vector2> directions = new List<Vector2>() { new Vector2(0, 1), new Vector2(0, -1), new Vector2(1, 0), new Vector2(-1, 0) };
-            foreach (var direction in directions)
+            foreach (TileDoor door in LevelToDraw.RoomMap[(int)roomBossLoc.X, (int)roomBossLoc.Y].Doors)
             {
+                Vector2 direction = Vector2.Zero;
+                switch (door.Direction)
+                {
+                    case Directions.LEFT:
+                        direction = new Vector2(-1, 0);
+                        break;
+
+                    case Directions.RIGHT:
+                        direction = new Vector2(1, 0);
+                        break;
+
+                    case Directions.UP:
+                        direction = new Vector2(0, -1);
+                        break;
+
+                    case Directions.DOWN:
+                        direction = new Vector2(0, 1);
+                        break;
+                }
                 Vector2 index = direction + roomBossLoc;
                 int x = (int)index.X;
                 int y = (int)index.Y;
-                if (x > mapWidth - 1 || x < 0 || y > mapHeight - 1 || y < 0)
-                    continue;
                 Room room = LevelToDraw.RoomMap[x, y];
                 if (room == null) continue;
                 if (room.IsVisited)
@@ -87,7 +104,6 @@ class InGameMenuMinimap : InGameMenu
             (Viewport.Height - totalHeight) / 2
         );
 
-        //spriteBatch.Draw(SpriteBackground, new Rectangle(minimapPos.ToPoint(), new Point((int)totalWidth, (int)totalHeight)),Color.White);
         for (int y = 0; y < mapHeight; y++)
         {
             Vector2 rowStartPos = new Vector2(
