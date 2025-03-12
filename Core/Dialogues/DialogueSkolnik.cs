@@ -9,7 +9,7 @@ class DialogueSkolnik : Dialogue
     public override Texture2D NpcSprite { get; set; } = new EntitySkolnik().GetSprite();
     protected override JsonElement root { get; set; } = DialogueManager.GetDialogue("skolnik").RootElement;
 
-    public DialogueSkolnik() : base()
+    public DialogueSkolnik()
     {
         Actions.Add(1, () =>
         {
@@ -28,6 +28,7 @@ class DialogueSkolnik : Dialogue
             GameManager.Player.Inventory.AddEffect(new EffectPrezuvky());
         });
 
+        ParseDialogue();
     }
 
     protected void TryPersuade()

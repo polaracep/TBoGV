@@ -71,6 +71,8 @@ class EntitySkolnik : EntityPassive
     }
     public void Move(Place place)
     {
+        if (talkedWithPlayer)
+            return;
         PlayerPosition = place.player.Position;
         // Check distance to player
         float distanceToPlayer = Vector2.Distance(Position, PlayerPosition);

@@ -85,16 +85,16 @@ public abstract class Room : Place
                 Particles.Remove(Particles[i]);
         }
         UpdateDrops();
-		foreach (var t in Decorations)
-		{
-			if (t is TileShower shower)
-			{
-				shower.Update(dt);
-			}
-		}
+        foreach (var t in Decorations)
+        {
+            if (t is TileShower shower)
+            {
+                shower.Update(dt);
+            }
+        }
 
-	}
-	protected void UpdateDrops()
+    }
+    protected void UpdateDrops()
     {
         foreach (var d in Drops)
             d.Update(this);
@@ -185,7 +185,6 @@ public abstract class Room : Place
     }
     protected void UpdateEnemies(double dt)
     {
-
         for (int i = 0; i < Enemies.Count; i++)
         {
             Enemies[i].Update(player.Position + player.Size / 2, dt);
@@ -198,9 +197,7 @@ public abstract class Room : Place
                     Projectiles.Add(projectile);
                 }
             }
-
         }
-
     }
 
     /* === Generation methods === */
@@ -230,7 +227,9 @@ public abstract class Room : Place
 
         foreach (var enemy in chosenEnemies)
         {
-            while (true)
+
+            // max 100 tries
+            for (int i = 0; i < 100; i++)
             {
                 Vector2 spawnPos = new Vector2(
                     Random.Shared.Next(50 * ((int)Dimensions.X - 3)) + 50,
@@ -248,6 +247,9 @@ public abstract class Room : Place
             }
         }
     }
+
+    protected virtual void GeneratePassive() { }
+
     protected int GetValidPositionCount()
     {
         // Generate random enemies
@@ -384,6 +386,7 @@ public abstract class Room : Place
         if (!IsGenerated)
             Generate();
         GenerateEnemies();
+        GeneratePassive();
     }
     public virtual void ClearDrops()
     {
@@ -392,6 +395,10 @@ public abstract class Room : Place
     public virtual void ClearEnemies()
     {
         Enemies.Clear();
+    }
+    public virtual void ClearEntities()
+    {
+        Entities.Clear();
     }
     public virtual void ClearProjectiles()
     {
@@ -402,6 +409,7 @@ public abstract class Room : Place
     {
         ClearProjectiles();
         ClearEnemies();
+        ClearEntities();
         ClearDrops();
     }
 
@@ -437,7 +445,7 @@ public abstract class Room : Place
 
         // Draw the white outline
         // Top border
-        spriteBatch.Draw(SpriteWhitesquare, new Rectangle((int)position.X, (int)position.Y, width, 1), active ? Color.Aqua :Color.White);
+        spriteBatch.Draw(SpriteWhitesquare, new Rectangle((int)position.X, (int)position.Y, width, 1), active ? Color.Aqua : Color.White);
         // Bottom border
         spriteBatch.Draw(SpriteWhitesquare, new Rectangle((int)position.X, (int)(position.Y + height - 1), width, 1), active ? Color.Aqua : Color.White);
         // Left border

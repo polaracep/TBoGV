@@ -20,11 +20,6 @@ public abstract class Dialogue
     }
     protected int index = 0;
 
-    public Dialogue()
-    {
-        ParseDialogue();
-    }
-
     public void Respond(string choice)
     {
         JsonElement selected;
