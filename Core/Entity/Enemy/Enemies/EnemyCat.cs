@@ -76,7 +76,7 @@ class EnemyCat : EnemyMelee
 	{
 		Hp = 3 + (3.5f * (difficulty-1));
 		MovementSpeed = 1.5f + (float)(0.2 * difficulty);
-		AttackSpeed = 444 + (5 * difficulty);
+		AttackSpeed = 444;
 		AttackDmg = 1;
 		XpValue = difficulty;
 		Weight = EnemyWeight.EASY;

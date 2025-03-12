@@ -94,7 +94,7 @@ internal class EnemyPolhreich : EnemyRanged
 
 	protected override void InitStats(int difficulty)
 	{
-		Hp = 3 + (difficulty);
+		Hp = (difficulty) * 3 - 1;
 		MovementSpeed = 2;
 		AttackSpeed = 650 - (4 * difficulty);
 		AttackDmg = 1;
