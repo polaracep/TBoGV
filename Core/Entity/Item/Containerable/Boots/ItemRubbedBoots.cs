@@ -6,10 +6,10 @@ using System.Collections.Generic;
 
 namespace TBoGV;
 
-class ItemRubbedBoots : ItemContainerable
+class ItemRubberBoots : ItemContainerable
 {
 	static Texture2D Sprite;
-	public ItemRubbedBoots(Vector2 position)
+	public ItemRubberBoots(Vector2 position)
 	{
 		Rarity = 1;
 		Position = position;
@@ -21,7 +21,7 @@ class ItemRubbedBoots : ItemContainerable
 		Sprite = TextureManager.GetTexture("gumaky");
 		ItemType = ItemTypes.ARMOR;
 	}
-	public ItemRubbedBoots() : this(Vector2.Zero) { }
+	public ItemRubberBoots() : this(Vector2.Zero) { }
 	public override void Draw(SpriteBatch spriteBatch)
 	{
 		spriteBatch.Draw(Sprite, new Rectangle(Convert.ToInt32(Position.X), Convert.ToInt32(Position.Y), Convert.ToInt32(Size.X), Convert.ToInt32(Size.Y)), IsKnown ? Color.White : Color.Black);
@@ -30,10 +30,10 @@ class ItemRubbedBoots : ItemContainerable
 	{
 		return Sprite;
 	}
-    public override ItemContainerable Clone()
-    {
-        return new ItemRubbedBoots();
-    }
+	public override ItemContainerable Clone()
+	{
+		return new ItemRubberBoots();
+	}
 
 }
 

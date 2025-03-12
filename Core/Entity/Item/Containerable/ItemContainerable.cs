@@ -13,7 +13,7 @@ public abstract class ItemContainerable : Item
 	// rarity 2 - common
 	// rarity 3 - epic
 	// rarity 4 - legendary
- 	public ItemTypes ItemType { get; set; }
+	public ItemTypes ItemType { get; set; }
 	public Dictionary<StatTypes, float> Stats { get; set; }
 	public List<EffectTypes> Effects { get; set; }
 	public bool IsKnown = true;
@@ -47,12 +47,12 @@ public abstract class ItemContainerable : Item
 	public virtual int GetCost()
 	{
 		int rarityValue = GetRarityValue();
-		return new Random().Next((int)(rarityValue * 0.6f), (int)(rarityValue * 1.3)); 
+		return new Random().Next((int)(rarityValue * 0.6f), (int)(rarityValue * 1.3));
 	}
-    public virtual int GetRarityValue()
+	public virtual int GetRarityValue()
 	{
 		return 3 + Rarity * 7;
-    }
+	}
 	public abstract ItemContainerable Clone();
 }
 
@@ -166,7 +166,7 @@ public static class ItemDatabase
 			new ItemBookPE(),
 			new ItemPen(),
 			new ItemScissors(),
-			new ItemRubbedBoots(),
+			new ItemRubberBoots(),
 			new ItemFixa(),
 			new ItemLabcoat(),
 			new ItemPencil(),
@@ -178,7 +178,7 @@ public static class ItemDatabase
 			new ItemSesitZeleny(),
 			new ItemSesitZsv(),
 			new ItemKruzitko(),
-			new ItemOrezavatko(),	
+			new ItemOrezavatko(),
 		};
 
 		foreach (var item in itemsList)
@@ -191,9 +191,9 @@ public static class ItemDatabase
 	{
 		return ItemsByName.TryGetValue(name, out var item) ? (ItemContainerable)Activator.CreateInstance(item.GetType()) : null;
 	}
-    public static List<ItemContainerable> GetAllItems()
-    {
-        return ItemsByName.Values.ToList();
-    }
+	public static List<ItemContainerable> GetAllItems()
+	{
+		return ItemsByName.Values.ToList();
+	}
 
 }

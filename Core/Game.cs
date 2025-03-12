@@ -68,11 +68,13 @@ public static class GameManager
 {
     public static Game Game;
     public static Player Player;
+    public static Viewport Viewport;
 
     public static void Start(Game game)
     {
         Game = game;
         Player = new Player();
+        Viewport = game.GraphicsDevice.Viewport;
     }
 
     public static void Exit()

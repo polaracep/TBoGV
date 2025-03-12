@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.IO;
 using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -8,21 +7,22 @@ using System.Linq;
 
 class EntitySkolnik : EntityPassive
 {
-	public const string NAME = "Školník";
+    public const string NAME = "Školník";
     protected double lastPathUpdateElapsed = 0;
     protected Vector2 PlayerPosition;
     protected Vector2 targetPosition;
     protected float pathUpdateCooldown = 500;
+    protected bool talkedWithPlayer = false;
     protected Queue<Vector2> path = new Queue<Vector2>();
     public EntitySkolnik(Vector2 position) : base(position, NAME)
-	{
+    {
         MovementSpeed = 3;
-	}
-	public EntitySkolnik() : base(NAME) { MovementSpeed = 3; }
+    }
+    public EntitySkolnik() : base(NAME) { MovementSpeed = 3; }
 
-	public override Texture2D GetSprite()
-	{
-		return TextureManager.GetTexture("petr");
+    public override Texture2D GetSprite()
+    {
+        return TextureManager.GetTexture("petr");
     }
     public void Update(double dt)
     {
@@ -71,6 +71,8 @@ class EntitySkolnik : EntityPassive
     }
     public void Move(Place place)
     {
+        if (talkedWithPlayer)
+            return;
         PlayerPosition = place.player.Position;
         // Check distance to player
         float distanceToPlayer = Vector2.Distance(Position, PlayerPosition);
@@ -91,16 +93,17 @@ class EntitySkolnik : EntityPassive
             if (path.Count == 0 || Vector2.Distance(Position, targetPosition) <= 100)
             {
                 targetPosition = new Vector2(
-                    new Random().Next(50, (int)(place.Dimensions.X*50)), // Random X position (adjust limits)
+                    new Random().Next(50, (int)(place.Dimensions.X * 50)), // Random X position (adjust limits)
                     new Random().Next(50, (int)(place.Dimensions.Y * 50))  // Random Y position (adjust limits)
                 );
                 path = FindPath(Position, targetPosition, place);
             }
         }
         FollowPath();
-        if (distanceToPlayer <= 100)
+        if (distanceToPlayer <= 100 && !talkedWithPlayer)
         {
-            place.player.Inventory.AddEffect(new EffectPrezuvky());
+            ScreenManager.ScreenGame.OpenDialogue(new DialogueSkolnik());
+            talkedWithPlayer = true;
         }
     }
 

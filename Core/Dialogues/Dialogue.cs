@@ -20,11 +20,6 @@ public abstract class Dialogue
     }
     protected int index = 0;
 
-    public Dialogue()
-    {
-        ParseDialogue();
-    }
-
     public void Respond(string choice)
     {
         JsonElement selected;
@@ -37,8 +32,6 @@ public abstract class Dialogue
             AddQuestion(selected, false);
         else
             throw new Exception("Unknown kind");
-
-        //  Advance();
     }
 
     public bool Advance()
@@ -55,12 +48,19 @@ public abstract class Dialogue
         {
             JsonElement val = e.Value;
 
-            // jenom text
-            if (val.ValueKind == JsonValueKind.Array)
-                AddArray(val, true);
-            // odpovidame
-            if (val.ValueKind == JsonValueKind.Object)
-                AddQuestion(val, true);
+            switch (val.ValueKind)
+            {
+                case JsonValueKind.Array:
+                    AddArray(val, true);
+                    break;
+                case JsonValueKind.Object:
+                    AddQuestion(val, true);
+                    break;
+                case JsonValueKind.Number:
+                    dialogue.Add(new DialogueElement(Actions.GetValueOrDefault(val.GetInt32())));
+                    break;
+                default: break;
+            }
         }
     }
 
@@ -68,9 +68,9 @@ public abstract class Dialogue
     {
         int insertPos;
         if (append)
-            insertPos = index + 1;
-        else
             insertPos = dialogue.Count - 1;
+        else
+            insertPos = index + 1;
 
         textArray.EnumerateArray().ToList().ForEach(x =>
         {
