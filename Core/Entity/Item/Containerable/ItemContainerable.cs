@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+
 namespace TBoGV;
 
 public abstract class ItemContainerable : Item
@@ -170,6 +171,14 @@ public static class ItemDatabase
 			new ItemLabcoat(),
 			new ItemPencil(),
 			new ItemRuler(),
+			new ItemSesitCj(),
+			new ItemSesitFyzika(),
+			new ItemSesitMatika(),
+			new ItemSesitModry(),
+			new ItemSesitZeleny(),
+			new ItemSesitZsv(),
+			new ItemKruzitko(),
+			new ItemOrezavatko(),	
 		};
 
 		foreach (var item in itemsList)

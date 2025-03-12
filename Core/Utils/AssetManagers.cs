@@ -165,6 +165,13 @@ public static class TextureManager
             "labCoat",
             "pravyuhel",
 
+            "sesitZeleny",
+            "sesitCerveny",
+            "sesitModry",
+            "kruzitko",
+            "sharpener",
+
+
             // Misc
             "gymvod",
             "platina",
