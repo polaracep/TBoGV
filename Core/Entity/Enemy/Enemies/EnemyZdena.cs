@@ -23,7 +23,7 @@ class EnemyZdena : EnemyRanged
 	}
 	public override List<Projectile> Attack()
 	{
-		List<Projectile> projectiles = base.Attack();
+		List<Projectile> projectiles = [];
 		projectiles.Add(new ProjectileRoot(Position + Size / 2, Direction, AttackDmg));
 		LastAttackElapsed = 0;
 		return projectiles;
@@ -40,11 +40,11 @@ class EnemyZdena : EnemyRanged
 
 	protected override void InitStats(int difficulty)
 	{
-		Hp = 2 + difficulty*1.5f;
+		Hp = 2 + difficulty * 1.5f;
 		MovementSpeed = 4;
 		AttackSpeed = 2500 - (100 * difficulty);
 		AttackDmg = 1;
-        XpValue = 1 + difficulty / 2;
-        Weight = EnemyWeight.MEDIUM;
+		XpValue = 1 + difficulty / 2;
+		Weight = EnemyWeight.MEDIUM;
 	}
 }

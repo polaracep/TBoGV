@@ -17,7 +17,7 @@ public class MinigameKomisionalky : Minigame
 	private int arrowPosition;
 	private int successCount = 0;
 	private int RequiredSuccesses = 3;
-	private float arrowSpeed = 225f;
+	private float arrowSpeed = 350f;
 	private bool movingRight = true;
 	private bool highlightSegment = false;
 	private double highlightTime = 0;
@@ -108,7 +108,7 @@ public class MinigameKomisionalky : Minigame
 		spriteBatch.Draw(SpriteForeground, new Rectangle(barX + (int)PositionOffset.X, barY + BarHeight + 10 + (int)PositionOffset.Y, progressBarWidth, 5), Color.Blue);
 	}
 
-	public override void Update(Viewport viewport,KeyboardState keyboardState, double dt)
+	public override void Update(Viewport viewport, KeyboardState keyboardState, double dt)
 	{
 		Viewport = viewport;
 		Vector2 textSize = Font.MeasureString(displayedText);
@@ -129,7 +129,7 @@ public class MinigameKomisionalky : Minigame
 			if (arrowPosition + ArrowWidth / 2 >= greenStart && arrowPosition <= greenEnd - ArrowWidth / 2)
 			{
 				successCount++;
-                highlightedSegment = ((arrowPosition + ArrowWidth / 2) / SegmentWidth) * SegmentWidth; 
+				highlightedSegment = ((arrowPosition + ArrowWidth / 2) / SegmentWidth) * SegmentWidth;
 				highlightSegment = true;
 				highlightTime = 0.4;
 			}

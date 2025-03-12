@@ -10,8 +10,9 @@ public class Setting
     public Setting(string id, string name, object val)
     {
         Id = id;
-        Value = val;
         Name = name;
+        if (val is double d)
+            Value = (float)d;
     }
 }
 public static class Settings
