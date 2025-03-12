@@ -9,7 +9,7 @@ class EnemyDummy : Enemy
     {
         InitStats(Storyline.Difficulty);
         Position = position;
-        Sprite = TextureManager.GetTexture("wiseman");
+        Sprite = TextureManager.GetTexture("taunt");
 
         Size = new Vector2(50);
     }

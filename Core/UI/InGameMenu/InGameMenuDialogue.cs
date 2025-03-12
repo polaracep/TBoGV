@@ -12,7 +12,7 @@ public class InGameMenuDialogue : InGameMenu
     private readonly SpriteFont mainTextFont = FontManager.GetFont("Arial16");
     private readonly SpriteFont buttonFont = FontManager.GetFont("Arial16");
 
-    private string npcText = "prdis";
+    private string npcText = "";
     private string npcName = "";
     private Texture2D npcSprite;
     private Dialogue dialogue;
@@ -30,13 +30,14 @@ public class InGameMenuDialogue : InGameMenu
         Viewport = viewport;
         SpriteBackground = TextureManager.GetTexture("blackSquare");
 
-
         this.dialogue = dialogue;
         npcName = dialogue.NpcName;
         npcSprite = dialogue.NpcSprite;
 
         nextButton = new Button("Dále", buttonFont, () => AdvanceDialogue());
         nextButton.SetSize(buttonFont.MeasureString("Dále") + buttonPadding);
+
+        CheckDialogue();
     }
 
     public override void Draw(SpriteBatch spriteBatch)
@@ -124,7 +125,11 @@ public class InGameMenuDialogue : InGameMenu
             CloseMenu.Invoke();
             return;
         }
+        CheckDialogue();
+    }
 
+    protected void CheckDialogue()
+    {
         var element = dialogue.CurrentElement;
 
         if (element.Choices != null)

@@ -343,32 +343,32 @@ public class TileComputer : Tile, IInteractable
 
 public class TileLocker : Tile, IInteractable
 {
-	protected bool IsOpen {  get; set; }
-    protected int Id {  get; set; }
-	public TileLocker(float rotation, SpriteEffects fx, bool isOpen) : base(true, rotation, fx)
-	{
-		this.Sprite = TextureManager.GetTexture("lockerClosed");
-		this.IsOpen = isOpen;
-	}
-	public TileLocker(float rotation, bool isOpen) : this(rotation, SpriteEffects.None, isOpen) { }
-	public TileLocker(bool isOpen) : this(0f, isOpen) { }
-	public TileLocker() : this(0f, false) { }
-	public void Interact(Entity e, Place _)
-	{
-		Screen c = TBoGVGame.screenCurrent;
-		if (c is not ScreenGame || !IsOpen)
-			return;
+    protected bool IsOpen { get; set; }
+    protected int Id { get; set; }
+    public TileLocker(float rotation, SpriteEffects fx, bool isOpen) : base(true, rotation, fx)
+    {
+        Sprite = TextureManager.GetTexture("lockerClosed");
+        IsOpen = isOpen;
+    }
+    public TileLocker(float rotation, bool isOpen) : this(rotation, SpriteEffects.None, isOpen) { }
+    public TileLocker(bool isOpen) : this(0f, isOpen) { }
+    public TileLocker() : this(0f, false) { }
+    public void Interact(Entity e, Place _)
+    {
+        Screen c = TBoGVGame.screenCurrent;
+        if (c is not ScreenGame || !IsOpen)
+            return;
 
-		ScreenGame sg = (ScreenGame)c;
-		sg.OpenShop(ShopTypes.LOCKER, Id);
-	}
+        ScreenGame sg = (ScreenGame)c;
+        sg.OpenShop(ShopTypes.LOCKER, Id);
+    }
     public void SetId(int id)
     {
         Id = id;
     }
-	public void Open()
-	{
-		IsOpen = true;
+    public void Open()
+    {
+        IsOpen = true;
         this.Sprite = TextureManager.GetTexture("lockerOpen");
     }
 }

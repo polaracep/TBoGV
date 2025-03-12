@@ -8,7 +8,7 @@ public class DialogueIntro : Dialogue
     public override string NpcName { get; set; } = "Schovánek";
     public override Texture2D NpcSprite { get; set; } = TextureManager.GetTexture("wiseman");
 
-    public DialogueIntro() : base()
+    public DialogueIntro()
     {
         Actions.Add(1, () =>
         {
@@ -18,6 +18,6 @@ public class DialogueIntro : Dialogue
                 sg.SendPlayerToTutorial();
             }
         });
-
+        ParseDialogue();
     }
 }

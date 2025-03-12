@@ -14,6 +14,7 @@ public class ScreenGame : Screen
     private TutorialLevel tutorial;
     private Place activePlace;
     private InGameMenu activeMenu = null;
+    private InGameMenu nextMenu = null;
     private List<Minigame> miniGames = new List<Minigame>();
     private Viewport _viewport;
     private bool inTutorial;
@@ -62,7 +63,7 @@ public class ScreenGame : Screen
         // _camera.SetCenter(graphics.GraphicsDevice.Viewport, activePlace.Dimensions * Tile.GetSize() / 2);
         _viewport = graphics.GraphicsDevice.Viewport;
 
-        _spriteBatch.Begin( SpriteSortMode.Deferred, BlendState.AlphaBlend, transformMatrix: _camera.Transform);
+        _spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, transformMatrix: _camera.Transform);
 
         activePlace.Draw(_spriteBatch);
         player.Draw(_spriteBatch);
@@ -95,6 +96,12 @@ public class ScreenGame : Screen
             activePlace = tutorial.ActiveRoom;
 
         // ingamemenu update
+        if (nextMenu != null)
+        {
+            activeMenu = nextMenu;
+            nextMenu = null;
+        }
+
         if (activeMenu != null)
             activeMenu.Update(_viewport, player, mouseState, keyboardState, dt);
 
@@ -105,7 +112,7 @@ public class ScreenGame : Screen
         }
         if (player.Level != levelStatsCount && activeMenu is not InGameMenuLevelUp)
         {
-            activeMenu = new InGameMenuLevelUp(_viewport, player);
+            nextMenu = new InGameMenuLevelUp(_viewport, player);
         }
         if (player.Hp < 1 && activeMenu is not InGameMenuDeath)
         {
@@ -205,6 +212,10 @@ public class ScreenGame : Screen
         {
             SendPlayerToTutorial();
         }
+        if (keyboardState.IsKeyDown(Keys.H) && previousKeyboardState.IsKeyUp(Keys.H) && activeMenu == null)
+        {
+            FileHelper.ResetSaves();
+        }
 #endif
 
     }
@@ -254,7 +265,7 @@ public class ScreenGame : Screen
 
     public void OpenDialogue(Dialogue dialogue)
     {
-        activeMenu = new InGameMenuDialogue(_viewport, dialogue);
+        nextMenu = new InGameMenuDialogue(_viewport, dialogue);
     }
 
     public void SendPlayerToLobby()

@@ -1,0 +1,21 @@
+{
+  "story": {
+    "0": {
+      "question":"Hele mladej, kde máš přezůvky??",
+      "a": "Nemám.",
+      "b": "Já se strašně moc omlouvám, zapomněl jsem si je dneska doma.",
+      "c": "Ale... Tohle jsou moje přezůvky..."
+    }
+  },
+  "choices": {
+    "a": [
+        1
+    ],
+    "b": [
+        2
+    ],
+    "c": [
+        3
+    ]
+  }
+}

@@ -26,6 +26,7 @@ public static class Storyline
     public static void GenerateStoryline()
     {
         LevelList = [
+            /*
                 new Level(p, GenerateLevelRooms(5, 8), new RoomStart(p), new RoomClassroom(p), 3),
                 new Level(p, GenerateLevelRooms(5, 8), new RoomStart(p), new RoomBossSvarta(p), 3),
                 new Level(p, GenerateLevelRooms(5, 8), new RoomStart(p), new RoomClassroom(p), 6),
@@ -42,6 +43,8 @@ public static class Storyline
                 new Level(p, GenerateLevelRooms(10, 14), new RoomStart(p), new RoomBossAmogus(p), 6),
                 new Level(p, GenerateLevelRooms(8, 12), new RoomStart(p), new RoomClassroom(p), 6),
                 new Level(p, GenerateLevelRooms(10, 14), new RoomStart(p), new RoomBossMaturita(p), 6),
+                */
+            new Level(p, [ new RoomLocker(new Vector2(13), p) ], new RoomStart(p), new RoomStart(p), 2),
         ];
     }
 
@@ -53,7 +56,7 @@ public static class Storyline
         int classroomCount = rand.Next(roomCount / 2, roomCount - 1);
         int specialRoomCount = rand.Next(1, 3);
         int hallwayCount = roomCount - classroomCount - specialRoomCount;
-        
+
 
         for (int i = 0; i < classroomCount; i++)
             rooms.Add(new RoomClassroom(p));
