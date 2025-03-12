@@ -10,7 +10,6 @@ namespace TBoGV;
 class InGameMenuMinimap : InGameMenu
 {
     private static Viewport Viewport;
-    private static SpriteFont MiddleFont = FontManager.GetFont("Arial12");
     private static Level LevelToDraw = Storyline.CurrentLevel;
     private static Texture2D WhiteSquare = TextureManager.GetTexture("whiteSquare");
     private KeyboardState previousKeyboardState;
@@ -19,10 +18,43 @@ class InGameMenuMinimap : InGameMenu
     {
         Viewport = viewport;
         SpriteBackground = TextureManager.GetTexture("blackSquare");
+
+        LevelToDraw = Storyline.CurrentLevel;
+
+        if (LevelToDraw == null || LevelToDraw.RoomMap == null) return;
         if (player.Inventory.GetEffect().Contains(EffectTypes.MAP_REVEAL))
             foreach (var r in Storyline.CurrentLevel.RoomMap)
                 if (r != null)
                     r.IsVisited = true;
+        int mapWidth = LevelToDraw.RoomMap.GetLength(0);
+        int mapHeight = LevelToDraw.RoomMap.GetLength(1);
+        Vector2 roomBossLoc = new Vector2(-1);
+
+        for (int x = 0; x < mapWidth; x++)
+            for (int y = 0; y < mapHeight; y++)
+                if (LevelToDraw.RoomMap[x, y] is RoomBoss)
+                    roomBossLoc = new Vector2(x, y);
+
+
+        if (roomBossLoc.X >= 0 && roomBossLoc.Y >= 0)
+        {
+            List<Vector2> directions = new List<Vector2>() { new Vector2(0, 1), new Vector2(0, -1), new Vector2(1, 0), new Vector2(-1, 0) };
+            foreach (var direction in directions)
+            {
+                Vector2 index = direction + roomBossLoc;
+                int x = (int)index.X;
+                int y = (int)index.Y;
+                if (x > mapWidth - 1 || x < 0 || y > mapHeight - 1 || y < 0)
+                    continue;
+                Room room = LevelToDraw.RoomMap[x, y];
+                if (room == null) continue;
+                if (room.IsVisited)
+                {
+                    LevelToDraw.RoomMap[(int)roomBossLoc.X, (int)roomBossLoc.Y].IsVisited = true;
+                    break;
+                }
+            }
+        }
     }
     public override void Update(Viewport viewport, Player player, MouseState mouseState, KeyboardState keyboardState, double dt)
     {
@@ -45,69 +77,29 @@ class InGameMenuMinimap : InGameMenu
         int mapWidth = LevelToDraw.RoomMap.GetLength(0);
         int mapHeight = LevelToDraw.RoomMap.GetLength(1);
 
-
-
-        float totalWidth = 0;
-        float totalHeight = 0;
-        Vector2[,] roomSizes = new Vector2[mapWidth, mapHeight];
-
-        for (int x = 0; x < mapWidth; x++)
-        {
-            for (int y = 0; y < mapHeight; y++)
-            {
-                Room room = LevelToDraw.RoomMap[x, y];
-                if (room == null) continue;
-
-                float roomWidth = room.IconBaseSize.X;
-                float roomHeight =room.IconBaseSize.Y;
-                roomSizes[x, y] = new Vector2(roomWidth, roomHeight);
-            }
-        }
-        for (int x = 0; x < mapWidth; x++)
-        {
-            float columnHeight = 0;
-            for (int y = 0; y < mapHeight; y++)
-            {
-                columnHeight += roomSizes[x, y].Y;
-            }
-            totalHeight = Math.Max(totalHeight, columnHeight);
-        }
-        for (int y = 0; y < mapHeight; y++)
-        {
-            float rowWidth = 0;
-            for (int x = 0; y < mapHeight; y++)
-            {
-                rowWidth += roomSizes[x, y].X;
-            }
-            totalWidth = Math.Max(totalWidth, rowWidth);
-        }
         float scaleFactor = 4;
-        for (int x = 0; x < mapWidth; x++)
-        {
-            for (int y = 0; y < mapHeight; y++)
-            {
-                roomSizes[x, y] *= scaleFactor;
-            }
-        }
+
+        float totalWidth = mapWidth * 10 * scaleFactor + (mapWidth - 1) * 10;
+        float totalHeight = mapHeight * 10 * scaleFactor + (mapHeight - 1) * 10;
 
         Vector2 minimapPos = new Vector2(
-            (Viewport.Width - totalWidth * scaleFactor) / 2,
-            (Viewport.Height - totalHeight * scaleFactor) / 2
+            (Viewport.Width - totalWidth) / 2 - (10 * scaleFactor + 10),
+            (Viewport.Height - totalHeight) / 2
         );
 
+        //spriteBatch.Draw(SpriteBackground, new Rectangle(minimapPos.ToPoint(), new Point((int)totalWidth, (int)totalHeight)),Color.White);
         for (int y = 0; y < mapHeight; y++)
         {
-                    Vector2 rowStartPos = new Vector2(
-            (Viewport.Width - totalWidth * scaleFactor) / 2,
-            minimapPos.Y
-        ); 
+            Vector2 rowStartPos = new Vector2(
+    (Viewport.Width - totalWidth) / 2 - (10 * scaleFactor + 10),
+    minimapPos.Y);
             for (int x = 0; x < mapWidth; x++)
             {
                 Room room = LevelToDraw.RoomMap[x, y];
                 minimapPos.X += 10 * scaleFactor + 10;
                 if (room == null || !room.IsVisited) continue;
 
-                Vector2 roomSize = roomSizes[x, y];
+                Vector2 roomSize = new Vector2(10) * scaleFactor;
                 room.DrawMinimapIcon(spriteBatch, minimapPos, scaleFactor, room == LevelToDraw.ActiveRoom);
 
                 foreach (TileDoor door in room.Doors)
