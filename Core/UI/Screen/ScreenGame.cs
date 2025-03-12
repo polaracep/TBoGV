@@ -233,7 +233,6 @@ public class ScreenGame : Screen
             TBoGVGame.screenCurrent = ScreenManager.ScreenDeath;
         }
         SendPlayerToLobby();
-        player.IsPlaying = true;
     }
     void Revive()
     {
