@@ -291,6 +291,9 @@ public static class DialogueManager
             "tutorial2",
             "tutorial3",
             "tutorial4",
+            "skolnik",
+            "skolnikSuccess",
+            "skolnikFailed",
         };
 
         foreach (string name in names)
