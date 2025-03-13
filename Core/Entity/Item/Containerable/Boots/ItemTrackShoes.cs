@@ -11,12 +11,12 @@ class ItemTrackShoes : ItemContainerable
 	static Texture2D Sprite;
 	public ItemTrackShoes(Vector2 position)
 	{
-		Rarity = 2;
+		Rarity = 3;
 		Position = position;
 		Size = new Vector2(50, 50);
-		Name = "Vojenske trekovky";
+		Name = "Vojenské trekovky";
 		Description = "Tohle asi nebudou přezůvky...";
-		Stats = new Dictionary<StatTypes, float>() { { StatTypes.MOVEMENT_SPEED, 5 } };
+		Stats = new Dictionary<StatTypes, float>() { { StatTypes.MOVEMENT_SPEED, 5 }, { StatTypes.MAX_HP, 3 } };
 		Effects = new List<EffectTypes>() { };
 		Sprite = TextureManager.GetTexture("trackShoes");
 		ItemType = ItemTypes.ARMOR;

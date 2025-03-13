@@ -21,7 +21,7 @@ class EffectCooked : Effect
 	public EffectCooked(int level)
 	{
 		Name = "Cooked";
-		Description = "Nadmerna konzumace brainrotu, \nnebo jsi se pokousel pochopit TFY";
+		Description = "Nadměrná konzumace brainrotu, \nnebo jsi se pokousel pochopit TFY";
 		Positive = false;
 		Stats = new Dictionary<StatTypes, float>();
 		Level = 0;

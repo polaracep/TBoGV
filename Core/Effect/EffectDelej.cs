@@ -10,10 +10,10 @@ class EffectDelej : Effect
 	protected static Texture2D Sprite = TextureManager.GetTexture("jirkaEffect");
 	public EffectDelej(int level)
 	{
-		Name = "Deleeej";
-		Description = "Uz jsi tam mel byt 4 minuty ty magore";
+		Name = "Děleeej";
+		Description = "Už jsi tam měl být 4 minuty ty magore";
 		Positive = false;
-		Stats = new Dictionary<StatTypes, float>() { { StatTypes.MOVEMENT_SPEED, -8 } };
+		Stats = new Dictionary<StatTypes, float>() { { StatTypes.MOVEMENT_SPEED, -4 } };
 		Effects = new List<EffectTypes>();
 		Level = 0;
 		LevelCap = 4;
@@ -30,7 +30,6 @@ class EffectDelej : Effect
 	public override void ChangeLevel(int delta)
 	{
 		Level += delta;
-		effectTime += delta * 400;
 		EnsureLevelCap();
 		UpdateSize();
 	}

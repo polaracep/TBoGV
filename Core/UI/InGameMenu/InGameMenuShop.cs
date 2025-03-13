@@ -361,7 +361,7 @@ public class ShopLocker : Shop<ShopLocker>
         if (!RenewedById.ContainsKey(id))
             RenewedById[id] = false;
     }
-    public override List<ItemContainerable> ItemPool { get; set; } = ItemDatabase.GetAllItems().Where(x => x.Rarity == 1).ToList();
+    public override List<ItemContainerable> ItemPool { get; set; } = ItemDatabase.GetAllItems().Where(x => x.Rarity == 1 || x.ItemType == ItemTypes.ARMOR).ToList();
     public override int ItemCount { get; protected set; } = 1;
 }
 
