@@ -11,14 +11,14 @@
     "2": {
       "question": "Už si byl někdy u nás na škole?",
       "tutorial": "Ještě ne",
-      "b": "Ano, už to tu znám"
+      "no": "Ano, už to tu znám"
     },
     "3": [
       "Přeji tedy hodně štěstí při studiu"
     ]
   },
   "choices": {
-    "b": {
+    "no": {
       "question": "Opravdu? Takže zvládáš základy?",
       "tutorial": "Radši si je zopakuju.",
       "": "Jo, chodil jsem na přípravky."

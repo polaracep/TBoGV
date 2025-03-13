@@ -22,7 +22,7 @@ class EntitySkolnik : EntityPassive
 
     public override Texture2D GetSprite()
     {
-        return TextureManager.GetTexture("petr");
+        return TextureManager.GetTexture("skolnik");
     }
     public void Update(double dt)
     {

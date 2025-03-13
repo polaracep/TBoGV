@@ -166,7 +166,7 @@ class InGameMenuItemJournal : InGameMenu
 		spriteBatch.Draw(JournalBackground, journalRect, Color.Black * 0.7f);
 
 		// Draw headline
-		string headline = "Item Journal";
+		string headline = "Deníček";
 		Vector2 headlineSize = LargerFont.MeasureString(headline);
 		Vector2 headlinePos = new Vector2(
 			journalRect.X + (journalRect.Width - headlineSize.X) / 2,

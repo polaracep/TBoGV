@@ -95,6 +95,7 @@ public static class TextureManager
             "perloun",
             "cameraman",
             "gambler",
+            "skolnik",
 
             // Vitek
             "vitek-nobg",

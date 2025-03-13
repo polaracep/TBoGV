@@ -5,6 +5,7 @@ using TBoGV;
 
 public class Lobby : Place
 {
+    protected bool tutorialPlayed = false;
     protected bool IsFyjala = false;
     protected EntityGambler gambler = null;
     public Lobby(Player p)
@@ -112,11 +113,11 @@ public class Lobby : Place
 
         Entities.Clear();
         IsFyjala = false;
+        player.Inventory.RemoveEffect(new EffectFyjalovaDrahota(1));
 
         // negenerovat prvni v prvnim lobby
         if (Storyline.CurrentLevelNumber != 0)
         {
-            GenerateFyjala();
 
             if (gambler != null && gambler.BetPlaced == true)
             {
@@ -127,9 +128,19 @@ public class Lobby : Place
                 gambler = null;
             else
                 GenerateGambler();
+
+
+            GenerateFyjala();
         }
 
         GenerateSarka();
-        player.Inventory.RemoveEffect(new EffectFyjalovaDrahota(1));
+    }
+    public override void OnEntry()
+    {
+        if (!tutorialPlayed)
+        {
+            ScreenManager.ScreenGame.OpenDialogue(new DialogueIntro());
+            tutorialPlayed = true;
+        }
     }
 }

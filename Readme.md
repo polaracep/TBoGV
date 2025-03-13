@@ -6,14 +6,16 @@ Epická úžasná nepřekonatelná hra odehrávající se na gymvodu[^1] (takhle
 
 #### Building
 
-`dotnet run -c Release`
+Pokud si hru chceš sám zkompilovat, udělej pomocí: `dotnet run -c Release`. Jinak zkompiluješ debug verzi, ve které jsou nástroje pro vývoj hry.
 
+#### Ovládání
 
-#### Ovládání 
-WASD - Movement
-E/RMB - Use/Interact
-J - Journal
-Esc - Pause menu/statistiky
-
+| Čudlíky | Akce              |
+| ------- | ----------------- |
+| WASD    | Pohyb             |
+| E/RMB   | Interakce         |
+| Esc     | Pause menu/skilly |
+| M       | Mapa              |
+| J       | Deníček           |
 
 [^1]: Jakákoliv podobnost s reálnými osobami je čistě náhodná

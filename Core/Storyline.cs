@@ -26,7 +26,7 @@ public static class Storyline
     public static void GenerateStoryline()
     {
         LevelList = [
-
+            new Level(p, [ new RoomLocker( p) ], new RoomStart(p), new RoomStart(p), 2),
                 new Level(p, GenerateLevelRooms(5, 8), new RoomStart(p), new RoomClassroom(p), 3),
                 new Level(p, GenerateLevelRooms(5, 8), new RoomStart(p), new RoomBossSvarta(p), 3),
                 new Level(p, GenerateLevelRooms(5, 8), new RoomStart(p), new RoomClassroom(p), 6),
@@ -43,7 +43,6 @@ public static class Storyline
                 new Level(p, GenerateLevelRooms(10, 14), new RoomStart(p), new RoomBossAmogus(p), 6),
                 new Level(p, GenerateLevelRooms(8, 12), new RoomStart(p), new RoomClassroom(p), 6),
                 new Level(p, GenerateLevelRooms(10, 14), new RoomStart(p), new RoomBossMaturita(p), 6),
-            //new Level(p, [ new RoomShower( p) ], new RoomStart(p), new RoomStart(p), 2),
         ];
     }
 
@@ -78,7 +77,7 @@ public static class Storyline
 
         CurrentLevel = LevelList[CurrentLevelNumber];
         CurrentLevelNumber++;
-        Difficulty = (CurrentLevelNumber-1) / 2 + 1;
+        Difficulty = (CurrentLevelNumber - 1) / 2 + 1;
         //reset failed
         if (CurrentLevelNumber % 2 == 1)
             FailedTimes = 0;

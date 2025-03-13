@@ -24,6 +24,7 @@ public class ScreenGame : Screen
     private KeyboardState keyboardState;
     private KeyboardState previousKeyboardState;
     private Song Song;
+    private bool queueEntry = false;
 
     public override void BeginRun(GraphicsDeviceManager graphics)
     {
@@ -163,6 +164,11 @@ public class ScreenGame : Screen
             if (miniGames[i].GetState() != minigameState.ONGOING)
                 miniGames.RemoveAt(i);
 
+        if (queueEntry)
+        {
+            activePlace.OnEntry();
+            queueEntry = false;
+        }
     }
 
     protected void UpdateKeyboard()
@@ -286,7 +292,7 @@ public class ScreenGame : Screen
         player.IsPlaying = false;
         activePlace = lobby;
         player.Position = lobby.SpawnPos * 50;
-        activePlace.OnEntry();
+        queueEntry = true;
         lobby.Reset();
     }
     public void SendPlayerToLevel()
@@ -300,7 +306,7 @@ public class ScreenGame : Screen
         Storyline.NextLevel();
         activePlace = Storyline.CurrentLevel.ActiveRoom;
         player.Position = activePlace.SpawnPos * 50;
-        activePlace.OnEntry();
+        queueEntry = true;
     }
     public void SendPlayerToTutorial()
     {
@@ -313,7 +319,7 @@ public class ScreenGame : Screen
 
         activePlace = tutorial.ActiveRoom;
         player.Position = activePlace.SpawnPos * 50;
-        activePlace.OnEntry();
+        queueEntry = true;
     }
 
 }
