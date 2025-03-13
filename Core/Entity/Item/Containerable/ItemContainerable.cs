@@ -51,7 +51,15 @@ public abstract class ItemContainerable : Item
 	}
 	public virtual int GetRarityValue()
 	{
-		return 3 + Rarity * 7;
+		switch (Rarity)
+		{
+			case 1: return 11;
+				case 2: return 23;
+				case 3: return 35;
+				case 4: return 60;
+			default:
+                return 0;
+        }
 	}
 	public abstract ItemContainerable Clone();
 }
