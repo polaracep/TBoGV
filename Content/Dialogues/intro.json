@@ -8,12 +8,16 @@
       "": "Děkuji",
       "_": "No to je výsledek akorát tak pěkně na hovno"
     },
-    "2": {
+    "2": [
+      "Nyní začína tvá cesta k maturitě.\nVylepšuj si své schopnosti v jednotlivých předmětech,\nať zvládneš složit závěrečnou zkoušku.",
+      "Jen si dávej pozor na brainrot, který se tě snaží odradit od učení.\nVyužij své naučené schopnosti k jeho zničení!!"
+    ],
+    "3": {
       "question": "Už si byl někdy u nás na škole?",
       "tutorial": "Ještě ne",
       "no": "Ano, už to tu znám"
     },
-    "3": [
+    "4": [
       "Přeji tedy hodně štěstí při studiu"
     ]
   },

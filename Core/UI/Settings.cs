@@ -39,7 +39,10 @@ public static class Settings
         try
         {
             foreach (var item in pairs)
-                SettingsList.Find(x => x.Id == item.Key).Value = item.Value;
+            {
+                if (item.Value != null)
+                    SettingsList.Find(x => x.Id == item.Key).Value = item.Value;
+            }
         }
         catch (Exception e)
         {
@@ -61,6 +64,13 @@ public static class Settings
         if (data != null)
         {
             Deserialize(data);
+        }
+        else
+        {
+            MusicVolume.Value = 0.1f;
+            SfxVolume.Value = 0.5f;
+            FixedCamera.Value = false;
+            Save();
         }
     }
 }

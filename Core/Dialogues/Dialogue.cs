@@ -30,7 +30,7 @@ public abstract class Dialogue
         if (selected.ValueKind == JsonValueKind.Array)
             AddArray(selected, false);
         else if (selected.ValueKind == JsonValueKind.Object)
-            AddQuestion(selected, index);
+            AddQuestion(selected, index + 1);
         else
             throw new Exception("Unknown kind");
     }
@@ -119,7 +119,7 @@ public abstract class Dialogue
         if (insert == null)
             dialogue.Add(new DialogueElement(question.GetString(), pairs));
         else
-            dialogue.Insert((int)insert + 1, new DialogueElement(question.GetString(), pairs));
+            dialogue.Insert((int)insert, new DialogueElement(question.GetString(), pairs));
     }
 }
 

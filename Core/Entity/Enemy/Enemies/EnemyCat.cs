@@ -72,9 +72,9 @@ class EnemyCat : EnemyMelee
 			currentFrame = 0;
 	}
 
-    public override void InitStats(int difficulty)
+	public override void InitStats(int difficulty)
 	{
-		Hp = 3 + (3.5f * (difficulty-1));
+		Hp = 3 + (3.5f * (difficulty - 1));
 		MovementSpeed = 1.5f + (float)(0.2 * difficulty);
 		AttackSpeed = 444;
 		AttackDmg = 1;

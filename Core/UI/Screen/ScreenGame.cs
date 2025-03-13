@@ -30,8 +30,8 @@ public class ScreenGame : Screen
     {
         player = GameManager.Player;
 
-        player.Load(SaveType.USER);
         Storyline.Player = player;
+        player.Load(SaveType.USER);
 
         Storyline.GenerateStoryline();
         player.Save(SaveType.AUTO);
@@ -180,7 +180,7 @@ public class ScreenGame : Screen
         {
             if (activeMenu == null)
                 activeMenu = new InGameMenuEffect(player);
-            else
+            else if (activeMenu is not InGameMenuDialogue)
                 activeMenu = null;
         }
         if (KeyReleased(Keys.J) && MinigameRooted.State != minigameState.ONGOING)

@@ -28,6 +28,11 @@ public class ScreenSettings : Screen
 
         foreach (var (setting, index) in list.Select((setting, index) => (setting, index)))
         {
+            if (setting == null)
+                continue;
+            if (setting.Value == null)
+                continue;
+
             Type t = setting.Value.GetType();
             if (t == typeof(bool))
             {
