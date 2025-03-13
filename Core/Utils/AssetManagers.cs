@@ -94,7 +94,7 @@ public static class TextureManager
             "soldier",
             "perloun",
             "cameraman",
-
+            "gambler",
 
             // Vitek
             "vitek-nobg",
@@ -293,8 +293,11 @@ public static class DialogueManager
             "tutorial3",
             "tutorial4",
             "skolnik",
-            "skolnikSuccess",
-            "skolnikFailed",
+            "gambler",
+            "gamblerPlaced",
+            "gamblerWait",
+            "gamblerResult",
+            "gamblerDone",
         };
 
         foreach (string name in names)

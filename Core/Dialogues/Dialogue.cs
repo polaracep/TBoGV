@@ -13,6 +13,9 @@ public abstract class Dialogue
     // TODO: Schovanek
     public abstract Texture2D NpcSprite { get; set; }
 
+    public Dialogue()
+    {
+    }
     public DialogueElement CurrentElement
     {
         get => dialogue[index];
@@ -29,7 +32,7 @@ public abstract class Dialogue
         if (selected.ValueKind == JsonValueKind.Array)
             AddArray(selected, false);
         else if (selected.ValueKind == JsonValueKind.Object)
-            AddQuestion(selected, false);
+            AddQuestion(selected, index);
         else
             throw new Exception("Unknown kind");
     }
@@ -54,7 +57,7 @@ public abstract class Dialogue
                     AddArray(val, true);
                     break;
                 case JsonValueKind.Object:
-                    AddQuestion(val, true);
+                    AddQuestion(val, null);
                     break;
                 case JsonValueKind.Number:
                     dialogue.Add(new DialogueElement(Actions.GetValueOrDefault(val.GetInt32())));
@@ -75,27 +78,36 @@ public abstract class Dialogue
         textArray.EnumerateArray().ToList().ForEach(x =>
         {
             // kdyz tam je cislo, priradime prislusnou funkci
-            if (x.ValueKind == JsonValueKind.Number)
-            {
-                if (append)
-                    dialogue.Add(new DialogueElement(Actions.GetValueOrDefault(x.GetInt32())));
-                else
-                    dialogue.Insert((int)insertPos, new DialogueElement(Actions.GetValueOrDefault(x.GetInt32())));
-            }
-            // jinak je to normalni text
-            else
-            {
-                if (append)
-                    dialogue.Add(new DialogueElement(x.GetString()));
-                else
-                    dialogue.Insert((int)insertPos, new DialogueElement(x.GetString()));
-            }
 
+            switch (x.ValueKind)
+            {
+                case JsonValueKind.Number:
+                    if (append)
+                        dialogue.Add(new DialogueElement(Actions.GetValueOrDefault(x.GetInt32())));
+                    else
+                        dialogue.Insert((int)insertPos, new DialogueElement(Actions.GetValueOrDefault(x.GetInt32())));
+                    break;
+                // jinak je to normalni text
+                case JsonValueKind.String:
+                    if (append)
+                        dialogue.Add(new DialogueElement(x.GetString()));
+                    else
+                        dialogue.Insert((int)insertPos, new DialogueElement(x.GetString()));
+                    break;
+                case JsonValueKind.Object:
+                    if (append)
+                        AddQuestion(x, null);
+                    else
+                        AddQuestion(x, insertPos);
+                    break;
+
+                default: break;
+            }
             insertPos++;
         });
     }
 
-    protected void AddQuestion(JsonElement questionObj, bool append)
+    protected void AddQuestion(JsonElement questionObj, int? insert)
     {
         Dictionary<string, string> pairs = [];
         // otazku dame pryc
@@ -106,10 +118,10 @@ public abstract class Dialogue
         // zbytek jsou moznosti odpovedi
         options.ForEach(x => pairs.Add(x.Value.GetString(), x.Name));
 
-        if (append)
+        if (insert == null)
             dialogue.Add(new DialogueElement(question.GetString(), pairs));
         else
-            dialogue.Insert(index + 1, new DialogueElement(question.GetString(), pairs));
+            dialogue.Insert((int)insert, new DialogueElement(question.GetString(), pairs));
     }
 }
 

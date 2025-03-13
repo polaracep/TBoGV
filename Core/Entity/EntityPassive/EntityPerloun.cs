@@ -21,11 +21,9 @@ class EntityPerloun : EntityPassive, IInteractable
     public void Interact(Entity e, Place p)
     {
         Screen c = TBoGVGame.screenCurrent;
-        if (c is not ScreenGame)
+        if (c is not ScreenGame sg)
             return;
 
-        ScreenGame sg = (ScreenGame)c;
         sg.OpenShop(ShopTypes.PERLOUN);
-
     }
 }

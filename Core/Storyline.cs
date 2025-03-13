@@ -21,12 +21,12 @@ public static class Storyline
     /// <summary>
     /// Difficulty level in base game ranges from 1 to 8
     /// </summary>
-    public static int Difficulty = 1;
+    public static int Difficulty = 0;
     public static int FailedTimes = 0;
     public static void GenerateStoryline()
     {
         LevelList = [
-            
+
                 new Level(p, GenerateLevelRooms(5, 8), new RoomStart(p), new RoomClassroom(p), 3),
                 new Level(p, GenerateLevelRooms(5, 8), new RoomStart(p), new RoomBossSvarta(p), 3),
                 new Level(p, GenerateLevelRooms(5, 8), new RoomStart(p), new RoomClassroom(p), 6),
@@ -43,8 +43,7 @@ public static class Storyline
                 new Level(p, GenerateLevelRooms(10, 14), new RoomStart(p), new RoomBossAmogus(p), 6),
                 new Level(p, GenerateLevelRooms(8, 12), new RoomStart(p), new RoomClassroom(p), 6),
                 new Level(p, GenerateLevelRooms(10, 14), new RoomStart(p), new RoomBossMaturita(p), 6),
-                
-            //new Level(p, [ new RoomLocker(new Vector2(13), p) ], new RoomStart(p), new RoomStart(p), 2),
+            //new Level(p, [ new RoomShower( p) ], new RoomStart(p), new RoomStart(p), 2),
         ];
     }
 

@@ -1,4 +1,5 @@
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using TBoGV;
 public class TutorialLevel
 {
@@ -12,10 +13,18 @@ public class TutorialLevel
     {
         _player = player;
         TileDoor.TileInteract += OnRoomChanged;
+
+        string NpcName = "Schovánek";
+        Texture2D NpcSprite = TextureManager.GetTexture("wiseman");
+
         RoomMap = new Room[,]{
-            {new TutorialRoom(new Vector2(13), _player, true, new DialogueTutorial1(), null)},
-            {new TutorialRoom(new Vector2(9), _player, false, [new EnemyDummy(new Vector2(5))], new DialogueTutorial2(), null)},
-            {new TutorialRoom(new Vector2(13), _player, false, [new EnemyCat(), new EnemySoldier()], new DialogueTutorial3(), new DialogueTutorial4())},
+            {new TutorialRoom(new Vector2(13), _player, true,
+                new DialogueBasic(DialogueManager.GetDialogue("tutorial1").RootElement, NpcName, NpcSprite), null)},
+            {new TutorialRoom(new Vector2(9), _player, false, [new EnemyDummy(new Vector2(5))],
+                new DialogueBasic(DialogueManager.GetDialogue("tutorial2").RootElement, NpcName, NpcSprite), null)},
+            {new TutorialRoom(new Vector2(13), _player, false, [new EnemyCat(), new EnemySoldier()],
+                new DialogueBasic(DialogueManager.GetDialogue("tutorial3").RootElement, NpcName, NpcSprite),
+                new DialogueBasic(DialogueManager.GetDialogue("tutorial4").RootElement, NpcName, NpcSprite))},
         };
 
         // tvorba dveri

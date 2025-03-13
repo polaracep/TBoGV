@@ -13,10 +13,10 @@ public class ButtonImageHeadline : Button
     {
         Sprite = sprite;
         Headline = headline;
-        int sizeX = (int)Math.Max(Math.Max(font.MeasureString(headline).X, font.MeasureString(text).X), Sprite.Width) + 2*BorderOffset;
+        int sizeX = (int)Math.Max(Math.Max(font.MeasureString(headline).X, font.MeasureString(text).X), Sprite.Width) + 2 * BorderOffset;
         int sizeY = (int)(font.MeasureString(headline).Y + font.MeasureString(text).Y + Sprite.Height);
         ImageScale = 1;
-        Size = new Vector2 (sizeX, sizeY);
+        Size = new Vector2(sizeX, sizeY);
 
     }
     public override void Draw(SpriteBatch spriteBatch)
@@ -55,7 +55,7 @@ public class ButtonImageHeadline : Button
     {
         Vector2 textSize = Font.MeasureString(Text) + Font.MeasureString(Headline);
         float maxScaleX = 1f, maxScaleY = 1f;
-        Vector2 newSize = new Vector2(Math.Max(Size.X,size.X), Math.Max(Size.Y, size.Y));
+        Vector2 newSize = new Vector2(Math.Max(Size.X, size.X), Math.Max(Size.Y, size.Y));
 
         maxScaleY = (newSize.Y - textSize.Y - BorderOffset) / Sprite.Height;
         maxScaleX = newSize.X / Sprite.Width;

@@ -52,6 +52,7 @@ public class TBoGVGame : Game
         // exit coded
         if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
             Exit();
+        GameManager.Viewport = _graphics.GraphicsDevice.Viewport;
         screenCurrent.Update(gameTime, _graphics);
         base.Update(gameTime);
     }

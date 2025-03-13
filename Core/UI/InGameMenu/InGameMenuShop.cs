@@ -16,7 +16,7 @@ public class InGameMenuShop : InGameMenu
 
     // The three items currently offered in the shop.
     private List<ShopItem> currentShopItems = new List<ShopItem>();
-	private List<ButtonImageHeadline> Buttons = new List<ButtonImageHeadline>();
+    private List<ButtonImageHeadline> Buttons = new List<ButtonImageHeadline>();
 
     private KeyboardState previousKeyboardState;
 
@@ -130,8 +130,8 @@ public class InGameMenuShop : InGameMenu
             player.Coins--;
         }, TextureManager.GetTexture("reroll"), ImageOrientation.LEFT);
 
-		ButtonReroll.SetTextColor(Color.Yellow);
-		ButtonReroll.SetSize(new Vector2(160, ButtonReroll.GetRect().Height));
+        ButtonReroll.SetTextColor(Color.Yellow);
+        ButtonReroll.SetSize(new Vector2(160, ButtonReroll.GetRect().Height));
         if (ActiveShop is ShopLocker)
             OpenShop(lockerId);
         else
@@ -149,7 +149,7 @@ public class InGameMenuShop : InGameMenu
     {
         Buttons.Clear();
         if (lockerId.HasValue && ActiveShop is ShopLocker && ShopLocker.ShopItemById.ContainsKey(lockerId.Value))
-        { 
+        {
             currentShopItems = new List<ShopItem>() { ShopLocker.ShopItemById[lockerId.Value] };
             ActiveShop.SetCachedItems(currentShopItems);
         }
@@ -169,7 +169,7 @@ public class InGameMenuShop : InGameMenu
 
                 ShopLocker.RenewedById[lockerId.Value] = true;
             }
-            Dictionary<int, double> rarityWeights = rarityWeightsList[(int)Math.Min(7,(Storyline.CurrentLevelNumber/2))];
+            Dictionary<int, double> rarityWeights = rarityWeightsList[(int)Math.Min(7, (Storyline.CurrentLevelNumber / 2))];
             // Get weighted items list
             var weightedItems = ActiveShop.ItemPool
                 .SelectMany(item => Enumerable.Repeat(item, (int)(rarityWeights.GetValueOrDefault(item.Rarity, 0) * 100)))
@@ -181,6 +181,12 @@ public class InGameMenuShop : InGameMenu
             // Add selected items to shop
             weightedItems.ForEach(item => currentShopItems.Add(new ShopItem(item, ActiveShop is ShopLocker ? 0 : item.GetCost())));
 
+            if (ActiveShop is ShopPerloun)
+            {
+                ItemDoping item = new();
+                currentShopItems.Add(new ShopItem(item, item.GetCost()));
+            }
+
             if (player.Inventory.GetEffect().Contains(EffectTypes.EXPENSIVE))
                 currentShopItems.ForEach(x => x.Price *= (int)(2 + Random.Shared.NextDouble() * 0.7));
 
@@ -190,6 +196,7 @@ public class InGameMenuShop : InGameMenu
                 foreach (var item in currentShopItems)
                     ShopLocker.ShopItemById[lockerId.Value] = item;
             }
+
         }
 
         foreach (var item in currentShopItems)
@@ -227,7 +234,7 @@ public class InGameMenuShop : InGameMenu
                     player.Coins -= itemClone.Price;
                     ActiveShop.GetCachedItems().Remove(item);
                     if (lockerId.HasValue && ActiveShop is ShopLocker)
-                        ShopLocker.ShopItemById.Remove(lockerId.Value); 
+                        ShopLocker.ShopItemById.Remove(lockerId.Value);
                 }
 
                 CloseMenu.Invoke();
@@ -237,7 +244,7 @@ public class InGameMenuShop : InGameMenu
         foreach (var b in Buttons)
         {
             b.SetTextColor(Color.Yellow);
-            b.SetSize(new Vector2(200, 200));
+            b.SetSize(new Vector2(100, 100));
         }
     }
 
@@ -255,48 +262,48 @@ public class InGameMenuShop : InGameMenu
 
         if (ActiveShop is ShopSarka && resetCount < maxResetCount)
             ButtonReroll.Update(mouseState);
-		foreach (var b in Buttons)
-			b.Update(mouseState);
-		
+        foreach (var b in Buttons)
+            b.Update(mouseState);
+
         previousKeyboardState = keyboardState;
     }
 
-	public override void Draw(SpriteBatch spriteBatch)
-	{
-		base.Draw(spriteBatch);
+    public override void Draw(SpriteBatch spriteBatch)
+    {
+        base.Draw(spriteBatch);
 
-		int totalWidth = 0;
-		int boxHeight = 0;
-
-
-
-		for (int i = 0; i < Buttons.Count; i++)
-		{
-			totalWidth += Buttons[i].GetRect().Width;
-			boxHeight = Math.Max(boxHeight, Buttons[i].GetRect().Height);
-		}
-		totalWidth += (Buttons.Count - 1) * 20;
-		int startX = (Viewport.Width - totalWidth) / 2;
-		int posY = (Viewport.Height - boxHeight) / 2;
-
-		for (int i = 0; i < Buttons.Count; i++)
-		{
-			Buttons[i].Position = new Vector2(startX, posY);
-			Buttons[i].Draw(spriteBatch);
-			startX += Buttons[i].GetRect().Width + 20;
-		}
+        int totalWidth = 0;
+        int boxHeight = 0;
 
 
-		// Reroll button placement
-		if (ActiveShop is ShopSarka && resetCount < maxResetCount)
-		{
-			int buttonX = (Viewport.Width - ButtonReroll.GetRect().Width) / 2;
-			int buttonY = posY + boxHeight + 20;
-			ButtonReroll.Position = new Vector2(buttonX, buttonY);
-			ButtonReroll.Draw(spriteBatch);
-		} 
-	
-	}
+
+        for (int i = 0; i < Buttons.Count; i++)
+        {
+            totalWidth += Buttons[i].GetRect().Width;
+            boxHeight = Math.Max(boxHeight, Buttons[i].GetRect().Height);
+        }
+        totalWidth += (Buttons.Count - 1) * 20;
+        int startX = (Viewport.Width - totalWidth) / 2;
+        int posY = (Viewport.Height - boxHeight) / 2;
+
+        for (int i = 0; i < Buttons.Count; i++)
+        {
+            Buttons[i].Position = new Vector2(startX, posY);
+            Buttons[i].Draw(spriteBatch);
+            startX += Buttons[i].GetRect().Width + 20;
+        }
+
+
+        // Reroll button placement
+        if (ActiveShop is ShopSarka && resetCount < maxResetCount)
+        {
+            int buttonX = (Viewport.Width - ButtonReroll.GetRect().Width) / 2;
+            int buttonY = posY + boxHeight + 20;
+            ButtonReroll.Position = new Vector2(buttonX, buttonY);
+            ButtonReroll.Draw(spriteBatch);
+        }
+
+    }
 
 }
 
@@ -352,15 +359,15 @@ public class ShopLocker : Shop<ShopLocker>
     public ShopLocker(int id)
     {
         if (!RenewedById.ContainsKey(id))
-        RenewedById[id] = false;
+            RenewedById[id] = false;
     }
-	public override List<ItemContainerable> ItemPool { get; set; } = ItemDatabase.GetAllItems().Where(x => x.Rarity == 1).ToList();
-	public override int ItemCount { get; protected set; } = 1;
+    public override List<ItemContainerable> ItemPool { get; set; } = ItemDatabase.GetAllItems().Where(x => x.Rarity == 1).ToList();
+    public override int ItemCount { get; protected set; } = 1;
 }
 
 public enum ShopTypes : int
 {
     SARKA,
     PERLOUN,
-	LOCKER,
+    LOCKER,
 }

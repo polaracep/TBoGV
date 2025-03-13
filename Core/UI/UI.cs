@@ -12,9 +12,9 @@ class UI : IDraw
     static SpriteFont MiddleFont = FontManager.GetFont("Arial12");
     static Texture2D SpriteCoin;
     static Texture2D SpriteXpBar;
-	protected Vector2 screenSize;
+    protected Vector2 screenSize;
 
-	int Coins;
+    int Coins;
     float Xp;
     int MaxXp;
     const int MaxHeartsPerRow = 5;
@@ -89,38 +89,38 @@ class UI : IDraw
             Effects[i].IconDraw(spriteBatch);
             effectStartPosition += new Vector2(
                 0,
-                (Effects[i].SpriteSize.X + 5)
+                Effects[i].SpriteSize.X + 5
             );
         }
-        string pololetiText =Storyline.CurrentLevelNumber % 2 == 1 ? "1. " : "2. ";
+        string pololetiText = Storyline.CurrentLevelNumber % 2 == 1 ? "1. " : "2. ";
         pololetiText += "Pololetí";
 
         string yearText;
-        switch (((Storyline.CurrentLevelNumber -1)/ 2))
+        switch ((Storyline.CurrentLevelNumber - 1) / 2)
         {
             case 0:
-                yearText = "prima";
+                yearText = "Prima";
                 break;
             case 1:
-                yearText = "sekunda";
+                yearText = "Sekunda";
                 break;
             case 2:
-                yearText = "tercie";
+                yearText = "Tercie";
                 break;
             case 3:
-                yearText = "kvarta";
+                yearText = "Kvarta";
                 break;
             case 4:
-                yearText = "kvinta";
+                yearText = "Kvinta";
                 break;
             case 5:
-                yearText = "sexta";
+                yearText = "Sexta";
                 break;
             case 6:
-                yearText = "septima";
+                yearText = "Septima";
                 break;
             case 7:
-                yearText = "oktava";
+                yearText = "Oktava";
                 break;
             default:
                 yearText = "";
@@ -131,7 +131,7 @@ class UI : IDraw
             pololetiText = "";
             yearText = "";
         }
-        spriteBatch.DrawString(MiddleFont, yearText, new Vector2(30,screenSize.Y- MiddleFont.MeasureString(yearText).Y-30), Color.White);
+        spriteBatch.DrawString(MiddleFont, yearText, new Vector2(30, screenSize.Y - MiddleFont.MeasureString(yearText).Y - 30), Color.White);
         spriteBatch.DrawString(MiddleFont, pololetiText, new Vector2(30, screenSize.Y - MiddleFont.MeasureString(yearText).Y - MiddleFont.MeasureString(pololetiText).Y - 30), Color.White);
     }
 }

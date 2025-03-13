@@ -24,9 +24,10 @@ public class RoomShower : Room
         GeneratePassive();
         IsGenerated = true;
     }
-    protected void GeneratePassive()
+    protected override void GeneratePassive()
     {
-        Entities.Add(new EntityPerloun(GetTileWorldPos(new Vector2(3, 3))));
+        if (Random.Shared.Next(6) == 0)
+            Entities.Add(new EntityPerloun(GetTileWorldPos(new Vector2(3, 3))));
     }
 
     protected override void GenerateBase()
@@ -150,6 +151,6 @@ public class RoomShower : Room
         int width = (int)(IconBaseSize.X * scale);
         int height = (int)(IconBaseSize.Y * scale);
 
-        spriteBatch.Draw(SpriteIcon, position +( new Vector2(width, height) - new Vector2(SpriteIcon.Width, SpriteIcon.Height)) / 2, Color.White);
+        spriteBatch.Draw(SpriteIcon, position + (new Vector2(width, height) - new Vector2(SpriteIcon.Width, SpriteIcon.Height)) / 2, Color.White);
     }
 }

@@ -30,6 +30,7 @@ public abstract class Room : Place
     protected List<Projectile> Projectiles = new List<Projectile>();
 
     public bool IsEndRoom = false;
+    protected bool exitGenerated = false;
     public bool IsVisited = false;
     /// <summary>
     /// List of spawnable enemies
@@ -93,6 +94,8 @@ public abstract class Room : Place
             }
         }
 
+        if (IsEndRoom && !exitGenerated && Enemies.Count == 0)
+            GenerateExit();
     }
     protected void UpdateDrops()
     {
@@ -136,8 +139,6 @@ public abstract class Room : Place
                     float excessDmg = Enemies[j].RecieveDmg(player.Projectiles[i]);
                     if (Enemies[j].IsDead())
                     {
-                        if (Enemies[j] is EnemyBoss || (Enemies.Count == 1 && IsEndRoom))
-                            GenerateExit();
 
                         player.Kill(Enemies[j].XpValue);
                         foreach (Item item in Enemies[j].Drop(1))
@@ -169,8 +170,6 @@ public abstract class Room : Place
                     Enemies[j].RecieveDmg(player.Projectiles[index]);
                     if (Enemies[j].IsDead())
                     {
-                        if (Enemies[j] is EnemyBoss || (Enemies.Count == 1 && IsEndRoom))
-                            GenerateExit();
 
                         player.Kill(Enemies[j].XpValue);
                         foreach (Item item in Enemies[j].Drop(1))
@@ -327,6 +326,7 @@ public abstract class Room : Place
     }
     public virtual void GenerateExit()
     {
+        exitGenerated = true;
         Random rand = new Random();
         int _x, _y;
         do

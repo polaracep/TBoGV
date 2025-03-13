@@ -8,7 +8,7 @@ namespace TBoGV;
 class EnemyTriangle : EnemyMelee
 {
     static Texture2D Spritesheet = TextureManager.GetTexture("triangleSpritesheet");
-  
+
     protected static SoundEffectInstance Sfx = SoundManager.GetSound("triangle").CreateInstance();
     static double SfxDuration = SoundManager.GetSound("triangle").Duration.TotalMilliseconds;
     protected double SfxTimeElapsed = SfxDuration;
@@ -29,10 +29,10 @@ class EnemyTriangle : EnemyMelee
         Position = position;
         Scale = 50f / Math.Max(frameWidth, frameHeight);
         Size = new Vector2(frameWidth * Scale, frameHeight * Scale);
-        
+
         AttackDelay();
 
-	}
+    }
     public EnemyTriangle() : this(Vector2.Zero) { }
 
     public override void Draw(SpriteBatch spriteBatch)
@@ -46,7 +46,7 @@ class EnemyTriangle : EnemyMelee
     }
     public override void Update(Vector2 playerPosition, double dt)
     {
-        Sfx.Volume = (float)(double)Settings.SfxVolume.Value;
+        Sfx.Volume = Convert.ToSingle(Settings.SfxVolume.Value);
         base.Update(playerPosition, dt);
         lastFrameChangeElapsed += dt;
         SfxTimeElapsed += dt;
@@ -55,7 +55,7 @@ class EnemyTriangle : EnemyMelee
     }
     protected override void UpdateMoving(double dt)
     {
-        if(Sfx.State == SoundState.Stopped)
+        if (Sfx.State == SoundState.Stopped)
             Sfx.Resume();
         if ((phaseChangeElapsed > movingDuration && Moving) ||
             (phaseChangeElapsed > chillDuration && !Moving))
@@ -85,11 +85,11 @@ class EnemyTriangle : EnemyMelee
 
     protected override void InitStats(int difficulty)
     {
-        Hp = difficulty*5 -2;
-        MovementSpeed = 1 + difficulty/4;
+        Hp = difficulty * 5 - 2;
+        MovementSpeed = 1 + difficulty / 4;
         AttackSpeed = 444;
         AttackDmg = 1;
-        XpValue =1 + difficulty/2;
+        XpValue = 1 + difficulty / 2;
         Weight = EnemyWeight.EASY;
     }
 }
