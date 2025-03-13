@@ -13,9 +13,7 @@ public abstract class Dialogue
     // TODO: Schovanek
     public abstract Texture2D NpcSprite { get; set; }
 
-    public Dialogue()
-    {
-    }
+    public Dialogue() { }
     public DialogueElement CurrentElement
     {
         get => dialogue[index];
@@ -121,7 +119,7 @@ public abstract class Dialogue
         if (insert == null)
             dialogue.Add(new DialogueElement(question.GetString(), pairs));
         else
-            dialogue.Insert((int)insert, new DialogueElement(question.GetString(), pairs));
+            dialogue.Insert((int)insert + 1, new DialogueElement(question.GetString(), pairs));
     }
 }
 
