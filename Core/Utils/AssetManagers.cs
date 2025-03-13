@@ -299,6 +299,7 @@ public static class DialogueManager
             "gamblerWait",
             "gamblerResult",
             "gamblerDone",
+            "machineGuide",
         };
 
         foreach (string name in names)

@@ -8,6 +8,8 @@ public class Lobby : Place
     protected bool tutorialPlayed = false;
     protected bool IsFyjala = false;
     protected EntityGambler gambler = null;
+    private bool machineGuidePlayed = false;
+
     public Lobby(Player p)
     {
         player = p;
@@ -141,6 +143,12 @@ public class Lobby : Place
         {
             ScreenManager.ScreenGame.OpenDialogue(new DialogueIntro());
             tutorialPlayed = true;
+        }
+        if (!machineGuidePlayed && Storyline.CurrentLevelNumber == 1)
+        {
+            DialogueIntro reference = new();
+            ScreenManager.ScreenGame.OpenDialogue(new DialogueBasic(DialogueManager.GetDialogue("machineGuide").RootElement, reference.NpcName, reference.NpcSprite));
+            machineGuidePlayed = true;
         }
     }
 }
