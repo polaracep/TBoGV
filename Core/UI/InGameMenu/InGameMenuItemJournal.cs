@@ -41,14 +41,14 @@ class InGameMenuItemJournal : InGameMenu
 		TooltipTexture = TextureManager.GetTexture("blackSquare");
 
 		AddAllItems();
-
-		ShowAll();
+#if DEBUG
+        ShowAll();
+#endif
 	}
 
 	private void AddAllItems()
 	{
 		var ItemsList = ItemDatabase.GetAllItems();
-
 
 		foreach (var item in ItemsList)
 		{
