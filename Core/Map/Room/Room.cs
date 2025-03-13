@@ -30,7 +30,7 @@ public abstract class Room : Place
     protected List<Projectile> Projectiles = new List<Projectile>();
 
     public bool IsEndRoom = false;
-    private bool exitGenerated = false;
+    protected bool exitGenerated = false;
     public bool IsVisited = false;
     /// <summary>
     /// List of spawnable enemies

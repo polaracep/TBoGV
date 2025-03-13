@@ -1,0 +1,19 @@
+{
+    "story": {
+        "0": [
+            "Tak se na to kouknem",
+            1
+        ]
+    },
+    "choices": {
+        "won": [
+            "Cha! Vyšlo to!",
+            2,
+            "Tady máš svůj podíl.",
+            "Tyvole... A já na to dal jen dvacku... Příště pujde víc"
+        ],
+        "lost": [
+            "Hmm, tak dneska hovno."
+        ]
+    }
+}

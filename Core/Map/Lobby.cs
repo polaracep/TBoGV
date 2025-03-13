@@ -1,12 +1,12 @@
 using System;
-using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using TBoGV;
 
 public class Lobby : Place
 {
-    protected bool IsFyjala;
+    protected bool IsFyjala = false;
+    protected EntityGambler gambler = null;
     public Lobby(Player p)
     {
         player = p;
@@ -56,24 +56,35 @@ public class Lobby : Place
         AddDecoTile(new Vector2(11, Dimensions.Y - 3), new TileDecoration(false, DecorationTypes.CHAIR_CAFETERIA_G, SpriteEffects.FlipHorizontally));
         AddDecoTile(new Vector2(11, Dimensions.Y - 2), new TileDecoration(false, DecorationTypes.CHAIR_CAFETERIA_G, SpriteEffects.FlipHorizontally));
 
-        player.Position = this.GetTileWorldPos(Vector2.One);
-        GenerateEntities();
+        player.Position = GetTileWorldPos(Vector2.One);
+        GenerateSarka();
         IsGenerated = true;
-        IsFyjala = new Random().Next(0, 2) == 1;
     }
 
-    private void GenerateEntities()
+    private void GenerateSarka()
     {
-        this.Entities.Add(new EntitySarka(GetTileWorldPos(new Vector2(1, 0))));
-        GenerateFyjala();
+        Entities.Add(new EntitySarka(GetTileWorldPos(new Vector2(1, 0))));
     }
     private void GenerateFyjala()
     {
-        if (!IsFyjala)
+        // 1/4 chance
+        if (new Random().Next(4) != 1)
             return;
-        this.Entities.Add(new EntityFyjala(GetTileWorldPos(new Vector2(9, 4))));
+
+        IsFyjala = true;
+        Entities.Add(new EntityFyjala(GetTileWorldPos(new Vector2(9, 4))));
         player.Inventory.AddEffect(new EffectFyjalovaDrahota(1));
     }
+    private void GenerateGambler()
+    {
+        // 1/3 chance
+        if (new Random().Next(3) != 1)
+            return;
+
+        gambler = new EntityGambler(GetTileWorldPos(new Vector2(5, 3)));
+        Entities.Add(gambler);
+    }
+
     public override void Draw(SpriteBatch spriteBatch)
     {
         base.Draw(spriteBatch);
@@ -98,9 +109,24 @@ public class Lobby : Place
     public override void Reset()
     {
         Drops.Clear();
-        Entities.Where(e => e is not EntityFyjala);
-        // 1/4 chance
-        IsFyjala = new Random().Next(4) == 1;
+        Enemies.Clear();
+
+        Entities.Clear();
+        IsFyjala = false;
+
         GenerateFyjala();
+
+        if (gambler != null && gambler.BetPlaced == true)
+        {
+            gambler.EvalBet();
+            Entities.Add(gambler);
+        }
+        else if (gambler != null && gambler.BetPlaced == false)
+            gambler = null;
+        else
+            GenerateGambler();
+
+        GenerateSarka();
+        player.Inventory.RemoveEffect(new EffectFyjalovaDrahota(1));
     }
 }

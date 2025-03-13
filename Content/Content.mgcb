@@ -14,6 +14,31 @@
 
 #---------------------------------- Content ---------------------------------#
 
+#begin Dialogues/gambler.json
+/importer:JsonDocumentImporter
+/processor:JsonDocumentProcessor
+/build:Dialogues/gambler.json
+
+#begin Dialogues/gamblerDone.json
+/importer:JsonDocumentImporter
+/processor:JsonDocumentProcessor
+/build:Dialogues/gamblerDone.json
+
+#begin Dialogues/gamblerPlaced.json
+/importer:JsonDocumentImporter
+/processor:JsonDocumentProcessor
+/build:Dialogues/gamblerPlaced.json
+
+#begin Dialogues/gamblerResult.json
+/importer:JsonDocumentImporter
+/processor:JsonDocumentProcessor
+/build:Dialogues/gamblerResult.json
+
+#begin Dialogues/gamblerWait.json
+/importer:JsonDocumentImporter
+/processor:JsonDocumentProcessor
+/build:Dialogues/gamblerWait.json
+
 #begin Dialogues/intro.json
 /importer:JsonDocumentImporter
 /processor:JsonDocumentProcessor
@@ -23,16 +48,6 @@
 /importer:JsonDocumentImporter
 /processor:JsonDocumentProcessor
 /build:Dialogues/skolnik.json
-
-#begin Dialogues/skolnikFailed.json
-/importer:JsonDocumentImporter
-/processor:JsonDocumentProcessor
-/build:Dialogues/skolnikFailed.json
-
-#begin Dialogues/skolnikSuccess.json
-/importer:JsonDocumentImporter
-/processor:JsonDocumentProcessor
-/build:Dialogues/skolnikSuccess.json
 
 #begin Dialogues/tutorial1.json
 /importer:JsonDocumentImporter
@@ -95,29 +110,11 @@
 /processorParam:Quality=Best
 /build:Sounds/alesSmich.wav
 
-#begin Sounds/alesSmich.wav
-/importer:WavImporter
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:Sounds/alesSmich.wav
-
 #begin Sounds/aligator.wav
 /importer:WavImporter
 /processor:SoundEffectProcessor
 /processorParam:Quality=Best
 /build:Sounds/aligator.wav
-
-#begin Sounds/aligator.wav
-/importer:WavImporter
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:Sounds/aligator.wav
-
-#begin Sounds/AMOGUS.wav
-/importer:WavImporter
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:Sounds/AMOGUS.wav
 
 #begin Sounds/AMOGUS.wav
 /importer:WavImporter
@@ -131,29 +128,11 @@
 /processorParam:Quality=Best
 /build:Sounds/bouchaniDoKorenu.wav
 
-#begin Sounds/bouchaniDoKorenu.wav
-/importer:WavImporter
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:Sounds/bouchaniDoKorenu.wav
-
 #begin Sounds/bouchaniDoKorenuNebyloSlyset.mp3
 /importer:Mp3Importer
 /processor:SongProcessor
 /processorParam:Quality=Best
 /build:Sounds/bouchaniDoKorenuNebyloSlyset.mp3
-
-#begin Sounds/bouchaniDoKorenuNebyloSlyset.mp3
-/importer:Mp3Importer
-/processor:SongProcessor
-/processorParam:Quality=Best
-/build:Sounds/bouchaniDoKorenuNebyloSlyset.mp3
-
-#begin Sounds/dzojk.wav
-/importer:WavImporter
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:Sounds/dzojk.wav
 
 #begin Sounds/dzojk.wav
 /importer:WavImporter
@@ -167,29 +146,11 @@
 /processorParam:Quality=Best
 /build:Sounds/dzojkShorter.wav
 
-#begin Sounds/dzojkShorter.wav
-/importer:WavImporter
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:Sounds/dzojkShorter.wav
-
 #begin Sounds/kaves.wav
 /importer:WavImporter
 /processor:SoundEffectProcessor
 /processorParam:Quality=Best
 /build:Sounds/kaves.wav
-
-#begin Sounds/kaves.wav
-/importer:WavImporter
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:Sounds/kaves.wav
-
-#begin Sounds/nebyloTadyDoSmichu.mp3
-/importer:Mp3Importer
-/processor:SongProcessor
-/processorParam:Quality=Best
-/build:Sounds/nebyloTadyDoSmichu.mp3
 
 #begin Sounds/nebyloTadyDoSmichu.mp3
 /importer:Mp3Importer
@@ -203,29 +164,11 @@
 /processorParam:Quality=Best
 /build:Sounds/neverGonnaGiveUUp.wav
 
-#begin Sounds/neverGonnaGiveUUp.wav
-/importer:WavImporter
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:Sounds/neverGonnaGiveUUp.wav
-
 #begin Sounds/OIIAOIIA.wav
 /importer:WavImporter
 /processor:SoundEffectProcessor
 /processorParam:Quality=Best
 /build:Sounds/OIIAOIIA.wav
-
-#begin Sounds/OIIAOIIA.wav
-/importer:WavImporter
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:Sounds/OIIAOIIA.wav
-
-#begin Sounds/rickroll.wav
-/importer:WavImporter
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:Sounds/rickroll.wav
 
 #begin Sounds/rickroll.wav
 /importer:WavImporter
@@ -239,29 +182,11 @@
 /processorParam:Quality=Best
 /build:Sounds/shower.wav
 
-#begin Sounds/shower.wav
-/importer:WavImporter
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:Sounds/shower.wav
-
 #begin Sounds/soundtrack.mp3
 /importer:Mp3Importer
 /processor:SongProcessor
 /processorParam:Quality=Best
 /build:Sounds/soundtrack.mp3
-
-#begin Sounds/soundtrack.mp3
-/importer:Mp3Importer
-/processor:SongProcessor
-/processorParam:Quality=Best
-/build:Sounds/soundtrack.mp3
-
-#begin Sounds/susn.wav
-/importer:WavImporter
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:Sounds/susn.wav
 
 #begin Sounds/susn.wav
 /importer:WavImporter
@@ -275,29 +200,11 @@
 /processorParam:Quality=Best
 /build:Sounds/svartaDelej.wav
 
-#begin Sounds/svartaDelej.wav
-/importer:WavImporter
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:Sounds/svartaDelej.wav
-
 #begin Sounds/takToJsemNevidel.wav
 /importer:WavImporter
 /processor:SoundEffectProcessor
 /processorParam:Quality=Best
 /build:Sounds/takToJsemNevidel.wav
-
-#begin Sounds/takToJsemNevidel.wav
-/importer:WavImporter
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:Sounds/takToJsemNevidel.wav
-
-#begin Sounds/toilet.wav
-/importer:WavImporter
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:Sounds/toilet.wav
 
 #begin Sounds/toilet.wav
 /importer:WavImporter
@@ -310,12 +217,6 @@
 /processor:SoundEffectProcessor
 /processorParam:Quality=Best
 /build:Sounds/triangle.wav
-
-#begin Sounds/vibe.wav
-/importer:WavImporter
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:Sounds/vibe.wav
 
 #begin Sounds/vibe.wav
 /importer:WavImporter
@@ -934,6 +835,18 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Textures/floorYellow.png
+
+#begin Textures/gambler.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Textures/gambler.png
 
 #begin Textures/gold.png
 /importer:TextureImporter

@@ -29,6 +29,10 @@ class TutorialRoom : RoomClassroom
         new EnemySoldier()
     ];
 
+    public override void Update(double dt)
+    {
+        base.Update(dt);
+    }
     public override void Generate()
     {
         if (direction == null)
@@ -42,6 +46,8 @@ class TutorialRoom : RoomClassroom
 
     protected override void GenerateEnemies()
     {
+        if (Enemies == null)
+            return;
         foreach (var entity in Enemies)
         {
             if (entity is not Enemy enemy)

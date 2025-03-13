@@ -206,7 +206,7 @@ public class ScreenGame : Screen
         }
         if (keyboardState.IsKeyDown(Keys.O) && previousKeyboardState.IsKeyUp(Keys.O) && activeMenu == null)
         {
-            activeMenu = new InGameMenuDialogue(_viewport, new EntitySarka());
+            OpenDialogue(new DialogueIntro());
         }
         if (keyboardState.IsKeyDown(Keys.T) && previousKeyboardState.IsKeyUp(Keys.T) && activeMenu == null)
         {
@@ -267,6 +267,10 @@ public class ScreenGame : Screen
     {
         nextMenu = new InGameMenuDialogue(_viewport, dialogue);
     }
+    public void OpenMenu(InGameMenu menu)
+    {
+        nextMenu = menu;
+    }
 
     public void SendPlayerToLobby()
     {
@@ -281,6 +285,7 @@ public class ScreenGame : Screen
         activePlace = lobby;
         player.Position = lobby.SpawnPos * 50;
         activePlace.OnEntry();
+        lobby.Reset();
     }
     public void SendPlayerToLevel()
     {
