@@ -26,7 +26,8 @@ public class RoomShower : Room
     }
     protected override void GeneratePassive()
     {
-        Entities.Add(new EntityPerloun(GetTileWorldPos(new Vector2(3, 3))));
+        if (Random.Shared.Next(6) == 0)
+            Entities.Add(new EntityPerloun(GetTileWorldPos(new Vector2(3, 3))));
     }
 
     protected override void GenerateBase()

@@ -14,7 +14,6 @@ public class Lobby : Place
         SpawnPos = new Vector2(Dimensions.X - 2, 2);
     }
 
-
     public override void Generate()
     {
         Floor = new Tile[(int)Dimensions.X, (int)Dimensions.Y];
@@ -114,17 +113,21 @@ public class Lobby : Place
         Entities.Clear();
         IsFyjala = false;
 
-        GenerateFyjala();
-
-        if (gambler != null && gambler.BetPlaced == true)
+        // negenerovat prvni v prvnim lobby
+        if (Storyline.CurrentLevelNumber != 0)
         {
-            gambler.EvalBet();
-            Entities.Add(gambler);
+            GenerateFyjala();
+
+            if (gambler != null && gambler.BetPlaced == true)
+            {
+                gambler.EvalBet();
+                Entities.Add(gambler);
+            }
+            else if (gambler != null && gambler.BetPlaced == false)
+                gambler = null;
+            else
+                GenerateGambler();
         }
-        else if (gambler != null && gambler.BetPlaced == false)
-            gambler = null;
-        else
-            GenerateGambler();
 
         GenerateSarka();
         player.Inventory.RemoveEffect(new EffectFyjalovaDrahota(1));
