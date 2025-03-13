@@ -245,6 +245,7 @@ public class ScreenGame : Screen
         Storyline.FailedTimes++;
         if (Storyline.FailedTimes >= 3)
         {
+            SendPlayerToLobby();
             FileHelper.ResetSaves();
             Storyline.ResetStoryline();
             Storyline.CurrentLevelNumber = 0;

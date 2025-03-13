@@ -9,7 +9,7 @@ class EnemyTriangle : EnemyMelee
 {
     static Texture2D Spritesheet = TextureManager.GetTexture("triangleSpritesheet");
 
-    protected static SoundEffectInstance Sfx = SoundManager.GetSound("triangle").CreateInstance();
+    public static SoundEffectInstance Sfx = SoundManager.GetSound("triangle").CreateInstance();
     static double SfxDuration = SoundManager.GetSound("triangle").Duration.TotalMilliseconds;
     protected double SfxTimeElapsed = SfxDuration;
     static float Scale;
