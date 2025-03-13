@@ -33,8 +33,9 @@ class InGameMenuMinimap : InGameMenu
 
         for (int x = 0; x < mapWidth; x++)
             for (int y = 0; y < mapHeight; y++)
-                if (LevelToDraw.RoomMap[x, y] is RoomBoss)
-                    roomBossLoc = new Vector2(x, y);
+                if (LevelToDraw.RoomMap[x, y] != null)
+                    if (LevelToDraw.RoomMap[x, y].IsEndRoom)
+                        roomBossLoc = new Vector2(x, y);
 
 
         if (roomBossLoc.X >= 0 && roomBossLoc.Y >= 0)
