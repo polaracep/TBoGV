@@ -10,7 +10,7 @@ class EnemyCat : EnemyMelee
 {
 	static Texture2D Spritesheet = TextureManager.GetTexture("vibeCatSpritesheet");
 	static SoundEffect vibeSfx = SoundManager.GetSound("vibe");
-	static SoundEffectInstance vibeSfxInstance = vibeSfx.CreateInstance();
+	public static SoundEffectInstance vibeSfxInstance = vibeSfx.CreateInstance();
 	static float Scale;
 
 	int frameWidth = 112;

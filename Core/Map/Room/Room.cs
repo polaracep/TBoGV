@@ -197,6 +197,18 @@ public abstract class Room : Place
                 }
             }
         }
+        bool isTriangle = false, isCat = false;
+        foreach (var e in Enemies)
+        {
+            if(e is EnemyTriangle)
+                isTriangle = true;
+            if(e is EnemyCat)
+                isCat = true;
+        }
+        if (!isTriangle && EnemyTriangle.Sfx.State == Microsoft.Xna.Framework.Audio.SoundState.Playing)
+            EnemyTriangle.Sfx.Stop();
+        if (!isCat && EnemyCat.vibeSfxInstance.State == Microsoft.Xna.Framework.Audio.SoundState.Playing)
+            EnemyCat.vibeSfxInstance.Stop();
     }
 
     /* === Generation methods === */
