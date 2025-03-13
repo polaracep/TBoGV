@@ -38,7 +38,7 @@ class EnemyZdena : EnemyRanged
 		return;
 	}
 
-	protected override void InitStats(int difficulty)
+	public override void InitStats(int difficulty)
 	{
 		Hp = 2 + difficulty * 1.5f;
 		MovementSpeed = 4;

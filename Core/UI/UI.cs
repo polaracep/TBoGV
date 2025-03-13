@@ -92,6 +92,7 @@ class UI : IDraw
                 Effects[i].SpriteSize.X + 5
             );
         }
+        string failedTimesText = Storyline.FailedTimes.ToString() + "/3 Propadnutí";
         string pololetiText = Storyline.CurrentLevelNumber % 2 == 1 ? "1. " : "2. ";
         pololetiText += "Pololetí";
 
@@ -130,8 +131,10 @@ class UI : IDraw
         {
             pololetiText = "";
             yearText = "";
+            failedTimesText = "";
         }
-        spriteBatch.DrawString(MiddleFont, yearText, new Vector2(30, screenSize.Y - MiddleFont.MeasureString(yearText).Y - 30), Color.White);
-        spriteBatch.DrawString(MiddleFont, pololetiText, new Vector2(30, screenSize.Y - MiddleFont.MeasureString(yearText).Y - MiddleFont.MeasureString(pololetiText).Y - 30), Color.White);
+        spriteBatch.DrawString(MiddleFont, failedTimesText, new Vector2(30, screenSize.Y - MiddleFont.MeasureString(failedTimesText).Y - 30), Color.White);
+        spriteBatch.DrawString(MiddleFont, yearText, new Vector2(30, screenSize.Y - MiddleFont.MeasureString(yearText).Y - MiddleFont.MeasureString(failedTimesText).Y - 30), Color.White);
+        spriteBatch.DrawString(MiddleFont, pololetiText, new Vector2(30, screenSize.Y - MiddleFont.MeasureString(yearText).Y - MiddleFont.MeasureString(pololetiText).Y - MiddleFont.MeasureString(failedTimesText).Y - 30), Color.White);
     }
 }

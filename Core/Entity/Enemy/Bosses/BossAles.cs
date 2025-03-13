@@ -152,7 +152,7 @@ public class BossAles : EnemyBoss
 		return;
 	}
 
-	protected override void InitStats(int difficulty)
+    public override void InitStats(int difficulty)
 	{
 		Hp = 50;
 		MovementSpeed = 4;

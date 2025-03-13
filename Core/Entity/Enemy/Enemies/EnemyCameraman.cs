@@ -57,7 +57,7 @@ class EnemyCameraman : EnemyMelee
 			phaseChangeElapsed = 0;
 		}
 	}
-	protected override void InitStats(int difficulty)
+    public override void InitStats(int difficulty)
 	{
 		Hp = 3;
 		MovementSpeed = 2;

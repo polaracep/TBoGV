@@ -83,7 +83,7 @@ class EnemyTriangle : EnemyMelee
             currentFrame = 0;
     }
 
-    protected override void InitStats(int difficulty)
+    public override void InitStats(int difficulty)
     {
         Hp = difficulty * 5 - 2;
         MovementSpeed = 1 + difficulty / 4;

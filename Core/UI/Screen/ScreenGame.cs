@@ -230,10 +230,13 @@ public class ScreenGame : Screen
         player.Heal((uint)player.MaxHp);
         player.LastRecievedDmgElapsed = 0;
         player.Load(SaveType.AUTO);
-        Storyline.FailedTimes++;
+
         Storyline.ResetLevel();
         InGameMenuShop.ResetShop();
 
+
+        SendPlayerToLevel();
+        Storyline.FailedTimes++;
         if (Storyline.FailedTimes >= 3)
         {
             FileHelper.ResetSaves();
@@ -243,7 +246,6 @@ public class ScreenGame : Screen
             lobby.Reset();
             TBoGVGame.screenCurrent = ScreenManager.ScreenDeath;
         }
-        SendPlayerToLobby();
     }
     void Revive()
     {

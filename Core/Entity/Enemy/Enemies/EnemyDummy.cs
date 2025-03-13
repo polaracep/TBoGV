@@ -27,7 +27,7 @@ class EnemyDummy : Enemy
 
     public override void Update(Vector2 playerPosition, double dt) { }
 
-    protected override void InitStats(int difficulty)
+    public override void InitStats(int difficulty)
     {
         Hp = 3 + (int)(1.5 * difficulty);
         MovementSpeed = 0;

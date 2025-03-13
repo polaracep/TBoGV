@@ -93,7 +93,7 @@ internal class EnemyLol : EnemyRanged
         return projectiles;
     }
 
-    protected override void InitStats(int difficulty)
+    public override void InitStats(int difficulty)
     {
         Hp = difficulty * 3 - 2;
         MovementSpeed = 2;

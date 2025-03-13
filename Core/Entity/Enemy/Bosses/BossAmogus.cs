@@ -343,7 +343,7 @@ class BossAmogus : EnemyBoss
 			0);
 	}
 
-	protected override void InitStats(int difficulty)
+    public override void InitStats(int difficulty)
 	{
 		hpBeforeVenting = Hp = 80;
 		//	AttackSpeed = 0;

@@ -92,7 +92,7 @@ class EnemySoldier : EnemyRanged
 		return projectiles;
 	}
 
-	protected override void InitStats(int difficulty)
+    public override void InitStats(int difficulty)
 	{
 		Hp = (float)Math.Ceiling((float)difficulty);
 		MovementSpeed = 1 + (difficulty / 3);

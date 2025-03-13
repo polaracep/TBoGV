@@ -415,6 +415,7 @@ public abstract class Room : Place
 
     public virtual void AddEnemy(Enemy enemy)
     {
+        enemy.InitStats(Storyline.Difficulty);
         Enemies.Add(enemy);
     }
     public override void Draw(SpriteBatch spriteBatch)

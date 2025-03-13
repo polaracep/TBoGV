@@ -92,7 +92,7 @@ internal class EnemyPolhreich : EnemyRanged
 		return projectiles;
 	}
 
-	protected override void InitStats(int difficulty)
+    public override void InitStats(int difficulty)
 	{
 		Hp = (difficulty) * 3 - 1;
 		MovementSpeed = 2;

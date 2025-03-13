@@ -150,7 +150,7 @@ class BossToilet : EnemyBoss
 	{
 	}
 
-	protected override void InitStats(int difficulty)
+    public override void InitStats(int difficulty)
 	{
 		MaxHp = 200;
 		Hp = 200;

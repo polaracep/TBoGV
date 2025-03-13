@@ -161,7 +161,7 @@ class BossSvarta : EnemyBoss
 		throw new NotImplementedException();
 	}
 
-	protected override void InitStats(int difficulty)
+    public override void InitStats(int difficulty)
 	{
 		Hp = 15;
 		MovementSpeed = 12;

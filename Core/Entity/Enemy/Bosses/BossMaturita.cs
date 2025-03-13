@@ -24,7 +24,7 @@ class BossMaturita : EnemyBoss
         return false;
     }
 
-    protected override void InitStats(int difficulty)
+    public override void InitStats(int difficulty)
     {
     }
 

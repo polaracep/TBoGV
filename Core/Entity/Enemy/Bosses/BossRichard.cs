@@ -179,7 +179,7 @@ class BossRichard : EnemyBoss
 		}
 		return notes;
 	}
-	protected override void InitStats(int difficulty)
+    public override void InitStats(int difficulty)
 	{
 		Hp = 120;
 		MovementSpeed = 2;

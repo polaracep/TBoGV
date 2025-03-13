@@ -91,7 +91,7 @@ class EnemyJirka : EnemyRanged
 		return projectiles;
 	}
 
-	protected override void InitStats(int difficulty)
+    public override void InitStats(int difficulty)
 	{
 		Hp = 2 + (3f * (difficulty - 1));
 		MovementSpeed = 1;

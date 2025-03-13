@@ -78,13 +78,19 @@ public static class Storyline
 
         CurrentLevel = LevelList[CurrentLevelNumber];
         CurrentLevelNumber++;
-        Difficulty += (CurrentLevelNumber) % 2;
+        Difficulty = (CurrentLevelNumber-1) / 2 + 1;
+        //reset failed
+        if (CurrentLevelNumber % 2 == 1)
+            FailedTimes = 0;
+
     }
     public static void ResetLevel()
     {
+        int f = FailedTimes;
         GenerateStoryline();
         CurrentLevel = LevelList[CurrentLevelNumber];
         CurrentLevel.Reset();
+        FailedTimes = f;
     }
     public static void ResetStoryline()
     {

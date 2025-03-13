@@ -197,7 +197,7 @@ class BossOIIAOIIA : EnemyBoss
 		return Rage ? projectile.Damage : 0;
 	}
 
-	protected override void InitStats(int difficulty)
+    public override void InitStats(int difficulty)
 	{
 		Hp = 30;
 		MovementSpeed = 2;

@@ -31,7 +31,7 @@ public abstract class Enemy : Entity, IRecieveDmg, IDealDmg, ICloneable
   {
     return new List<Projectile>() { new ProjectileMelee(Position + Size / 2, Size * new Vector2(0.6f)) };
   }
-  protected abstract void InitStats(int difficulty);
+  public abstract void InitStats(int difficulty);
   public virtual List<Item> Drop(int looting)
   {
     Random random = new Random();
