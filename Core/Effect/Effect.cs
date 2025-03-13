@@ -89,6 +89,8 @@ public static class EffectDatabase
 			new EffectLol(1),
 			new EffectRickroll(1),
 			new EffectRooted(1),
+			new EffectCloseCall(),
+			new EffectPrezuvky(),
 		};
 
 		foreach (var effect in effectsList)
