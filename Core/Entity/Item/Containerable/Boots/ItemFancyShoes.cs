@@ -11,7 +11,7 @@ class ItemFancyShoes : ItemContainerable
 	static Texture2D Sprite;
 	public ItemFancyShoes(Vector2 position)
 	{
-		Rarity = 1;
+		Rarity = 2;
 		Position = position;
 		Size = new Vector2(50, 50);
 		Name = "Společenské boty";
