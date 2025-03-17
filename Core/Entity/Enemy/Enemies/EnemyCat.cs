@@ -44,7 +44,7 @@ class EnemyCat : EnemyMelee
 	public override void Update(Vector2 playerPosition, double dt)
 	{
 		base.Update(playerPosition, dt);
-		vibeSfxInstance.Volume = (float)(double)Settings.SfxVolume.Value;
+		vibeSfxInstance.Volume = Convert.ToSingle(Settings.SfxVolume.Value);
 
 		lastFrameChangeElapsed += dt;
 		UpdateAnimation();
