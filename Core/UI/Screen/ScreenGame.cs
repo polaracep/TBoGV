@@ -118,7 +118,9 @@ public class ScreenGame : Screen
         if (player.Hp < 1 && activeMenu is not InGameMenuDeath)
         {
             activeMenu = new InGameMenuDeath(_viewport);
+            MinigameRick.State = minigameState.SUCCESS;
             MinigameRooted.State = minigameState.SUCCESS;
+            miniGames.Clear();
         }
 
         UpdateKeyboard();
@@ -180,7 +182,7 @@ public class ScreenGame : Screen
         {
             if (activeMenu == null)
                 activeMenu = new InGameMenuEffect(player);
-            else if (activeMenu is not InGameMenuDialogue)
+            else if (activeMenu is not InGameMenuDialogue && activeMenu is not InGameMenuDeath)
                 activeMenu = null;
         }
         if (KeyReleased(Keys.J) && MinigameRooted.State != minigameState.ONGOING)

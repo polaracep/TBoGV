@@ -41,10 +41,10 @@ public sealed class WallTypes : StringEnum
     public static readonly WallTypes LOBBY_CORNER = new WallTypes("wallLobbyCorner");
     public static readonly WallTypes HALLWAY = new WallTypes("wallHallway");
     public static readonly WallTypes HALLWAY_CORNER = new WallTypes("wallHallwayCorner");
-	public static readonly WallTypes SHOWER = new WallTypes("wallShower");
-	public static readonly WallTypes SHOWER_CORNER = new WallTypes("wallWhiteCorner");
+    public static readonly WallTypes SHOWER = new WallTypes("wallShower");
+    public static readonly WallTypes SHOWER_CORNER = new WallTypes("wallShowerCorner");
 
-	public WallTypes(string v) : base(v) { }
+    public WallTypes(string v) : base(v) { }
 
 }
 
