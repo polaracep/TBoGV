@@ -26,7 +26,7 @@ public static class Storyline
     public static void GenerateStoryline()
     {
         LevelList = [
-            //new Level(p, [ new RoomHallway( p) , new RoomHallway(p), new RoomHallway(p), new RoomHallway(p), new RoomHallway(p)], new RoomStart(p), new RoomStart(p), 2),
+            new Level(p, [ new RoomHallway( p) , new RoomHallway(p), new RoomHallway(p), new RoomHallway(p), new RoomHallway(p)], new RoomStart(p), new RoomStart(p), 2),
             new Level(p, GenerateLevelRooms(5, 8), new RoomStart(p), new RoomClassroom(p), 3),
             new Level(p, GenerateLevelRooms(5, 8), new RoomStart(p), new RoomBossSvarta(p), 3),
             new Level(p, GenerateLevelRooms(5, 8), new RoomStart(p), new RoomClassroom(p), 6),

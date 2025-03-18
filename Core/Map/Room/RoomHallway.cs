@@ -44,10 +44,10 @@ public class RoomHallway : Room
             scheme.wall,
             scheme.corner
         );
+        GenerateDecor();
 
         GenerateDoors(DoorTypes.BASIC);
 
-        GenerateDecor();
 
     }
     protected override void GenerateEnemies()
@@ -57,7 +57,24 @@ public class RoomHallway : Room
 
     protected override void GenerateDecor()
     {
-
+        if (direction == Directions.LEFT || direction == Directions.RIGHT)
+        {
+            // bench every 3 tiles
+            for (int x = 2; x < Dimensions.X - 1; x += 3)
+            {
+                AddDecoTile(new Vector2(x, 1), new TileDecoration(true, DecorationTypes.BENCH, MathHelper.PiOver2));
+                AddDecoTile(new Vector2(x, Dimensions.Y - 2), new TileDecoration(true, DecorationTypes.BENCH, MathHelper.PiOver2));
+            }
+        }
+        else if (direction == Directions.UP || direction == Directions.DOWN)
+        {
+            // bench every 3 tiles
+            for (int y = 2; y < Dimensions.Y - 1; y += 3)
+            {
+                AddDecoTile(new Vector2(1, y), new TileDecoration(true, DecorationTypes.BENCH));
+                AddDecoTile(new Vector2(Dimensions.X - 2, y), new TileDecoration(true, DecorationTypes.BENCH));
+            }
+        }
     }
 
     public override void DrawMinimapIcon(SpriteBatch spriteBatch, Vector2 position, float scale = 20, bool active = false)
