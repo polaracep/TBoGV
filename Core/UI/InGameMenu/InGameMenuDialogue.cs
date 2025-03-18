@@ -100,6 +100,7 @@ public class InGameMenuDialogue : InGameMenu
         }
     }
 
+    private KeyboardState previousKeyboardState;
     public override void Update(Viewport viewport, Player player, MouseState mouseState, KeyboardState keyboardState, double dt)
     {
         base.Update(viewport, player, mouseState, keyboardState, dt);
@@ -109,6 +110,10 @@ public class InGameMenuDialogue : InGameMenu
 
         if (dialogue.CurrentElement.Choices == null)
         {
+            if (keyboardState.IsKeyDown(Keys.Space) && previousKeyboardState.IsKeyUp(Keys.Space))
+            {
+                nextButton.OnClick.Invoke();
+            }
             nextButton.Update(mouseState);
         }
         else
@@ -117,9 +122,10 @@ public class InGameMenuDialogue : InGameMenu
             if (shouldAdvance)
                 AdvanceDialogue();
         }
+        previousKeyboardState = keyboardState;
     }
 
-    protected void AdvanceDialogue()
+    public void AdvanceDialogue()
     {
         shouldAdvance = false;
         choiceButtons.Clear();

@@ -195,10 +195,6 @@ public class ScreenGame : Screen
             if (activeMenu == null)
                 activeMenu = new InGameMenuMinimap(_viewport, player);
         }
-        if (keyboardState.IsKeyDown(Keys.Escape) && previousKeyboardState.IsKeyUp(Keys.Escape))
-        {
-
-        }
 #if DEBUG
         if (keyboardState.IsKeyDown(Keys.P) && previousKeyboardState.IsKeyUp(Keys.P))
         {
