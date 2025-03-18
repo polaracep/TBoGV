@@ -12,21 +12,21 @@ public abstract class Minigame
 	public abstract Rectangle GetRect();
 	public abstract void Update(Viewport Viewport, KeyboardState keyboardState, double dt);
 	public abstract void Draw(SpriteBatch spriteBatch);
-	public abstract minigameState GetState();
+	public abstract MinigameState GetState();
 	public virtual void UpdateState(KeyboardState keyboardState)
 	{
-		if (GetState() == minigameState.SUCCESS)
+		if (GetState() == MinigameState.SUCCESS)
 		{
 			OnSuccess.Invoke();
 		}
-		if (GetState() == minigameState.FAILURE)
+		if (GetState() == MinigameState.FAILURE)
 		{
 			OnFailure.Invoke();
 		}
 	}
 }
 
-public enum minigameState : int
+public enum MinigameState : int
 {
 	SUCCESS = 1,
 	FAILURE = 2,

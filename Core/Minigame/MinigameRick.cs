@@ -16,7 +16,7 @@ public class MinigameRick : Minigame
 	static SoundEffect rickroll = SoundManager.GetSound("neverGonnaGiveUUp");
 
 	static SoundEffectInstance rickrollInstance = rickroll.CreateInstance();
-	public static minigameState State;
+	public static MinigameState State;
 	private Color hintColor = Color.White;
 	private double timeSinceLastHint = 0;
 	private KeyboardState prevKeyboardState;
@@ -33,7 +33,7 @@ public class MinigameRick : Minigame
 	double frameSpeed = SfxRickroll.Duration.TotalMilliseconds / (27 * 4);
 	public MinigameRick(Action onSuccess)
 	{
-		State = minigameState.ONGOING;
+		State = MinigameState.ONGOING;
 		MiddleFont = FontManager.GetFont("Arial12");
 		LargerFont = FontManager.GetFont("Arial16");
 		OnSuccess = onSuccess;
@@ -93,7 +93,7 @@ public class MinigameRick : Minigame
 
 		if (smashCount >= RequiredSmashCount)
 		{
-			State = minigameState.SUCCESS;
+			State = MinigameState.SUCCESS;
 			rickrollInstance.Stop();
 			OnSuccess.Invoke();
 		}
@@ -115,7 +115,7 @@ public class MinigameRick : Minigame
 			lastFrameChangeElapsed = 0;
 		}
 	}
-	public override minigameState GetState()
+	public override MinigameState GetState()
 	{
 		return State;
 	}

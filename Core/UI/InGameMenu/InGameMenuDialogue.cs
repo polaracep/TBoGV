@@ -106,8 +106,11 @@ public class InGameMenuDialogue : InGameMenu
         if (npcText != dialogue.CurrentElement.Text && dialogue.CurrentElement.Text != null)
             npcText = dialogue.CurrentElement.Text;
 
+
         if (dialogue.CurrentElement.Choices == null)
+        {
             nextButton.Update(mouseState);
+        }
         else
         {
             choiceButtons.ForEach(b => b.Update(mouseState));

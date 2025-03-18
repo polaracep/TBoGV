@@ -17,14 +17,14 @@ public class MinigameRooted : Minigame
 	static SpriteFont LargerFont;
 	static SoundEffect rootTap = SoundManager.GetSound("bouchaniDoKorenu");
 	static SoundEffectInstance rootTapInstance = rootTap.CreateInstance();
-	public static minigameState State;
+	public static MinigameState State;
 	private Color hintColor = Color.White;
 	private double timeSinceLastHint = 0;
 	private KeyboardState prevKeyboardState;
 
 	public MinigameRooted(Action onSuccess)
 	{
-		State = minigameState.ONGOING;
+		State = MinigameState.ONGOING;
 		MiddleFont = FontManager.GetFont("Arial12");
 		LargerFont = FontManager.GetFont("Arial16");
 		OnSuccess = onSuccess;
@@ -73,7 +73,7 @@ public class MinigameRooted : Minigame
 			rootTapInstance.Play();
 		}
 		if (smashCount >= RequiredSmashCount)
-			State = minigameState.SUCCESS;
+			State = MinigameState.SUCCESS;
 		base.UpdateState(keyboardState);
 	}
 
@@ -84,7 +84,7 @@ public class MinigameRooted : Minigame
 		return false;
 	}
 
-	public override minigameState GetState()
+	public override MinigameState GetState()
 	{
 		return State;
 	}
