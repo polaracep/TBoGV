@@ -299,7 +299,6 @@ public abstract class Room : Place
             throw new ArgumentNullException("This room does not have any doors!");
 
         Random rand = new Random();
-        int _x = 0, _y = 0;
 
         foreach (TileDoor door in Doors)
         {
@@ -307,14 +306,17 @@ public abstract class Room : Place
                 door.SetDoorType(doors);
 
             bool validPosition = false;
+            // tp pos
+            int _x = 0, _y = 0;
+            int tpX = _x, tpY = _y;
 
             while (!validPosition)
             {
                 _x = rand.Next((int)Dimensions.X - 2) + 1;
                 _y = rand.Next((int)Dimensions.Y - 2) + 1;
 
-                // tp pos
-                int tpX = _x, tpY = _y;
+                tpX = _x;
+                tpY = _y;
 
                 switch (door.Direction)
                 {
@@ -326,26 +328,22 @@ public abstract class Room : Place
 
                 if (Decorations[tpX, tpY] == null)
                     validPosition = true;
-
             }
 
+            door.DoorTpPosition = new Vector2(tpX, tpY);
             // Place the door and assign a valid teleport position
             switch (door.Direction)
             {
                 case Directions.LEFT:
-                    door.DoorTpPosition = new Vector2(1, _y);
                     Decorations[0, _y] = door;
                     break;
                 case Directions.RIGHT:
-                    door.DoorTpPosition = new Vector2((int)Dimensions.X - 2, _y);
                     Decorations[(int)Dimensions.X - 1, _y] = door;
                     break;
                 case Directions.UP:
-                    door.DoorTpPosition = new Vector2(_x, 1);
                     Decorations[_x, 0] = door;
                     break;
                 case Directions.DOWN:
-                    door.DoorTpPosition = new Vector2(_x, (int)Dimensions.Y - 2);
                     Decorations[_x, (int)Dimensions.Y - 1] = door;
                     break;
             }

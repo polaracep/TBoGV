@@ -61,6 +61,17 @@ public sealed class DecorationTypes : StringEnum
     public static readonly DecorationTypes INFO2 = new DecorationTypes("decoInfo2");
     public static readonly DecorationTypes INFO3 = new DecorationTypes("decoInfo3");
     public static readonly DecorationTypes INFO4 = new DecorationTypes("decoInfo4");
+    public static readonly DecorationTypes PAINTING1 = new DecorationTypes("decoPainting1");
+    public static readonly DecorationTypes PAINTING2 = new DecorationTypes("decoPainting2");
+    public static readonly DecorationTypes PAINTING3 = new DecorationTypes("decoPainting3");
+    public static readonly DecorationTypes PAINTING4 = new DecorationTypes("decoPainting4");
+    public static readonly DecorationTypes PAINTING5 = new DecorationTypes("decoPainting5");
+    public static readonly DecorationTypes PAINTING6 = new DecorationTypes("decoPainting6");
+    public static readonly DecorationTypes PAINTING7 = new DecorationTypes("decoPainting7");
+    public static readonly DecorationTypes PAINTING8 = new DecorationTypes("decoPainting8");
+    public static readonly DecorationTypes PAINTING9 = new DecorationTypes("decoPainting9");
+    public static readonly DecorationTypes PAINTING10 = new DecorationTypes("decoPainting10");
+    public static readonly DecorationTypes PAINTING11 = new DecorationTypes("decoPainting11");
     public static readonly DecorationTypes CHAIR_CAFETERIA_R = new DecorationTypes("chairCafeteriaRed");
     public static readonly DecorationTypes CHAIR_CAFETERIA_G = new DecorationTypes("chairCafeteriaGreen");
     public static readonly DecorationTypes TABLE_CAFETERIA = new DecorationTypes("tableCafeteria");

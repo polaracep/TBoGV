@@ -182,6 +182,10 @@ public class ScreenGame : Screen
         {
             if (activeMenu == null)
                 activeMenu = new InGameMenuEffect(player);
+#if DEBUG
+            else if (activeMenu is InGameMenuDialogue)
+                activeMenu = null;
+#endif
             else if (activeMenu is not InGameMenuDialogue && activeMenu is not InGameMenuDeath)
                 activeMenu = null;
         }

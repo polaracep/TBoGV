@@ -65,3 +65,10 @@ monodroid*.msi
 artifacts/
 
 tbogv_settings.json
+
+# Ignore all .png files in scripts/...
+scripts/*.png
+
+# ...but keep mask.png and bg.png
+!scripts/mask.png
+!scripts/bg.png
