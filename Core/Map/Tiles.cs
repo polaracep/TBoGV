@@ -67,6 +67,7 @@ public class TileWall : Tile
     public TileWall(WallTypes wall)
         : this(wall, 0f, SpriteEffects.None) { }
 }
+
 public class TileDecoration : Tile
 {
     public TileDecoration(bool collide, DecorationTypes type, float rotation, SpriteEffects fx) : base(collide, rotation, fx)

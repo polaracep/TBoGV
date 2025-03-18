@@ -200,9 +200,9 @@ public abstract class Room : Place
         bool isTriangle = false, isCat = false;
         foreach (var e in Enemies)
         {
-            if(e is EnemyTriangle)
+            if (e is EnemyTriangle)
                 isTriangle = true;
-            if(e is EnemyCat)
+            if (e is EnemyCat)
                 isCat = true;
         }
         if (!isTriangle && EnemyTriangle.Sfx.State == Microsoft.Xna.Framework.Audio.SoundState.Playing)
@@ -297,24 +297,39 @@ public abstract class Room : Place
     {
         if (Doors == null)
             throw new ArgumentNullException("This room does not have any doors!");
-        // Generace dveri
-        int _x;
-        int _y;
-        if (center)
-        {
-            _x = (int)Dimensions.X / 2;
-            _y = (int)Dimensions.Y / 2;
-        }
-        else
-        {
-            Random rand = new Random();
-            _x = rand.Next((int)Dimensions.X - 2) + 1;
-            _y = rand.Next((int)Dimensions.Y - 2) + 1;
-        }
+
+        Random rand = new Random();
+        int _x = 0, _y = 0;
+
         foreach (TileDoor door in Doors)
         {
             if (door.Sprite != TextureManager.GetTexture("doorBoss"))
                 door.SetDoorType(doors);
+
+            bool validPosition = false;
+
+            while (!validPosition)
+            {
+                _x = rand.Next((int)Dimensions.X - 2) + 1;
+                _y = rand.Next((int)Dimensions.Y - 2) + 1;
+
+                // tp pos
+                int tpX = _x, tpY = _y;
+
+                switch (door.Direction)
+                {
+                    case Directions.LEFT: tpX = 1; break;
+                    case Directions.RIGHT: tpX = (int)Dimensions.X - 2; break;
+                    case Directions.DOWN: tpY = (int)Dimensions.Y - 2; break;
+                    case Directions.UP: tpY = 1; break;
+                }
+
+                if (Decorations[tpX, tpY] == null)
+                    validPosition = true;
+
+            }
+
+            // Place the door and assign a valid teleport position
             switch (door.Direction)
             {
                 case Directions.LEFT:

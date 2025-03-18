@@ -25,8 +25,8 @@ public class Lobby : Place
         Floor.GenerateFilledRectangleWRotation(
             new Rectangle(0, 0, (int)Dimensions.X, (int)Dimensions.Y),
             new TileFloor(FloorTypes.LOBBY),
-            new TileWall(WallTypes.LOBBY),
-            new TileWall(WallTypes.LOBBY_CORNER)
+            new TileWall(WallTypes.HALLWAY_ORANGE),
+            new TileWall(WallTypes.HALLWAY_ORANGE_CORNER)
         );
 #if DEBUG
         AddDecoTile(new Vector2(3, 2), new TileTreasure());
@@ -75,7 +75,7 @@ public class Lobby : Place
 
         IsFyjala = true;
         Entities.Add(new EntityFyjala(GetTileWorldPos(new Vector2(9, 4))));
-        player.Inventory.AddEffect(new EffectFyjalovaDrahota(1));
+        player.Inventory.AddEffect(new EffectFyjalovaDrahota());
     }
     private void GenerateGambler()
     {
@@ -99,8 +99,10 @@ public class Lobby : Place
 
     public override void Update(double dt)
     {
-        if (player.Inventory.GetEffect().Contains(EffectTypes.EXPENSIVE) && !IsFyjala)
-            player.Inventory.RemoveEffect(new EffectFyjalovaDrahota(1));
+        if (IsFyjala && !player.Inventory.GetEffect().Contains(EffectTypes.EXPENSIVE))
+            player.Inventory.AddEffect(new EffectFyjalovaDrahota());
+        else if (player.Inventory.GetEffect().Contains(EffectTypes.EXPENSIVE) && !IsFyjala)
+            player.Inventory.RemoveEffect(new EffectFyjalovaDrahota());
         UpdateDrops();
     }
     protected void UpdateDrops()

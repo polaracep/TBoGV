@@ -37,10 +37,12 @@ public sealed class WallTypes : StringEnum
     public static readonly WallTypes BASIC = new WallTypes("wallBrick");
     public static readonly WallTypes WHITE = new WallTypes("wallWhite");
     public static readonly WallTypes WHITE_CORNER = new WallTypes("wallWhiteCorner");
-    public static readonly WallTypes LOBBY = new WallTypes("wallLobby");
-    public static readonly WallTypes LOBBY_CORNER = new WallTypes("wallLobbyCorner");
-    public static readonly WallTypes HALLWAY = new WallTypes("wallHallway");
-    public static readonly WallTypes HALLWAY_CORNER = new WallTypes("wallHallwayCorner");
+    public static readonly WallTypes HALLWAY_ORANGE = new WallTypes("wallOrange");
+    public static readonly WallTypes HALLWAY_ORANGE_CORNER = new WallTypes("wallOrangeCorner");
+    public static readonly WallTypes HALLWAY_GREEN = new WallTypes("wallLightGreen");
+    public static readonly WallTypes HALLWAY_GREEN_CORNER = new WallTypes("wallLightGreenCorner");
+    public static readonly WallTypes HALLWAY_BLUE = new WallTypes("wallBlue");
+    public static readonly WallTypes HALLWAY_BLUE_CORNER = new WallTypes("wallBlueCorner");
     public static readonly WallTypes SHOWER = new WallTypes("wallShower");
     public static readonly WallTypes SHOWER_CORNER = new WallTypes("wallShowerCorner");
 
@@ -66,5 +68,6 @@ public sealed class DecorationTypes : StringEnum
     public static readonly DecorationTypes FRIDGE2 = new DecorationTypes("decoFridge2");
     public static readonly DecorationTypes COFFEE_MACHINE = new DecorationTypes("coffeeMachine");
     public static readonly DecorationTypes SINK = new DecorationTypes("showerSink");
+    public static readonly DecorationTypes BENCH = new DecorationTypes("bench");
 
 }

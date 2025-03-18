@@ -33,15 +33,16 @@ public static class TextureManager
             "wallBrick",
             "wallWhite",
             "wallWhiteCorner",
-            "wallLobby",
-            "wallLobbyCorner",
+            "wallOrange",
+            "wallOrangeCorner",
             "wallShower",
             "wallShowerCorner",
             "wallGreen",
             "wallGreenCorner",
-
-            // "wallHallway",
-            // "wallHallwayCorner",
+            "wallLightGreen",
+            "wallLightGreenCorner",
+            "wallBlue",
+            "wallBlueCorner",
             
             // Doors
             "door",
@@ -65,6 +66,7 @@ public static class TextureManager
             "showerSink",
             "lockerOpen",
             "lockerClosed",
+            "bench",
 
             // Entities
             "korenovy_vezen",
@@ -166,13 +168,11 @@ public static class TextureManager
             "fialovaFixa",
             "labCoat",
             "pravyuhel",
-
             "sesitZeleny",
             "sesitCerveny",
             "sesitModry",
             "kruzitko",
             "sharpener",
-
 
             // Misc
             "gymvod",

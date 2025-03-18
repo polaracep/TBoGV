@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -5,6 +6,15 @@ using TBoGV;
 
 public class RoomHallway : Room
 {
+    Texture2D SpriteIconExit = TextureManager.GetTexture("iconExit");
+    Texture2D SpriteIconNotCleared = TextureManager.GetTexture("iconNotCleared");
+    private List<(TileWall wall, TileWall corner)> colors = [
+        (new TileWall(WallTypes.HALLWAY_GREEN), new TileWall(WallTypes.HALLWAY_GREEN_CORNER)),
+        (new TileWall(WallTypes.HALLWAY_BLUE), new TileWall(WallTypes.HALLWAY_BLUE_CORNER)),
+        (new TileWall(WallTypes.HALLWAY_ORANGE), new TileWall(WallTypes.HALLWAY_ORANGE_CORNER))
+    ];
+
+
     public RoomHallway(Vector2 dimensions, Player p) : base(dimensions, p) { }
     public RoomHallway(Player p) : base((7, 9, 17), p, null) { }
     public RoomHallway(Vector2 dimensions, Player p, List<Entity> entityList) : base(dimensions, p, entityList) { }
@@ -24,11 +34,15 @@ public class RoomHallway : Room
     {
         ClearRoom();
 
+        (TileWall wall, TileWall corner) scheme;
+
+        scheme = colors[Random.Shared.Next(colors.Count)];
+
         Floor.GenerateFilledRectangleWRotation(
             new Rectangle(0, 0, (int)Dimensions.X, (int)Dimensions.Y),
             new TileFloor(FloorTypes.LOBBY),
-            new TileWall(WallTypes.LOBBY),
-            new TileWall(WallTypes.LOBBY_CORNER)
+            scheme.wall,
+            scheme.corner
         );
 
         GenerateDoors(DoorTypes.BASIC);
@@ -45,8 +59,7 @@ public class RoomHallway : Room
     {
 
     }
-    Texture2D SpriteIconExit = TextureManager.GetTexture("iconExit");
-    Texture2D SpriteIconNotCleared = TextureManager.GetTexture("iconNotCleared");
+
     public override void DrawMinimapIcon(SpriteBatch spriteBatch, Vector2 position, float scale = 20, bool active = false)
     {
         base.DrawMinimapIcon(spriteBatch, position, scale, active);
