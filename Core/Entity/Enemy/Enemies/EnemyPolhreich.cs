@@ -27,6 +27,7 @@ internal class EnemyPolhreich : EnemyRanged
 	public override void Draw(SpriteBatch spriteBatch)
 	{
 		spriteBatch.Draw(Sprite, new Rectangle((int)(Position.X), (int)(Position.Y), (int)(Size.X), (int)(Size.Y)), Color.White);
+		DrawHealthBar(spriteBatch);
 	}
 	public override Texture2D GetSprite()
 	{
@@ -100,6 +101,7 @@ internal class EnemyPolhreich : EnemyRanged
 		AttackDmg = 1;
         XpValue = 1 + difficulty / 2;
         Weight = EnemyWeight.HARD;
+		base.InitStats(difficulty);
 	}
 }
 

@@ -45,6 +45,7 @@ class BossToilet : EnemyBoss
 		Scale = 125f / Math.Max(frameWidth, frameHeight);
 		Size = new Vector2(frameWidth * Scale, frameHeight * Scale);
 		phaseChangeElapsed = 0;
+		Name = "Skibidi toaleta";
 	}
 	public BossToilet(Place place) : this(Vector2.Zero, place) { }
 
@@ -152,12 +153,12 @@ class BossToilet : EnemyBoss
 
     public override void InitStats(int difficulty)
 	{
-		MaxHp = 200;
 		Hp = 200;
 		MovementSpeed = 0;
 		AttackSpeed = 10;
 		AttackDmg = 1;
 		XpValue = 50;
+		base.InitStats(difficulty);
 	}
 }
 

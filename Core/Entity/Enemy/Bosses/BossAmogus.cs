@@ -54,6 +54,7 @@ class BossAmogus : EnemyBoss
 		Scale = 50f / Math.Max(frameWidth, frameHeight);
 		Size = new Vector2(frameWidth * Scale, frameHeight * Scale);
 		phaseChangeElapsed = 0;
+		Name = "AMOGUS";
 	}
 	public BossAmogus() : this(Vector2.Zero) { }
 
@@ -350,5 +351,6 @@ class BossAmogus : EnemyBoss
 		MovementSpeed = 6;
 		AttackDmg = 1;
 		XpValue = 70;
+		base.InitStats(difficulty);
 	}
 }

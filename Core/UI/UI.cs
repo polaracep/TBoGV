@@ -19,6 +19,7 @@ class UI : IDraw
     int MaxXp;
     const int MaxHeartsPerRow = 5;
     protected List<Effect> Effects = new List<Effect>();
+	protected EnemyBoss Boss;
     public UI()
     {
         hearts = new List<Heart>();
@@ -30,7 +31,7 @@ class UI : IDraw
         MaxXp = 10;
     }
 
-    public void Update(Player player, GraphicsDeviceManager graphics)
+    public void Update(Player player, List<Enemy> enemies, GraphicsDeviceManager graphics)
     {
         if (player.MaxHp != hearts.Count)
         {
@@ -47,6 +48,17 @@ class UI : IDraw
             int col = i % MaxHeartsPerRow;
             hearts[i].Position = screenOffset + new Vector2((Heart.Size.X + 5) * col, (Heart.Size.Y + 3) * row);
         }
+		bool isboss = false;
+		foreach (var e in enemies)
+		{
+			if(e is EnemyBoss)
+			{
+				isboss = true;
+				Boss = (EnemyBoss)e;
+			}
+		}
+		if (!isboss)
+			Boss = null;
 
         Coins = player.Coins;
         Xp = (int)player.Xp;
@@ -136,5 +148,9 @@ class UI : IDraw
         spriteBatch.DrawString(MiddleFont, failedTimesText, new Vector2(30, screenSize.Y - MiddleFont.MeasureString(failedTimesText).Y - 30), Color.White);
         spriteBatch.DrawString(MiddleFont, yearText, new Vector2(30, screenSize.Y - MiddleFont.MeasureString(yearText).Y - MiddleFont.MeasureString(failedTimesText).Y - 30), Color.White);
         spriteBatch.DrawString(MiddleFont, pololetiText, new Vector2(30, screenSize.Y - MiddleFont.MeasureString(yearText).Y - MiddleFont.MeasureString(pololetiText).Y - MiddleFont.MeasureString(failedTimesText).Y - 30), Color.White);
-    }
+		if(Boss != null)
+		{
+			Boss.DrawHealthBar(spriteBatch, screenSize);
+		}
+	}
 }

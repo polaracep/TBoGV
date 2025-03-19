@@ -48,6 +48,7 @@ public class BossAles : EnemyBoss
 		center + new Vector2(radius, radius),
 		center
 	};
+		Name = "Aleš Bejr";
 	}
 	public BossAles() : this(Vector2.Zero) { }
 	public override void Draw(SpriteBatch spriteBatch)
@@ -159,5 +160,6 @@ public class BossAles : EnemyBoss
 		AttackSpeed = 350;
 		AttackDmg = 1;
 		XpValue = 50;
+		base.InitStats(difficulty);
 	}
 }

@@ -36,6 +36,7 @@ class EnemyCat : EnemyMelee
 	{
 		Rectangle sourceRect = new Rectangle(currentFrame * frameWidth, 0, frameWidth, frameHeight);
 		spriteBatch.Draw(Spritesheet, new Rectangle((int)Position.X, (int)Position.Y, (int)(Size.X), (int)(Size.Y)), sourceRect, Color.White);
+		DrawHealthBar(spriteBatch);
 	}
 	public override Texture2D GetSprite()
 	{
@@ -80,5 +81,6 @@ class EnemyCat : EnemyMelee
 		AttackDmg = 1;
 		XpValue = difficulty;
 		Weight = EnemyWeight.EASY;
+		base.InitStats(difficulty);
 	}
 }
