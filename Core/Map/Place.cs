@@ -165,6 +165,13 @@ public abstract class Place : IDraw
         Floor[(int)position.X, (int)position.Y] = tile;
         return true;
     }
+    public bool RemoveDecoTile(Vector2 position)
+    {
+        if (Decorations[(int)position.X, (int)position.Y] != null)
+            return false;
+        Decorations[(int)position.X, (int)position.Y] = null;
+        return true;
+    }
     public bool AddDecoTile(Vector2 position, Tile tile)
     {
         if (Decorations[(int)position.X, (int)position.Y] != null)
@@ -185,14 +192,14 @@ public abstract class Place : IDraw
                 if (t != null)
                 {
                     Vector2 origin = new Vector2(25, 25);
-					t.Draw(spriteBatch, new Vector2(i * Tile.GetSize().X, j * Tile.GetSize().Y) + origin);
-				}
+                    t.Draw(spriteBatch, new Vector2(i * Tile.GetSize().X, j * Tile.GetSize().Y) + origin);
+                }
                 t = Decorations[i, j];
                 if (t != null)
                 {
                     Vector2 origin = new Vector2(25, 25);
-					t.Draw(spriteBatch, new Vector2(i * Tile.GetSize().X, j * Tile.GetSize().Y) + origin);
-				}
+                    t.Draw(spriteBatch, new Vector2(i * Tile.GetSize().X, j * Tile.GetSize().Y) + origin);
+                }
             }
     }
 

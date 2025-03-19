@@ -200,9 +200,9 @@ public abstract class Room : Place
         bool isTriangle = false, isCat = false;
         foreach (var e in Enemies)
         {
-            if(e is EnemyTriangle)
+            if (e is EnemyTriangle)
                 isTriangle = true;
-            if(e is EnemyCat)
+            if (e is EnemyCat)
                 isCat = true;
         }
         if (!isTriangle && EnemyTriangle.Sfx.State == Microsoft.Xna.Framework.Audio.SoundState.Playing)
@@ -297,40 +297,53 @@ public abstract class Room : Place
     {
         if (Doors == null)
             throw new ArgumentNullException("This room does not have any doors!");
-        // Generace dveri
-        int _x;
-        int _y;
-        if (center)
-        {
-            _x = (int)Dimensions.X / 2;
-            _y = (int)Dimensions.Y / 2;
-        }
-        else
-        {
-            Random rand = new Random();
-            _x = rand.Next((int)Dimensions.X - 2) + 1;
-            _y = rand.Next((int)Dimensions.Y - 2) + 1;
-        }
+
+        Random rand = new Random();
+
         foreach (TileDoor door in Doors)
         {
             if (door.Sprite != TextureManager.GetTexture("doorBoss"))
                 door.SetDoorType(doors);
+
+            bool validPosition = false;
+            // tp pos
+            int _x = 0, _y = 0;
+            int tpX = _x, tpY = _y;
+
+            while (!validPosition)
+            {
+                _x = rand.Next((int)Dimensions.X - 2) + 1;
+                _y = rand.Next((int)Dimensions.Y - 2) + 1;
+
+                tpX = _x;
+                tpY = _y;
+
+                switch (door.Direction)
+                {
+                    case Directions.LEFT: tpX = 1; break;
+                    case Directions.RIGHT: tpX = (int)Dimensions.X - 2; break;
+                    case Directions.DOWN: tpY = (int)Dimensions.Y - 2; break;
+                    case Directions.UP: tpY = 1; break;
+                }
+
+                if (Decorations[tpX, tpY] == null)
+                    validPosition = true;
+            }
+
+            door.DoorTpPosition = new Vector2(tpX, tpY);
+            // Place the door and assign a valid teleport position
             switch (door.Direction)
             {
                 case Directions.LEFT:
-                    door.DoorTpPosition = new Vector2(1, _y);
                     Decorations[0, _y] = door;
                     break;
                 case Directions.RIGHT:
-                    door.DoorTpPosition = new Vector2((int)Dimensions.X - 2, _y);
                     Decorations[(int)Dimensions.X - 1, _y] = door;
                     break;
                 case Directions.UP:
-                    door.DoorTpPosition = new Vector2(_x, 1);
                     Decorations[_x, 0] = door;
                     break;
                 case Directions.DOWN:
-                    door.DoorTpPosition = new Vector2(_x, (int)Dimensions.Y - 2);
                     Decorations[_x, (int)Dimensions.Y - 1] = door;
                     break;
             }

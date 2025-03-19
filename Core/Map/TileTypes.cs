@@ -37,10 +37,12 @@ public sealed class WallTypes : StringEnum
     public static readonly WallTypes BASIC = new WallTypes("wallBrick");
     public static readonly WallTypes WHITE = new WallTypes("wallWhite");
     public static readonly WallTypes WHITE_CORNER = new WallTypes("wallWhiteCorner");
-    public static readonly WallTypes LOBBY = new WallTypes("wallLobby");
-    public static readonly WallTypes LOBBY_CORNER = new WallTypes("wallLobbyCorner");
-    public static readonly WallTypes HALLWAY = new WallTypes("wallHallway");
-    public static readonly WallTypes HALLWAY_CORNER = new WallTypes("wallHallwayCorner");
+    public static readonly WallTypes HALLWAY_ORANGE = new WallTypes("wallOrange");
+    public static readonly WallTypes HALLWAY_ORANGE_CORNER = new WallTypes("wallOrangeCorner");
+    public static readonly WallTypes HALLWAY_GREEN = new WallTypes("wallLightGreen");
+    public static readonly WallTypes HALLWAY_GREEN_CORNER = new WallTypes("wallLightGreenCorner");
+    public static readonly WallTypes HALLWAY_BLUE = new WallTypes("wallBlue");
+    public static readonly WallTypes HALLWAY_BLUE_CORNER = new WallTypes("wallBlueCorner");
     public static readonly WallTypes SHOWER = new WallTypes("wallShower");
     public static readonly WallTypes SHOWER_CORNER = new WallTypes("wallShowerCorner");
 
@@ -59,6 +61,24 @@ public sealed class DecorationTypes : StringEnum
     public static readonly DecorationTypes INFO2 = new DecorationTypes("decoInfo2");
     public static readonly DecorationTypes INFO3 = new DecorationTypes("decoInfo3");
     public static readonly DecorationTypes INFO4 = new DecorationTypes("decoInfo4");
+    public static readonly DecorationTypes PAINTING1 = new DecorationTypes("decoPainting1");
+    public static readonly DecorationTypes PAINTING2 = new DecorationTypes("decoPainting2");
+    public static readonly DecorationTypes PAINTING3 = new DecorationTypes("decoPainting3");
+    public static readonly DecorationTypes PAINTING4 = new DecorationTypes("decoPainting4");
+    public static readonly DecorationTypes PAINTING5 = new DecorationTypes("decoPainting5");
+    public static readonly DecorationTypes PAINTING6 = new DecorationTypes("decoPainting6");
+    public static readonly DecorationTypes PAINTING7 = new DecorationTypes("decoPainting7");
+    public static readonly DecorationTypes PAINTING8 = new DecorationTypes("decoPainting8");
+    public static readonly DecorationTypes PAINTING9 = new DecorationTypes("decoPainting9");
+    public static readonly DecorationTypes PAINTING10 = new DecorationTypes("decoPainting10");
+    public static readonly DecorationTypes PAINTING11 = new DecorationTypes("decoPainting11");
+    public static readonly DecorationTypes PAINTING12 = new DecorationTypes("decoPainting12");
+    public static readonly DecorationTypes PAINTING13 = new DecorationTypes("decoPainting13");
+    public static readonly DecorationTypes PAINTING14 = new DecorationTypes("decoPainting14");
+    public static readonly DecorationTypes PAINTING15 = new DecorationTypes("decoPainting15");
+    public static readonly DecorationTypes PAINTING16 = new DecorationTypes("decoPainting16");
+    public static readonly DecorationTypes PAINTING17 = new DecorationTypes("decoPainting17");
+    public static readonly DecorationTypes PAINTING18 = new DecorationTypes("decoPainting18");
     public static readonly DecorationTypes CHAIR_CAFETERIA_R = new DecorationTypes("chairCafeteriaRed");
     public static readonly DecorationTypes CHAIR_CAFETERIA_G = new DecorationTypes("chairCafeteriaGreen");
     public static readonly DecorationTypes TABLE_CAFETERIA = new DecorationTypes("tableCafeteria");
@@ -66,5 +86,6 @@ public sealed class DecorationTypes : StringEnum
     public static readonly DecorationTypes FRIDGE2 = new DecorationTypes("decoFridge2");
     public static readonly DecorationTypes COFFEE_MACHINE = new DecorationTypes("coffeeMachine");
     public static readonly DecorationTypes SINK = new DecorationTypes("showerSink");
+    public static readonly DecorationTypes BENCH = new DecorationTypes("bench");
 
 }

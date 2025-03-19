@@ -236,8 +236,8 @@ public class Player : Entity, IRecieveDmg, IDealDmg
 				place.Drops.Add(item);
 		}
 		// pokud ma hrac prezuvky tak nemuze mit postih za to ze nema prezuvky
-        var existingEffect = Inventory.Effects.FirstOrDefault(effect => effect is EffectPrezuvky);
-        if (Inventory.GetEffect().Contains(EffectTypes.BOOTS) && existingEffect != null)
+		var existingEffect = Inventory.Effects.FirstOrDefault(effect => effect is EffectPrezuvky);
+		if (Inventory.GetEffect().Contains(EffectTypes.BOOTS) && existingEffect != null)
 			Inventory.RemoveEffect(existingEffect);
 
 		Inventory.Update(viewport, this, mouseState, dt);
@@ -253,7 +253,7 @@ public class Player : Entity, IRecieveDmg, IDealDmg
 		}
 
 		// Handle attacking if ready and left mouse button is pressed
-		if (ReadyToAttack() && mouseState.LeftButton == ButtonState.Pressed)
+		if (ReadyToAttack() && (mouseState.LeftButton == ButtonState.Pressed || keyboardState.IsKeyDown(Keys.Space)))
 		{
 			foreach (var projectile in Attack())
 			{

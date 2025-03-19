@@ -118,8 +118,8 @@ public class ScreenGame : Screen
         if (player.Hp < 1 && activeMenu is not InGameMenuDeath)
         {
             activeMenu = new InGameMenuDeath(_viewport);
-            MinigameRick.State = minigameState.SUCCESS;
-            MinigameRooted.State = minigameState.SUCCESS;
+            MinigameRick.State = MinigameState.SUCCESS;
+            MinigameRooted.State = MinigameState.SUCCESS;
             miniGames.Clear();
         }
 
@@ -154,16 +154,16 @@ public class ScreenGame : Screen
                 MediaPlayer.Pause();
             }
         }
-        if (player.Inventory.GetEffect().Contains(EffectTypes.ROOTED) && MinigameRooted.State != minigameState.ONGOING)
+        if (player.Inventory.GetEffect().Contains(EffectTypes.ROOTED) && MinigameRooted.State != MinigameState.ONGOING)
             miniGames.Add(new MinigameRooted(() => player.Inventory.RemoveEffect(new EffectRooted(1))));
-        if (player.Inventory.GetEffect().Contains(EffectTypes.RICKROLL) && MinigameRick.State != minigameState.ONGOING)
+        if (player.Inventory.GetEffect().Contains(EffectTypes.RICKROLL) && MinigameRick.State != MinigameState.ONGOING)
             miniGames.Add(new MinigameRick(() => player.Inventory.RemoveEffect(new EffectRickroll(1))));
 
         foreach (Minigame miniGame in miniGames)
             miniGame.Update(_viewport, keyboardState, dt);
 
         for (int i = 0; i < miniGames.Count; i++)
-            if (miniGames[i].GetState() != minigameState.ONGOING)
+            if (miniGames[i].GetState() != MinigameState.ONGOING)
                 miniGames.RemoveAt(i);
 
         if (queueEntry)
@@ -182,15 +182,19 @@ public class ScreenGame : Screen
         {
             if (activeMenu == null)
                 activeMenu = new InGameMenuEffect(player);
+#if DEBUG
+            else if (activeMenu is InGameMenuDialogue)
+                activeMenu = null;
+#endif
             else if (activeMenu is not InGameMenuDialogue && activeMenu is not InGameMenuDeath)
                 activeMenu = null;
         }
-        if (KeyReleased(Keys.J) && MinigameRooted.State != minigameState.ONGOING)
+        if (KeyReleased(Keys.J) && MinigameRooted.State != MinigameState.ONGOING)
         {
             if (activeMenu == null)
                 activeMenu = new InGameMenuItemJournal(_viewport);
         }
-        if (KeyReleased(Keys.M) && MinigameRooted.State != minigameState.ONGOING)
+        if (KeyReleased(Keys.M) && MinigameRooted.State != MinigameState.ONGOING)
         {
             if (activeMenu == null)
                 activeMenu = new InGameMenuMinimap(_viewport, player);

@@ -33,15 +33,16 @@ public static class TextureManager
             "wallBrick",
             "wallWhite",
             "wallWhiteCorner",
-            "wallLobby",
-            "wallLobbyCorner",
+            "wallOrange",
+            "wallOrangeCorner",
             "wallShower",
             "wallShowerCorner",
             "wallGreen",
             "wallGreenCorner",
-
-            // "wallHallway",
-            // "wallHallwayCorner",
+            "wallLightGreen",
+            "wallLightGreenCorner",
+            "wallBlue",
+            "wallBlueCorner",
             
             // Doors
             "door",
@@ -56,6 +57,24 @@ public static class TextureManager
             "decoInfo2",
             "decoInfo3",
             "decoInfo4",
+            "decoPainting1",
+            "decoPainting2",
+            "decoPainting3",
+            "decoPainting4",
+            "decoPainting5",
+            "decoPainting6",
+            "decoPainting7",
+            "decoPainting8",
+            "decoPainting9",
+            "decoPainting10",
+            "decoPainting11",
+            "decoPainting12",
+            "decoPainting13",
+            "decoPainting14",
+            "decoPainting15",
+            "decoPainting16",
+            "decoPainting17",
+            "decoPainting18",
             "chairCafeteriaRed",
             "chairCafeteriaGreen",
             "tableCafeteria",
@@ -65,6 +84,7 @@ public static class TextureManager
             "showerSink",
             "lockerOpen",
             "lockerClosed",
+            "bench",
 
             // Entities
             "korenovy_vezen",
@@ -166,13 +186,11 @@ public static class TextureManager
             "fialovaFixa",
             "labCoat",
             "pravyuhel",
-
             "sesitZeleny",
             "sesitCerveny",
             "sesitModry",
             "kruzitko",
             "sharpener",
-
 
             // Misc
             "gymvod",

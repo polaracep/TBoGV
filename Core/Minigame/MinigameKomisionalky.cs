@@ -28,14 +28,14 @@ public class MinigameKomisionalky : Minigame
 	static SpriteFont Font = FontManager.GetFont("Arial12");
 	float elapsed;
 
-	public static minigameState State;
+	public static MinigameState State;
 	public Vector2 PositionOffset;
 	public Vector2 Size;
 
 	private string displayedText;
 	public MinigameKomisionalky(Action onSuccess, Action onFailure, int difficulty)
 	{
-		State = minigameState.ONGOING;
+		State = MinigameState.ONGOING;
 		OnSuccess = onSuccess;
 		OnFailure = onFailure;
 
@@ -115,10 +115,10 @@ public class MinigameKomisionalky : Minigame
 		Size = new Vector2((Viewport.Width - BarWidth) / 2, Viewport.Height / 2 + ArrowWidth + textSize.Y);
 
 		if (successCount >= RequiredSuccesses)
-			State = minigameState.SUCCESS;
+			State = MinigameState.SUCCESS;
 
 		base.UpdateState(keyboardState);
-		if (State == minigameState.FAILURE || State == minigameState.SUCCESS)
+		if (State == MinigameState.FAILURE || State == MinigameState.SUCCESS)
 			return;
 
 		elapsed = (float)dt / 1000;
@@ -138,7 +138,7 @@ public class MinigameKomisionalky : Minigame
 				highlightedSegment = ((arrowPosition + ArrowWidth / 2) / SegmentWidth) * SegmentWidth;
 				highlightSegment = true;
 				highlightTime = 0.4;
-				State = minigameState.FAILURE;
+				State = MinigameState.FAILURE;
 			}
 		}
 		else
@@ -174,7 +174,7 @@ public class MinigameKomisionalky : Minigame
 		prevKeyboardState = keyboardState;
 	}
 
-	public override minigameState GetState()
+	public override MinigameState GetState()
 	{
 		return State;
 	}
