@@ -59,7 +59,7 @@ public class TBoGVGame : Game
 
     protected override void Draw(GameTime gameTime)
     {
-        GraphicsDevice.Clear(Color.CornflowerBlue);
+        GraphicsDevice.Clear(Color.LightBlue);
         screenCurrent.Draw(_spriteBatch, _graphics);
         base.Draw(gameTime);
     }

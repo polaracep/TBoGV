@@ -72,6 +72,13 @@ public sealed class DecorationTypes : StringEnum
     public static readonly DecorationTypes PAINTING9 = new DecorationTypes("decoPainting9");
     public static readonly DecorationTypes PAINTING10 = new DecorationTypes("decoPainting10");
     public static readonly DecorationTypes PAINTING11 = new DecorationTypes("decoPainting11");
+    public static readonly DecorationTypes PAINTING12 = new DecorationTypes("decoPainting12");
+    public static readonly DecorationTypes PAINTING13 = new DecorationTypes("decoPainting13");
+    public static readonly DecorationTypes PAINTING14 = new DecorationTypes("decoPainting14");
+    public static readonly DecorationTypes PAINTING15 = new DecorationTypes("decoPainting15");
+    public static readonly DecorationTypes PAINTING16 = new DecorationTypes("decoPainting16");
+    public static readonly DecorationTypes PAINTING17 = new DecorationTypes("decoPainting17");
+    public static readonly DecorationTypes PAINTING18 = new DecorationTypes("decoPainting18");
     public static readonly DecorationTypes CHAIR_CAFETERIA_R = new DecorationTypes("chairCafeteriaRed");
     public static readonly DecorationTypes CHAIR_CAFETERIA_G = new DecorationTypes("chairCafeteriaGreen");
     public static readonly DecorationTypes TABLE_CAFETERIA = new DecorationTypes("tableCafeteria");

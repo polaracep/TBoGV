@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Security.Cryptography;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using TBoGV;
@@ -31,6 +30,13 @@ public class RoomHallway : Room
         DecorationTypes.PAINTING9,
         DecorationTypes.PAINTING10,
         DecorationTypes.PAINTING11,
+        DecorationTypes.PAINTING12,
+        DecorationTypes.PAINTING13,
+        DecorationTypes.PAINTING14,
+        DecorationTypes.PAINTING15,
+        DecorationTypes.PAINTING16,
+        DecorationTypes.PAINTING17,
+        DecorationTypes.PAINTING18,
     ];
 
     public RoomHallway(Vector2 dimensions, Player p) : base(dimensions, p) { }
@@ -41,16 +47,11 @@ public class RoomHallway : Room
         new EnemyJirka(),
         new EnemyCat()
     ];
-
-    public override void Reset()
-    {
-        base.Reset();
-        GenerateDoors(DoorTypes.BASIC);
-    }
     public override void Generate()
     {
         GenerateBase();
         GenerateEnemies();
+        IsGenerated = true;
     }
     protected override void GenerateBase()
     {
@@ -79,29 +80,50 @@ public class RoomHallway : Room
 
     protected override void GenerateDecor()
     {
-        if (direction == Directions.LEFT || direction == Directions.RIGHT)
+        switch (direction)
         {
-            // bench every 3 tiles
-            for (int x = 2; x < Dimensions.X - 1; x += 3)
-            {
-                AddDecoTile(new Vector2(x, 1), new TileDecoration(true, DecorationTypes.BENCH, MathHelper.PiOver2));
-            }
-            for (int x = 1; x < Dimensions.X - 2; x++)
-                if (Random.Shared.Next(4) == 0)
-                    AddDecoTile(new Vector2(x, Dimensions.Y - 1), new TileDecoration(true, infos[Random.Shared.Next(infos.Count())], MathHelper.PiOver2));
-
-
-        }
-        else if (direction == Directions.UP || direction == Directions.DOWN)
-        {
-            // bench every 3 tiles
-            for (int y = 2; y < Dimensions.Y - 1; y += 3)
-            {
-                AddDecoTile(new Vector2(1, y), new TileDecoration(true, DecorationTypes.BENCH));
-            }
-            for (int y = 1; y < Dimensions.X - 2; y++)
-                if (Random.Shared.Next(4) == 0)
-                    AddDecoTile(new Vector2(Dimensions.X - 1, y), new TileDecoration(true, infos[Random.Shared.Next(infos.Count())]));
+            case Directions.LEFT:
+                {
+                    // bench every 3 tiles
+                    for (int x = 2; x < Dimensions.X - 1; x += 3)
+                        AddDecoTile(new Vector2(x, 1), new TileDecoration(true, DecorationTypes.BENCH, MathHelper.PiOver2, SpriteEffects.FlipHorizontally));
+                    for (int x = 1; x < Dimensions.X - 2; x++)
+                        if (Random.Shared.Next(4) == 0)
+                            AddDecoTile(new Vector2(x, Dimensions.Y - 1), new TileDecoration(true, infos[Random.Shared.Next(infos.Count())], MathHelper.PiOver2));
+                    break;
+                }
+            case Directions.RIGHT:
+                {
+                    // bench every 3 tiles
+                    for (int x = 2; x < Dimensions.X - 1; x += 3)
+                        AddDecoTile(new Vector2(x, Dimensions.Y - 2), new TileDecoration(true, DecorationTypes.BENCH, MathHelper.PiOver2, SpriteEffects.FlipHorizontally));
+                    for (int x = 1; x < Dimensions.X - 2; x++)
+                        if (Random.Shared.Next(4) == 0)
+                            AddDecoTile(new Vector2(x, 0), new TileDecoration(true, infos[Random.Shared.Next(infos.Count())], MathHelper.PiOver2, SpriteEffects.FlipHorizontally));
+                    break;
+                }
+            case Directions.UP:
+                {
+                    // bench every 3 tiles
+                    for (int y = 2; y < Dimensions.Y - 1; y += 3)
+                        AddDecoTile(new Vector2(Dimensions.X - 2, y), new TileDecoration(true, DecorationTypes.BENCH));
+                    for (int y = 1; y < Dimensions.X - 2; y++)
+                        if (Random.Shared.Next(4) == 0)
+                            AddDecoTile(new Vector2(0, y), new TileDecoration(true, infos[Random.Shared.Next(infos.Count())], 0f, SpriteEffects.FlipHorizontally));
+                    break;
+                }
+            case Directions.DOWN:
+                {
+                    // bench every 3 tiles
+                    for (int y = 2; y < Dimensions.Y - 1; y += 3)
+                        AddDecoTile(new Vector2(1, y), new TileDecoration(true, DecorationTypes.BENCH));
+                    for (int y = 1; y < Dimensions.X - 2; y++)
+                        if (Random.Shared.Next(4) == 0)
+                            AddDecoTile(new Vector2(Dimensions.X - 1, y), new TileDecoration(true, infos[Random.Shared.Next(infos.Count())], SpriteEffects.FlipVertically));
+                    break;
+                }
+            default:
+                break;
         }
     }
 
