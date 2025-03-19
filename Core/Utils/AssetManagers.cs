@@ -85,6 +85,7 @@ public static class TextureManager
             "lockerOpen",
             "lockerClosed",
             "bench",
+            "window",
 
             // Entities
             "korenovy_vezen",

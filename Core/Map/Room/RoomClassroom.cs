@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using TBoGV;
@@ -31,6 +32,7 @@ public class RoomClassroom : Room
         GenerateBase(FloorTypes.BASIC, WallTypes.WHITE, DoorTypes.BASIC);
         GenerateDecor();
         GenerateEnemies();
+        IsGenerated = true;
     }
 
     protected override void GenerateBase(FloorTypes floors, WallTypes walls, DoorTypes doors)
@@ -45,10 +47,8 @@ public class RoomClassroom : Room
             new TileWall(WallTypes.WHITE),
             new TileWall(WallTypes.WHITE_CORNER)
         );
-        //this.Floor[2, 2] = new TileFloor(FloorTypes.STAIRS);
 
         GenerateDoors(doors);
-        IsGenerated = true;
     }
 
     protected override void GenerateDecor()
@@ -89,10 +89,44 @@ public class RoomClassroom : Room
             AddDecoTile(new Vector2(3, Dimensions.Y - 3), new TileDecoration(false, DecorationTypes.CHAIR_CLASSROOM, -MathHelper.PiOver2));
             AddDecoTile(new Vector2(Dimensions.X / 2, Dimensions.Y - 1), new TileDecoration(true, DecorationTypes.BLACKBOARD, MathHelper.PiOver2));
         }
+
+        List<Directions> validWindowDirs = [Directions.DOWN, Directions.UP, Directions.LEFT, Directions.RIGHT];
+        validWindowDirs.RemoveAll(x => Doors.Any(d => d.Direction == x));
+
+        foreach (var dir in validWindowDirs)
+        {
+            switch (dir)
+            {
+                case Directions.RIGHT:
+                    for (int i = 1; i < Dimensions.Y - 2; i += 1)
+                        if (Random.Shared.Next(2) == 0)
+                            AddDecoTile(new Vector2(Dimensions.X - 1, i), new TileDecoration(false, DecorationTypes.WINDOW));
+                    break;
+                case Directions.LEFT:
+                    for (int i = 1; i < Dimensions.Y - 2; i += 1)
+                        if (Random.Shared.Next(2) == 0)
+                            AddDecoTile(new Vector2(0, i), new TileDecoration(false, DecorationTypes.WINDOW, 0f, SpriteEffects.FlipHorizontally));
+                    break;
+                case Directions.UP:
+                    for (int i = 1; i < Dimensions.X - 2; i += 1)
+                        if (Random.Shared.Next(2) == 0)
+                            AddDecoTile(new Vector2(i, 0), new TileDecoration(false, DecorationTypes.WINDOW, -MathHelper.PiOver2));
+                    break;
+                case Directions.DOWN:
+                    for (int i = 1; i < Dimensions.X - 2; i += 1)
+                        if (Random.Shared.Next(2) == 0)
+                            AddDecoTile(new Vector2(i, Dimensions.Y - 1), new TileDecoration(false, DecorationTypes.WINDOW, MathHelper.PiOver2));
+                    break;
+                default:
+                    break;
+            }
+
+        }
+
     }
     protected override void GenerateEnemies()
     {
-        GenerateEnemies((int)(2 + (Storyline.Difficulty -1)*1.5));
+        GenerateEnemies((int)(2 + (Storyline.Difficulty - 1) * 1.5));
     }
     Texture2D SpriteIconExit = TextureManager.GetTexture("iconExit");
     Texture2D SpriteIconNotCleared = TextureManager.GetTexture("iconNotCleared");

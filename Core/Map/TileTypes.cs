@@ -87,5 +87,6 @@ public sealed class DecorationTypes : StringEnum
     public static readonly DecorationTypes COFFEE_MACHINE = new DecorationTypes("coffeeMachine");
     public static readonly DecorationTypes SINK = new DecorationTypes("showerSink");
     public static readonly DecorationTypes BENCH = new DecorationTypes("bench");
+    public static readonly DecorationTypes WINDOW = new DecorationTypes("window");
 
 }
