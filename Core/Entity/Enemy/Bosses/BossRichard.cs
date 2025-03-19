@@ -37,6 +37,7 @@ class BossRichard : EnemyBoss
 		Size = new Vector2(frameWidth * Scale, frameHeight * Scale);
 		PickNewDirection();
 		AttackDelay();
+		Name = "Rick";
 	}
 	public BossRichard() : this(Vector2.Zero) { }
 	public override void Update(Vector2 playerPosition, double dt)
@@ -186,6 +187,7 @@ class BossRichard : EnemyBoss
 		AttackDmg = 1;
 		AttackSpeed = 450;
 		XpValue = 50;
+		base.InitStats(difficulty);
 	}
 }
 

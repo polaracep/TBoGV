@@ -48,8 +48,12 @@ public static class Storyline
 
     public static List<Room> GenerateLevelRooms(int minR, int maxR)
     {
-        List<Room> rooms = new List<Room>();
-        Random rand = new Random();
+
+
+		List<Room> rooms = new List<Room>();
+		if (minR <= 0 || maxR <= 0)
+			return rooms;
+		Random rand = new Random();
         int roomCount = rand.Next(minR, maxR + 1);
         int classroomCount = rand.Next(roomCount / 2, roomCount - 1);
         int specialRoomCount = rand.Next(1, 3);

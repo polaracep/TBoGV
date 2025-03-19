@@ -43,6 +43,7 @@ class BossOIIAOIIA : EnemyBoss
 		Scale = 100f / Math.Max(frameWidth, frameHeight);
 		Size = new Vector2(frameWidth * Scale, frameHeight * Scale);
 		phaseChangeElapsed = 0;
+		Name = "OIIA OIIA";
 	}
 	public BossOIIAOIIA() : this(Vector2.Zero) { }
 
@@ -204,5 +205,6 @@ class BossOIIAOIIA : EnemyBoss
 		AttackSpeed = 0;
 		AttackDmg = 1;
 		XpValue = 50;
+		base.InitStats(difficulty);
 	}
 }

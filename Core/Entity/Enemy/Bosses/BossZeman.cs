@@ -35,6 +35,7 @@ class BossZeman : EnemyBoss
 		Size = new Vector2(frameWidth * Scale, frameHeight * Scale);
 		phaseChangeElapsed = 0;
 		InitStats(Storyline.Difficulty);
+		Name = "Miloš Zeman";
 
 	}
 	public BossZeman() : this(Vector2.Zero) { }
@@ -232,5 +233,6 @@ class BossZeman : EnemyBoss
 		AttackDmg = 2;
 		AttackSpeed = 0;
 		XpValue = 70;
+		base.InitStats(difficulty);
 	}
 }

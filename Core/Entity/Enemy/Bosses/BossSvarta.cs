@@ -35,6 +35,7 @@ class BossSvarta : EnemyBoss
 		InitStats(Storyline.Difficulty);
 		Position = position;
 		phaseChangeElapsed = spinksDuration;
+		Name = "Svarta";
 	}
 	public BossSvarta() : this(Vector2.Zero) { }
 
@@ -168,5 +169,6 @@ class BossSvarta : EnemyBoss
 		AttackSpeed = 0;
 		AttackDmg = 2;
 		XpValue = 50;
+		base.InitStats(difficulty);	
 	}
 }
