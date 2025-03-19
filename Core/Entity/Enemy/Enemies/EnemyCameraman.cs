@@ -37,6 +37,7 @@ class EnemyCameraman : EnemyMelee
 			SpriteEffects.None,
 			0
 		);
+		DrawHealthBar(spriteBatch);
 	}
 
 	public override Texture2D GetSprite()
@@ -65,6 +66,7 @@ class EnemyCameraman : EnemyMelee
 		AttackDmg = 1;
 		XpValue = 1;
 		Weight = EnemyWeight.EASY;
+		base.InitStats(difficulty);
 	}
 	public override void Move(Place place)
 	{

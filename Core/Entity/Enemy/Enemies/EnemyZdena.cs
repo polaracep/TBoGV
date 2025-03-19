@@ -20,6 +20,7 @@ class EnemyZdena : EnemyRanged
 	public override void Draw(SpriteBatch spriteBatch)
 	{
 		spriteBatch.Draw(Sprite, new Rectangle(Convert.ToInt32(Position.X), Convert.ToInt32(Position.Y), Convert.ToInt32(Size.X), Convert.ToInt32(Size.Y)), Color.White);
+		DrawHealthBar(spriteBatch);
 	}
 	public override List<Projectile> Attack()
 	{
@@ -46,5 +47,6 @@ class EnemyZdena : EnemyRanged
 		AttackDmg = 1;
 		XpValue = 1 + difficulty / 2;
 		Weight = EnemyWeight.MEDIUM;
+		base.InitStats(difficulty);
 	}
 }

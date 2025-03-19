@@ -16,7 +16,8 @@ class EnemyDummy : Enemy
     public override void Draw(SpriteBatch spriteBatch)
     {
         spriteBatch.Draw(Sprite, new Rectangle((int)Position.X, (int)Position.Y, (int)Size.X, (int)Size.Y), Color.White);
-    }
+		DrawHealthBar(spriteBatch);
+	}
 
     public override Texture2D GetSprite() { return Sprite; }
     public override bool IsDead() { return Hp <= 0; }
@@ -35,5 +36,6 @@ class EnemyDummy : Enemy
         AttackDmg = 0;
         XpValue = 0;
         Weight = EnemyWeight.EASY;
-    }
+		base.InitStats(difficulty);
+	}
 }

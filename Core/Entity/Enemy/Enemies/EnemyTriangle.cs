@@ -39,7 +39,8 @@ class EnemyTriangle : EnemyMelee
     {
         Rectangle sourceRect = new Rectangle(currentFrame * frameWidth, 0, frameWidth, frameHeight);
         spriteBatch.Draw(Spritesheet, new Rectangle((int)Position.X, (int)Position.Y, (int)(Size.X), (int)(Size.Y)), sourceRect, Color.White);
-    }
+		DrawHealthBar(spriteBatch);
+	}
     public override Texture2D GetSprite()
     {
         return Spritesheet;
@@ -91,6 +92,7 @@ class EnemyTriangle : EnemyMelee
         AttackDmg = 1;
         XpValue = 1 + difficulty / 2;
         Weight = EnemyWeight.EASY;
-    }
+		base.InitStats(difficulty);
+	}
 }
 
