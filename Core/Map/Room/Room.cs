@@ -326,7 +326,7 @@ public abstract class Room : Place
                     case Directions.UP: tpY = 1; break;
                 }
 
-                if (Decorations[tpX, tpY] == null)
+                if (Decorations[tpX, tpY] == null && !Floor[tpX, tpY].DoCollision)
                     validPosition = true;
             }
 

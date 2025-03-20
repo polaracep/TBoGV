@@ -26,9 +26,11 @@ public static class Storyline
     public static void GenerateStoryline()
     {
         LevelList = [
+            #if DEBUG
             //new Level(p, [ new RoomLocker( p) , new RoomLocker(p), new RoomLocker(p), new RoomLocker(p), new RoomLocker(p)], new RoomStart(p), new RoomStart(p), 2),
-            //new Level(p, [ new RoomToilet(p)], new RoomStart(p), new RoomStart(p), 2),
+            new Level(p, [ new RoomToilet(p),  new RoomToilet(p),  new RoomToilet(p),  new RoomToilet(p)], new RoomStart(p), new RoomStart(p), 2),
 
+#endif
             new Level(p, GenerateLevelRooms(5, 8), new RoomStart(p), new RoomClassroom(p), 3),
             new Level(p, GenerateLevelRooms(5, 8), new RoomStart(p), new RoomBossSvarta(p), 3),
             new Level(p, GenerateLevelRooms(5, 8), new RoomStart(p), new RoomClassroom(p), 6),
@@ -68,19 +70,19 @@ public static class Storyline
         for (int i = 0; i < hallwayCount; i++)
             rooms.Add(new RoomHallway(p));
 
-		for (int i = 0; i < specialRoomCount; i++)
-		{
-			int roomType = rand.Next(3);
-			if (roomType == 0)
-				rooms.Add(new RoomShower(p));
-			else if (roomType == 1)
-				rooms.Add(new RoomLocker(p));
-			else
-				rooms.Add(new RoomToilet(p));
-		}
+        for (int i = 0; i < specialRoomCount; i++)
+        {
+            int roomType = rand.Next(3);
+            if (roomType == 0)
+                rooms.Add(new RoomShower(p));
+            else if (roomType == 1)
+                rooms.Add(new RoomLocker(p));
+            else
+                rooms.Add(new RoomToilet(p));
+        }
 
 
-		return rooms;
+        return rooms;
     }
 
     public static void NextLevel()

@@ -19,10 +19,15 @@ class RoomToilet : Room
         GenerateBase();
         GenerateDecor();
         GenerateEnemies();
-		GeneratePassive();
-		IsGenerated = true;
+        GeneratePassive();
+        IsGenerated = true;
     }
 
+    public override void Reset()
+    {
+        base.Reset();
+        GenerateDoors(DoorTypes.BASIC);
+    }
     protected override void GenerateBase(FloorTypes floors, WallTypes walls, DoorTypes doors)
     {
         ClearRoom();
@@ -48,7 +53,7 @@ class RoomToilet : Room
         GenStall(Vector2.One);
         GenStall(new Vector2(3, 1));
         GenStall(new Vector2(5, 1));
-		
+
         // urinals
         AddDecoTile(new Vector2(1, 7), new TileDecoration(false, DecorationTypes.URINAL, MathHelper.Pi), true);
         AddDecoTile(new Vector2(3, 7), new TileDecoration(false, DecorationTypes.URINAL, MathHelper.Pi), true);
@@ -72,22 +77,24 @@ class RoomToilet : Room
         AddFloorTile(new Vector2(10, 5), new TileWall(WallTypes.TOILET_DIVIDER_END_ROT));
         AddFloorTile(new Vector2(10, 6), new TileWall(WallTypes.TOILET_DIVIDER));
         AddFloorTile(new Vector2(10, 7), new TileWall(WallTypes.TOILET_T, MathHelper.Pi, SpriteEffects.None));
+        AddDecoTile(new Vector2(10, 6), new TileDecoration(false, DecorationTypes.EMPTY));
+
 
         GenerateDoors(doors);
     }
-	protected override void GeneratePassive()
-	{
-		if (Random.Shared.Next(6) != 0)
-			return;
+    protected override void GeneratePassive()
+    {
+        if (Random.Shared.Next(6) != 0)
+            return;
 
-		List<Vector2> positions = [new Vector2(1,1), new Vector2(3,1), new Vector2(5,1)];
-		for (int i = 0; i < positions.Count; i++)
-			positions[i] = GetTileWorldPos(positions[i]);
-		
-		Entities.Add(new EntityPerloun(positions[Random.Shared.Next(positions.Count)]));
-	}
+        List<Vector2> positions = [new Vector2(1, 1), new Vector2(3, 1), new Vector2(5, 1)];
+        for (int i = 0; i < positions.Count; i++)
+            positions[i] = GetTileWorldPos(positions[i]);
 
-	private void GenStall(Vector2 toiletPos)
+        Entities.Add(new EntityPerloun(positions[Random.Shared.Next(positions.Count)]));
+    }
+
+    private void GenStall(Vector2 toiletPos)
     {
         AddDecoTile(toiletPos, new TileDecoration(false, DecorationTypes.TOILET), true);
         AddFloorTile(toiletPos + new Vector2(1, -1), new TileWall(WallTypes.TOILET_T));
@@ -100,13 +107,13 @@ class RoomToilet : Room
     {
         GenerateEnemies((Storyline.Difficulty / 2) + 1);
     }
-	protected static Texture2D SpriteIcon = TextureManager.GetTexture("iconToilet");
-	public override void DrawMinimapIcon(SpriteBatch spriteBatch, Vector2 position, float scale = 2, bool active = false)
-	{
-		base.DrawMinimapIcon(spriteBatch, position, scale, active);
-		int width = (int)(IconBaseSize.X * scale);
-		int height = (int)(IconBaseSize.Y * scale);
+    protected static Texture2D SpriteIcon = TextureManager.GetTexture("iconToilet");
+    public override void DrawMinimapIcon(SpriteBatch spriteBatch, Vector2 position, float scale = 2, bool active = false)
+    {
+        base.DrawMinimapIcon(spriteBatch, position, scale, active);
+        int width = (int)(IconBaseSize.X * scale);
+        int height = (int)(IconBaseSize.Y * scale);
 
-		spriteBatch.Draw(SpriteIcon, position + (new Vector2(width, height) - new Vector2(SpriteIcon.Width, SpriteIcon.Height)) / 2, Color.White);
-	}
+        spriteBatch.Draw(SpriteIcon, position + (new Vector2(width, height) - new Vector2(SpriteIcon.Width, SpriteIcon.Height)) / 2, Color.White);
+    }
 }
