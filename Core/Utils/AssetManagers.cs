@@ -168,6 +168,7 @@ public static class TextureManager
             "lockerIcon",
             "iconExit",
             "iconNotCleared",
+			"iconToilet",
 
             // Items
             "heal",

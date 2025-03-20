@@ -21,15 +21,8 @@ public class RoomShower : Room
     {
         GenerateBase();
         GenerateEnemies();
-        GeneratePassive();
         IsGenerated = true;
     }
-    protected override void GeneratePassive()
-    {
-        if (Random.Shared.Next(6) == 0)
-            Entities.Add(new EntityPerloun(GetTileWorldPos(new Vector2(3, 3))));
-    }
-
     protected override void GenerateBase()
     {
         ClearRoom();
