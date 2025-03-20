@@ -22,6 +22,7 @@ public sealed class FloorTypes : StringEnum
     public static readonly FloorTypes STAIRS = new FloorTypes("stairs");
     public static readonly FloorTypes HALLWAY = new FloorTypes("floorHallway");
     public static readonly FloorTypes SHOWER = new FloorTypes("showerFloor");
+    public static readonly FloorTypes TOILET = new FloorTypes("floorToilet");
 
     public FloorTypes(string v) : base(v) { }
 }
@@ -45,6 +46,12 @@ public sealed class WallTypes : StringEnum
     public static readonly WallTypes HALLWAY_BLUE_CORNER = new WallTypes("wallBlueCorner");
     public static readonly WallTypes SHOWER = new WallTypes("wallShower");
     public static readonly WallTypes SHOWER_CORNER = new WallTypes("wallShowerCorner");
+    public static readonly WallTypes TOILET = new WallTypes("wallToilet");
+    public static readonly WallTypes TOILET_CORNER = new WallTypes("wallToiletCorner");
+    public static readonly WallTypes TOILET_DIVIDER = new WallTypes("wallDivider");
+    public static readonly WallTypes TOILET_DIVIDER_END = new WallTypes("wallDividerEnd");
+    public static readonly WallTypes TOILET_T = new WallTypes("wallToiletT");
+    public static readonly WallTypes TOILET_DIVIDER_END_ROT = new WallTypes("wallDividerEndRot");
 
     public WallTypes(string v) : base(v) { }
 
@@ -88,5 +95,9 @@ public sealed class DecorationTypes : StringEnum
     public static readonly DecorationTypes SINK = new DecorationTypes("showerSink");
     public static readonly DecorationTypes BENCH = new DecorationTypes("bench");
     public static readonly DecorationTypes WINDOW = new DecorationTypes("window");
+    public static readonly DecorationTypes TOILET = new DecorationTypes("toilet");
+    public static readonly DecorationTypes URINAL = new DecorationTypes("urinal");
+    public static readonly DecorationTypes EMPTY = new DecorationTypes("empty");
+    public static readonly DecorationTypes MIRROR = new DecorationTypes("mirror");
 
 }

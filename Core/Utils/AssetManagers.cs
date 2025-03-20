@@ -18,6 +18,7 @@ public static class TextureManager
             "tile",
             "floorYellow",
             "floorLobby",
+            "floorToilet",
             "stairs",
             "showerClean",
             "showerVomit",
@@ -43,6 +44,13 @@ public static class TextureManager
             "wallLightGreenCorner",
             "wallBlue",
             "wallBlueCorner",
+            "wallToilet",
+            "wallToiletCorner",
+            "wallDivider",
+            "wallDividerEnd",
+            "wallDividerEndRot",
+            "wallToiletT",
+            
             
             // Doors
             "door",
@@ -86,6 +94,10 @@ public static class TextureManager
             "lockerClosed",
             "bench",
             "window",
+            "toilet",
+            "urinal",
+            "empty",
+            "mirror",
 
             // Entities
             "korenovy_vezen",

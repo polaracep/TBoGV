@@ -172,9 +172,11 @@ public abstract class Place : IDraw
         Decorations[(int)position.X, (int)position.Y] = null;
         return true;
     }
-    public bool AddDecoTile(Vector2 position, Tile tile)
+
+    public bool AddDecoTile(Vector2 position, Tile tile) { return AddDecoTile(position, tile, false); }
+    public bool AddDecoTile(Vector2 position, Tile tile, bool overwrite)
     {
-        if (Decorations[(int)position.X, (int)position.Y] != null)
+        if (!overwrite && Decorations[(int)position.X, (int)position.Y] != null)
             return false;
         Decorations[(int)position.X, (int)position.Y] = tile;
         return true;
