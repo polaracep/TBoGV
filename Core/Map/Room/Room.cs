@@ -353,27 +353,47 @@ public abstract class Room : Place
     {
         exitGenerated = true;
         Random rand = new Random();
-        int _x, _y;
-        do
+        int _x = rand.Next((int)Dimensions.X - 2) + 1;
+        int _y = rand.Next((int)Dimensions.Y - 2) + 1;
+
+        bool validPosition = false;
+        // tp pos
+        int tpX = _x, tpY = _y;
+        int dir = rand.Next(4);
+
+        while (!validPosition)
         {
             _x = rand.Next((int)Dimensions.X - 2) + 1;
             _y = rand.Next((int)Dimensions.Y - 2) + 1;
-        }
-        while (Decorations[_x, _y] != null);
 
-        switch (rand.Next(4))
+            tpX = _x;
+            tpY = _y;
+
+            switch (dir)
+            {
+                case 0: tpX = 1; break;
+                case 1: tpX = (int)Dimensions.X - 2; break;
+                case 2: tpY = (int)Dimensions.Y - 2; break;
+                case 3: tpY = 1; break;
+            }
+
+            if (Decorations[tpX, tpY] == null && !Floor[tpX, tpY].DoCollision)
+                validPosition = true;
+        }
+
+        switch (dir)
         {
             case 0:
-                AddDecoTile(new Vector2(0, _y), new TileExit());
+                Decorations[0, _y] = new TileExit();
                 break;
             case 1:
-                AddDecoTile(new Vector2(_x, 0), new TileExit());
+                Decorations[(int)Dimensions.X - 1, _y] = new TileExit();
                 break;
             case 2:
-                AddDecoTile(new Vector2(Dimensions.X - 1, _y), new TileExit());
+                Decorations[_x, 0] = new TileExit();
                 break;
             case 3:
-                AddDecoTile(new Vector2(_x, Dimensions.Y - 1), new TileExit());
+                Decorations[_x, (int)Dimensions.Y - 1] = new TileExit();
                 break;
         }
     }
