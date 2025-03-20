@@ -31,7 +31,7 @@ public class ScreenGame : Screen
         player = GameManager.Player;
 
         Storyline.Player = player;
-        player.Load(SaveType.USER);
+        player.Load(SaveType.GENERIC);
 
         Storyline.GenerateStoryline();
         player.Save(SaveType.AUTO);

@@ -61,16 +61,14 @@ public static class Settings
     public static void Load()
     {
         var data = FileHelper.Load<Dictionary<string, object>>(settingsPath, SaveType.GENERIC);
-        if (data != null)
-        {
-            Deserialize(data);
-        }
-        else
+        if (data == null)
         {
             MusicVolume.Value = 0.1f;
             SfxVolume.Value = 0.5f;
             FixedCamera.Value = false;
             Save();
+            data = FileHelper.Load<Dictionary<string, object>>(settingsPath, SaveType.GENERIC);
         }
+        Deserialize(data);
     }
 }
