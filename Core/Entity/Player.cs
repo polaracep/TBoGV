@@ -417,11 +417,12 @@ public class Player : Entity, IRecieveDmg, IDealDmg
 	{
 		public int CurrentLevelNumber { get; set; }
 		public int Difficulty { get; set; }
+		public int FailedTimes { get; set; }
 		public int Level { get; set; }
 		public float Xp { get; set; }
 		public float Hp { get; set; }
 		public int Coins { get; set; }
-		public Dictionary<string, float> LevelUpStats { get; set; }
+		public Dictionary<StatTypes, float> LevelUpStats { get; set; }
 		public double LastAttackElapsed { get; set; }
 		public double LastRecievedDmgElapsed { get; set; }
 		public float[] Position { get; set; }
@@ -442,7 +443,7 @@ public class Player : Entity, IRecieveDmg, IDealDmg
 	{
 		public string Name { get; set; }
 		public int Level { get; set; }
-		public Dictionary<string, float> Stats { get; set; } = new();
+		public Dictionary<StatTypes, float> Stats { get; set; } = new();
 		public EffectData() { }
 	}
 
@@ -456,7 +457,7 @@ public class Player : Entity, IRecieveDmg, IDealDmg
 				containerData.Add(new ItemContainerData { ItemName = "null", IsEmpty = true, Type = i.ContainerType });
 		List<EffectData> EffectsData = new List<EffectData>();
 		foreach (var e in Inventory.Effects)
-			EffectsData.Add(new EffectData { Level = e.Level, Name = e.Name, Stats = StatConverter.ConvertToStringDictionary(e.Stats) });
+			EffectsData.Add(new EffectData { Level = e.Level, Name = e.Name, Stats = e.Stats });
 
 		PlayerData data = new PlayerData
 		{
@@ -465,13 +466,14 @@ public class Player : Entity, IRecieveDmg, IDealDmg
 			Xp = Xp,
 			Hp = Hp,
 			Coins = Coins,
-			LevelUpStats = StatConverter.ConvertToStringDictionary(LevelUpStats),
+			LevelUpStats = LevelUpStats,
 			LastAttackElapsed = LastAttackElapsed,
 			LastRecievedDmgElapsed = LastRecievedDmgElapsed,
 			ItemContainers = containerData,
 			Effects = EffectsData,
 			CurrentLevelNumber = Storyline.CurrentLevelNumber,
 			Difficulty = Storyline.Difficulty,
+			FailedTimes = Storyline.FailedTimes,
 		};
 		FileHelper.Save("tbogv_player.json", data, saveType);
 	}
@@ -485,11 +487,12 @@ public class Player : Entity, IRecieveDmg, IDealDmg
 			Xp = data.Xp;
 			Hp = data.Hp;
 			Coins = data.Coins;
-			LevelUpStats = StatConverter.ConvertToStatDictionary(data.LevelUpStats);
+			LevelUpStats = data.LevelUpStats;
 			LastAttackElapsed = data.LastAttackElapsed;
 			LastRecievedDmgElapsed = data.LastRecievedDmgElapsed;
 			Storyline.CurrentLevelNumber = data.CurrentLevelNumber;
 			Storyline.Difficulty = data.Difficulty;
+			Storyline.FailedTimes = data.FailedTimes;
 			// Restore Item Containers
 			Inventory.ItemContainers.Clear();
 			foreach (var itemData in data.ItemContainers)
@@ -511,7 +514,7 @@ public class Player : Entity, IRecieveDmg, IDealDmg
 			{
 				var effect = EffectDatabase.GetEffectByName(effectData.Name);
 				effect.Level = effectData.Level;
-				effect.Stats = StatConverter.ConvertToStatDictionary(effectData.Stats);
+				effect.Stats = effectData.Stats;
 				Inventory.Effects.Add(effect);
 			}
 		}
