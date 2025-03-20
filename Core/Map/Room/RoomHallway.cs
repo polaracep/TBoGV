@@ -75,7 +75,7 @@ public class RoomHallway : Room
     }
     protected override void GenerateEnemies()
     {
-        GenerateEnemies(Storyline.Difficulty);
+        GenerateEnemies((int)(1 + (Storyline.Difficulty - 1) * 0.4));
     }
 
     protected override void GenerateDecor()

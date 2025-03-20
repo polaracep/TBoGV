@@ -126,7 +126,7 @@ public class RoomClassroom : Room
     }
     protected override void GenerateEnemies()
     {
-        GenerateEnemies((int)(2 + (Storyline.Difficulty - 1) * 1.5));
+        GenerateEnemies((int)(2 + (Storyline.Difficulty - 1)));
     }
     Texture2D SpriteIconExit = TextureManager.GetTexture("iconExit");
     Texture2D SpriteIconNotCleared = TextureManager.GetTexture("iconNotCleared");
