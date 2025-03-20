@@ -96,7 +96,7 @@ internal class EnemyLol : EnemyRanged
 
     public override void InitStats(int difficulty)
     {
-        Hp = difficulty * 3 - 2;
+        Hp = difficulty * 1.25f + 0.75f;
         MovementSpeed = 2;
         AttackSpeed = 700 - (40 * difficulty);
         AttackDmg = 1;
