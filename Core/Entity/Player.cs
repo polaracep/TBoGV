@@ -363,7 +363,7 @@ public class Player : Entity, IRecieveDmg, IDealDmg
 	}
 	public int XpForLevel()
 	{
-		return 5 + Level * 2;
+		return 1 + Level * 2;
 	}
 	private void LevelUp()
 	{
@@ -385,13 +385,13 @@ public class Player : Entity, IRecieveDmg, IDealDmg
 	{
 		BaseStats = new Dictionary<StatTypes, float>()
 		{
-			{ StatTypes.MAX_HP, 3 },
-			{ StatTypes.DAMAGE, 1 },
-			{ StatTypes.PROJECTILE_COUNT, 1 },
-			{ StatTypes.XP_GAIN, 1 },
-			{ StatTypes.ATTACK_SPEED, 1500 },
-			{ StatTypes.MOVEMENT_SPEED, 5 }
-		};
+            { StatTypes.MAX_HP, 3 },
+            { StatTypes.DAMAGE, 1 },
+            { StatTypes.PROJECTILE_COUNT, 1 },
+            { StatTypes.XP_GAIN, 1 },
+            { StatTypes.ATTACK_SPEED, 1500 },
+            { StatTypes.MOVEMENT_SPEED, 3.5f }
+        };
 		LevelUpStats = new Dictionary<StatTypes, float>()
 		{
 			{ StatTypes.MAX_HP, 0 },
@@ -408,6 +408,7 @@ public class Player : Entity, IRecieveDmg, IDealDmg
 		Inventory = new();
 		SetStats();
 		Hp = MaxHp;
+		Xp = 0;
 		LastRecievedDmgElapsed = InvulnerabilityFrame;
 		// fuj
 		Position = new Lobby(this).SpawnPos * 50;
