@@ -42,6 +42,7 @@ class TutorialRoom : RoomClassroom
         GenerateDecor();
         if (!Peaceful)
             GenerateEnemies();
+        IsGenerated = true;
     }
 
     protected override void GenerateEnemies()
