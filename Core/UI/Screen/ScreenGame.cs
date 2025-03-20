@@ -245,9 +245,8 @@ public class ScreenGame : Screen
 
         Storyline.ResetLevel();
         InGameMenuShop.ResetShop();
+        SendPlayerToLobby();
 
-
-        SendPlayerToLevel();
         Storyline.FailedTimes++;
         if (Storyline.FailedTimes >= 3)
         {
