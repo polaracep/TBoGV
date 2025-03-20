@@ -82,9 +82,8 @@ class RoomToilet : Room
 
 		List<Vector2> positions = [new Vector2(1,1), new Vector2(3,1), new Vector2(5,1)];
 		for (int i = 0; i < positions.Count; i++)
-		{
 			positions[i] = GetTileWorldPos(positions[i]);
-		}
+		
 		Entities.Add(new EntityPerloun(positions[Random.Shared.Next(positions.Count)]));
 	}
 
@@ -101,4 +100,13 @@ class RoomToilet : Room
     {
         GenerateEnemies((Storyline.Difficulty / 2) + 1);
     }
+	protected static Texture2D SpriteIcon = TextureManager.GetTexture("iconToilet");
+	public override void DrawMinimapIcon(SpriteBatch spriteBatch, Vector2 position, float scale = 2, bool active = false)
+	{
+		base.DrawMinimapIcon(spriteBatch, position, scale, active);
+		int width = (int)(IconBaseSize.X * scale);
+		int height = (int)(IconBaseSize.Y * scale);
+
+		spriteBatch.Draw(SpriteIcon, position + (new Vector2(width, height) - new Vector2(SpriteIcon.Width, SpriteIcon.Height)) / 2, Color.White);
+	}
 }
