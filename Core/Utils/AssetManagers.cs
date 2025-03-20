@@ -280,6 +280,13 @@ public static class SoundManager
             "neverGonnaGiveUUp",
             "shower",
             "triangle",
+            "knedlicek",
+            "moreBullets",
+            "ctyriMinuty",
+            "zdena1",
+            "zdena2",
+            "zdena3",
+            "zaklineno",
         };
 
         foreach (string name in names)

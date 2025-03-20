@@ -2,6 +2,7 @@
 using System;
 using Microsoft.Xna.Framework;
 using System.Collections.Generic;
+using Microsoft.Xna.Framework.Audio;
 namespace TBoGV;
 
 class EnemyJirka : EnemyRanged
@@ -91,7 +92,35 @@ class EnemyJirka : EnemyRanged
 		LastAttackElapsed = 0;
 		return projectiles;
 	}
-
+    private static List<SoundEffectInstance> Sfx = [
+    SoundManager.GetSound("ctyriMinuty").CreateInstance(),
+	];
+    private static double ambientElapsed = 0;
+    private static double ambientTime = 3000;
+    private static bool CanPlaySfx()
+    {
+        return ambientElapsed > ambientTime;
+    }
+    private static void PlayAmbientSfx()
+    {
+        if (!CanPlaySfx())
+            return;
+        SoundEffectInstance sfx = Sfx[random.Next(Sfx.Count)];
+        sfx.Play();
+        ambientElapsed = 0;
+        ambientTime = random.Next(4000, 6400);
+    }
+    public static void UpdateSfx(double dt)
+    {
+        ambientElapsed += dt;
+        if (CanPlaySfx())
+            PlayAmbientSfx();
+    }
+    public static void StopSfx()
+    {
+        foreach (SoundEffectInstance sfx in Sfx)
+            sfx.Stop();
+    }
     public override void InitStats(int difficulty)
 	{
 		Hp = 2 + (0.75f * (difficulty - 1));

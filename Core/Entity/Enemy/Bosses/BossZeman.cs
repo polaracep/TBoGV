@@ -228,7 +228,6 @@ class BossZeman : EnemyBoss
 		currentFrame = Convert.ToInt32(!lookingLeft) + Convert.ToInt32(!Rage) * 2;
 		Rectangle sourceRect = new Rectangle(currentFrame * frameWidth, 0, frameWidth, frameHeight);
 		spriteBatch.Draw(Spritesheet, new Rectangle((int)Position.X, (int)Position.Y, (int)(Size.X), (int)(Size.Y)), sourceRect, Color.White);
-
 	}
 
     public override void InitStats(int difficulty)
