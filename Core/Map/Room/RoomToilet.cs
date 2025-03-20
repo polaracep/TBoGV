@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -18,7 +19,8 @@ class RoomToilet : Room
         GenerateBase();
         GenerateDecor();
         GenerateEnemies();
-        IsGenerated = true;
+		GeneratePassive();
+		IsGenerated = true;
     }
 
     protected override void GenerateBase(FloorTypes floors, WallTypes walls, DoorTypes doors)
@@ -46,7 +48,7 @@ class RoomToilet : Room
         GenStall(Vector2.One);
         GenStall(new Vector2(3, 1));
         GenStall(new Vector2(5, 1));
-
+		
         // urinals
         AddDecoTile(new Vector2(1, 7), new TileDecoration(false, DecorationTypes.URINAL, MathHelper.Pi), true);
         AddDecoTile(new Vector2(3, 7), new TileDecoration(false, DecorationTypes.URINAL, MathHelper.Pi), true);
@@ -73,8 +75,20 @@ class RoomToilet : Room
 
         GenerateDoors(doors);
     }
+	protected override void GeneratePassive()
+	{
+		if (Random.Shared.Next(6) != 0)
+			return;
 
-    private void GenStall(Vector2 toiletPos)
+		List<Vector2> positions = [new Vector2(1,1), new Vector2(3,1), new Vector2(5,1)];
+		for (int i = 0; i < positions.Count; i++)
+		{
+			positions[i] = GetTileWorldPos(positions[i]);
+		}
+		Entities.Add(new EntityPerloun(positions[Random.Shared.Next(positions.Count)]));
+	}
+
+	private void GenStall(Vector2 toiletPos)
     {
         AddDecoTile(toiletPos, new TileDecoration(false, DecorationTypes.TOILET), true);
         AddFloorTile(toiletPos + new Vector2(1, -1), new TileWall(WallTypes.TOILET_T));

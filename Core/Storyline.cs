@@ -68,10 +68,19 @@ public static class Storyline
         for (int i = 0; i < hallwayCount; i++)
             rooms.Add(new RoomHallway(p));
 
-        for (int i = 0; i < specialRoomCount; i++)
-            rooms.Add(rand.Next(2) == 0 ? new RoomShower(p) : new RoomLocker(p));
+		for (int i = 0; i < specialRoomCount; i++)
+		{
+			int roomType = rand.Next(3);
+			if (roomType == 0)
+				rooms.Add(new RoomShower(p));
+			else if (roomType == 1)
+				rooms.Add(new RoomLocker(p));
+			else
+				rooms.Add(new RoomToilet(p));
+		}
 
-        return rooms;
+
+		return rooms;
     }
 
     public static void NextLevel()
