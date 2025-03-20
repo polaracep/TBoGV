@@ -28,7 +28,9 @@ class BossZeman : EnemyBoss
 	private Vector2 targetPosition;
 	private float pathUpdateCooldown = 0.1f;
 	private bool Rage = false;
-	public BossZeman(Vector2 position)
+
+	private float BaseMovementSpeed {  get; set; }
+    public BossZeman(Vector2 position)
 	{
 		Position = position;
 		Scale = 50f / Math.Max(frameWidth, frameHeight);
@@ -105,8 +107,11 @@ class BossZeman : EnemyBoss
 	}
 	public override void Move(Place place)
 	{
-		// Check if the cooldown has passed based on DateTime
-		if (lastPathUpdateElapsed >= pathUpdateCooldown && (path.Count == 0 || targetPosition != PlayerPosition))
+		RoomBossZeman r = (RoomBossZeman)place;
+
+        this.MovementSpeed = r.IsSlowZone(new Rectangle(Position.ToPoint(), Size.ToPoint())) ?  2 : BaseMovementSpeed;
+        // Check if the cooldown has passed based on DateTime
+        if (lastPathUpdateElapsed >= pathUpdateCooldown && (path.Count == 0 || targetPosition != PlayerPosition))
 		{
 			// Update path and target position
 			path = FindPath(Position, PlayerPosition - Size / 2, place);
@@ -228,8 +233,8 @@ class BossZeman : EnemyBoss
 
     public override void InitStats(int difficulty)
 	{
-		Hp = 70;
-		MovementSpeed = 7;
+		Hp = 130;
+		MovementSpeed = BaseMovementSpeed =  7;
 		AttackDmg = 2;
 		AttackSpeed = 0;
 		XpValue = 70;
