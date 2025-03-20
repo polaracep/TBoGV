@@ -2149,6 +2149,18 @@
 /processorParam:TextureFormat=Color
 /build:Textures/iconNotCleared.png
 
+#begin Textures/iconToilet.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Textures/iconToilet.png
+
 #begin Textures/jatrovyKnedlicek.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -2748,6 +2760,18 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Textures/milosSpritesheet.png
+
+#begin Textures/mirror.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Textures/mirror.png
 
 #begin Textures/mirror.png
 /importer:TextureImporter

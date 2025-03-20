@@ -82,9 +82,8 @@ class RoomToilet : Room
 
 		List<Vector2> positions = [new Vector2(1,1), new Vector2(3,1), new Vector2(5,1)];
 		for (int i = 0; i < positions.Count; i++)
-		{
 			positions[i] = GetTileWorldPos(positions[i]);
-		}
+		
 		Entities.Add(new EntityPerloun(positions[Random.Shared.Next(positions.Count)]));
 	}
 
