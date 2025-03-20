@@ -132,6 +132,12 @@ public abstract class Place : IDraw
         else
             return (t.Item1?.DoCollision ?? false) || (t.Item2?.DoCollision ?? false);
     }
+    public bool ShouldCollideAtGrid(Vector2 Coords)
+    {
+        Tile tf = Floor[(int)Coords.X, (int)Coords.Y];
+        Tile td = Decorations[(int)Coords.X, (int)Coords.Y];
+        return (tf?.DoCollision ?? false) || (td?.DoCollision ?? false);
+    }
     public bool ShouldCollideAt(Rectangle rect)
     {
         //experimental
@@ -148,8 +154,8 @@ public abstract class Place : IDraw
         {
             for (int y = startY; y <= endY; y++)
             {
-                Vector2 tileCoords = new Vector2(x * tileSize.X, y * tileSize.Y);
-                if (ShouldCollideAt(tileCoords))
+                Vector2 tileCoords = new Vector2(x, y);
+                if (ShouldCollideAtGrid(tileCoords))
                     return true; // If any tile collides, return true
             }
         }

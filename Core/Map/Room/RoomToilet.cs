@@ -18,16 +18,12 @@ class RoomToilet : Room
     {
         GenerateBase();
         GenerateDecor();
-        GenerateEnemies();
         GeneratePassive();
+        ClearEnemies();
+        GenerateEnemies();
         IsGenerated = true;
     }
 
-    public override void Reset()
-    {
-        base.Reset();
-        GenerateDoors(DoorTypes.BASIC);
-    }
     protected override void GenerateBase(FloorTypes floors, WallTypes walls, DoorTypes doors)
     {
         ClearRoom();

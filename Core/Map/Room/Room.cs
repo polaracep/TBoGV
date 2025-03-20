@@ -239,8 +239,8 @@ public abstract class Room : Place
         foreach (var enemy in chosenEnemies)
         {
 
-            // max 100 tries
-            for (int i = 0; i < 100; i++)
+            // max 150 tries
+            for (int i = 0; i < 150; i++)
             {
                 Vector2 spawnPos = new Vector2(
                     Random.Shared.Next(50 * ((int)Dimensions.X - 3)) + 50,
