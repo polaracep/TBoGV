@@ -27,7 +27,7 @@ public static class Storyline
     {
         LevelList = [
             //new Level(p, [ new RoomLocker( p) , new RoomLocker(p), new RoomLocker(p), new RoomLocker(p), new RoomLocker(p)], new RoomStart(p), new RoomStart(p), 2),
-            new Level(p, [ new RoomToilet(p)], new RoomStart(p), new RoomStart(p), 2),
+            //new Level(p, [ new RoomToilet(p)], new RoomStart(p), new RoomStart(p), 2),
 
             new Level(p, GenerateLevelRooms(5, 8), new RoomStart(p), new RoomClassroom(p), 3),
             new Level(p, GenerateLevelRooms(5, 8), new RoomStart(p), new RoomBossSvarta(p), 3),
