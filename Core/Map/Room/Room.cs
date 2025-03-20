@@ -215,6 +215,7 @@ public abstract class Room : Place
     protected abstract void GenerateEnemies();
     protected void GenerateEnemies(int roomWeight)
     {
+
         List<Enemy> chosenEnemies = new List<Enemy>();
         if (EnemyPool.Count == 0)
         {
@@ -229,6 +230,10 @@ public abstract class Room : Place
 
         // 1 enemy for 'concentration' tiles
         int weight = 0;
+        int weightCap = 7;
+        if (roomWeight > weightCap)
+            roomWeight = weightCap;
+
         while (weight < roomWeight)
         {
             Enemy e = (Enemy)EnemyPool[Random.Shared.Next(EnemyPool.Count)].Clone();

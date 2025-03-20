@@ -53,10 +53,10 @@ public abstract class ItemContainerable : Item
 	{
 		switch (Rarity)
 		{
-			case 1: return 11;
-				case 2: return 23;
-				case 3: return 35;
-				case 4: return 60;
+			case 1: return 12;
+			case 2: return 25;
+			case 3: return 45;
+			case 4: return 70;
 			default:
                 return 0;
         }
@@ -92,55 +92,6 @@ public enum ItemTypes : int
 	WEAPON = 1,
 	ARMOR = 2,
 	BASIC = 3,
-}
-public static class StatConverter
-{
-	private static readonly Dictionary<string, StatTypes> stringToStatMap = new()
-	{
-		{ "MAX_HP", StatTypes.MAX_HP },
-		{ "DAMAGE", StatTypes.DAMAGE },
-		{ "PROJECTILE_COUNT", StatTypes.PROJECTILE_COUNT },
-		{ "XP_GAIN", StatTypes.XP_GAIN },
-		{ "ATTACK_SPEED", StatTypes.ATTACK_SPEED },
-		{ "MOVEMENT_SPEED", StatTypes.MOVEMENT_SPEED }
-	};
-	private static readonly Dictionary<StatTypes, string> statToStringMap = new()
-	{
-		{ StatTypes.MAX_HP, "MAX_HP" },
-		{ StatTypes.DAMAGE, "DAMAGE" },
-		{ StatTypes.PROJECTILE_COUNT, "PROJECTILE_COUNT" },
-		{ StatTypes.XP_GAIN, "XP_GAIN" },
-		{ StatTypes.ATTACK_SPEED, "ATTACK_SPEED" },
-		{ StatTypes.MOVEMENT_SPEED, "MOVEMENT_SPEED" }
-	};
-	public static Dictionary<StatTypes, float> ConvertToStatDictionary(Dictionary<string, float> input)
-	{
-		Dictionary<StatTypes, float> result = new();
-
-		foreach (var pair in input)
-		{
-			if (stringToStatMap.TryGetValue(pair.Key, out StatTypes statType))
-			{
-				result[statType] = pair.Value;
-			}
-		}
-
-		return result;
-	}
-	public static Dictionary<string, float> ConvertToStringDictionary(Dictionary<StatTypes, float> input)
-	{
-		Dictionary<string, float> result = new();
-
-		foreach (var pair in input)
-		{
-			if (statToStringMap.TryGetValue(pair.Key, out string statName))
-			{
-				result[statName] = pair.Value;
-			}
-		}
-
-		return result;
-	}
 }
 public static class ItemDatabase
 {
@@ -194,7 +145,6 @@ public static class ItemDatabase
 			ItemsByName[item.Name] = item;
 		}
 	}
-
 	public static ItemContainerable GetItemByName(string name)
 	{
 		return ItemsByName.TryGetValue(name, out var item) ? (ItemContainerable)Activator.CreateInstance(item.GetType()) : null;
@@ -203,5 +153,4 @@ public static class ItemDatabase
 	{
 		return ItemsByName.Values.ToList();
 	}
-
 }

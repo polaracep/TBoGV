@@ -95,8 +95,8 @@ class EnemySoldier : EnemyRanged
 
     public override void InitStats(int difficulty)
 	{
-		Hp = (float)Math.Ceiling((float)difficulty);
-		MovementSpeed = 1 + (difficulty / 3);
+        Hp = 1 + (0.5f * (difficulty - 1));
+        MovementSpeed = 1 + (difficulty / 3);
 		AttackSpeed = 800 - (difficulty * 25);
 		AttackDmg = 1;
         XpValue = 1 + difficulty / 2;

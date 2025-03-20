@@ -31,10 +31,7 @@ public class ScreenGame : Screen
         player = GameManager.Player;
 
         Storyline.Player = player;
-        player.Load(SaveType.GENERIC);
-
         Storyline.GenerateStoryline();
-        player.Save(SaveType.AUTO);
 
         lobby = new Lobby(player);
 
@@ -57,6 +54,10 @@ public class ScreenGame : Screen
         MediaPlayer.Volume = (float)Convert.ToDouble(Settings.MusicVolume.Value);
 
         SendPlayerToLobby();
+
+        player.Load(SaveType.GENERIC);
+        player.Load(SaveType.AUTO);
+        player.Save(SaveType.AUTO);
     }
 
     public override void Draw(SpriteBatch _spriteBatch, GraphicsDeviceManager graphics)
@@ -248,6 +249,7 @@ public class ScreenGame : Screen
         SendPlayerToLobby();
 
         Storyline.FailedTimes++;
+        player.Save(SaveType.AUTO);
         if (Storyline.FailedTimes >= 3)
         {
             SendPlayerToLobby();
