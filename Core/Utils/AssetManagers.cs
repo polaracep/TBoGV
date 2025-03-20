@@ -285,7 +285,6 @@ public static class SoundManager
         return soundEffects.GetValueOrDefault(name);
     }
 }
-
 public static class FontManager
 {
     private static Dictionary<string, SpriteFont> fonts = new Dictionary<string, SpriteFont>();
@@ -311,11 +310,16 @@ public static class FontManager
         return fonts.GetValueOrDefault(name);
     }
 }
-
 public static class DialogueManager
 {
     private static Dictionary<string, JsonDocument> dialogues = new Dictionary<string, JsonDocument>();
 
+    static DialogueManager()
+    {
+        // This dummy reference ensures that the JsonDocumentReader type is loaded,
+        // so MonoGame can find it when loading content.
+        var ensureReader = typeof(JsonDocumentReader);
+    }
     public static void Load(ContentManager content)
     {
         List<string> names = new List<string>
