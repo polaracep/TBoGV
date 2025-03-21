@@ -303,7 +303,7 @@ public class LevelCreator
 
     public static void PrintMap(Room[,] map)
     {
-#if _debug
+#if DEBUG
         for (int y = 0; y < map.GetLength(1); y++)
         {
             for (int x = 0; x < map.GetLength(0); x++)
@@ -320,7 +320,7 @@ public class LevelCreator
     }
     private void PrintMap(RoomCandidate[,] map)
     {
-#if _debug
+#if DEBUG
         for (int y = 0; y < Size; y++)
         {
             for (int x = 0; x < Size; x++)

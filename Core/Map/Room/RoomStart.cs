@@ -13,7 +13,7 @@ public class RoomStart : RoomHallway
     {
         base.Generate();
 
-#if _debug
+#if DEBUG
         AddDecoTile(this.Dimensions / 2, new TileHeal());
 #endif
     }
