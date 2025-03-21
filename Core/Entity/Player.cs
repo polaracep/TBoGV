@@ -32,6 +32,7 @@ public class Player : Entity, IRecieveDmg, IDealDmg
 	protected List<Item> ItemsToDrop = new List<Item>();
 	private MouseState previousMouseState;
 	private KeyboardState prevKeyboardState;
+	private string dataPath = "./tbogv_player.json";
 
 	public Player(Vector2 position)
 	{
@@ -385,13 +386,13 @@ public class Player : Entity, IRecieveDmg, IDealDmg
 	{
 		BaseStats = new Dictionary<StatTypes, float>()
 		{
-            { StatTypes.MAX_HP, 3 },
-            { StatTypes.DAMAGE, 1 },
-            { StatTypes.PROJECTILE_COUNT, 1 },
-            { StatTypes.XP_GAIN, 1 },
-            { StatTypes.ATTACK_SPEED, 1500 },
-            { StatTypes.MOVEMENT_SPEED, 3.5f }
-        };
+			{ StatTypes.MAX_HP, 3 },
+			{ StatTypes.DAMAGE, 1 },
+			{ StatTypes.PROJECTILE_COUNT, 1 },
+			{ StatTypes.XP_GAIN, 1 },
+			{ StatTypes.ATTACK_SPEED, 1500 },
+			{ StatTypes.MOVEMENT_SPEED, 3.5f }
+		};
 		LevelUpStats = new Dictionary<StatTypes, float>()
 		{
 			{ StatTypes.MAX_HP, 0 },
@@ -474,11 +475,11 @@ public class Player : Entity, IRecieveDmg, IDealDmg
 			CurrentLevelNumber = Storyline.CurrentLevelNumber,
 			FailedTimes = Storyline.FailedTimes,
 		};
-		FileHelper.Save("tbogv_player.json", data, saveType);
+		FileHelper.Save(dataPath, data, saveType);
 	}
 	public void Load(SaveType saveType)
 	{
-		PlayerData data = FileHelper.Load<PlayerData>("tbogv_player.json", saveType);
+		PlayerData data = FileHelper.Load<PlayerData>(dataPath, saveType);
 		if (data != null)
 		{
 			Position = new Vector2(data.Position[0], data.Position[1]);
