@@ -187,7 +187,7 @@ public class ScreenGame : Screen
             else if (activeMenu is InGameMenuDialogue)
                 activeMenu = null;
 #endif
-            else if (activeMenu is not InGameMenuDialogue && activeMenu is not InGameMenuDeath)
+            else if (activeMenu is not InGameMenuDialogue && activeMenu is not InGameMenuDeath && activeMenu is not InGameMenuLevelUp)
                 activeMenu = null;
         }
         if (KeyReleased(Keys.J) && MinigameRooted.State != MinigameState.ONGOING)
@@ -201,6 +201,10 @@ public class ScreenGame : Screen
                 activeMenu = new InGameMenuMinimap(_viewport, player);
         }
 #if DEBUG
+        if (keyboardState.IsKeyDown(Keys.Tab) && previousKeyboardState.IsKeyUp(Keys.Tab))
+        {
+
+        }
         if (keyboardState.IsKeyDown(Keys.P) && previousKeyboardState.IsKeyUp(Keys.P))
         {
             if (activePlace is Lobby)
