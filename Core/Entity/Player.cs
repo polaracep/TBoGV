@@ -510,7 +510,15 @@ public class PlayerData
 
     public Dictionary<string, object> GetDict()
     {
-        Dictionary<string, object> dict = new()
+		List<Dictionary<string, object>> eff = new();
+		foreach (var e in Effects)
+			eff.Add(e.Serialize());
+
+		List<Dictionary<string, object>> con = new();
+		foreach (var c in ItemContainers)
+			con.Add(c.Serialize());
+
+		Dictionary<string, object> dict = new()
         {
             { "cln", this.CurrentLevelNumber },
             { "ft", this.FailedTimes },
@@ -522,8 +530,8 @@ public class PlayerData
             { "lae", this.LastAttackElapsed },
             { "lrde", this.LastRecievedDmgElapsed },
             { "p", this.Position },
-            { "con", this.ItemContainers },
-            { "ef", this.Effects.ForEach(x => x.Serialize()) }
+            { "con", con},
+            { "ef", eff}
         };
 
         return dict;
@@ -571,17 +579,34 @@ public class PlayerData
             // Assuming Position is stored as a float array.
             this.Position = pObj as float[];
         }
+		if (dict.TryGetValue("con", out object conObj))
+		{
+			if (conObj is List<Dictionary<string, object>> containers)
+			{
+				this.ItemContainers = new();
+				foreach (var item in containers)
+				{
+					ItemContainerData data = new ItemContainerData();
+					data.Deserialize(item);
+					ItemContainers.Add(data);
+				}
+			}
+			else
+			{
+				Console.WriteLine("conObj není List<Dictionary<string, object>>");
+			}
+		}
 
-        if (dict.TryGetValue("con", out object conObj))
+		if (dict.TryGetValue("ef", out object efObj))
         {
-            // Assuming ItemContainers is stored as List<ItemContainerData>
-            this.ItemContainers = conObj as List<ItemContainerData>;
-        }
-
-        if (dict.TryGetValue("ef", out object efObj))
-        {
-            // Assuming Effects is stored as List<EffectData>
-            this.Effects = efObj as List<EffectData>;
+			// Assuming Effects is stored as List<EffectData>
+			//this.Effects = new();
+			//foreach (var item in efObj as List<Dictionary<string, object>>)
+			//{
+			//	EffectData data = new EffectData();
+			//	data.Deserialize(item);
+			//	Effects.Add(data);
+			//}
         }
     }
 
@@ -606,8 +631,9 @@ public class ItemContainerData
 
     public void Deserialize(Dictionary<string, object> dict)
     {
-
-
+		ItemName = (string)dict["name"];
+		Type = (ItemTypes)dict["type"];
+		IsEmpty = (bool)dict["empty"];
     }
 }
 
@@ -628,8 +654,9 @@ public class EffectData
     }
 
     public void Deserialize(Dictionary<string, object> dict)
-    {
-
-
-    }
+	{
+		Name = (string)dict["name"];
+		Level = (int)dict["level"];
+		Stats = (Dictionary<StatTypes, float>)dict["stats"];
+	}
 }
