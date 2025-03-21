@@ -19,7 +19,7 @@ public static class Storyline
     private static Player p;
 
     /// <summary>
-    /// Difficulty level in base game ranges from 1 to 8
+    /// Difficulty level in base game ranges from 1 to 16
     /// </summary>
     public static int Difficulty = 0;
     public static int FailedTimes = 0;
@@ -107,6 +107,7 @@ public static class Storyline
         CurrentLevel = LevelList[CurrentLevelNumber];
         CurrentLevel.Reset();
         FailedTimes = f;
+        CurrentLevelNumber--;
     }
     public static void ResetStoryline()
     {

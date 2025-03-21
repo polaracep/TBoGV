@@ -16,7 +16,7 @@ class EntitySkolnik : EntityPassive
     protected Queue<Vector2> path = new Queue<Vector2>();
     public EntitySkolnik(Vector2 position) : base(position, NAME)
     {
-        MovementSpeed = 3;
+        MovementSpeed = GameManager.Player.MovementSpeed;
     }
     public EntitySkolnik() : base(NAME) { MovementSpeed = 3; }
 
@@ -27,7 +27,6 @@ class EntitySkolnik : EntityPassive
     public void Update(double dt)
     {
         lastPathUpdateElapsed += dt;
-
     }
     private void FollowPath()
     {
