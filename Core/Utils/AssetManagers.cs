@@ -287,6 +287,7 @@ public static class SoundManager
             "zdena2",
             "zdena3",
             "zaklineno",
+            "lol",
         };
 
         foreach (string name in names)
