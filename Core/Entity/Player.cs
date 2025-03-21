@@ -1,11 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
+using System.Globalization;
 using System.Linq;
+using System.Text.Json;
 using System.Text.Json.Serialization;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Newtonsoft.Json.Linq;
 
 namespace TBoGV;
 
@@ -433,7 +437,7 @@ public class Player : Entity, IRecieveDmg, IDealDmg
 
         PlayerData data = new PlayerData
         {
-            Position = new float[2] { Position.X, Position.Y },
+            Position = Position,
             Level = Level,
             Xp = Xp,
             Hp = Hp,
@@ -452,9 +456,9 @@ public class Player : Entity, IRecieveDmg, IDealDmg
     {
         PlayerData data = new();
         data.SetDict(FileHelper.Load<Dictionary<string, object>>(dataPath, saveType));
-        if (data.Position != null)
+        if (data.Position.X != 0 && data.Position.Y != 0)
         {
-            Position = new Vector2(data.Position[0], data.Position[1]);
+            Position = data.Position;
             Level = data.Level;
             Xp = data.Xp;
             Hp = data.Hp;
@@ -503,7 +507,7 @@ public class PlayerData
     public Dictionary<StatTypes, float> LevelUpStats { get; set; }
     public double LastAttackElapsed { get; set; }
     public double LastRecievedDmgElapsed { get; set; }
-    public float[] Position { get; set; }
+    public Vector2 Position { get; set; }
     public List<ItemContainerData> ItemContainers { get; set; }
     public List<EffectData> Effects { get; set; }
     public PlayerData() { }
@@ -561,53 +565,121 @@ public class PlayerData
         if (dict.TryGetValue("coin", out object coinObj))
             this.Coins = Convert.ToInt32(coinObj);
 
-        if (dict.TryGetValue("lus", out object lusObj))
-        {
-            // Assuming LevelUpStats is stored as Dictionary<StatTypes, float>
-            // Otherwise, add conversion logic if needed.
-            this.LevelUpStats = lusObj as Dictionary<StatTypes, float>;
-        }
+		if (dict.TryGetValue("lus", out object lusObj))
+		{
+			Console.WriteLine($"Raw lusObj type: {lusObj?.GetType()}");
 
-        if (dict.TryGetValue("lae", out object laeObj))
+			if (lusObj is JObject lusJObject)  // If stored as JObject, convert to dictionary
+			{
+				LevelUpStats = new Dictionary<StatTypes, float>();
+
+				foreach (var kvp in lusJObject)
+				{
+					Console.WriteLine($"Key: {kvp.Key} (Type: {kvp.Key.GetType()}), Value: {kvp.Value} (Type: {kvp.Value?.Type})");
+
+					if (Enum.TryParse(kvp.Key, out StatTypes statType))
+					{
+						if (kvp.Value.Type == JTokenType.Float)
+						{
+							LevelUpStats[statType] = kvp.Value.ToObject<float>();
+						}
+						else if (kvp.Value.Type == JTokenType.Integer)
+						{
+							LevelUpStats[statType] = kvp.Value.ToObject<int>();  // Convert int to float
+						}
+					}
+				}
+			}
+			else
+			{
+				Console.WriteLine("lusObj is not a JObject.");
+				LevelUpStats = new Dictionary<StatTypes, float>();  // Default empty dictionary
+			}
+		}
+		else
+		{
+			Console.WriteLine("Key 'lus' not found in dictionary.");
+		}
+
+
+		if (dict.TryGetValue("lae", out object laeObj))
             this.LastAttackElapsed = Convert.ToDouble(laeObj);
 
         if (dict.TryGetValue("lrde", out object lrdeObj))
             this.LastRecievedDmgElapsed = Convert.ToDouble(lrdeObj);
 
-        if (dict.TryGetValue("p", out object pObj))
-        {
-            // Assuming Position is stored as a float array.
-            this.Position = pObj as float[];
-        }
-		if (dict.TryGetValue("con", out object conObj))
+		if (dict.TryGetValue("p", out object pObj))
 		{
-			if (conObj is List<Dictionary<string, object>> containers)
+			Console.WriteLine($"Raw pObj type: {pObj?.GetType()}");
+
+			if (pObj is string pStr)
 			{
-				this.ItemContainers = new();
-				foreach (var item in containers)
+				string[] parts = pStr.Split(',');
+				if (parts.Length == 2 &&
+					float.TryParse(parts[0], NumberStyles.Float, CultureInfo.InvariantCulture, out float x) &&
+					float.TryParse(parts[1], NumberStyles.Float, CultureInfo.InvariantCulture, out float y))
 				{
-					ItemContainerData data = new ItemContainerData();
-					data.Deserialize(item);
-					ItemContainers.Add(data);
+					this.Position = new Vector2(x, y);
+				}
+				else
+				{
+					Console.WriteLine("Failed to parse position string.");
+					this.Position = Vector2.Zero; // Default to (0,0) if invalid
 				}
 			}
 			else
 			{
-				Console.WriteLine("conObj není List<Dictionary<string, object>>");
+				Console.WriteLine("pObj is not a valid string.");
+				this.Position = Vector2.Zero;
 			}
 		}
+		
+		if (dict.TryGetValue("con", out object conObj))
+		{
+			if (conObj is JArray jArray)
+			{
+				this.ItemContainers = new();
+				foreach (var item in jArray)
+				{
+					var itemDict = item.ToObject<Dictionary<string, object>>();
+					if (itemDict != null)
+					{
+						ItemContainerData data = new ItemContainerData();
+						data.Deserialize(itemDict);
+						ItemContainers.Add(data);
+					}
+				}
+			}
+			else
+			{
+				Debug.WriteLine("conObj is not a JArray");
+			}
+		}
+
+
 
 		if (dict.TryGetValue("ef", out object efObj))
         {
 			// Assuming Effects is stored as List<EffectData>
-			//this.Effects = new();
-			//foreach (var item in efObj as List<Dictionary<string, object>>)
-			//{
-			//	EffectData data = new EffectData();
-			//	data.Deserialize(item);
-			//	Effects.Add(data);
-			//}
-        }
+			this.Effects = new();
+			if (efObj is JArray jArray)
+			{
+				foreach (var item in jArray)
+				{
+					var itemDict = item.ToObject<Dictionary<string, object>>();
+					if (itemDict != null)
+					{
+						EffectData data = new EffectData();
+						data.Deserialize(itemDict);
+						Effects.Add(data);
+					}
+				}
+			}
+			else
+			{
+				Debug.WriteLine("efObj is not a JArray");
+			}
+		}
     }
 
 }
@@ -629,12 +701,44 @@ public class ItemContainerData
         };
     }
 
-    public void Deserialize(Dictionary<string, object> dict)
-    {
-		ItemName = (string)dict["name"];
-		Type = (ItemTypes)dict["type"];
-		IsEmpty = (bool)dict["empty"];
-    }
+	public void Deserialize(Dictionary<string, object> data)
+	{
+		if (data == null) return;
+
+		if (data.TryGetValue("name", out object nameObj) && nameObj is string name)
+		{
+			this.ItemName = name != "null" ? name : string.Empty; // Ochrana proti "null" stringu
+		}
+		else
+		{
+			this.ItemName = string.Empty;
+		}
+
+		if (data.TryGetValue("type", out object typeObj) && typeObj is string typeStr)
+		{
+			if (Enum.TryParse(typeStr, true, out ItemTypes parsedType))  // 'true' allows case-insensitive matching
+			{
+				this.Type = parsedType;
+			}
+			else
+			{
+				Console.WriteLine($"Invalid value for 'type': {typeStr}");
+				this.Type = default;  // Default to the first enum value or handle it as needed
+			}
+		}
+		else
+		{
+			Console.WriteLine("'type' not found or invalid.");
+			this.Type = default;  // Default to the first enum value or handle it as needed
+		}
+
+
+		if (data.TryGetValue("empty", out object emptyObj) && emptyObj is bool empty)
+		{
+			this.IsEmpty = empty;
+		}
+	}
+
 }
 
 [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)]
@@ -653,10 +757,42 @@ public class EffectData
         };
     }
 
-    public void Deserialize(Dictionary<string, object> dict)
+	public void Deserialize(Dictionary<string, object> dict)
 	{
-		Name = (string)dict["name"];
-		Level = (int)dict["level"];
-		Stats = (Dictionary<StatTypes, float>)dict["stats"];
+		if (dict == null) return;
+
+		if (dict.TryGetValue("name", out object nameObj) && nameObj is string name)
+		{
+			Name = name;
+		}
+		else
+		{
+			Name = string.Empty; // Default to empty string if missing or invalid
+		}
+
+		if (dict.TryGetValue("level", out object levelObj) && levelObj is int level)
+		{
+			Level = level;
+		}
+		else
+		{
+			Level = 0; // Default to 0 if missing or invalid
+		}
+
+		if (dict.TryGetValue("stats", out object statsObj) && statsObj is Dictionary<object, object> rawStats)
+		{
+			Stats = new Dictionary<StatTypes, float>();
+			foreach (var kvp in rawStats)
+			{
+				if (kvp.Key is StatTypes key && kvp.Value is float value)
+				{
+					Stats[key] = value;
+				}
+			}
+		}
+		else
+		{
+			Stats = new Dictionary<StatTypes, float>(); // Default to empty dictionary
+		}
 	}
 }
