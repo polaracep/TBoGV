@@ -215,11 +215,11 @@ public abstract class Place : IDraw
     /* === Event methods === */
     public virtual void OnEntry()
     {
-        Console.WriteLine("Entry");
+        //Console.WriteLine("Entry");
     }
     public virtual void OnExit()
     {
-        Console.WriteLine("Exit");
+        // Console.WriteLine("Exit");
     }
 
 }
