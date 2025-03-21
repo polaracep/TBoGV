@@ -98,6 +98,13 @@ public static class TextureManager
             "urinal",
             "empty",
             "mirror",
+            "pub_table_beer",
+            "pub_table_beer_spilled",
+            "pub_table_bottles",
+            "pub_table_bottles1",
+            "pub_table_bottles2",
+            "pub_table_bottles3",
+            "pub_table_bottles4",
 
             // Entities
             "korenovy_vezen",
@@ -273,6 +280,13 @@ public static class SoundManager
             "neverGonnaGiveUUp",
             "shower",
             "triangle",
+            "knedlicek",
+            "moreBullets",
+            "ctyriMinuty",
+            "zdena1",
+            "zdena2",
+            "zdena3",
+            "zaklineno",
         };
 
         foreach (string name in names)

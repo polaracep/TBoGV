@@ -84,8 +84,8 @@ class UI : IDraw
         spriteBatch.Draw(SpriteXpBar, xpBarFill, new Color(15, 209, 209)); // Filled XP
 
         string xpText = $"XP: {Xp}/{MaxXp}";
-        Vector2 xpTextPosition = new Vector2(xpBarPosition.X + xpBarWidth / 2 - Font.MeasureString(xpText).X / 2, xpBarPosition.Y + xpBarHeight + 5);
-        spriteBatch.DrawString(Font, xpText, xpTextPosition, Color.White);
+        Vector2 xpTextPosition = new Vector2(xpBarPosition.X + xpBarWidth / 2 - MiddleFont.MeasureString(xpText).X / 2, xpBarPosition.Y + xpBarHeight + 5);
+        spriteBatch.DrawString(MiddleFont, xpText, xpTextPosition, Color.White);
 
         // Coin display below the hearts
         int heartRows = (int)Math.Ceiling((double)hearts.Count / MaxHeartsPerRow);

@@ -101,7 +101,7 @@ class RoomToilet : Room
 
     protected override void GenerateEnemies()
     {
-        GenerateEnemies((Storyline.Difficulty / 2) + 1);
+        GenerateEnemies((Storyline.Difficulty / 4) + 1);
     }
     protected static Texture2D SpriteIcon = TextureManager.GetTexture("iconToilet");
     public override void DrawMinimapIcon(SpriteBatch spriteBatch, Vector2 position, float scale = 2, bool active = false)

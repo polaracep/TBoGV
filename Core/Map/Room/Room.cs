@@ -197,24 +197,52 @@ public abstract class Room : Place
                 }
             }
         }
-        bool isTriangle = false, isCat = false;
+        bool isTriangle = false, isCat = false, isSoldier = false, isPolhreich = false, isJirka = false, isZdena = false;
         foreach (var e in Enemies)
         {
             if (e is EnemyTriangle)
                 isTriangle = true;
             if (e is EnemyCat)
                 isCat = true;
+            if (e is EnemySoldier)
+                isSoldier = true;
+            if (e is EnemyPolhreich)
+                isPolhreich = true;
+            if (e is EnemyJirka)
+                isJirka = true;
+            if (e is EnemyZdena)
+                isZdena = true;
         }
         if (!isTriangle && EnemyTriangle.Sfx.State == Microsoft.Xna.Framework.Audio.SoundState.Playing)
             EnemyTriangle.Sfx.Stop();
         if (!isCat && EnemyCat.vibeSfxInstance.State == Microsoft.Xna.Framework.Audio.SoundState.Playing)
             EnemyCat.vibeSfxInstance.Stop();
+        if(isSoldier)
+            EnemySoldier.UpdateSfx(dt);
+            else
+            EnemySoldier.StopSfx();
+
+        if (isPolhreich)
+            EnemyPolhreich.UpdateSfx(dt);
+        else
+            EnemyPolhreich.StopSfx();
+
+        if (isJirka)
+            EnemyJirka.UpdateSfx(dt);
+        else
+            EnemyJirka.StopSfx();
+
+        if (isZdena)
+            EnemyZdena.UpdateSfx(dt);
+        else
+            EnemyZdena.StopSfx();
     }
 
     /* === Generation methods === */
     protected abstract void GenerateEnemies();
     protected void GenerateEnemies(int roomWeight)
     {
+
         List<Enemy> chosenEnemies = new List<Enemy>();
         if (EnemyPool.Count == 0)
         {
@@ -229,6 +257,10 @@ public abstract class Room : Place
 
         // 1 enemy for 'concentration' tiles
         int weight = 0;
+        int weightCap = 7;
+        if (roomWeight > weightCap)
+            roomWeight = weightCap;
+
         while (weight < roomWeight)
         {
             Enemy e = (Enemy)EnemyPool[Random.Shared.Next(EnemyPool.Count)].Clone();

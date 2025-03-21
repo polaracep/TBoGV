@@ -99,5 +99,12 @@ public sealed class DecorationTypes : StringEnum
     public static readonly DecorationTypes URINAL = new DecorationTypes("urinal");
     public static readonly DecorationTypes EMPTY = new DecorationTypes("empty");
     public static readonly DecorationTypes MIRROR = new DecorationTypes("mirror");
-
+    public static readonly DecorationTypes PUB_TABLE1 = new DecorationTypes("pub_table_beer");
+    public static readonly DecorationTypes PUB_TABLE2 = new DecorationTypes("pub_table_beer_spilled");
+    public static readonly DecorationTypes PUB_TABLE3 = new DecorationTypes("pub_table_bottles");
+    public static readonly DecorationTypes PUB_TABLE4 = new DecorationTypes("pub_table_bottles1");
+    public static readonly DecorationTypes PUB_TABLE5 = new DecorationTypes("pub_table_bottles2");
+    public static readonly DecorationTypes PUB_TABLE6 = new DecorationTypes("pub_table_bottles3");
+    public static readonly DecorationTypes PUB_TABLE7 = new DecorationTypes("pub_table_bottles4");
+    public static readonly DecorationTypes PUB_SLOW_ZONE = new DecorationTypes("empty");
 }
