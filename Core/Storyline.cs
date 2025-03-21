@@ -26,7 +26,7 @@ public static class Storyline
     public static void GenerateStoryline()
     {
         LevelList = [
-#if DEBUG
+#if _debug
             // new Level(p, [ new RoomLocker( p) , new RoomLocker(p), new RoomLocker(p), new RoomLocker(p), new RoomLocker(p)], new RoomStart(p), new RoomStart(p), 2),
             // new Level(p, [ new RoomToilet(p),  new RoomToilet(p),  new RoomToilet(p),  new RoomToilet(p)], new RoomStart(p), new RoomStart(p), 2),
 
