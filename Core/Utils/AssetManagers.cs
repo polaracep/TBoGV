@@ -175,7 +175,7 @@ public static class TextureManager
             "lockerIcon",
             "iconExit",
             "iconNotCleared",
-			"iconToilet",
+            "iconToilet",
 
             // Items
             "heal",
@@ -351,6 +351,8 @@ public static class DialogueManager
             "gamblerResult",
             "gamblerDone",
             "machineGuide",
+            "levelUp",
+            "coinCollected",
         };
 
         foreach (string name in names)

@@ -14,10 +14,25 @@
 
 #---------------------------------- Content ---------------------------------#
 
+#begin Dialogues/coinCollected.json
+/importer:JsonDocumentImporter
+/processor:JsonDocumentProcessor
+/build:Dialogues/coinCollected.json
+
 #begin Dialogues/gambler.json
 /importer:JsonDocumentImporter
 /processor:JsonDocumentProcessor
 /build:Dialogues/gambler.json
+
+#begin Dialogues/gambler.json
+/importer:JsonDocumentImporter
+/processor:JsonDocumentProcessor
+/build:Dialogues/gambler.json
+
+#begin Dialogues/gamblerDone.json
+/importer:JsonDocumentImporter
+/processor:JsonDocumentProcessor
+/build:Dialogues/gamblerDone.json
 
 #begin Dialogues/gamblerDone.json
 /importer:JsonDocumentImporter
@@ -29,10 +44,25 @@
 /processor:JsonDocumentProcessor
 /build:Dialogues/gamblerPlaced.json
 
+#begin Dialogues/gamblerPlaced.json
+/importer:JsonDocumentImporter
+/processor:JsonDocumentProcessor
+/build:Dialogues/gamblerPlaced.json
+
 #begin Dialogues/gamblerResult.json
 /importer:JsonDocumentImporter
 /processor:JsonDocumentProcessor
 /build:Dialogues/gamblerResult.json
+
+#begin Dialogues/gamblerResult.json
+/importer:JsonDocumentImporter
+/processor:JsonDocumentProcessor
+/build:Dialogues/gamblerResult.json
+
+#begin Dialogues/gamblerWait.json
+/importer:JsonDocumentImporter
+/processor:JsonDocumentProcessor
+/build:Dialogues/gamblerWait.json
 
 #begin Dialogues/gamblerWait.json
 /importer:JsonDocumentImporter
@@ -44,10 +74,35 @@
 /processor:JsonDocumentProcessor
 /build:Dialogues/intro.json
 
+#begin Dialogues/intro.json
+/importer:JsonDocumentImporter
+/processor:JsonDocumentProcessor
+/build:Dialogues/intro.json
+
+#begin Dialogues/levelUp.json
+/importer:JsonDocumentImporter
+/processor:JsonDocumentProcessor
+/build:Dialogues/levelUp.json
+
+#begin Dialogues/levelUp.json
+/importer:JsonDocumentImporter
+/processor:JsonDocumentProcessor
+/build:Dialogues/levelUp.json
+
 #begin Dialogues/machineGuide.json
 /importer:JsonDocumentImporter
 /processor:JsonDocumentProcessor
 /build:Dialogues/machineGuide.json
+
+#begin Dialogues/machineGuide.json
+/importer:JsonDocumentImporter
+/processor:JsonDocumentProcessor
+/build:Dialogues/machineGuide.json
+
+#begin Dialogues/skolnik.json
+/importer:JsonDocumentImporter
+/processor:JsonDocumentProcessor
+/build:Dialogues/skolnik.json
 
 #begin Dialogues/skolnik.json
 /importer:JsonDocumentImporter
@@ -59,6 +114,16 @@
 /processor:JsonDocumentProcessor
 /build:Dialogues/tutorial1.json
 
+#begin Dialogues/tutorial1.json
+/importer:JsonDocumentImporter
+/processor:JsonDocumentProcessor
+/build:Dialogues/tutorial1.json
+
+#begin Dialogues/tutorial2.json
+/importer:JsonDocumentImporter
+/processor:JsonDocumentProcessor
+/build:Dialogues/tutorial2.json
+
 #begin Dialogues/tutorial2.json
 /importer:JsonDocumentImporter
 /processor:JsonDocumentProcessor
@@ -68,6 +133,16 @@
 /importer:JsonDocumentImporter
 /processor:JsonDocumentProcessor
 /build:Dialogues/tutorial3.json
+
+#begin Dialogues/tutorial3.json
+/importer:JsonDocumentImporter
+/processor:JsonDocumentProcessor
+/build:Dialogues/tutorial3.json
+
+#begin Dialogues/tutorial4.json
+/importer:JsonDocumentImporter
+/processor:JsonDocumentProcessor
+/build:Dialogues/tutorial4.json
 
 #begin Dialogues/tutorial4.json
 /importer:JsonDocumentImporter
@@ -115,18 +190,6 @@
 /processorParam:Quality=Best
 /build:Sounds/alesSmich.wav
 
-#begin Sounds/alesSmich.wav
-/importer:WavImporter
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:Sounds/alesSmich.wav
-
-#begin Sounds/aligator.wav
-/importer:WavImporter
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:Sounds/aligator.wav
-
 #begin Sounds/aligator.wav
 /importer:WavImporter
 /processor:SoundEffectProcessor
@@ -139,29 +202,11 @@
 /processorParam:Quality=Best
 /build:Sounds/AMOGUS.wav
 
-#begin Sounds/AMOGUS.wav
-/importer:WavImporter
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:Sounds/AMOGUS.wav
-
 #begin Sounds/bouchaniDoKorenu.wav
 /importer:WavImporter
 /processor:SoundEffectProcessor
 /processorParam:Quality=Best
 /build:Sounds/bouchaniDoKorenu.wav
-
-#begin Sounds/bouchaniDoKorenu.wav
-/importer:WavImporter
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:Sounds/bouchaniDoKorenu.wav
-
-#begin Sounds/bouchaniDoKorenuNebyloSlyset.mp3
-/importer:Mp3Importer
-/processor:SongProcessor
-/processorParam:Quality=Best
-/build:Sounds/bouchaniDoKorenuNebyloSlyset.mp3
 
 #begin Sounds/bouchaniDoKorenuNebyloSlyset.mp3
 /importer:Mp3Importer
@@ -181,29 +226,11 @@
 /processorParam:Quality=Best
 /build:Sounds/dzojk.wav
 
-#begin Sounds/dzojk.wav
-/importer:WavImporter
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:Sounds/dzojk.wav
-
 #begin Sounds/dzojkShorter.wav
 /importer:WavImporter
 /processor:SoundEffectProcessor
 /processorParam:Quality=Best
 /build:Sounds/dzojkShorter.wav
-
-#begin Sounds/dzojkShorter.wav
-/importer:WavImporter
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:Sounds/dzojkShorter.wav
-
-#begin Sounds/kaves.wav
-/importer:WavImporter
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:Sounds/kaves.wav
 
 #begin Sounds/kaves.wav
 /importer:WavImporter
@@ -229,29 +256,11 @@
 /processorParam:Quality=Best
 /build:Sounds/nebyloTadyDoSmichu.mp3
 
-#begin Sounds/nebyloTadyDoSmichu.mp3
-/importer:Mp3Importer
-/processor:SongProcessor
-/processorParam:Quality=Best
-/build:Sounds/nebyloTadyDoSmichu.mp3
-
 #begin Sounds/neverGonnaGiveUUp.wav
 /importer:WavImporter
 /processor:SoundEffectProcessor
 /processorParam:Quality=Best
 /build:Sounds/neverGonnaGiveUUp.wav
-
-#begin Sounds/neverGonnaGiveUUp.wav
-/importer:WavImporter
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:Sounds/neverGonnaGiveUUp.wav
-
-#begin Sounds/OIIAOIIA.wav
-/importer:WavImporter
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:Sounds/OIIAOIIA.wav
 
 #begin Sounds/OIIAOIIA.wav
 /importer:WavImporter
@@ -265,29 +274,11 @@
 /processorParam:Quality=Best
 /build:Sounds/rickroll.wav
 
-#begin Sounds/rickroll.wav
-/importer:WavImporter
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:Sounds/rickroll.wav
-
 #begin Sounds/shower.wav
 /importer:WavImporter
 /processor:SoundEffectProcessor
 /processorParam:Quality=Best
 /build:Sounds/shower.wav
-
-#begin Sounds/shower.wav
-/importer:WavImporter
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:Sounds/shower.wav
-
-#begin Sounds/soundtrack.mp3
-/importer:Mp3Importer
-/processor:SongProcessor
-/processorParam:Quality=Best
-/build:Sounds/soundtrack.mp3
 
 #begin Sounds/soundtrack.mp3
 /importer:Mp3Importer
@@ -301,29 +292,11 @@
 /processorParam:Quality=Best
 /build:Sounds/susn.wav
 
-#begin Sounds/susn.wav
-/importer:WavImporter
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:Sounds/susn.wav
-
 #begin Sounds/svartaDelej.wav
 /importer:WavImporter
 /processor:SoundEffectProcessor
 /processorParam:Quality=Best
 /build:Sounds/svartaDelej.wav
-
-#begin Sounds/svartaDelej.wav
-/importer:WavImporter
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:Sounds/svartaDelej.wav
-
-#begin Sounds/takToJsemNevidel.wav
-/importer:WavImporter
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:Sounds/takToJsemNevidel.wav
 
 #begin Sounds/takToJsemNevidel.wav
 /importer:WavImporter
@@ -337,29 +310,11 @@
 /processorParam:Quality=Best
 /build:Sounds/toilet.wav
 
-#begin Sounds/toilet.wav
-/importer:WavImporter
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:Sounds/toilet.wav
-
 #begin Sounds/triangle.wav
 /importer:WavImporter
 /processor:SoundEffectProcessor
 /processorParam:Quality=Best
 /build:Sounds/triangle.wav
-
-#begin Sounds/triangle.wav
-/importer:WavImporter
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:Sounds/triangle.wav
-
-#begin Sounds/vibe.wav
-/importer:WavImporter
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:Sounds/vibe.wav
 
 #begin Sounds/vibe.wav
 /importer:WavImporter

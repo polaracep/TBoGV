@@ -98,7 +98,7 @@ public class ScreenGame : Screen
             activePlace = tutorial.ActiveRoom;
 
         // ingamemenu update
-        if (nextMenu != null)
+        if (nextMenu != null && activeMenu == null)
         {
             activeMenu = nextMenu;
             nextMenu = null;
@@ -193,18 +193,14 @@ public class ScreenGame : Screen
         if (KeyReleased(Keys.J) && MinigameRooted.State != MinigameState.ONGOING)
         {
             if (activeMenu == null)
-                activeMenu = new InGameMenuItemJournal(_viewport);
+                nextMenu = new InGameMenuItemJournal(_viewport);
         }
         if (KeyReleased(Keys.M) && MinigameRooted.State != MinigameState.ONGOING)
         {
             if (activeMenu == null)
-                activeMenu = new InGameMenuMinimap(_viewport, player);
+                nextMenu = new InGameMenuMinimap(_viewport, player);
         }
 #if DEBUG
-        if (keyboardState.IsKeyDown(Keys.Tab) && previousKeyboardState.IsKeyUp(Keys.Tab))
-        {
-
-        }
         if (keyboardState.IsKeyDown(Keys.P) && previousKeyboardState.IsKeyUp(Keys.P))
         {
             if (activePlace is Lobby)

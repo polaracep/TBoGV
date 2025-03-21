@@ -85,6 +85,7 @@ public static class Storyline
         return rooms;
     }
 
+    private static bool promoted = false;
     public static void NextLevel()
     {
         Player.Save(SaveType.AUTO);
@@ -92,12 +93,18 @@ public static class Storyline
         if (CurrentLevelNumber == LevelList.Count)
             CurrentLevelNumber = 0;
 
+        // reset failed times
+        if (CurrentLevelNumber % 2 == 0 && !promoted)
+        {
+            FailedTimes = 0;
+            promoted = true;
+        }
+        if (CurrentLevelNumber % 2 == 1)
+            promoted = false;
+
         CurrentLevel = LevelList[CurrentLevelNumber];
         CurrentLevelNumber++;
         Difficulty = (int)Math.Floor((CurrentLevelNumber - 1) / (float)2) + 1;
-        //reset failed
-        if (CurrentLevelNumber % 2 == 1)
-            FailedTimes = 0;
 
     }
     public static void ResetLevel()
@@ -107,7 +114,8 @@ public static class Storyline
         CurrentLevel = LevelList[CurrentLevelNumber];
         CurrentLevel.Reset();
         FailedTimes = f;
-        CurrentLevelNumber--;
+        if (CurrentLevelNumber > 0)
+            CurrentLevelNumber--;
     }
     public static void ResetStoryline()
     {
