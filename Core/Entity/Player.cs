@@ -480,7 +480,7 @@ public class Player : Entity, IRecieveDmg, IDealDmg
     public void Load(SaveType saveType)
     {
         PlayerData data = FileHelper.Load<PlayerData>(dataPath, saveType);
-        if (data.Position != null)
+        if (data != null && data.Position != null)
         {
             Position = new Vector2(data.Position[0], data.Position[1]);
             Level = data.Level;
