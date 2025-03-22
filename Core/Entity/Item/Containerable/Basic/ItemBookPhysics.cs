@@ -10,12 +10,12 @@ public class ItemBookPhysics : ItemContainerable
 	static Texture2D Sprite;
 	public ItemBookPhysics(Vector2 position)
 	{
-		Rarity = 4;
+		Rarity = 3;
 		Position = position;
 		Size = new Vector2(50, 50);
 		Name = "Matematicko fyzikální tabulky";
 		Description = "Goated, vyřeší všechny problémy";
-		Stats = new Dictionary<StatTypes, float>() { { StatTypes.DAMAGE, 4 }, { StatTypes.PROJECTILE_COUNT, 4 } };
+		Stats = new Dictionary<StatTypes, float>() { { StatTypes.DAMAGE, 6 }, { StatTypes.PROJECTILE_COUNT, 4 } };
 		Effects = new List<EffectTypes>();
 		Sprite = TextureManager.GetTexture("bookTabulky");
 		ItemType = ItemTypes.BASIC;

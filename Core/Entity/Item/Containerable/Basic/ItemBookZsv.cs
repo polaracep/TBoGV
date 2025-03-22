@@ -15,7 +15,7 @@ public class ItemBookZsv : ItemContainerable
 		Size = new Vector2(50, 50);
 		Name = "Filozoficky text";
 		Description = ",,Pokud věříš v Boha a on existuje, získáváš nekonečnou odměnu. \nPokud věříš a on neexistuje, nic neztrácíš. Pokud nevěříš a on existuje, \nriskuješ nekonečné utrpení. Proto je racionální v Boha věřit.\"";
-		Stats = new Dictionary<StatTypes, float>() { { StatTypes.XP_GAIN, 6 } };
+		Stats = new Dictionary<StatTypes, float>() { { StatTypes.XP_GAIN, 8 } };
 		Effects = new List<EffectTypes>();
 		Sprite = TextureManager.GetTexture("bookZsv");
 		ItemType = ItemTypes.BASIC;

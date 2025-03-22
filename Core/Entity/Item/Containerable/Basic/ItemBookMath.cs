@@ -15,7 +15,7 @@ public class ItemBookMath : ItemContainerable
 		Size = new Vector2(50, 50);
 		Name = "Petáková";
 		Description = "Měl by jsi se pomodlit";
-		Stats = new Dictionary<StatTypes, float>() { { StatTypes.DAMAGE, 8 } };
+		Stats = new Dictionary<StatTypes, float>() { { StatTypes.DAMAGE, 12 } };
 		Effects = new List<EffectTypes>();
 		Sprite = TextureManager.GetTexture("bookPetakova");
 		ItemType = ItemTypes.BASIC;
