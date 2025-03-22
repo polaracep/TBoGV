@@ -183,7 +183,7 @@ public class ScreenGame : Screen
         {
             if (activeMenu == null)
                 activeMenu = new InGameMenuEffect(player);
-#if _debug
+#if DEBUG
             else if (activeMenu is InGameMenuDialogue)
                 activeMenu = null;
 #endif
@@ -200,7 +200,7 @@ public class ScreenGame : Screen
             if (activeMenu == null)
                 nextMenu = new InGameMenuMinimap(_viewport, player);
         }
-#if _debug
+#if DEBUG
         if (keyboardState.IsKeyDown(Keys.P) && previousKeyboardState.IsKeyUp(Keys.P))
         {
             if (activePlace is Lobby)

@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 
 namespace TBoGV;
-
+[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)]
 public abstract class ItemContainerable : Item
 {
 	public string Name { get; set; }
@@ -58,8 +59,8 @@ public abstract class ItemContainerable : Item
 			case 3: return 45;
 			case 4: return 70;
 			default:
-                return 0;
-        }
+				return 0;
+		}
 	}
 	public abstract ItemContainerable Clone();
 }
@@ -147,7 +148,7 @@ public static class ItemDatabase
 	}
 	public static ItemContainerable GetItemByName(string name)
 	{
-		return ItemsByName.TryGetValue(name, out var item) ? (ItemContainerable)Activator.CreateInstance(item.GetType()) : null;
+		return ItemsByName.TryGetValue(name, out var item) ? item.Clone() : null;
 	}
 	public static List<ItemContainerable> GetAllItems()
 	{

@@ -28,7 +28,7 @@ public class Lobby : Place
             new TileWall(WallTypes.HALLWAY_ORANGE),
             new TileWall(WallTypes.HALLWAY_ORANGE_CORNER)
         );
-#if _debug
+#if DEBUG
         AddDecoTile(new Vector2(3, 2), new TileTreasure());
 #endif
 
