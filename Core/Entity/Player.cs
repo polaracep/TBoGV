@@ -567,7 +567,9 @@ public class PlayerData
 
         if (dict.TryGetValue("lus", out object lusObj))
         {
+#if DEBUG
             Console.WriteLine($"Raw lusObj type: {lusObj?.GetType()}");
+#endif
 
             if (lusObj is JObject lusJObject)  // If stored as JObject, convert to dictionary
             {
@@ -575,7 +577,9 @@ public class PlayerData
 
                 foreach (var kvp in lusJObject)
                 {
+#if DEBUG
                     Console.WriteLine($"Key: {kvp.Key} (Type: {kvp.Key.GetType()}), Value: {kvp.Value} (Type: {kvp.Value?.Type})");
+#endif
 
                     if (Enum.TryParse(kvp.Key, out StatTypes statType))
                     {
@@ -610,7 +614,9 @@ public class PlayerData
 
         if (dict.TryGetValue("p", out object pObj))
         {
+#if DEBUG
             Console.WriteLine($"Raw pObj type: {pObj?.GetType()}");
+#endif
 
             if (pObj is string pStr)
             {
