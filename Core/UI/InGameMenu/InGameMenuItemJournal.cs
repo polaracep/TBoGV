@@ -19,7 +19,7 @@ class InGameMenuItemJournal : InGameMenu
 	private List<ItemContainerable> Items = new List<ItemContainerable>();
 
 	// Known status: itemName -> bool
-	private Dictionary<string, bool> KnownItems = new Dictionary<string, bool>();
+	private static Dictionary<string, bool> KnownItems = new();
 
 	// How many items per column (you can tweak this)
 	private const int ITEMS_PER_COLUMN = 4;
@@ -41,8 +41,8 @@ class InGameMenuItemJournal : InGameMenu
 		TooltipTexture = TextureManager.GetTexture("blackSquare");
 
 		AddAllItems();
-#if DEBUG
-        ShowAll();
+#if _debug
+		ShowAll();
 #endif
 	}
 

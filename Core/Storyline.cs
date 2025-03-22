@@ -19,14 +19,14 @@ public static class Storyline
     private static Player p;
 
     /// <summary>
-    /// Difficulty level in base game ranges from 1 to 8
+    /// Difficulty level in base game ranges from idk to idk
     /// </summary>
     public static int Difficulty = 0;
     public static int FailedTimes = 0;
     public static void GenerateStoryline()
     {
         LevelList = [
-#if DEBUG
+#if _debug
             // new Level(p, [ new RoomLocker( p) , new RoomLocker(p), new RoomLocker(p), new RoomLocker(p), new RoomLocker(p)], new RoomStart(p), new RoomStart(p), 2),
             // new Level(p, [ new RoomToilet(p),  new RoomToilet(p),  new RoomToilet(p),  new RoomToilet(p)], new RoomStart(p), new RoomStart(p), 2),
 
@@ -85,6 +85,7 @@ public static class Storyline
         return rooms;
     }
 
+    private static bool promoted = false;
     public static void NextLevel()
     {
         Player.Save(SaveType.AUTO);
@@ -92,12 +93,18 @@ public static class Storyline
         if (CurrentLevelNumber == LevelList.Count)
             CurrentLevelNumber = 0;
 
+        // reset failed times
+        if (CurrentLevelNumber % 2 == 0 && !promoted)
+        {
+            FailedTimes = 0;
+            promoted = true;
+        }
+        if (CurrentLevelNumber % 2 == 1)
+            promoted = false;
+
         CurrentLevel = LevelList[CurrentLevelNumber];
         CurrentLevelNumber++;
-        Difficulty = (CurrentLevelNumber - 1) / 2 + 1;
-        //reset failed
-        if (CurrentLevelNumber % 2 == 1)
-            FailedTimes = 0;
+        Difficulty = (int)Math.Floor((CurrentLevelNumber - 1) / (float)2) + 1;
 
     }
     public static void ResetLevel()
@@ -107,14 +114,16 @@ public static class Storyline
         CurrentLevel = LevelList[CurrentLevelNumber];
         CurrentLevel.Reset();
         FailedTimes = f;
+        // if (CurrentLevelNumber > 0)
+        //    CurrentLevelNumber--;
     }
     public static void ResetStoryline()
     {
         GenerateStoryline();
         CurrentLevel = LevelList[0];
         CurrentLevel.Reset();
-        CurrentLevelNumber++;
-        Difficulty = 1;
+        CurrentLevelNumber = 0;
+        Difficulty = 0;
         FailedTimes = 0;
     }
     public static void End()

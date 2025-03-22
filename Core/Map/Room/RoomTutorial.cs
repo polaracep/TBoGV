@@ -29,9 +29,21 @@ class TutorialRoom : RoomClassroom
         new EnemySoldier()
     ];
 
+    private bool LevelUpTriggered = false;
+    private bool CoinCollected = false;
     public override void Update(double dt)
     {
         base.Update(dt);
+        if (!LevelUpTriggered && player.Level == 1)
+        {
+            LevelUpTriggered = true;
+            ScreenManager.ScreenGame.OpenDialogue(new DialogueBasic(DialogueManager.GetDialogue("levelUp").RootElement, DialogueStart.NpcName, DialogueStart.NpcSprite));
+        }
+        if (!CoinCollected && player.Coins == 2)
+        {
+            CoinCollected = true;
+            ScreenManager.ScreenGame.OpenDialogue(new DialogueBasic(DialogueManager.GetDialogue("coinCollected").RootElement, DialogueStart.NpcName, DialogueStart.NpcSprite));
+        }
     }
     public override void Generate()
     {
