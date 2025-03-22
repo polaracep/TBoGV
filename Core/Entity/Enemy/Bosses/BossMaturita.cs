@@ -41,5 +41,6 @@ class BossMaturita : EnemyBoss
     public override void Draw(SpriteBatch spriteBatch)
     {
     }
-
+    public override void DrawHealthBar(SpriteBatch spriteBatch, Vector2 screenSize)
+    { }
 }
