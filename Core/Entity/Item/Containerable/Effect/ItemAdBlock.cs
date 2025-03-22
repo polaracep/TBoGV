@@ -13,7 +13,7 @@ class ItemAdBlock : ItemContainerable
 		Size = new Vector2(50, 50);
 		Name = "Ad Block";
 		Description = "Teď už tě nic nezastaví. \nTvoje střely jsou průrazné";
-		Stats = new Dictionary<StatTypes, float>() { { StatTypes.DAMAGE, -2 }, { StatTypes.ATTACK_SPEED, -4 } };
+		Stats = new Dictionary<StatTypes, float>() { { StatTypes.ATTACK_SPEED, -4 } };
 		Effects = new List<EffectTypes>() { EffectTypes.PIERCING };
 		Sprite = TextureManager.GetTexture("adBlock");
 		ItemType = ItemTypes.EFFECT;

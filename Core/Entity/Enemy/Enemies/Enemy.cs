@@ -70,12 +70,15 @@ public abstract class Enemy : Entity, IRecieveDmg, IDealDmg, ICloneable
     return Hp < 0 ? -Hp : 0;
   }
 
-  public object Clone()
-  {
-	AttackDelay();
-    return this.MemberwiseClone();
-  }
-	public bool IsDamaged()
+    public object Clone()
+    {
+        AttackDelay();
+        Enemy clone = (Enemy)this.MemberwiseClone();
+        clone.projectilesRecieved = new List<Projectile>(this.projectilesRecieved); // Creates a new list instead of sharing reference
+        return clone;
+    }
+
+    public bool IsDamaged()
 	{
 		return (int)Hp != MaxHp;
 	}
