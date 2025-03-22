@@ -41,7 +41,7 @@ class InGameMenuItemJournal : InGameMenu
 		TooltipTexture = TextureManager.GetTexture("blackSquare");
 
 		AddAllItems();
-#if _debug
+#if DEBUG
 		ShowAll();
 #endif
 	}
