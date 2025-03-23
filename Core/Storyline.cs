@@ -111,11 +111,11 @@ public static class Storyline
     {
         int f = FailedTimes;
         GenerateStoryline();
+        if (CurrentLevelNumber >= LevelList.Count)
+            CurrentLevelNumber = 0;
         CurrentLevel = LevelList[CurrentLevelNumber];
         CurrentLevel.Reset();
         FailedTimes = f;
-        // if (CurrentLevelNumber > 0)
-        //    CurrentLevelNumber--;
     }
     public static void ResetStoryline()
     {
