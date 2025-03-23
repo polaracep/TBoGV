@@ -164,7 +164,7 @@ class BossSvarta : EnemyBoss
 
     public override void InitStats(int difficulty)
 	{
-		Hp = 15;
+		Hp = 20;
 		MovementSpeed = 12;
 		AttackSpeed = 0;
 		AttackDmg = 2;

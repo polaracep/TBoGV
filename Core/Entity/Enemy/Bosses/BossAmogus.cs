@@ -189,7 +189,7 @@ class BossAmogus : EnemyBoss
 	}
 	public override void Move(Place place)
 	{
-		MovementSpeed = place.player.MovementSpeed * (1.75f - Hp/(float)MaxHp);
+		MovementSpeed = place.player.MovementSpeed * (2.1f - Hp/(float)MaxHp);
 		// Check if the cooldown has passed based on DateTime
 		if (lastPathUpdateElapsed >= pathUpdateCooldown && (path.Count == 0 || targetPosition != PlayerPosition))
 		{
