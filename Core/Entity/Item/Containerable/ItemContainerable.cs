@@ -145,7 +145,8 @@ public static class ItemDatabase
 		{
 			ItemsByName[item.Name] = item;
 		}
-	}
+		ItemsByName[new ItemVysvedceni().Name] = new ItemVysvedceni();
+    }
 	public static ItemContainerable GetItemByName(string name)
 	{
 		return ItemsByName.TryGetValue(name, out var item) ? item.Clone() : null;
