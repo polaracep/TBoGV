@@ -92,8 +92,8 @@ public class BossAles : EnemyBoss
 			Teleport();
 		LastAttackElapsed += dt;
 		phaseChangeElapsed += dt;
-		SfxDzojkInstance.Volume = (float)(double)Settings.SfxVolume.Value;
-		SfxKavesInstance.Volume = (float)(double)Settings.SfxVolume.Value;
+		SfxDzojkInstance.Volume = Convert.ToSingle(Settings.SfxVolume.Value);
+		SfxKavesInstance.Volume = Convert.ToSingle(Settings.SfxVolume.Value);
 		UpdatePhase();
 	}
 	protected void UpdatePhase()
@@ -153,7 +153,7 @@ public class BossAles : EnemyBoss
 		return;
 	}
 
-    public override void InitStats(int difficulty)
+	public override void InitStats(int difficulty)
 	{
 		Hp = 70;
 		MovementSpeed = 4;

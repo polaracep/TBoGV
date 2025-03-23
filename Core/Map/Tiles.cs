@@ -247,7 +247,7 @@ public class TileShower : Tile, IInteractable
     {
         if (e is Player p)
         {
-            showerSoundInstance.Volume = (float)(double)Settings.SfxVolume.Value;
+            showerSoundInstance.Volume = Convert.ToSingle(Settings.SfxVolume.Value);
             showerSoundInstance.Play();
 
             var existingEffect = p.Inventory.Effects.FirstOrDefault(effect => effect is EffectLol);

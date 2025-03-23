@@ -67,7 +67,7 @@ class BossOIIAOIIA : EnemyBoss
 	{
 		phaseChangeElapsed += dt;
 		lastFrameChangeElapsed += dt;
-		SfxOIIAInstance.Volume = (float)(double)Settings.SfxVolume.Value;
+		SfxOIIAInstance.Volume = Convert.ToSingle(Settings.SfxVolume.Value);
 		UpdatePhase(playerPosition);
 		UpdateAnimation();
 	}
@@ -79,10 +79,10 @@ class BossOIIAOIIA : EnemyBoss
 			Rage = !Rage;
 			phaseChangeElapsed = 0;
 
-            if (rageCount % 3 == 0)
-                chillDuration = 3000;
+			if (rageCount % 3 == 0)
+				chillDuration = 3000;
 			else
-            chillDuration = new Random().Next(1000, 2500);
+				chillDuration = new Random().Next(1000, 2500);
 
 			if (Rage)
 			{
@@ -92,7 +92,7 @@ class BossOIIAOIIA : EnemyBoss
 					rageDuration *= 3; // Every third Rage phase lasts 3x longer
 					PlaySfxMultipleTimes(3); // Play the sound effect three times
 					chillDuration = 5000;
-                }
+				}
 				else
 				{
 					rageDuration = (int)SfxOIIA.Duration.TotalMilliseconds; // Reset to normal
@@ -203,7 +203,7 @@ class BossOIIAOIIA : EnemyBoss
 		return Rage ? projectile.Damage : 0;
 	}
 
-    public override void InitStats(int difficulty)
+	public override void InitStats(int difficulty)
 	{
 		Hp = 45;
 		MovementSpeed = 2;

@@ -82,7 +82,7 @@ class BossToilet : EnemyBoss
 		LastAttackElapsed += dt;
 		Direction = new Vector2(playerPosition.X, playerPosition.Y) - Position - Size / 2;
 		Direction.Normalize();
-		SfxInstance.Volume = (float)(double)Settings.SfxVolume.Value;
+		SfxInstance.Volume = Convert.ToSingle(Settings.SfxVolume.Value);
 		UpdatePhase(playerPosition);
 		UpdateAnimation();
 	}
@@ -151,13 +151,13 @@ class BossToilet : EnemyBoss
 	{
 	}
 
-    public override void InitStats(int difficulty)
+	public override void InitStats(int difficulty)
 	{
 		Hp = 200;
 		MovementSpeed = 0;
 		AttackSpeed = 10;
 		AttackDmg = 1;
-        base.InitStats(difficulty);
+		base.InitStats(difficulty);
 	}
 }
 

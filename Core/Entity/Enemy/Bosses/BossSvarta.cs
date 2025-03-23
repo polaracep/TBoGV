@@ -48,8 +48,8 @@ class BossSvarta : EnemyBoss
 	public override void Update(Vector2 playerPosition, double dt)
 	{
 		phaseChangeElapsed += dt;
-		SfxJeMuHodneInstance.Volume = (float)(double)Settings.SfxVolume.Value;
-		SfxSvartaDelejInstance.Volume = (float)(double)Settings.SfxVolume.Value;
+		SfxJeMuHodneInstance.Volume = Convert.ToSingle(Settings.SfxVolume.Value);
+		SfxSvartaDelejInstance.Volume = Convert.ToSingle(Settings.SfxVolume.Value);
 		UpdatePhase(playerPosition);
 	}
 
@@ -162,12 +162,12 @@ class BossSvarta : EnemyBoss
 		throw new NotImplementedException();
 	}
 
-    public override void InitStats(int difficulty)
+	public override void InitStats(int difficulty)
 	{
 		Hp = 20;
 		MovementSpeed = 12;
 		AttackSpeed = 0;
 		AttackDmg = 2;
-		base.InitStats(difficulty);	
+		base.InitStats(difficulty);
 	}
 }

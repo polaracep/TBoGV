@@ -44,7 +44,7 @@ public class ScreenSettings : Screen
             else if (t == typeof(double))
             {
                 settingElements.Add(new Slider(0f, 1f,
-                    (float)(double)setting.Value, v.Width / 10, 10,
+                    Convert.ToSingle(setting.Value), v.Width / 10, 10,
                     setting.Name,
                     LargerFont,
                     x => setting.Value = x));

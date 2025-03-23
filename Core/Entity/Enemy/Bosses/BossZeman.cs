@@ -29,8 +29,8 @@ class BossZeman : EnemyBoss
 	private float pathUpdateCooldown = 0.1f;
 	private bool Rage = false;
 
-	private float BaseMovementSpeed {  get; set; }
-    public BossZeman(Vector2 position)
+	private float BaseMovementSpeed { get; set; }
+	public BossZeman(Vector2 position)
 	{
 		Position = position;
 		Scale = 50f / Math.Max(frameWidth, frameHeight);
@@ -46,7 +46,7 @@ class BossZeman : EnemyBoss
 	{
 		PlayerPosition = playerPosition;
 		lookingLeft = playerPosition.X - Position.X < 0;
-		AligatorSfxInstance.Volume = (float)(double)Settings.SfxVolume.Value;
+		AligatorSfxInstance.Volume = Convert.ToSingle(Settings.SfxVolume.Value);
 		UpdatePhase(dt);
 	}
 	protected void UpdatePhase(double dt)
@@ -109,9 +109,9 @@ class BossZeman : EnemyBoss
 	{
 		RoomBossZeman r = (RoomBossZeman)place;
 
-        this.MovementSpeed = r.IsSlowZone(new Rectangle(Position.ToPoint(), Size.ToPoint())) ?  2 : BaseMovementSpeed;
-        // Check if the cooldown has passed based on DateTime
-        if (lastPathUpdateElapsed >= pathUpdateCooldown && (path.Count == 0 || targetPosition != PlayerPosition))
+		this.MovementSpeed = r.IsSlowZone(new Rectangle(Position.ToPoint(), Size.ToPoint())) ? 2 : BaseMovementSpeed;
+		// Check if the cooldown has passed based on DateTime
+		if (lastPathUpdateElapsed >= pathUpdateCooldown && (path.Count == 0 || targetPosition != PlayerPosition))
 		{
 			// Update path and target position
 			path = FindPath(Position, PlayerPosition - Size / 2, place);
@@ -230,10 +230,10 @@ class BossZeman : EnemyBoss
 		spriteBatch.Draw(Spritesheet, new Rectangle((int)Position.X, (int)Position.Y, (int)(Size.X), (int)(Size.Y)), sourceRect, Color.White);
 	}
 
-    public override void InitStats(int difficulty)
+	public override void InitStats(int difficulty)
 	{
 		Hp = 130;
-		MovementSpeed = BaseMovementSpeed =  7;
+		MovementSpeed = BaseMovementSpeed = 7;
 		AttackDmg = 2;
 		AttackSpeed = 0;
 		base.InitStats(difficulty);
