@@ -56,7 +56,7 @@ public abstract class EnemyBoss : Enemy
     {
         if (difficulty >= 9)
         {
-			Hp = 200 + ((difficulty - 9) * 20);
+			Hp = 200 + ((difficulty - 9) * 25);
         }
         base.InitStats(difficulty);
         XpValue = 50 + difficulty * 10;
