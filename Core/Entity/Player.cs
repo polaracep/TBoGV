@@ -4,8 +4,6 @@ using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Linq;
-using System.Text.Json;
-using System.Text.Json.Serialization;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -27,6 +25,7 @@ public class Player : Entity, IRecieveDmg, IDealDmg
     public float XpGain { get; set; }
     public int ProjectileCount { get; set; }
     public int Coins { get; set; }
+    public bool TutorialCompleted = false;
     public Dictionary<StatTypes, float> BaseStats { get; set; }
     public Dictionary<StatTypes, float> LevelUpStats { get; set; }
     public double LastAttackElapsed { get; set; }
@@ -450,6 +449,7 @@ public class Player : Entity, IRecieveDmg, IDealDmg
             Effects = EffectsData,
             CurrentLevelNumber = Storyline.CurrentLevelNumber,
             FailedTimes = Storyline.FailedTimes,
+            CompletedTutorial = TutorialCompleted,
         };
         FileHelper.Save(dataPath, data.GetDict(), saveType);
     }
@@ -467,6 +467,7 @@ public class Player : Entity, IRecieveDmg, IDealDmg
             LevelUpStats = data.LevelUpStats;
             LastAttackElapsed = data.LastAttackElapsed;
             LastRecievedDmgElapsed = data.LastRecievedDmgElapsed;
+            TutorialCompleted = data.CompletedTutorial;
             Storyline.CurrentLevelNumber = data.CurrentLevelNumber;
             Storyline.FailedTimes = data.FailedTimes;
             Storyline.Endless = data.Endless;
@@ -513,6 +514,7 @@ public class PlayerData
     public Vector2 Position { get; set; }
     public List<ItemContainerData> ItemContainers { get; set; }
     public List<EffectData> Effects { get; set; }
+    public bool CompletedTutorial { get; set; }
     public PlayerData() { }
 
     public Dictionary<string, object> GetDict()
@@ -538,8 +540,9 @@ public class PlayerData
             { "lae", this.LastAttackElapsed },
             { "lrde", this.LastRecievedDmgElapsed },
             { "p", this.Position },
+            { "tut", this.CompletedTutorial},
             { "con", con},
-            { "ef", eff}
+            { "ef", eff},
         };
 
         return dict;
@@ -618,6 +621,9 @@ public class PlayerData
 
         if (dict.TryGetValue("lrde", out object lrdeObj))
             this.LastRecievedDmgElapsed = Convert.ToDouble(lrdeObj);
+
+        if (dict.TryGetValue("tut", out object tutObj))
+            this.CompletedTutorial = Convert.ToBoolean(tutObj);
 
         if (dict.TryGetValue("p", out object pObj))
         {

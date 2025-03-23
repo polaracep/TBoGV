@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace TBoGV;
 
-public abstract class Effect : IDraw
+public abstract class Effect : IDraw, ICloneable
 {
 	public string Name { get; set; }
 	public string Description { get; set; }
@@ -15,7 +15,7 @@ public abstract class Effect : IDraw
 	protected double effectTime = -1;
 	protected double timeElapsed { get; set; }
 	public Dictionary<StatTypes, float> Stats = new Dictionary<StatTypes, float>();
-	public List<EffectTypes> Effects  = new List<EffectTypes>();
+	public List<EffectTypes> Effects = new List<EffectTypes>();
 	public Vector2 Position { get; set; }
 	public Vector2 Size { get; set; }
 	public Vector2 SpriteSize = new Vector2(50, 50);
@@ -30,7 +30,7 @@ public abstract class Effect : IDraw
 	{
 		//if(Level < 0)
 		//	Level = 0;
-		if(LevelCap < Level)
+		if (LevelCap < Level)
 			Level = LevelCap;
 	}
 	public virtual void UpdateSize()
@@ -68,11 +68,16 @@ public abstract class Effect : IDraw
 	}
 	public virtual bool IsExpired()
 	{
-		if(effectTime < 0)
+		if (effectTime < 0)
 			return false;
 		return timeElapsed > effectTime;
 	}
 	public abstract Texture2D GetSprite();
+
+	public object Clone()
+	{
+		return MemberwiseClone();
+	}
 }
 
 public static class EffectDatabase
@@ -101,6 +106,6 @@ public static class EffectDatabase
 
 	public static Effect GetEffectByName(string name)
 	{
-		return EffectsByName.TryGetValue(name, out var effect) ? (Effect)Activator.CreateInstance(effect.GetType()) : null;
+		return EffectsByName.TryGetValue(name, out var effect) ? (Effect)effect.Clone() : null;
 	}
 }

@@ -140,16 +140,23 @@ public class Lobby : Place
     }
     public override void OnEntry()
     {
+        if (player.TutorialCompleted)
+        {
+            machineGuidePlayed = true;
+            tutorialPlayed = true;
+            return;
+        }
+
         if (!tutorialPlayed)
         {
             ScreenManager.ScreenGame.OpenDialogue(new DialogueIntro());
             tutorialPlayed = true;
         }
-        if (!machineGuidePlayed && Storyline.CurrentLevelNumber == 1)
+        if (Storyline.CurrentLevelNumber == 1)
         {
             DialogueIntro reference = new();
             ScreenManager.ScreenGame.OpenDialogue(new DialogueBasic(DialogueManager.GetDialogue("machineGuide").RootElement, reference.NpcName, reference.NpcSprite));
-            machineGuidePlayed = true;
+            player.TutorialCompleted = true;
         }
     }
 }
