@@ -157,8 +157,7 @@ class BossToilet : EnemyBoss
 		MovementSpeed = 0;
 		AttackSpeed = 10;
 		AttackDmg = 1;
-		XpValue = 50;
-		base.InitStats(difficulty);
+        base.InitStats(difficulty);
 	}
 }
 

@@ -35,7 +35,7 @@ public abstract class Enemy : Entity, IRecieveDmg, IDealDmg, ICloneable
   public virtual void InitStats(int difficulty)
 	{
 		MaxHp = (int)Hp;
-	}
+    }
   public virtual List<Item> Drop(int looting)
   {
     Random random = new Random();

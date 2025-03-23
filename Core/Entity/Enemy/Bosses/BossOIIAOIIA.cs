@@ -205,11 +205,10 @@ class BossOIIAOIIA : EnemyBoss
 
     public override void InitStats(int difficulty)
 	{
-		Hp = 30;
+		Hp = 45;
 		MovementSpeed = 2;
 		AttackSpeed = 0;
 		AttackDmg = 1;
-		XpValue = 50;
 		base.InitStats(difficulty);
 	}
 }

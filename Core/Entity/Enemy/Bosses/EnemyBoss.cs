@@ -52,5 +52,10 @@ public abstract class EnemyBoss : Enemy
 
 		spriteBatch.DrawString(font, Name, textPosition, Color.White);
 	}
+    public override void InitStats(int difficulty)
+    {
+        base.InitStats(difficulty);
+        XpValue = 50 + difficulty * 10;
+    }
 }
 

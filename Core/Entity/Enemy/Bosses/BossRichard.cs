@@ -182,11 +182,10 @@ class BossRichard : EnemyBoss
 	}
     public override void InitStats(int difficulty)
 	{
-		Hp = 120;
+		Hp = 160;
 		MovementSpeed = 2;
 		AttackDmg = 1;
 		AttackSpeed = 450;
-		XpValue = 50;
 		base.InitStats(difficulty);
 	}
 }

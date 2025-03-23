@@ -189,6 +189,7 @@ class BossAmogus : EnemyBoss
 	}
 	public override void Move(Place place)
 	{
+		MovementSpeed = place.player.MovementSpeed * (1.75f - Hp/(float)MaxHp);
 		// Check if the cooldown has passed based on DateTime
 		if (lastPathUpdateElapsed >= pathUpdateCooldown && (path.Count == 0 || targetPosition != PlayerPosition))
 		{
@@ -296,7 +297,7 @@ class BossAmogus : EnemyBoss
 			Hp -= projectile.Damage;
 			projectilesRecieved.Add(projectile);
 
-			if (Hp <= hpBeforeVenting - 10)
+			if (Hp <= hpBeforeVenting - 25)
 			{
 				Vent();
 			}
@@ -346,11 +347,10 @@ class BossAmogus : EnemyBoss
 
     public override void InitStats(int difficulty)
 	{
-		hpBeforeVenting = Hp = 80;
+		hpBeforeVenting = Hp = 160;
 		//	AttackSpeed = 0;
 		MovementSpeed = 6;
 		AttackDmg = 1;
-		XpValue = 70;
 		base.InitStats(difficulty);
 	}
 }

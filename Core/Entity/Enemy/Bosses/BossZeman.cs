@@ -236,7 +236,6 @@ class BossZeman : EnemyBoss
 		MovementSpeed = BaseMovementSpeed =  7;
 		AttackDmg = 2;
 		AttackSpeed = 0;
-		XpValue = 70;
 		base.InitStats(difficulty);
 	}
 }

@@ -155,11 +155,10 @@ public class BossAles : EnemyBoss
 
     public override void InitStats(int difficulty)
 	{
-		Hp = 50;
+		Hp = 70;
 		MovementSpeed = 4;
 		AttackSpeed = 350;
 		AttackDmg = 1;
-		XpValue = 50;
 		base.InitStats(difficulty);
 	}
 }

@@ -168,7 +168,6 @@ class BossSvarta : EnemyBoss
 		MovementSpeed = 12;
 		AttackSpeed = 0;
 		AttackDmg = 2;
-		XpValue = 50;
 		base.InitStats(difficulty);	
 	}
 }
