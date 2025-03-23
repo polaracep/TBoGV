@@ -9,13 +9,20 @@ public class ScreenEnd : Screen
     private Texture2D Vyzo = TextureManager.GetTexture("vyzo");
     private Viewport viewport;
     private Button backButton;
+    private Button continueButton;
 
     public override void BeginRun(GraphicsDeviceManager graphics)
     {
         // Create a button to go back to the main menu.
-        backButton = new Button("Zpátky do menu", LargerFont, () =>
+        backButton = new Button("Zpátky do menu\n(odejít z GV)", LargerFont, () =>
         {
             TBoGVGame.screenCurrent = ScreenManager.ScreenStart;
+            FileHelper.ResetSaves();
+        });
+        continueButton = new Button("Pokračovat do vypadnutí\n(experimental endless)", LargerFont, () =>
+        {
+            TBoGVGame.screenCurrent = ScreenManager.ScreenGame;
+            Storyline.Endless = true;
         });
     }
 
@@ -46,6 +53,9 @@ public class ScreenEnd : Screen
         backButton.Position = new Vector2((viewport.Width - backButton.GetRect().Width) / 2, viewport.Height * 4 / 5);
         backButton.Draw(_spriteBatch);
 
+        continueButton.Position = new Vector2((viewport.Width - backButton.GetRect().Width) / 2, backButton.Position.Y + continueButton.GetRect().Height + 20);
+        continueButton.Draw(_spriteBatch);
+
         _spriteBatch.End();
     }
 
@@ -54,5 +64,6 @@ public class ScreenEnd : Screen
         // Update button state based on mouse input.
         MouseState mouseState = Mouse.GetState();
         backButton.Update(mouseState);
+        continueButton.Update(mouseState);
     }
 }

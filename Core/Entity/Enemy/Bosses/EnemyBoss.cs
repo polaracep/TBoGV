@@ -54,8 +54,13 @@ public abstract class EnemyBoss : Enemy
 	}
     public override void InitStats(int difficulty)
     {
+        if (difficulty >= 9)
+        {
+			Hp = 200 + ((difficulty - 9) * 20);
+        }
         base.InitStats(difficulty);
         XpValue = 50 + difficulty * 10;
+
     }
 }
 

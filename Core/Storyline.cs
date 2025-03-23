@@ -11,6 +11,7 @@ public static class Storyline
     public static List<Level> LevelList;
     public static int CurrentLevelNumber = 0;
     public static Level CurrentLevel = null;
+    public static bool Endless = false;
     public static Player Player
     {
         get => p;
@@ -81,13 +82,27 @@ public static class Storyline
                 rooms.Add(new RoomToilet(p));
         }
 
-
         return rooms;
+    }
+    public static Level GenerateEndlessLevel()
+    {
+        var rooms = GenerateLevelRooms(Math.Max(5, CurrentLevelNumber - 4), Math.Max(8, CurrentLevelNumber - 2));
+        List<Room> bossRooms = [new RoomBossAles(p), new RoomBossToilet(p), new RoomBossSvarta(p), new RoomBossCat(p), new RoomBossRichard(p), new RoomBossZeman(p), new RoomBossAmogus(p)];
+        if (CurrentLevelNumber % 2 == 0)
+            bossRooms = [new RoomClassroom(p)];
+        Level level = new Level(p, rooms, new RoomStart(p), bossRooms[Random.Shared.Next(bossRooms.Count)], (uint)Math.Max(6, (int)Math.Sqrt(CurrentLevelNumber-2)+1));
+        return level;
     }
 
     private static bool promoted = false;
     public static void NextLevel()
     {
+        if (Endless)
+        {
+            NextLevelEndless();
+            return;
+        }
+
         Player.Save(SaveType.AUTO);
         // wrap na zacatek
         if (CurrentLevelNumber == LevelList.Count)
@@ -107,13 +122,42 @@ public static class Storyline
         Difficulty = (int)Math.Floor((CurrentLevelNumber - 1) / (float)2) + 1;
 
     }
+    public static void NextLevelEndless()
+    {
+
+        Player.Save(SaveType.AUTO);
+        // reset failed times
+        if (CurrentLevelNumber % 2 == 0 && !promoted)
+        {
+            FailedTimes = 0;
+            promoted = true;
+        }
+        if (CurrentLevelNumber % 2 == 1)
+            promoted = false;
+
+        CurrentLevel = GenerateEndlessLevel();
+        CurrentLevelNumber++;
+        Difficulty = (int)Math.Floor((CurrentLevelNumber - 1) / (float)2) + 1;
+    }
     public static void ResetLevel()
     {
+        if (Endless)
+        {
+            ResetLevelEndless();
+            return;
+        }
         int f = FailedTimes;
         GenerateStoryline();
         if (CurrentLevelNumber >= LevelList.Count)
             CurrentLevelNumber = 0;
         CurrentLevel = LevelList[CurrentLevelNumber];
+        CurrentLevel.Reset();
+        FailedTimes = f;
+    }
+    public static void ResetLevelEndless()
+    {
+        int f = FailedTimes;
+        CurrentLevel = GenerateEndlessLevel();
         CurrentLevel.Reset();
         FailedTimes = f;
     }

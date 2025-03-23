@@ -136,7 +136,7 @@ class UI : IDraw
                 yearText = "Oktava";
                 break;
             default:
-                yearText = "";
+                yearText = (Storyline.CurrentLevelNumber - 1) / 2 + 1 + ". Ročník";
                 break;
         }
         if (Storyline.CurrentLevelNumber == 0)

@@ -439,6 +439,7 @@ public class Player : Entity, IRecieveDmg, IDealDmg
         {
             Position = Position,
             Level = Level,
+            Endless = Storyline.Endless,
             Xp = Xp,
             Hp = Hp,
             Coins = Coins,
@@ -468,6 +469,7 @@ public class Player : Entity, IRecieveDmg, IDealDmg
             LastRecievedDmgElapsed = data.LastRecievedDmgElapsed;
             Storyline.CurrentLevelNumber = data.CurrentLevelNumber;
             Storyline.FailedTimes = data.FailedTimes;
+            Storyline.Endless = data.Endless;
             // Restore Item Containers
             Inventory.ItemContainers.Clear();
             foreach (var itemData in data.ItemContainers)
@@ -500,6 +502,7 @@ public class PlayerData
 {
     public int CurrentLevelNumber { get; set; }
     public int FailedTimes { get; set; }
+    public bool Endless { get; set; }
     public int Level { get; set; }
     public float Xp { get; set; }
     public float Hp { get; set; }
@@ -526,6 +529,7 @@ public class PlayerData
         {
             { "cln", this.CurrentLevelNumber },
             { "ft", this.FailedTimes },
+            { "endless", this.Endless },
             { "l", this.Level },
             { "x", this.Xp },
             { "h", this.Hp },
@@ -555,6 +559,9 @@ public class PlayerData
 
         if (dict.TryGetValue("l", out object lObj))
             this.Level = Convert.ToInt32(lObj);
+
+        if (dict.TryGetValue("endless", out object endlessObj))
+            this.Endless = Convert.ToBoolean(endlessObj);
 
         if (dict.TryGetValue("x", out object xObj))
             this.Xp = Convert.ToSingle(xObj);
