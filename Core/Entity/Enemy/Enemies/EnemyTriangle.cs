@@ -86,7 +86,7 @@ class EnemyTriangle : EnemyMelee
 
     public override void InitStats(int difficulty)
     {
-        Hp = difficulty * 1.75f + 1.25f;
+        Hp = difficulty * 2f + 1f;
         MovementSpeed = 1.2f;
         AttackSpeed = 444;
         AttackDmg = 1;
