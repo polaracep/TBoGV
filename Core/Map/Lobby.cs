@@ -8,7 +8,6 @@ public class Lobby : Place
     protected bool tutorialPlayed = false;
     protected bool IsFyjala = false;
     protected EntityGambler gambler = null;
-    private bool machineGuidePlayed = false;
 
     public Lobby(Player p)
     {
@@ -124,12 +123,13 @@ public class Lobby : Place
         if (Storyline.CurrentLevelNumber == 0)
             return;
 
-        if (gambler != null && gambler.Done == false)
+        if (gambler != null && !gambler.Done && gambler.BetPlaced)
         {
+            // leave gambler
             gambler.EvalBet();
             Entities.Add(gambler);
         }
-        else if (gambler != null && gambler.Done == true)
+        else if (gambler != null && gambler.Done)
             gambler = null;
         else
             GenerateGambler();
@@ -142,7 +142,6 @@ public class Lobby : Place
     {
         if (player.TutorialCompleted)
         {
-            machineGuidePlayed = true;
             tutorialPlayed = true;
             return;
         }
