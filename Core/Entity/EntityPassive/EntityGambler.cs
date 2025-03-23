@@ -59,7 +59,7 @@ public class EntityGambler : EntityPassive, IInteractable
         BetPlaced = false;
         Done = true;
         if (Won)
-            return betAmount * 2;
+            return (int)Math.Floor(betAmount * Random.Shared.Next(200, 301) * 0.01);
         else
             return 0;
     }

@@ -40,6 +40,7 @@ public class InGameMenuBet : InGameMenu
         {
             player.Coins -= (int)betSlider.Value;
             gambler.SetBet((int)betSlider.Value);
+            CloseMenu.Invoke();
             ScreenManager.ScreenGame.OpenDialogue(new DialogueBasic(DialogueManager.GetDialogue("gamblerPlaced").RootElement, gambler.Name, gambler.GetSprite()));
         });
 

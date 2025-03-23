@@ -119,25 +119,24 @@ public class Lobby : Place
         IsFyjala = false;
         player.Inventory.RemoveEffect(new EffectFyjalovaDrahota(1));
 
-        // negenerovat prvni v prvnim lobby
-        if (Storyline.CurrentLevelNumber != 0)
-        {
-
-            if (gambler != null && gambler.BetPlaced == true)
-            {
-                gambler.EvalBet();
-                Entities.Add(gambler);
-            }
-            else if (gambler != null && gambler.BetPlaced == false)
-                gambler = null;
-            else
-                GenerateGambler();
-
-
-            GenerateFyjala();
-        }
-
         GenerateSarka();
+        // negenerovat prvni v prvnim lobby
+        if (Storyline.CurrentLevelNumber == 0)
+            return;
+
+        if (gambler != null && gambler.Done == false)
+        {
+            gambler.EvalBet();
+            Entities.Add(gambler);
+        }
+        else if (gambler != null && gambler.Done == true)
+            gambler = null;
+        else
+            GenerateGambler();
+
+
+        GenerateFyjala();
+
     }
     public override void OnEntry()
     {
