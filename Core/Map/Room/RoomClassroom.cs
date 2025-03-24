@@ -142,7 +142,7 @@ public class RoomClassroom : Room
         }
         else if (!IsGenerated || Enemies.Count > 0)
         {
-            spriteBatch.Draw(SpriteIconNotCleared, position + (new Vector2(width, height) - new Vector2(SpriteIconNotCleared.Width, SpriteIconNotCleared.Height)) / 2, Color.White);
+            spriteBatch.Draw(SpriteIconNotCleared, position + (new Vector2(width, height) - new Vector2(SpriteIconNotCleared.Width, SpriteIconNotCleared.Height)) / 2, new Color(110, 110, 110));
         }
     }
 }
