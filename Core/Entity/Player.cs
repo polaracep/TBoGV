@@ -359,12 +359,9 @@ public class Player : Entity, IRecieveDmg, IDealDmg
         {
             LevelUp();
         }
-        if (Inventory.GetEffect().Contains(EffectTypes.LIFE_STEAL))
+        if (Inventory.GetEffect().Contains(EffectTypes.LIFE_STEAL) && Random.Shared.Next(4) == 0)
         {
-            Heal(0.5f);
-            var existingEffect = Inventory.Effects.FirstOrDefault(effect => effect is EffectCooked);
-            if (existingEffect != null)
-                Inventory.AddEffect(new EffectCooked(-1));
+            Heal(1f);
         }
     }
     public int XpForLevel()
