@@ -29,8 +29,9 @@ class EffectLol : Effect
     {
         Level += delta;
         Random rnd = new Random();
-        EnsureLevelCap();
-        if (Stats.ContainsKey(StatTypes.MOVEMENT_SPEED))
+		if (EnsureLevelCap())
+			return;
+		if (Stats.ContainsKey(StatTypes.MOVEMENT_SPEED))
             Stats[StatTypes.MOVEMENT_SPEED]-= delta * 2;
         else
             Stats[StatTypes.MOVEMENT_SPEED] = -delta *2;
