@@ -139,13 +139,14 @@ public static class ItemDatabase
 			new ItemSesitZsv(),
 			new ItemKruzitko(),
 			new ItemOrezavatko(),
+			new ItemVysvedceni(),
+			new ItemAtlas(),
 		};
 
 		foreach (var item in itemsList)
 		{
 			ItemsByName[item.Name] = item;
 		}
-		ItemsByName[new ItemVysvedceni().Name] = new ItemVysvedceni();
     }
 	public static ItemContainerable GetItemByName(string name)
 	{

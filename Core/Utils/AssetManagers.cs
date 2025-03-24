@@ -213,6 +213,7 @@ public static class TextureManager
             "sesitModry",
             "kruzitko",
             "sharpener",
+			"atlas",
 
             // Misc
             "gymvod",
