@@ -38,6 +38,7 @@ public class InGameMenuEffect : InGameMenu
 		{
 			FileHelper.ResetSaves();
 			Storyline.FailedTimes = 3;
+			Storyline.Endless = false;
 			InGameMenuDeath.ResetLevel();
         });
 	}
