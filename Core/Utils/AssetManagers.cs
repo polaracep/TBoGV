@@ -176,6 +176,7 @@ public static class TextureManager
             "iconExit",
             "iconNotCleared",
             "iconToilet",
+			"endless",
 
             // Items
             "heal",

@@ -5,18 +5,29 @@ using System.Collections.Generic;
 
 namespace TBoGV;
 
-class EffectRooted : Effect
+class EffectEndless : Effect
 {
-	protected static Texture2D Sprite = TextureManager.GetTexture("endless");
-	public EffectRooted(int level)
+	protected static Texture2D Sprite = TextureManager.GetTexture("skull");
+	private static List<StatTypes> allStats = new List<StatTypes>()
 	{
-		Name = "Kořenový vězeň";
-		Description = "Bouchání nikdo neslyšel, \nOdskočit jsi si nemohl, takže tě zahřívá teplá moč";
+		StatTypes.DAMAGE,
+		StatTypes.MOVEMENT_SPEED,
+		StatTypes.MAX_HP,
+		StatTypes.XP_GAIN,
+		StatTypes.PROJECTILE_COUNT,
+		StatTypes.ATTACK_SPEED
+	};
+	public EffectEndless(int level)
+	{
+		Name = "Věčný student";
+		Description = "I po maturitě pokračuješ ve studiu.\nNikdo tě tu ale už nechce.\nBrainrot je silnější. Na Automaty přišla inflace,\nZkuz zůstat na Gymvodu co nejdéle!";
 		Positive = false;
-		Stats = new Dictionary<StatTypes, float>() { };
-		Effects = new List<EffectTypes> { EffectTypes.ROOTED };
+		Stats = new Dictionary<StatTypes, float>();
+		foreach (StatTypes type in allStats)
+			Stats[type] = -4;
+		Effects = new List<EffectTypes>();
 		Level = 0;
-		LevelCap = 3;
+		LevelCap = 1;
 		ChangeLevel(level);
 		// Get original sprite dimensions
 		float originalWidth = Sprite.Width;
@@ -24,8 +35,9 @@ class EffectRooted : Effect
 
 		// Calculate scaling factor
 		scale = 45f / Math.Max(originalWidth, originalHeight);
+		effectTime = -1;
 	}
-	public EffectRooted() : this(1) { }
+	public EffectEndless() : this(1) { }
 	public override void ChangeLevel(int delta)
 	{
 		Level += delta;

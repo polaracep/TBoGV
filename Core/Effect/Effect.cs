@@ -100,6 +100,7 @@ public static class EffectDatabase
 			new EffectRooted(1),
 			new EffectCloseCall(),
 			new EffectPrezuvky(),
+			new EffectEndless(),
 		};
 
 		foreach (var effect in effectsList)
