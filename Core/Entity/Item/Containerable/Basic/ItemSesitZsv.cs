@@ -15,7 +15,7 @@ public class ItemSesitZsv : ItemContainerable
         Size = new Vector2(50, 50);
         Name = "Sešit zsv";
         Description = "Obsahuje určitě mnoho písmenek, ale ještě víc kreseb.\nMožná bys měl začít zapisovat.";
-        Stats = new Dictionary<StatTypes, float>() { { StatTypes.DAMAGE, 3 } };
+        Stats = new Dictionary<StatTypes, float>() { { StatTypes.XP_GAIN, 3 } };
         Effects = new List<EffectTypes>();
         Sprite = TextureManager.GetTexture("sesitCerveny");
         ItemType = ItemTypes.BASIC;

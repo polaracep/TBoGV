@@ -342,7 +342,7 @@ public abstract class ShopBase
 public abstract class Shop<T> : ShopBase where T : Shop<T> { }
 public class ShopSarka : Shop<ShopSarka>
 {
-    public override List<ItemContainerable> ItemPool { get; set; } = ItemDatabase.GetAllItems().Where(x => x is not ItemDoping).ToList();
+    public override List<ItemContainerable> ItemPool { get; set; } = ItemDatabase.GetAllItems().Where(x => x is not ItemDoping && x is not ItemVysvedceni).ToList();
     public override int ItemCount { get; protected set; } = 3;
 }
 public class ShopPerloun : Shop<ShopPerloun>
