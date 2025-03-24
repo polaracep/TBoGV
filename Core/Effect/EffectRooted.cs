@@ -7,7 +7,7 @@ namespace TBoGV;
 
 class EffectRooted : Effect
 {
-	protected static Texture2D Sprite = TextureManager.GetTexture("endless");
+	protected static Texture2D Sprite = TextureManager.GetTexture("koren");
 	public EffectRooted(int level)
 	{
 		Name = "Kořenový vězeň";

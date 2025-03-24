@@ -7,7 +7,7 @@ namespace TBoGV;
 
 class EffectEndless : Effect
 {
-	protected static Texture2D Sprite = TextureManager.GetTexture("skull");
+	protected static Texture2D Sprite = TextureManager.GetTexture("endless");
 	private static List<StatTypes> allStats = new List<StatTypes>()
 	{
 		StatTypes.DAMAGE,
@@ -20,7 +20,7 @@ class EffectEndless : Effect
 	public EffectEndless(int level)
 	{
 		Name = "Věčný student";
-		Description = "I po maturitě pokračuješ ve studiu.\nNikdo tě tu ale už nechce.\nBrainrot je silnější. Na Automaty přišla inflace,\nZkuz zůstat na Gymvodu co nejdéle!";
+		Description = "I po maturitě pokračuješ ve studiu.\nNikdo tě tu ale už nechce.\nBrainrot je silnější a na automaty přišla inflace.\nZkuz zůstat na Gymvodu co nejdéle!";
 		Positive = false;
 		Stats = new Dictionary<StatTypes, float>();
 		foreach (StatTypes type in allStats)
@@ -41,6 +41,8 @@ class EffectEndless : Effect
 	public override void ChangeLevel(int delta)
 	{
 		Level += delta;
+		foreach (StatTypes type in allStats)
+			Stats[type] = -4;
 		EnsureLevelCap();
 		UpdateSize();
 	}

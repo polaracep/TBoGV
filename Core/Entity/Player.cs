@@ -789,29 +789,34 @@ public class EffectData
             Name = string.Empty; // Default to empty string if missing or invalid
         }
 
-        if (dict.TryGetValue("level", out object levelObj) && levelObj is int level)
+        if (dict.TryGetValue("level", out object levelObj))
         {
-            Level = level;
+            Level = Convert.ToInt32(levelObj);
         }
         else
         {
             Level = 0; // Default to 0 if missing or invalid
         }
 
-        if (dict.TryGetValue("stats", out object statsObj) && statsObj is Dictionary<object, object> rawStats)
-        {
-            Stats = new Dictionary<StatTypes, float>();
-            foreach (var kvp in rawStats)
-            {
-                if (kvp.Key is StatTypes key && kvp.Value is float value)
-                {
-                    Stats[key] = value;
-                }
-            }
-        }
-        else
-        {
-            Stats = new Dictionary<StatTypes, float>(); // Default to empty dictionary
-        }
-    }
+		if (dict.TryGetValue("stats", out object statsObj) && statsObj is Newtonsoft.Json.Linq.JObject jObject)
+		{
+			var rawStats = jObject.ToObject<Dictionary<string, float>>();
+			if (rawStats != null)
+			{
+				Stats = new Dictionary<StatTypes, float>();
+				foreach (var kvp in rawStats)
+				{
+					if (Enum.TryParse(kvp.Key, out StatTypes key))
+					{
+						Stats[key] = kvp.Value;
+					}
+				}
+			}
+		}
+		else
+		{
+			Stats = new Dictionary<StatTypes, float>();
+		}
+
+	}
 }
