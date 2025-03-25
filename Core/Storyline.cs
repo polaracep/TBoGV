@@ -102,10 +102,9 @@ public static class Storyline
             NextLevelEndless();
             return;
         }
-
-        Player.Save(SaveType.AUTO);
-        // wrap na zacatek
-        if (CurrentLevelNumber == LevelList.Count)
+		Player.Save(SaveType.AUTO);
+		// wrap na zacatek
+		if (CurrentLevelNumber == LevelList.Count)
             CurrentLevelNumber = 0;
 
         // reset failed times
@@ -113,8 +112,9 @@ public static class Storyline
         {
             FailedTimes = 0;
             promoted = true;
-        }
-        if (CurrentLevelNumber % 2 == 1)
+			Player.Save(SaveType.AUTO);
+		}
+		if (CurrentLevelNumber % 2 == 1)
             promoted = false;
 
         CurrentLevel = LevelList[CurrentLevelNumber];
