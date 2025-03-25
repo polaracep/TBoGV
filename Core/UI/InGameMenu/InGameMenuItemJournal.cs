@@ -16,7 +16,7 @@ class InGameMenuItemJournal : InGameMenu
 	private static Texture2D TooltipTexture;  // Tooltip background texture
 
 	// All the item objects that we want to show in the journal.
-	private List<ItemContainerable> Items = new List<ItemContainerable>();
+	private static List<ItemContainerable> Items = new List<ItemContainerable>();
 
 	// Known status: itemName -> bool
 	private static Dictionary<string, bool> KnownItems = new();
@@ -41,15 +41,17 @@ class InGameMenuItemJournal : InGameMenu
 		TooltipTexture = TextureManager.GetTexture("blackSquare");
 
 		AddAllItems();
-#if DEBUG
-		ShowAll();
-#endif
+		Load();
+//#if DEBUG
+//		ShowAll();
+//#endif
 	}
 
-	private void AddAllItems()
+	private static void AddAllItems()
 	{
 		var ItemsList = ItemDatabase.GetAllItems();
-
+		KnownItems.Clear();
+		Items.Clear();
 		foreach (var item in ItemsList)
 		{
 			Items.Add(item.Clone());
@@ -64,7 +66,7 @@ class InGameMenuItemJournal : InGameMenu
 			}
 		}
 	}
-	public void ShowAll()
+	public static void ShowAll()
 	{
 		// Create a temporary list of keys to avoid modifying the collection while iterating.
 		foreach (var key in new List<string>(KnownItems.Keys))
@@ -72,7 +74,7 @@ class InGameMenuItemJournal : InGameMenu
 			KnownItems[key] = true;
 		}
 	}
-	private void UpdateKnownItems(List<ItemContainer> containers)
+	public static void UpdateKnownItems(List<ItemContainer> containers)
 	{
 		foreach (var container in containers)
 		{
@@ -85,6 +87,7 @@ class InGameMenuItemJournal : InGameMenu
 				}
 			}
 		}
+		Save();
 	}
 
 	public override void Update(Viewport viewport, Player player, MouseState mouseState, KeyboardState keyboardState, double dt)
@@ -257,5 +260,47 @@ class InGameMenuItemJournal : InGameMenu
 			sb.AppendLine($"{displayName}: {valueString}");
 		}
 		return sb.ToString();
+	}
+	private static string itemJournalPath = "./itemJournal.json";
+	private static Dictionary<string, object> Serialize()
+	{
+		Dictionary<string, object> output = [];
+		foreach (var item in KnownItems)
+			output[item.Key] = item.Value;
+		return output;
+	}
+
+	private static void Deserialize(Dictionary<string, object> pairs)
+	{
+		try
+		{
+			foreach (var item in pairs)
+			{
+				if (item.Value != null)
+					KnownItems[item.Key] = Convert.ToBoolean(item.Value);
+			}
+		}
+		catch (Exception e)
+		{
+			Console.WriteLine("item journal error: " + e.Message);
+		}
+	}
+
+	public static void Save()
+	{
+		Dictionary<string, object> serialized = Serialize();
+		FileHelper.Save(itemJournalPath, serialized, SaveType.GENERIC);
+	}
+
+	public static void Load()
+	{
+		var data = FileHelper.Load<Dictionary<string, object>>(itemJournalPath, SaveType.GENERIC);
+		if (data == null)
+		{
+			AddAllItems();
+			Save();
+			data = FileHelper.Load<Dictionary<string, object>>(itemJournalPath, SaveType.GENERIC);
+		}
+		Deserialize(data);
 	}
 }

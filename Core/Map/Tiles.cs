@@ -293,14 +293,18 @@ public class TileFridge : Tile, IInteractable
         if (e is Player p)
         {
             var existingEffect = p.Inventory.Effects.FirstOrDefault(effect => effect is EffectCooked);
-            if ((existingEffect != null || p.Hp < p.MaxHp) && p.Coins >= 1)
-            {
+            if (((existingEffect != null || p.Hp < p.MaxHp) && p.Coins >= 1 && !Storyline.Endless) ||
+				((existingEffect != null || p.Hp < p.MaxHp) && p.Coins >= 10 && Storyline.Endless))
+
+			{
                 if (existingEffect != null)
                     p.Inventory.AddEffect(new EffectCooked(-3));
                 p.Heal(1);
                 p.Coins -= 1;
-            }
-        }
+				if (Storyline.Endless)
+					p.Coins -= 9;
+			}
+		}
     }
 }
 
@@ -316,11 +320,13 @@ public class TileCoffeeMachine : Tile, IInteractable
     {
         if (e is Player p)
         {
-            if (p.Hp < p.MaxHp && p.Coins >= 1)
+            if ((p.Hp < p.MaxHp && p.Coins >= 1 && Storyline.Endless) || (p.Hp < p.MaxHp && p.Coins >= 10 && Storyline.Endless))
             {
                 p.Heal(2);
                 p.Coins -= 1;
-            }
+				if (Storyline.Endless)
+					p.Coins -= 9;
+			}
         }
     }
 }

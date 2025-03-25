@@ -74,7 +74,7 @@ public static class FileHelper
 		{
 			foreach (var path in folderPath.Values)
 			{
-				if (!string.IsNullOrEmpty(path) && Directory.Exists(path))
+				if (!string.IsNullOrEmpty(path) && Directory.Exists(path) && path != "")
 				{
 					DirectoryInfo directory = new DirectoryInfo(path);
 					foreach (FileInfo file in directory.GetFiles())

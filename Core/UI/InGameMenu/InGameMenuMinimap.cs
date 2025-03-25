@@ -129,28 +129,32 @@ class InGameMenuMinimap : InGameMenu
                             lineDirection = new Vector2(-1,0);
                             lineDirection.Normalize();
                             lineStartPos = roomCenter + (roomSize / 2 * lineDirection) + 5 * lineDirection;
-                            lineSize = new Vector2(5,1);
+							lineStartPos = new Vector2(lineStartPos.X, lineStartPos.Y-1);
+							lineSize = new Vector2(5,3);
                             break;
 
                         case Directions.RIGHT:
                             lineDirection = new Vector2(1, 0);
                             lineDirection.Normalize();
                             lineStartPos = roomCenter + (roomSize / 2 * lineDirection);
-                            lineSize = new Vector2(5, 1);
+							lineStartPos = new Vector2(lineStartPos.X, lineStartPos.Y - 1);
+							lineSize = new Vector2(5, 3);
                             break;
 
                         case Directions.UP:
                             lineDirection = new Vector2(0, -1);
                             lineDirection.Normalize();
                             lineStartPos = roomCenter + (roomSize / 2 * lineDirection) + 5 * lineDirection;
-                            lineSize = new Vector2(1, 5);
+							lineStartPos = new Vector2(lineStartPos.X-1, lineStartPos.Y);
+							lineSize = new Vector2(3, 5);
                             break;
 
                         case Directions.DOWN:
                             lineDirection = new Vector2(0, 1);
                             lineDirection.Normalize();
                             lineStartPos = roomCenter + (roomSize / 2 * lineDirection);
-                            lineSize = new Vector2(1, 5);
+							lineStartPos = new Vector2(lineStartPos.X - 1, lineStartPos.Y);
+							lineSize = new Vector2(3, 5);
                             break;
                     }
                     spriteBatch.Draw(WhiteSquare,new Rectangle(lineStartPos.ToPoint(), lineSize.ToPoint()),Color.White);

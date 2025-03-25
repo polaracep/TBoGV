@@ -87,8 +87,8 @@ public class InGameMenuShop : InGameMenu
     {
         new Dictionary<int, double>()
         {
-            { 1, 0 }, // Common
-            { 2, 0.3 }, // Uncommon
+            { 1, 0.1 }, // Common
+            { 2, 0.2 }, // Uncommon
             { 3, 0.6 }, // Rare
             { 4, 0.1 }  // Legendary
         }
@@ -96,8 +96,8 @@ public class InGameMenuShop : InGameMenu
     {
         new Dictionary<int, double>()
         {
-            { 1, 0 }, // Common
-            { 2, 0.3 }, // Uncommon
+            { 1, 0.05 }, // Common
+            { 2, 0.25 }, // Uncommon
             { 3, 0.5 }, // Rare
             { 4, 0.2 }  // Legendary
         }

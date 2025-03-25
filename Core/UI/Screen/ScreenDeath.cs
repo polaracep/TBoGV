@@ -15,6 +15,7 @@ public class ScreenDeath : Screen
 		backButton = new Button("Zpátky na začátek", LargerFont, () =>
 		{
 			TBoGVGame.screenCurrent = ScreenManager.ScreenStart;
+			Storyline.Player.Inventory.RemoveEffect(new EffectEndless());
 		});
 	}
 

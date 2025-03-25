@@ -170,12 +170,15 @@ public class RoomLocker : Room
         }
     }
     protected static Texture2D SpriteIcon = TextureManager.GetTexture("lockerIcon");
-    public override void DrawMinimapIcon(SpriteBatch spriteBatch, Vector2 position, float scale = 2, bool active = false)
-    {
-        base.DrawMinimapIcon(spriteBatch, position, scale, active);
-        int width = (int)(IconBaseSize.X * scale);
-        int height = (int)(IconBaseSize.Y * scale);
+	public override void DrawMinimapIcon(SpriteBatch spriteBatch, Vector2 position, float scale = 2, bool active = false)
+	{
+		base.DrawMinimapIcon(spriteBatch, position, scale, active);
+		int width = (int)(IconBaseSize.X * scale);
+		int height = (int)(IconBaseSize.Y * scale);
 
-        spriteBatch.Draw(SpriteIcon, position + (new Vector2(width, height) - new Vector2(SpriteIcon.Width, SpriteIcon.Height)) / 2, Color.White);
-    }
+		if (!IsGenerated)
+			spriteBatch.Draw(SpriteIcon, position + (new Vector2(width, height) - new Vector2(SpriteIcon.Width, SpriteIcon.Height)) / 2, new Color(110, 110, 110));
+		else
+			spriteBatch.Draw(SpriteIcon, position + (new Vector2(width, height) - new Vector2(SpriteIcon.Width, SpriteIcon.Height)) / 2, Color.White);
+	}
 }

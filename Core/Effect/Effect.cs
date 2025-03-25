@@ -26,12 +26,16 @@ public abstract class Effect : IDraw, ICloneable
 	static Texture2D SpriteForeground = TextureManager.GetTexture("whiteSquare");
 	static protected int Border = 5;
 	public abstract void ChangeLevel(int delta);
-	public virtual void EnsureLevelCap()
+	public virtual bool EnsureLevelCap()
 	{
 		//if(Level < 0)
 		//	Level = 0;
 		if (LevelCap < Level)
-			Level = LevelCap;
+		{ 
+			Level = LevelCap; 
+			return true;
+		}
+		return false;
 	}
 	public virtual void UpdateSize()
 	{
@@ -96,6 +100,7 @@ public static class EffectDatabase
 			new EffectRooted(1),
 			new EffectCloseCall(),
 			new EffectPrezuvky(),
+			new EffectEndless(),
 		};
 
 		foreach (var effect in effectsList)

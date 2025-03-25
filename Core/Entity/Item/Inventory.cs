@@ -310,6 +310,7 @@ public class Inventory
 				if (ItemContainers[2].IsEmpty())
 				{
 					ItemContainers[2].Item = item;
+					InGameMenuItemJournal.UpdateKnownItems(ItemContainers);
 					return true;
 				}
 				return false;
@@ -317,6 +318,7 @@ public class Inventory
 				if (ItemContainers[0].IsEmpty())
 				{
 					ItemContainers[0].Item = item;
+					InGameMenuItemJournal.UpdateKnownItems(ItemContainers);
 					return true;
 				}
 				return false;
@@ -324,6 +326,7 @@ public class Inventory
 				if (ItemContainers[1].IsEmpty())
 				{
 					ItemContainers[1].Item = item;
+					InGameMenuItemJournal.UpdateKnownItems(ItemContainers);
 					return true;
 				}
 				return false;
@@ -333,6 +336,7 @@ public class Inventory
 					if (ItemContainers[i].IsEmpty())
 					{
 						ItemContainers[i].Item = item;
+						InGameMenuItemJournal.UpdateKnownItems(ItemContainers);
 						return true;
 					}
 				}
@@ -365,6 +369,7 @@ public class Inventory
 			default:
 				return item;
 		}
+		InGameMenuItemJournal.UpdateKnownItems(ItemContainers);
 		itemToDrop.Position = item.Position;
 		return itemToDrop;
 	}

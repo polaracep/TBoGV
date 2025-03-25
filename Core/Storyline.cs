@@ -160,7 +160,8 @@ public static class Storyline
         CurrentLevel = GenerateEndlessLevel();
         CurrentLevel.Reset();
         FailedTimes = f;
-    }
+		Player.Inventory.AddEffect(new EffectEndless());
+	}
     public static void ResetStoryline()
     {
         GenerateStoryline();

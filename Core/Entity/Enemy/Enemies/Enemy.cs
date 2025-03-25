@@ -34,7 +34,12 @@ public abstract class Enemy : Entity, IRecieveDmg, IDealDmg, ICloneable
   }
   public virtual void InitStats(int difficulty)
 	{
+		if (Storyline.Endless && difficulty>=8)
+		{
+			Hp += (difficulty - 8) * 3f;
+		}
 		MaxHp = (int)Hp;
+		XpValue = Math.Min(XpValue, 5);
     }
   public virtual List<Item> Drop(int looting)
   {

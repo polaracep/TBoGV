@@ -2,14 +2,13 @@
 using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
-using System.Collections;
 
 namespace TBoGV;
 
-class EffectCooked : Effect
+class EffectEndless : Effect
 {
-	protected static Texture2D Sprite = TextureManager.GetTexture("cooked");
-	private List<StatTypes> allStats = new List<StatTypes>()
+	protected static Texture2D Sprite = TextureManager.GetTexture("endless");
+	private static List<StatTypes> allStats = new List<StatTypes>()
 	{
 		StatTypes.DAMAGE,
 		StatTypes.MOVEMENT_SPEED,
@@ -18,14 +17,17 @@ class EffectCooked : Effect
 		StatTypes.PROJECTILE_COUNT,
 		StatTypes.ATTACK_SPEED
 	};
-	public EffectCooked(int level)
+	public EffectEndless(int level)
 	{
-		Name = "Cooked";
-		Description = "Nadměrná konzumace brainrotu, \nnebo jsi se pokousel pochopit TFY";
+		Name = "Věčný student";
+		Description = "I po maturitě pokračuješ ve studiu.\nNikdo tě tu ale už nechce.\nBrainrot je silnější a na automaty přišla inflace.\nZkuz zůstat na Gymvodu co nejdéle!";
 		Positive = false;
 		Stats = new Dictionary<StatTypes, float>();
+		foreach (StatTypes type in allStats)
+			Stats[type] = -4;
+		Effects = new List<EffectTypes>();
 		Level = 0;
-		LevelCap = 50;
+		LevelCap = 1;
 		ChangeLevel(level);
 		// Get original sprite dimensions
 		float originalWidth = Sprite.Width;
@@ -33,23 +35,16 @@ class EffectCooked : Effect
 
 		// Calculate scaling factor
 		scale = 45f / Math.Max(originalWidth, originalHeight);
+		effectTime = -1;
 	}
-	public EffectCooked() : this(1) { }
+	public EffectEndless() : this(1) { }
 	public override void ChangeLevel(int delta)
 	{
 		Level += delta;
-		if (EnsureLevelCap())
-			return;
-		Random rnd = new Random();
-		for (int i = 0; i < delta; i++)
-		{
-			StatTypes stat = allStats[rnd.Next(0, allStats.Count)];
-			if (Stats.ContainsKey(stat))
-				Stats[stat]--;
-			else
-				Stats[stat] = -1;
-		}
-        UpdateSize();
+		foreach (StatTypes type in allStats)
+			Stats[type] = -4;
+		EnsureLevelCap();
+		UpdateSize();
 	}
 
 	public override Texture2D GetSprite()

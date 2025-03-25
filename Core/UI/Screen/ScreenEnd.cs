@@ -23,6 +23,7 @@ public class ScreenEnd : Screen
         {
             TBoGVGame.screenCurrent = ScreenManager.ScreenGame;
             Storyline.Endless = true;
+			Storyline.Player.Inventory.AddEffect(new EffectEndless());
         });
     }
 

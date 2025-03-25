@@ -94,6 +94,7 @@ class EnemyJirka : EnemyRanged
 	}
     private static List<SoundEffectInstance> Sfx = [
     SoundManager.GetSound("ctyriMinuty").CreateInstance(),
+	SoundManager.GetSound("papirSkloPlastyKara").CreateInstance(),
 	];
     private static double ambientElapsed = 0;
     private static double ambientTime = 3000;
