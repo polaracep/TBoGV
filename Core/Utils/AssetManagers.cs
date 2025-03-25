@@ -225,6 +225,7 @@ public static class TextureManager
             "richard",
             "vyzo",
             "wiseman",
+			"logo",
         };
 
         foreach (string name in names)
