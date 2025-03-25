@@ -283,13 +283,15 @@ public class Player : Entity, IRecieveDmg, IDealDmg
     {
         ItemsToDrop.Add(item);
     }
+	protected static Texture2D SpriteSelect = TextureManager.GetTexture("logo");
 
-    public override void Draw(SpriteBatch spriteBatch)
+	public override void Draw(SpriteBatch spriteBatch)
     {
         spriteBatch.Draw(Sprite,
             new Rectangle(Convert.ToInt32(Position.X), Convert.ToInt32(Position.Y), Convert.ToInt32(Size.X), Convert.ToInt32(Size.Y)),
             LastRecievedDmgElapsed >= InvulnerabilityFrame ? Color.White : Color.DarkRed);
-        spriteBatch.Draw(TextureManager.GetTexture("projectile"), InteractionPoint, Color.White);
+		float scale = 10f / Math.Max(SpriteSelect.Width, SpriteSelect.Height);
+		spriteBatch.Draw(SpriteSelect, new Rectangle(InteractionPoint.ToPoint(), new Point((int)(SpriteSelect.Width * scale), (int)(SpriteSelect.Height * scale))), Color.White);
     }
     public bool ReadyToAttack()
     {
