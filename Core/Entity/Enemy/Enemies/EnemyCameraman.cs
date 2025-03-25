@@ -72,7 +72,7 @@ class EnemyCameraman : EnemyMelee
 	}
 	public override void Move(Place place)
 	{
-		if ((place.player.Position - Position).Length() <= 150)
+		if ((place.player.Position - Position).Length() <= 225)
 		{
 			Direction = (place.player.Position + place.player.Size/2 - Position);
 		}
