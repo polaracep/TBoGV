@@ -281,7 +281,10 @@ public class ScreenGame : Screen
 
     public void OpenDialogue(Dialogue dialogue)
     {
-        nextMenu = new InGameMenuDialogue(_viewport, dialogue);
+        if (dialogue == null)
+            nextMenu = null;
+        else
+            nextMenu = new InGameMenuDialogue(_viewport, dialogue);
     }
     public void OpenMenu(InGameMenu menu)
     {
@@ -321,6 +324,7 @@ public class ScreenGame : Screen
         activePlace.OnExit();
         player = new Player();
         tutorial = new TutorialLevel(player);
+        activeMenu = null;
 
         player.IsPlaying = true;
         inTutorial = true;
