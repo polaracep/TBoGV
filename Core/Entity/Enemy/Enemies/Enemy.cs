@@ -33,14 +33,14 @@ public abstract class Enemy : Entity, IRecieveDmg, IDealDmg, ICloneable
     return new List<Projectile>() { new ProjectileMelee(Position + Size / 2, Size * new Vector2(0.6f)) };
   }
   public virtual void InitStats(int difficulty)
-	{
-		if (Storyline.Endless && difficulty>=8)
-		{
-			Hp += (difficulty - 8) * 3f;
-		}
-		MaxHp = (int)Hp;
-		XpValue = Math.Min(XpValue, 5);
+  {
+    if (Storyline.Endless && difficulty >= 8)
+    {
+      Hp += (difficulty - 8) * 3f;
     }
+    MaxHp = (int)Hp;
+    XpValue = Math.Min(XpValue, 5);
+  }
   public virtual List<Item> Drop(int looting)
   {
     Random random = new Random();
@@ -75,37 +75,37 @@ public abstract class Enemy : Entity, IRecieveDmg, IDealDmg, ICloneable
     return Hp < 0 ? -Hp : 0;
   }
 
-    public object Clone()
-    {
-        AttackDelay();
-        Enemy clone = (Enemy)this.MemberwiseClone();
-        clone.projectilesRecieved = new List<Projectile>(this.projectilesRecieved); // Creates a new list instead of sharing reference
-        return clone;
-    }
+  public object Clone()
+  {
+    AttackDelay();
+    Enemy clone = (Enemy)this.MemberwiseClone();
+    clone.projectilesRecieved = new List<Projectile>(this.projectilesRecieved); // Creates a new list instead of sharing reference
+    return clone;
+  }
 
-    public bool IsDamaged()
-	{
-		return (int)Hp != MaxHp;
-	}
-	protected static Texture2D SpriteWhiteSquare = TextureManager.GetTexture("whiteSquare");
-	public virtual void DrawHealthBar(SpriteBatch spriteBatch)
-	{
-		if (!IsDamaged())
-			return;
+  public bool IsDamaged()
+  {
+    return (int)Hp != MaxHp;
+  }
+  protected static Texture2D SpriteWhiteSquare = TextureManager.GetTexture("whiteSquare");
+  public virtual void DrawHealthBar(SpriteBatch spriteBatch)
+  {
+    if (!IsDamaged())
+      return;
 
-		int barWidth = (int)Size.X;
-		int barHeight = 5;
-		Vector2 barPosition = new Vector2(Position.X, Position.Y - barHeight - 2);
+    int barWidth = (int)Size.X;
+    int barHeight = 5;
+    Vector2 barPosition = new Vector2(Position.X, Position.Y - barHeight - 2);
 
-		spriteBatch.Draw(SpriteWhiteSquare, new Rectangle(barPosition.ToPoint(), new Point(barWidth, barHeight)), Color.Black);
+    spriteBatch.Draw(SpriteWhiteSquare, new Rectangle(barPosition.ToPoint(), new Point(barWidth, barHeight)), Color.Black);
 
-		float healthPercent = (float)Hp / MaxHp;
-		int healthBarWidth = (int)(barWidth * healthPercent);
+    float healthPercent = (float)Hp / MaxHp;
+    int healthBarWidth = (int)(barWidth * healthPercent);
 
-		spriteBatch.Draw(SpriteWhiteSquare, new Rectangle(barPosition.ToPoint(), new Point(healthBarWidth, barHeight)), Color.Green);
+    spriteBatch.Draw(SpriteWhiteSquare, new Rectangle(barPosition.ToPoint(), new Point(healthBarWidth, barHeight)), Color.Green);
 
-		spriteBatch.Draw(SpriteWhiteSquare, new Rectangle(new Point(barPosition.ToPoint().X + healthBarWidth, barPosition.ToPoint().Y), new Point(barWidth - healthBarWidth, barHeight)), Color.Red);
-	}
+    spriteBatch.Draw(SpriteWhiteSquare, new Rectangle(new Point(barPosition.ToPoint().X + healthBarWidth, barPosition.ToPoint().Y), new Point(barWidth - healthBarWidth, barHeight)), Color.Red);
+  }
 
 }
 
