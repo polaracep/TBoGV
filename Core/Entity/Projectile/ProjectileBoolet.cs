@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
+using System;
 
 namespace TBoGV;
 
@@ -18,7 +19,7 @@ class ProjectileBoolet : Projectile
 	}
 	public override void Draw(SpriteBatch spriteBatch)
 	{
-		spriteBatch.Draw(Sprite, new Rectangle((int)(Position.X), (int)(Position.Y), (int)(Size.X), (int)(Size.Y)), Color.White);
+		spriteBatch.Draw(Sprite, Position, null, Color.White, MathF.Atan2(Direction.Y, Direction.X) + MathHelper.Pi, Size / 2, Vector2.One, SpriteEffects.None, 0f);
 	}
 	public override Texture2D GetSprite()
 	{
