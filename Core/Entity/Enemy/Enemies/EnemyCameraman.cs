@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework;
 using System;
 using Microsoft.Xna.Framework.Audio;
+using System.Collections.Generic;
 
 
 namespace TBoGV;
@@ -27,13 +28,14 @@ class EnemyCameraman : EnemyMelee
 	public override void Draw(SpriteBatch spriteBatch)
 	{
 		float rotation = MathF.Atan2(Direction.Y, Direction.X);
+		Vector2 origin = new Vector2(Sprite.Width / 2f, Sprite.Height / 2f);
 		spriteBatch.Draw(
 			Sprite,
 			new Rectangle((int)Position.X, (int)Position.Y, (int)Size.X, (int)Size.Y),
 			null,
 			Color.White,
-			0,
-			new Vector2(0), // Střed rotace
+			rotation,
+			origin, // Střed rotace
 			SpriteEffects.None,
 			0
 		);
@@ -72,7 +74,7 @@ class EnemyCameraman : EnemyMelee
 	{
 		if ((place.player.Position - Position).Length() <= 150)
 		{
-			Direction = (place.player.Position - Position);
+			Direction = (place.player.Position + place.player.Size/2 - Position);
 		}
 		else
 		{
@@ -86,6 +88,10 @@ class EnemyCameraman : EnemyMelee
 		Direction.Normalize();
 
 		Position += Direction * MovementSpeed;
+	}
+	public override List<Projectile> Attack()
+	{
+		return new List<Projectile>() { new ProjectileMelee(Position, Size * new Vector2(0.6f)) };
 	}
 }
 
