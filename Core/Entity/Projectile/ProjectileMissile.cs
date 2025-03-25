@@ -35,7 +35,7 @@ class ProjectileMissile : Projectile
 			Color.White,          // Color
 			rotation,             // Rotation angle
 			Size / 2,             // Origin (center of sprite)
-			1.0f,                 // Scale
+			Scale,                 // Scale
 			SpriteEffects.None,   // No flipping
 			0f                    // Layer depth
 		);

@@ -111,7 +111,7 @@ public abstract class Room : Place
             if (ObjectCollision.CircleCircleCollision(Projectiles[i], player))
             {
                 float excessDmg = player.RecieveDmg(Projectiles[i]);
-                Projectiles[i].Damage = excessDmg;
+                Projectiles[i].SetDamage(excessDmg);
                 if (Projectiles[i].Damage <= 0)
                     Projectiles.RemoveAt(i);
                 continue;
@@ -147,7 +147,7 @@ public abstract class Room : Place
                     }
                     if (!player.Inventory.GetEffect().Contains(EffectTypes.PIERCING) && !player.Inventory.GetEffect().Contains(EffectTypes.EXPLOSIVE))
                     {
-                        player.Projectiles[i].Damage = excessDmg;
+                        player.Projectiles[i].SetDamage(excessDmg);
                     }
                     if (player.Projectiles[i].Damage <= 0 || player.Inventory.GetEffect().Contains(EffectTypes.EXPLOSIVE))
                         DestroyPlayerProjectile(i);
