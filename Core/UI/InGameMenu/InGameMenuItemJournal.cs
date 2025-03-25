@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -35,16 +36,15 @@ class InGameMenuItemJournal : InGameMenu
 	// Field to track which item is currently hovered
 	private ItemContainerable hoveredItem = null;
 
+	public static void Init()
+	{
+		AddAllItems();
+		Load();
+	}
 	public InGameMenuItemJournal(Viewport viewport)
 	{
 		Viewport = viewport;
 		TooltipTexture = TextureManager.GetTexture("blackSquare");
-
-		AddAllItems();
-		Load();
-//#if DEBUG
-//		ShowAll();
-//#endif
 	}
 
 	private static void AddAllItems()

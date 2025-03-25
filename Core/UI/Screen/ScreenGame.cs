@@ -43,6 +43,7 @@ public class ScreenGame : Screen
 
         InGameMenuDeath.ResetLevel = Reset;
         InGameMenuDeath.PassTest = Revive;
+        InGameMenuItemJournal.Init();
 
         // In-game Soundtrack
         Song = SongManager.GetSong("soundtrack");
