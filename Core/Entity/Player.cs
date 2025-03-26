@@ -39,6 +39,7 @@ public class Player : Entity, IRecieveDmg, IDealDmg
     private KeyboardState prevKeyboardState;
     private string dataPath = "tbogv_player.json";
 
+	private Rectangle BBox = new Rectangle(67,39,150,240);
     public Player(Vector2 position)
     {
         BaseStats = new Dictionary<StatTypes, float>()
@@ -59,11 +60,12 @@ public class Player : Entity, IRecieveDmg, IDealDmg
             { StatTypes.ATTACK_SPEED, 0 },
             { StatTypes.MOVEMENT_SPEED, 0 }
         };
-
-        Position = position;
+		Sprite = TextureManager.GetTexture("vitekElegan");
+		Position = position;
         Size = new Vector2(50, 50);
+		BBox = new Rectangle((int)(BBox.X * (Size.X / Sprite.Width)), (int)(BBox.Y * (Size.X/Sprite.Width)), (int)(BBox.Width * (Size.X/Sprite.Width)), (int)(BBox.Height * (Size.X/Sprite.Width)));
         Projectiles = new List<Projectile>();
-        Sprite = TextureManager.GetTexture("vitekElegan");
+
         Coins = 1;
         ItemCapacity = 3;
         Inventory = new();
@@ -159,7 +161,8 @@ public class Player : Entity, IRecieveDmg, IDealDmg
             while (remainingX > 0)
             {
                 Vector2 testPosition = new Vector2(Position.X + stepX, Position.Y);
-                if (!place.ShouldCollideAt(new Rectangle((int)testPosition.X + tolerance, (int)testPosition.Y + tolerance, (int)Size.X - tolerance * 2, (int)Size.Y - tolerance * 2)))
+                if (!place.ShouldCollideAt(
+					new Rectangle((int)testPosition.X + BBox.X, (int)testPosition.Y + BBox.Y, BBox.Width, BBox.Height)))
                 {
                     Position.X += stepX;
                 }
@@ -180,9 +183,10 @@ public class Player : Entity, IRecieveDmg, IDealDmg
             {
                 Vector2 testPosition = new Vector2(Position.X, Position.Y + stepY);
 
-                if (!place.ShouldCollideAt(new Rectangle((int)testPosition.X + tolerance, (int)testPosition.Y + tolerance, (int)Size.X - tolerance * 2, (int)Size.Y - tolerance * 2)))
-                {
-                    Position.Y += stepY;
+                if (!place.ShouldCollideAt(
+					new Rectangle((int)testPosition.X + BBox.X, (int)testPosition.Y + BBox.Y, BBox.Width, BBox.Height)))
+				{
+					Position.Y += stepY;
                 }
                 else
                 {
