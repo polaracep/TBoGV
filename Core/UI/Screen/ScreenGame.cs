@@ -26,7 +26,7 @@ public class ScreenGame : Screen
     private Song Song;
     private bool queueEntry = false;
 
-    public override void BeginRun(GraphicsDeviceManager graphics)
+    public ScreenGame(GraphicsDeviceManager graphics) : base(graphics)
     {
         player = GameManager.Player;
 

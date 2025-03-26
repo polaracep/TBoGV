@@ -1,23 +1,22 @@
-﻿using System;
-using System.Diagnostics.CodeAnalysis;
-using System.IO;
-using System.Text;
+﻿using System.Diagnostics.CodeAnalysis;
 
 public static class Program
 {
     [DynamicDependency(DynamicallyAccessedMemberTypes.PublicConstructors, typeof(TBoGV.JsonDocumentReader))]
     public static void Main(string[] args)
     {
+#if RELEASE
         AppDomain.CurrentDomain.UnhandledException += (sender, args) =>
         {
             Exception ex = (Exception)args.ExceptionObject;
             LogCrash(ex);
         };
+#endif
 
         using var game = new TBoGV.TBoGVGame();
         game.Run();
     }
-
+#if RELEASE
     public static void LogCrash(Exception e)
     {
         Directory.CreateDirectory("logs");
@@ -28,4 +27,5 @@ public static class Program
         Console.WriteLine("log created at: " + path);
         throw e;
     }
+#endif
 }

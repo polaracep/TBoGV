@@ -9,9 +9,11 @@ public class ScreenStart : Screen
     private Viewport viewport;
     private Button startButton;
     private Button settingsButton;
+    private Button creditsButton;
 
     private Texture2D logo = TextureManager.GetTexture("tbogv");
-    public override void BeginRun(GraphicsDeviceManager graphics)
+
+    public ScreenStart(GraphicsDeviceManager graphics) : base(graphics)
     {
         startButton = new Button("Jedeeem!", LargerFont, () =>
         {
@@ -22,6 +24,10 @@ public class ScreenStart : Screen
             ScreenManager.ScreenSettings.LastScreen = TBoGVGame.screenCurrent;
             TBoGVGame.screenCurrent = ScreenManager.ScreenSettings;
         });
+        creditsButton = new Button("Tvořiči", LargerFont, () =>
+        {
+            TBoGVGame.screenCurrent = new ScreenCredits(graphics, this);
+        });
     }
 
     public override void Draw(SpriteBatch _spriteBatch, GraphicsDeviceManager graphics)
@@ -31,8 +37,8 @@ public class ScreenStart : Screen
         _spriteBatch.Begin(blendState: BlendState.Opaque);
         _spriteBatch.Draw(TextureManager.GetTexture("gymvod"),
             new Rectangle(0, 0, graphics.GraphicsDevice.Viewport.Width, graphics.GraphicsDevice.Viewport.Height), Color.White);
-        _spriteBatch.End();
 
+        _spriteBatch.End();
         // mezera mezi cudilky
 
         // center
@@ -44,17 +50,20 @@ public class ScreenStart : Screen
         int logoY = (int)((float)logoW / logo.Width * logo.Height);
 
         _spriteBatch.Begin();
-
         // logo
         _spriteBatch.Draw(logo, new Rectangle(menuX - (logoW / 2), menuY - hp - (logoY / 2), logoW, logoY), Color.White);
 
         // start button
-        startButton.Position = new Vector2(menuX - (startButton.GetRect().Width / 2), menuY + hp);
+        startButton.Position = new Vector2(menuX - (startButton.GetRect().Width / 2), viewport.Height * 60 / 100);
         startButton.Draw(_spriteBatch);
 
         // settings button
-        settingsButton.Position = new Vector2(menuX - (settingsButton.GetRect().Width / 2), menuY + (2 * hp));
+        settingsButton.Position = new Vector2(menuX - (settingsButton.GetRect().Width / 2), viewport.Height * 70 / 100);
         settingsButton.Draw(_spriteBatch);
+
+        // credits button
+        creditsButton.Position = new Vector2(menuX - (creditsButton.GetRect().Width / 2), viewport.Height * 80 / 100);
+        creditsButton.Draw(_spriteBatch);
 
         _spriteBatch.End();
 
@@ -65,5 +74,6 @@ public class ScreenStart : Screen
         MouseState mouseState = Mouse.GetState();
         startButton.Update(mouseState);
         settingsButton.Update(mouseState);
+        creditsButton.Update(mouseState);
     }
 }

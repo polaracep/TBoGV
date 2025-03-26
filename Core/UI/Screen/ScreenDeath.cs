@@ -9,7 +9,7 @@ public class ScreenDeath : Screen
 	private Viewport viewport;
 	private Button backButton;
 
-	public override void BeginRun(GraphicsDeviceManager graphics)
+	public ScreenDeath(GraphicsDeviceManager graphics) : base(graphics)
 	{
 		// Create a button to go back to the main menu.
 		backButton = new Button("Zpátky na začátek", LargerFont, () =>
