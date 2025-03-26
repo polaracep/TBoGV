@@ -51,7 +51,7 @@ class EnemyZdena : EnemyRanged
 		if (!CanPlaySfx())
 			return;
 		SoundEffectInstance sfx = Sfx[random.Next(Sfx.Count)];
-		sfx.Volume = Convert.ToSingle(Settings.SfxVolume);
+		sfx.Volume = Convert.ToSingle(Settings.SfxVolume.Value);
 		if (sfx.State != SoundState.Playing)
 			sfx.Play();
 		ambientElapsed = 0;

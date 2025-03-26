@@ -107,7 +107,7 @@ class EnemyJirka : EnemyRanged
 		if (!CanPlaySfx())
 			return;
 		SoundEffectInstance sfx = Sfx[random.Next(Sfx.Count)];
-		sfx.Volume = Convert.ToSingle(Settings.SfxVolume);
+		sfx.Volume = Convert.ToSingle(Settings.SfxVolume.Value);
 		sfx.Play();
 		ambientElapsed = 0;
 		ambientTime = random.Next(4000, 6400);
