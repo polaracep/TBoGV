@@ -10,7 +10,7 @@ public class ItemLabcoat : ItemContainerable
     static Texture2D Sprite;
     public ItemLabcoat(Vector2 position)
     {
-        Rarity = 2;
+        Rarity = 1;
         Position = position;
         Size = new Vector2(50, 50);
         Name = "Laboratorní plášť";
