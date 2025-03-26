@@ -52,7 +52,7 @@ public class ScreenGame : Screen
             MediaPlayer.Stop();
         }
         // MediaPlayer.Play(Song);
-        MediaPlayer.Volume = (float)Convert.ToDouble(Settings.MusicVolume.Value);
+        MediaPlayer.Volume = Convert.ToSingle(Settings.MusicVolume.Value);
 
         SendPlayerToLobby();
 
