@@ -39,7 +39,7 @@ public class Player : Entity, IRecieveDmg, IDealDmg
     private KeyboardState prevKeyboardState;
     private string dataPath = "tbogv_player.json";
 
-	private Rectangle BBox = new Rectangle(67,39,150,240);
+	private Rectangle BBox = new Rectangle(67,39,150,240); //is scaled in constructor
     public Player(Vector2 position)
     {
         BaseStats = new Dictionary<StatTypes, float>()
@@ -63,6 +63,7 @@ public class Player : Entity, IRecieveDmg, IDealDmg
 		Sprite = TextureManager.GetTexture("vitekElegan");
 		Position = position;
         Size = new Vector2(50, 50);
+		//scale the bbox
 		BBox = new Rectangle((int)(BBox.X * (Size.X / Sprite.Width)), (int)(BBox.Y * (Size.X/Sprite.Width)), (int)(BBox.Width * (Size.X/Sprite.Width)), (int)(BBox.Height * (Size.X/Sprite.Width)));
         Projectiles = new List<Projectile>();
 
