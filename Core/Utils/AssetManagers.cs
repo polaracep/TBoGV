@@ -176,7 +176,7 @@ public static class TextureManager
             "iconExit",
             "iconNotCleared",
             "iconToilet",
-			"endless",
+            "endless",
 
             // Items
             "heal",
@@ -213,7 +213,8 @@ public static class TextureManager
             "sesitModry",
             "kruzitko",
             "sharpener",
-			"atlas",
+            "atlas",
+            "zuvak",
 
             // Misc
             "gymvod",
@@ -225,7 +226,7 @@ public static class TextureManager
             "richard",
             "vyzo",
             "wiseman",
-			"logo",
+            "logo",
         };
 
         foreach (string name in names)
@@ -290,8 +291,8 @@ public static class SoundManager
             "zdena2",
             "zdena3",
             "zaklineno",
-			"papirSkloPlastyKara",
-		};
+            "papirSkloPlastyKara",
+        };
 
         foreach (string name in names)
         {

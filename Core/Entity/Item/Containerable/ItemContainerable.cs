@@ -141,13 +141,14 @@ public static class ItemDatabase
 			new ItemOrezavatko(),
 			new ItemVysvedceni(),
 			new ItemAtlas(),
+			new ItemZuvak(),
 		};
 
 		foreach (var item in itemsList)
 		{
 			ItemsByName[item.Name] = item;
 		}
-    }
+	}
 	public static ItemContainerable GetItemByName(string name)
 	{
 		return ItemsByName.TryGetValue(name, out var item) ? item.Clone() : null;
