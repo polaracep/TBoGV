@@ -9,7 +9,7 @@ namespace TBoGV;
 class EnemyZdena : EnemyRanged
 {
 	static Texture2D Sprite;
-    public EnemyZdena(Vector2 position)
+	public EnemyZdena(Vector2 position)
 	{
 		InitStats(Storyline.Difficulty);
 		Position = position;
@@ -35,33 +35,34 @@ class EnemyZdena : EnemyRanged
 		return Sprite;
 	}
 
-    private static List<SoundEffectInstance> Sfx = [
+	private static List<SoundEffectInstance> Sfx = [
 		SoundManager.GetSound("zdena1").CreateInstance(),
-        SoundManager.GetSound("zdena2").CreateInstance(),
-        SoundManager.GetSound("zdena3").CreateInstance(),
-        SoundManager.GetSound("zaklineno").CreateInstance()];
+		SoundManager.GetSound("zdena2").CreateInstance(),
+		SoundManager.GetSound("zdena3").CreateInstance(),
+		SoundManager.GetSound("zaklineno").CreateInstance()];
 	private static double ambientElapsed = 0;
-    private static double ambientTime = 3000;
+	private static double ambientTime = 3000;
 	private static bool CanPlaySfx()
 	{
 		return ambientElapsed > ambientTime;
 	}
-    private static void PlayAmbientSfx() 
+	private static void PlayAmbientSfx()
 	{
 		if (!CanPlaySfx())
 			return;
 		SoundEffectInstance sfx = Sfx[random.Next(Sfx.Count)];
-		if(sfx.State != SoundState.Playing)
+		sfx.Volume = Convert.ToSingle(Settings.SfxVolume.Value);
+		if (sfx.State != SoundState.Playing)
 			sfx.Play();
 		ambientElapsed = 0;
 		ambientTime = random.Next(3000, 6000);
-    }
+	}
 	public static void UpdateSfx(double dt)
 	{
 		ambientElapsed += dt;
 		if (CanPlaySfx())
 			PlayAmbientSfx();
-    }
+	}
 	public static void StopSfx()
 	{
 		foreach (SoundEffectInstance sfx in Sfx)

@@ -4,18 +4,12 @@
 
 Epická úžasná nepřekonatelná hra odehrávající se na gymvodu[^1] (takhle to tam opravdu vypadá!!).
 
-#### Building
+## Jak si to mám zahrát??
 
-Pokud si hru chceš sám zkompilovat, udělej pomocí: `dotnet run -c Release`. Jinak zkompiluješ debug verzi, ve které jsou nástroje pro vývoj hry.
+![Tady](https://github.com/polaracep/TBoGV/releases/latest) najdeš vždy nejnovější zkompilovaný release.
 
-#### Ovládání
+## Building
 
-| Čudlíky | Akce              |
-| ------- | ----------------- |
-| WASD    | Pohyb             |
-| E/RMB   | Interakce         |
-| Esc     | Pause menu/skilly |
-| M       | Mapa              |
-| J       | Deníček           |
+Pokud si hru chceš sám zkompilovat, udělej pomocí: `dotnet run -c Release`, nebo koukni na ![tutoriál](https://docs.monogame.net/articles/getting_started/packaging_games.html?tabs=windows) pro opravdovou release verzi. Jinak zkompiluješ debug verzi, ve které jsou nástroje pro vývoj hry.
 
 [^1]: Jakákoliv podobnost s reálnými osobami je čistě náhodná

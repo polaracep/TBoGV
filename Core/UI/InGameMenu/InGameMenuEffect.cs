@@ -40,7 +40,7 @@ public class InGameMenuEffect : InGameMenu
 			Storyline.FailedTimes = 3;
 			Storyline.Endless = false;
 			InGameMenuDeath.ResetLevel();
-        });
+		});
 	}
 	public override void Update(Viewport viewport, Player player, MouseState mouseState, KeyboardState keyboardState, double dt)
 	{
@@ -105,7 +105,7 @@ public class InGameMenuEffect : InGameMenu
 		settingsButton.Position = new Vector2((Viewport.Width - settingsButton.GetRect().Width) / 2, startY + ((3 + statEntries.Count) * MiddleFont.LineSpacing));
 		settingsButton.Draw(spriteBatch);
 
-		saveButton.Position = new Vector2((Viewport.Width - saveButton.GetRect().Width) / 2, startY + ((3 + statEntries.Count) * MiddleFont.LineSpacing) + settingsButton.GetRect().Height);
+		saveButton.Position = new Vector2((Viewport.Width - saveButton.GetRect().Width) / 2, startY + ((3 + statEntries.Count) * MiddleFont.LineSpacing) + settingsButton.GetRect().Height + 10);
 		saveButton.Draw(spriteBatch);
 
 		DrawEffects(spriteBatch);
@@ -118,8 +118,8 @@ public class InGameMenuEffect : InGameMenu
 		return statType switch
 		{
 			StatTypes.MAX_HP => value > 0 ? $"(+{(int)(value * 0.25)} Hp)" : $"({(int)(value * 0.25)} Hp)",
-			StatTypes.DAMAGE => value > 0 ? $"(+{(value * 10)}% dmg)" : $"({(value * 10)}% dmg)",
-			StatTypes.PROJECTILE_COUNT =>  $"(+{(int)Math.Max(value * 0.25, 0)} projektilů)",
+			StatTypes.DAMAGE => value > 0 ? $"(+{value * 10}% dmg)" : $"({(value * 10)}% dmg)",
+			StatTypes.PROJECTILE_COUNT => $"(+{(int)Math.Max(value * 0.25, 0)} projektilů)",
 			StatTypes.XP_GAIN => value > 0 ? $"(+{value * 10}% xp gain)" : $"({value * 10}% xp gain)",
 			StatTypes.ATTACK_SPEED => value > 0 ? $"(+{value * 10}% rychlost útoků)" : $"({value * 10}% rychlost útoků)",
 			StatTypes.MOVEMENT_SPEED => value > 0 ? $"(+{value * 5}% rychlost pohybu)" : $"({value * 5}% rychlost pohybu)",
@@ -132,13 +132,13 @@ public class InGameMenuEffect : InGameMenu
 	{
 		return statType switch
 		{
-            StatTypes.MAX_HP => "Biologie",
-            StatTypes.DAMAGE => "Matematika",
-            StatTypes.PROJECTILE_COUNT => "Fyzika",
-            StatTypes.XP_GAIN => "Zsv",
-            StatTypes.ATTACK_SPEED => "Čeština",
-            StatTypes.MOVEMENT_SPEED => "Tělocvik",
-            _ => statType.ToString()
+			StatTypes.MAX_HP => "Biologie",
+			StatTypes.DAMAGE => "Matematika",
+			StatTypes.PROJECTILE_COUNT => "Fyzika",
+			StatTypes.XP_GAIN => "Zsv",
+			StatTypes.ATTACK_SPEED => "Čeština",
+			StatTypes.MOVEMENT_SPEED => "Tělocvik",
+			_ => statType.ToString()
 		};
 	}
 	public void DrawEffects(SpriteBatch spriteBatch)
