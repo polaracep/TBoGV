@@ -320,7 +320,9 @@ public class TileCoffeeMachine : Tile, IInteractable
     {
         if (e is Player p)
         {
-            if ((p.Hp < p.MaxHp && p.Coins >= 1 && Storyline.Endless) || (p.Hp < p.MaxHp && p.Coins >= 10 && Storyline.Endless))
+            if (
+                (p.Hp < p.MaxHp && p.Coins >= 1 && !Storyline.Endless) || 
+                (p.Hp < p.MaxHp && p.Coins >= 10 && Storyline.Endless))
             {
                 p.Heal(2);
                 p.Coins -= 1;
