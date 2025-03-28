@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
@@ -63,6 +65,13 @@ public abstract class ItemContainerable : Item
 		}
 	}
 	public abstract ItemContainerable Clone();
+	public override void Draw(SpriteBatch spriteBatch)
+	{
+		spriteBatch.Draw(
+			GetSprite(), 
+			new Rectangle(Convert.ToInt32(Position.X), Convert.ToInt32(Position.Y), Convert.ToInt32(Size.X), Convert.ToInt32(Size.Y)), 
+			IsKnown ? Color.White : Color.Black);
+	}
 }
 
 public enum StatTypes : int

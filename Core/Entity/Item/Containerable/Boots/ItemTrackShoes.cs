@@ -22,10 +22,6 @@ class ItemTrackShoes : ItemContainerable
 		ItemType = ItemTypes.ARMOR;
 	}
 	public ItemTrackShoes() : this(Vector2.Zero) { }
-	public override void Draw(SpriteBatch spriteBatch)
-	{
-		spriteBatch.Draw(Sprite, new Rectangle(Convert.ToInt32(Position.X), Convert.ToInt32(Position.Y), Convert.ToInt32(Size.X), Convert.ToInt32(Size.Y)), IsKnown ? Color.White : Color.Black);
-	}
 	public override Texture2D GetSprite()
 	{
 		return Sprite;
