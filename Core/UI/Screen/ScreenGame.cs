@@ -26,7 +26,7 @@ public class ScreenGame : Screen
     private Song Song;
     private bool queueEntry = false;
 
-    public override void BeginRun(GraphicsDeviceManager graphics)
+    public ScreenGame(GraphicsDeviceManager graphics) : base(graphics)
     {
         player = GameManager.Player;
 
@@ -52,7 +52,7 @@ public class ScreenGame : Screen
             MediaPlayer.Stop();
         }
         // MediaPlayer.Play(Song);
-        MediaPlayer.Volume = (float)Convert.ToDouble(Settings.MusicVolume.Value);
+        MediaPlayer.Volume = Convert.ToSingle(Settings.MusicVolume.Value);
 
         SendPlayerToLobby();
 

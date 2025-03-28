@@ -11,7 +11,7 @@ public class ScreenEnd : Screen
     private Button backButton;
     private Button continueButton;
 
-    public override void BeginRun(GraphicsDeviceManager graphics)
+    public ScreenEnd(GraphicsDeviceManager graphics) : base(graphics)
     {
         // Create a button to go back to the main menu.
         backButton = new Button("Zpátky do menu\n(odejít z GV)", LargerFont, () =>
@@ -23,7 +23,7 @@ public class ScreenEnd : Screen
         {
             TBoGVGame.screenCurrent = ScreenManager.ScreenGame;
             Storyline.Endless = true;
-			Storyline.Player.Inventory.AddEffect(new EffectEndless());
+            Storyline.Player.Inventory.AddEffect(new EffectEndless());
         });
     }
 

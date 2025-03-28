@@ -13,7 +13,7 @@ public class ScreenSettings : Screen
     private List<UIElement> settingElements = new List<UIElement>();
     public Screen LastScreen;
     private KeyboardState previousKeyboardState;
-    public override void BeginRun(GraphicsDeviceManager graphics)
+    public ScreenSettings(GraphicsDeviceManager graphics) : base(graphics)
     {
         Viewport v = graphics.GraphicsDevice.Viewport;
         escapeButton = new Button("Zpět", LargerFont, () =>
