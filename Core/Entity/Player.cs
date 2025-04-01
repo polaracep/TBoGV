@@ -26,6 +26,10 @@ public class Player : Entity, IRecieveDmg, IDealDmg
     public int ProjectileCount { get; set; }
     public int Coins { get; set; }
     public bool TutorialCompleted = false;
+    /// <summary>
+    /// Maturita books
+    /// </summary>
+    public int bookCount { get; set; } = 0;
     public Dictionary<StatTypes, float> BaseStats { get; set; }
     public Dictionary<StatTypes, float> LevelUpStats { get; set; }
     public double LastAttackElapsed { get; set; }
@@ -39,7 +43,7 @@ public class Player : Entity, IRecieveDmg, IDealDmg
     private KeyboardState prevKeyboardState;
     private string dataPath = "tbogv_player.json";
 
-	private Rectangle BBox = new Rectangle(67,39,150,240); //is scaled in constructor
+    private Rectangle BBox = new Rectangle(67, 39, 150, 240); //is scaled in constructor
     public Player(Vector2 position)
     {
         BaseStats = new Dictionary<StatTypes, float>()
@@ -60,11 +64,11 @@ public class Player : Entity, IRecieveDmg, IDealDmg
             { StatTypes.ATTACK_SPEED, 0 },
             { StatTypes.MOVEMENT_SPEED, 0 }
         };
-		Sprite = TextureManager.GetTexture("vitekElegan");
-		Position = position;
+        Sprite = TextureManager.GetTexture("vitekElegan");
+        Position = position;
         Size = new Vector2(50, 50);
-		//scale the bbox
-		BBox = new Rectangle((int)(BBox.X * (Size.X / Sprite.Width)), (int)(BBox.Y * (Size.X/Sprite.Width)), (int)(BBox.Width * (Size.X/Sprite.Width)), (int)(BBox.Height * (Size.X/Sprite.Width)));
+        //scale the bbox
+        BBox = new Rectangle((int)(BBox.X * (Size.X / Sprite.Width)), (int)(BBox.Y * (Size.X / Sprite.Width)), (int)(BBox.Width * (Size.X / Sprite.Width)), (int)(BBox.Height * (Size.X / Sprite.Width)));
         Projectiles = new List<Projectile>();
 
         Coins = 1;
@@ -152,7 +156,6 @@ public class Player : Entity, IRecieveDmg, IDealDmg
                 dy = Math.Sign(dy);
         }
         // --- Begin Movement ---
-        int tolerance = 4;
 
         // Move horizontally in small increments
         if (dx != 0)
@@ -163,7 +166,7 @@ public class Player : Entity, IRecieveDmg, IDealDmg
             {
                 Vector2 testPosition = new Vector2(Position.X + stepX, Position.Y);
                 if (!place.ShouldCollideAt(
-					new Rectangle((int)testPosition.X + BBox.X, (int)testPosition.Y + BBox.Y, BBox.Width, BBox.Height)))
+                    new Rectangle((int)testPosition.X + BBox.X, (int)testPosition.Y + BBox.Y, BBox.Width, BBox.Height)))
                 {
                     Position.X += stepX;
                 }
@@ -185,9 +188,9 @@ public class Player : Entity, IRecieveDmg, IDealDmg
                 Vector2 testPosition = new Vector2(Position.X, Position.Y + stepY);
 
                 if (!place.ShouldCollideAt(
-					new Rectangle((int)testPosition.X + BBox.X, (int)testPosition.Y + BBox.Y, BBox.Width, BBox.Height)))
-				{
-					Position.Y += stepY;
+                    new Rectangle((int)testPosition.X + BBox.X, (int)testPosition.Y + BBox.Y, BBox.Width, BBox.Height)))
+                {
+                    Position.Y += stepY;
                 }
                 else
                 {
@@ -288,15 +291,15 @@ public class Player : Entity, IRecieveDmg, IDealDmg
     {
         ItemsToDrop.Add(item);
     }
-	protected static Texture2D SpriteSelect = TextureManager.GetTexture("logo");
+    protected static Texture2D SpriteSelect = TextureManager.GetTexture("logo");
 
-	public override void Draw(SpriteBatch spriteBatch)
+    public override void Draw(SpriteBatch spriteBatch)
     {
         spriteBatch.Draw(Sprite,
             new Rectangle(Convert.ToInt32(Position.X), Convert.ToInt32(Position.Y), Convert.ToInt32(Size.X), Convert.ToInt32(Size.Y)),
             LastRecievedDmgElapsed >= InvulnerabilityFrame ? Color.White : Color.DarkRed);
-		float scale = 10f / Math.Max(SpriteSelect.Width, SpriteSelect.Height);
-		spriteBatch.Draw(SpriteSelect, new Rectangle(InteractionPoint.ToPoint(), new Point((int)(SpriteSelect.Width * scale), (int)(SpriteSelect.Height * scale))), Color.White);
+        float scale = 10f / Math.Max(SpriteSelect.Width, SpriteSelect.Height);
+        spriteBatch.Draw(SpriteSelect, new Rectangle(InteractionPoint.ToPoint(), new Point((int)(SpriteSelect.Width * scale), (int)(SpriteSelect.Height * scale))), Color.White);
     }
     public bool ReadyToAttack()
     {
@@ -802,25 +805,25 @@ public class EffectData
             Level = 0; // Default to 0 if missing or invalid
         }
 
-		if (dict.TryGetValue("stats", out object statsObj) && statsObj is Newtonsoft.Json.Linq.JObject jObject)
-		{
-			var rawStats = jObject.ToObject<Dictionary<string, float>>();
-			if (rawStats != null)
-			{
-				Stats = new Dictionary<StatTypes, float>();
-				foreach (var kvp in rawStats)
-				{
-					if (Enum.TryParse(kvp.Key, out StatTypes key))
-					{
-						Stats[key] = kvp.Value;
-					}
-				}
-			}
-		}
-		else
-		{
-			Stats = new Dictionary<StatTypes, float>();
-		}
+        if (dict.TryGetValue("stats", out object statsObj) && statsObj is Newtonsoft.Json.Linq.JObject jObject)
+        {
+            var rawStats = jObject.ToObject<Dictionary<string, float>>();
+            if (rawStats != null)
+            {
+                Stats = new Dictionary<StatTypes, float>();
+                foreach (var kvp in rawStats)
+                {
+                    if (Enum.TryParse(kvp.Key, out StatTypes key))
+                    {
+                        Stats[key] = kvp.Value;
+                    }
+                }
+            }
+        }
+        else
+        {
+            Stats = new Dictionary<StatTypes, float>();
+        }
 
-	}
+    }
 }

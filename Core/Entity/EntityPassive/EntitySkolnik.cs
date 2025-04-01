@@ -13,15 +13,17 @@ class EntitySkolnik : EntityPassive
     protected Vector2 targetPosition;
     protected float pathUpdateCooldown = 500;
     protected bool talkedWithPlayer = false;
+    private float defaultMovementSpeed;
     protected Queue<Vector2> path = new Queue<Vector2>();
     public EntitySkolnik(Vector2 position) : base(position, NAME)
     {
-        MovementSpeed = GameManager.Player.MovementSpeed;
+        defaultMovementSpeed = GameManager.Player.MovementSpeed;
     }
     public EntitySkolnik() : base(NAME) { MovementSpeed = 3; }
 
     public override Texture2D GetSprite()
     {
+        MovementSpeed = GameManager.Player.MovementSpeed > defaultMovementSpeed ? GameManager.Player.MovementSpeed : defaultMovementSpeed;
         return TextureManager.GetTexture("skolnik");
     }
     public void Update(double dt)
