@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
@@ -9,14 +10,14 @@ public class TBoGVGame : Game
     private GraphicsDeviceManager _graphics;
     private SpriteBatch _spriteBatch;
     public static Screen screenCurrent;
-	private bool _isFullScreen = false;
-	public TBoGVGame()
+    private bool _isFullScreen = false;
+    public TBoGVGame()
     {
         _graphics = new GraphicsDeviceManager(this);
         _graphics.PreferredBackBufferWidth = 1280;
         _graphics.PreferredBackBufferHeight = 720;
-		_graphics.IsFullScreen = _isFullScreen; 
-		_graphics.ApplyChanges();
+        _graphics.IsFullScreen = _isFullScreen;
+        _graphics.ApplyChanges();
 
         Content.RootDirectory = "Content";
         IsMouseVisible = true;
@@ -35,7 +36,9 @@ public class TBoGVGame : Game
         FontManager.Load(Content);
         SoundManager.Load(Content);
         DialogueManager.Load(Content);
+        QuestionManager.Load(Content);
         Settings.Load();
+
     }
 
     // Run after LoadContent
@@ -51,13 +54,13 @@ public class TBoGVGame : Game
 
     protected override void Update(GameTime gameTime)
     {
-		KeyboardState keyboardState = Keyboard.GetState();
-		if (keyboardState.IsKeyDown(Keys.F11))
-		{
-			ToggleFullScreen();
-		}
-		// exit coded
-		if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
+        KeyboardState keyboardState = Keyboard.GetState();
+        if (keyboardState.IsKeyDown(Keys.F11))
+        {
+            ToggleFullScreen();
+        }
+        // exit coded
+        if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
             Exit();
         GameManager.Viewport = _graphics.GraphicsDevice.Viewport;
         screenCurrent.Update(gameTime, _graphics);
@@ -70,12 +73,12 @@ public class TBoGVGame : Game
         screenCurrent.Draw(_spriteBatch, _graphics);
         base.Draw(gameTime);
     }
-	private void ToggleFullScreen()
-	{
-		_isFullScreen = !_isFullScreen;
-		_graphics.IsFullScreen = _isFullScreen;
-		_graphics.ApplyChanges();
-	}
+    private void ToggleFullScreen()
+    {
+        _isFullScreen = !_isFullScreen;
+        _graphics.IsFullScreen = _isFullScreen;
+        _graphics.ApplyChanges();
+    }
 }
 
 public static class GameManager

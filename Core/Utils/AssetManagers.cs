@@ -1,4 +1,7 @@
+using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Text.Json;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;
@@ -334,12 +337,6 @@ public static class DialogueManager
 {
     private static Dictionary<string, JsonDocument> dialogues = new Dictionary<string, JsonDocument>();
 
-    static DialogueManager()
-    {
-        // This dummy reference ensures that the JsonDocumentReader type is loaded,
-        // so MonoGame can find it when loading content.
-        var ensureReader = typeof(JsonDocumentReader);
-    }
     public static void Load(ContentManager content)
     {
         List<string> names = new List<string>
@@ -370,6 +367,64 @@ public static class DialogueManager
         return dialogues.GetValueOrDefault(name);
     }
 }
+
+public static class QuestionManager
+{
+    private static Dictionary<string, List<Question>> subjects = new();
+    private static Dictionary<string, List<Question>> availableQuestions = new();
+
+    public static void Load(ContentManager content)
+    {
+        List<string> names = new List<string>
+        {
+            "cestina"
+        };
+
+        foreach (string name in names)
+        {
+            JsonElement root = content.Load<JsonDocument>("Maturita/" + name).RootElement;
+            List<Question> qs = new();
+            foreach (JsonElement e in root.EnumerateArray())
+            {
+                qs.Add(new Question(e));
+            }
+            subjects.Add(name, qs.ToList());
+            availableQuestions.Add(name, qs.ToList());
+        }
+
+    }
+    /// <summary>
+    /// Returns a random question from the provided subject.
+    /// </summary>
+    /// <param name="subjectName"></param>
+    /// <returns></returns>
+    public static Question GetRandomQuestion(string subjectName)
+    {
+        var q = subjects[subjectName][Random.Shared.Next(subjects.Count)];
+        availableQuestions[subjectName].Remove(q);
+        return q;
+    }
+
+    /// <summary>
+    /// Returns a question, that was not yet chosen. 
+    //  If there are no more questions from which to choose, the list will be repopulated again.
+    /// </summary>
+    /// <param name="subjectName">Name of the subject, see Content/Maturita</param>
+    /// <returns></returns>
+    public static Question GetNewQuestion(string subjectName)
+    {
+        if (availableQuestions[subjectName].Count == 0)
+            availableQuestions[subjectName] = subjects[subjectName];
+
+        List<Question> subject = availableQuestions[subjectName];
+
+        Question q = subject[Random.Shared.Next(subject.Count)];
+        availableQuestions[subjectName].Remove(q);
+        return q;
+    }
+
+}
+
 // Runtime reader for JsonDocument.
 public class JsonDocumentReader : ContentTypeReader<JsonDocument>
 {

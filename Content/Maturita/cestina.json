@@ -1,12 +1,24 @@
 [
   {
     "q": "Jak se jmenuje dílo Erbenovo nejznámější dílo?",
-    "1": "Kytice",
-    "0": ["Babička", "Bible", "Píseň o Rollandovi"]
+    "1": [
+      "Kytice"
+    ],
+    "0": [
+      "Babička",
+      "Bible",
+      "Píseň o Rollandovi"
+    ]
   },
   {
     "q": "otazka dva",
-    "1": "spravna odpoved",
-    "0": ["spatna odpoved", "spatna odpoved", "spatna odpoved"]
+    "1": [
+      "spravna odpoved"
+    ],
+    "0": [
+      "spatna odpoved",
+      "spatna odpoved",
+      "spatna odpoved"
+    ]
   }
 ]
