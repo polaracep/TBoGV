@@ -13,7 +13,13 @@ public class RoomBossMaturita : RoomBoss
 	{
 		base.Generate();
 		Drops.Add(new ItemVysvedceni(dimensions * 25));
+		GenerateDecor();
 		GenerateExit();
+	}
+
+	protected override void GenerateDecor()
+	{
+		AddDecoTile(dimensions / 2, new TileTest());
 	}
 }
 

@@ -28,10 +28,9 @@ public static class Storyline
     {
         LevelList = [
 #if DEBUG
-            // new Level(p, [ new RoomLocker( p) , new RoomLocker(p), new RoomLocker(p), new RoomLocker(p), new RoomLocker(p)], new RoomStart(p), new RoomStart(p), 2),
-            // new Level(p, [ new RoomToilet(p),  new RoomToilet(p),  new RoomToilet(p),  new RoomToilet(p)], new RoomStart(p), new RoomStart(p), 2),
-
+            new Level(p, [], new RoomStart(p), new RoomBossMaturita(p), 2),
 #endif
+        /*
             new Level(p, GenerateLevelRooms(5, 8), new RoomStart(p), new RoomClassroom(p), 3),
             new Level(p, GenerateLevelRooms(5, 8), new RoomStart(p), new RoomBossSvarta(p), 3),
             new Level(p, GenerateLevelRooms(5, 8), new RoomStart(p), new RoomClassroom(p), 6),
@@ -48,6 +47,8 @@ public static class Storyline
             new Level(p, GenerateLevelRooms(10, 14), new RoomStart(p), new RoomBossAmogus(p), 6),
             new Level(p, GenerateLevelRooms(8, 12), new RoomStart(p), new RoomClassroom(p), 6),
             new Level(p, GenerateLevelRooms(10, 14), new RoomStart(p), new RoomBossMaturita(p), 6),
+        */
+
         ];
     }
 
@@ -90,7 +91,7 @@ public static class Storyline
         List<Room> bossRooms = [new RoomBossAles(p), new RoomBossToilet(p), new RoomBossSvarta(p), new RoomBossCat(p), new RoomBossRichard(p), new RoomBossZeman(p), new RoomBossAmogus(p)];
         if (CurrentLevelNumber % 2 == 0)
             bossRooms = [new RoomClassroom(p)];
-        Level level = new Level(p, rooms, new RoomStart(p), bossRooms[Random.Shared.Next(bossRooms.Count)], (uint)Math.Max(6, (int)Math.Sqrt(CurrentLevelNumber-2)+1));
+        Level level = new Level(p, rooms, new RoomStart(p), bossRooms[Random.Shared.Next(bossRooms.Count)], (uint)Math.Max(6, (int)Math.Sqrt(CurrentLevelNumber - 2) + 1));
         return level;
     }
 
@@ -102,9 +103,9 @@ public static class Storyline
             NextLevelEndless();
             return;
         }
-		Player.Save(SaveType.AUTO);
-		// wrap na zacatek
-		if (CurrentLevelNumber == LevelList.Count)
+        Player.Save(SaveType.AUTO);
+        // wrap na zacatek
+        if (CurrentLevelNumber == LevelList.Count)
             CurrentLevelNumber = 0;
 
         // reset failed times
@@ -112,9 +113,9 @@ public static class Storyline
         {
             FailedTimes = 0;
             promoted = true;
-			Player.Save(SaveType.AUTO);
-		}
-		if (CurrentLevelNumber % 2 == 1)
+            Player.Save(SaveType.AUTO);
+        }
+        if (CurrentLevelNumber % 2 == 1)
             promoted = false;
 
         CurrentLevel = LevelList[CurrentLevelNumber];
@@ -160,8 +161,8 @@ public static class Storyline
         CurrentLevel = GenerateEndlessLevel();
         CurrentLevel.Reset();
         FailedTimes = f;
-		Player.Inventory.AddEffect(new EffectEndless());
-	}
+        Player.Inventory.AddEffect(new EffectEndless());
+    }
     public static void ResetStoryline()
     {
         GenerateStoryline();

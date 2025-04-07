@@ -294,17 +294,17 @@ public class TileFridge : Tile, IInteractable
         {
             var existingEffect = p.Inventory.Effects.FirstOrDefault(effect => effect is EffectCooked);
             if (((existingEffect != null || p.Hp < p.MaxHp) && p.Coins >= 1 && !Storyline.Endless) ||
-				((existingEffect != null || p.Hp < p.MaxHp) && p.Coins >= 10 && Storyline.Endless))
+                ((existingEffect != null || p.Hp < p.MaxHp) && p.Coins >= 10 && Storyline.Endless))
 
-			{
+            {
                 if (existingEffect != null)
                     p.Inventory.AddEffect(new EffectCooked(-3));
                 p.Heal(1);
                 p.Coins -= 1;
-				if (Storyline.Endless)
-					p.Coins -= 9;
-			}
-		}
+                if (Storyline.Endless)
+                    p.Coins -= 9;
+            }
+        }
     }
 }
 
@@ -321,14 +321,14 @@ public class TileCoffeeMachine : Tile, IInteractable
         if (e is Player p)
         {
             if (
-                (p.Hp < p.MaxHp && p.Coins >= 1 && !Storyline.Endless) || 
+                (p.Hp < p.MaxHp && p.Coins >= 1 && !Storyline.Endless) ||
                 (p.Hp < p.MaxHp && p.Coins >= 10 && Storyline.Endless))
             {
                 p.Heal(2);
                 p.Coins -= 1;
-				if (Storyline.Endless)
-					p.Coins -= 9;
-			}
+                if (Storyline.Endless)
+                    p.Coins -= 9;
+            }
         }
     }
 }
@@ -378,6 +378,23 @@ public class TileLocker : Tile, IInteractable
     public void Open()
     {
         IsOpen = true;
-        this.Sprite = TextureManager.GetTexture("lockerOpen");
+        Sprite = TextureManager.GetTexture("lockerOpen");
+    }
+}
+
+public class TileTest : Tile, IInteractable
+{
+    public TileTest(float rotation, SpriteEffects fx) : base(true, rotation, fx)
+    {
+        Sprite = TextureManager.GetTexture("test");
+    }
+    public TileTest(float rotation) : this(rotation, SpriteEffects.None) { }
+    public TileTest() : this(0f) { }
+    public void Interact(Entity e, Place _)
+    {
+        if (e is not Player p)
+            return;
+
+        p.SetQuestion(QuestionManager.GetRandomQuestion("cestina"));
     }
 }

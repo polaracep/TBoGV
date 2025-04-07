@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Runtime.InteropServices.Marshalling;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -10,16 +12,33 @@ class UI : IDraw
     List<Heart> hearts;
     static SpriteFont Font;
     static SpriteFont MiddleFont = FontManager.GetFont("Arial12");
+    static SpriteFont LargeFont = FontManager.GetFont("Arial16");
+    static SpriteFont LargestFont = FontManager.GetFont("Arial24");
     static Texture2D SpriteCoin;
     static Texture2D SpriteXpBar;
     protected Vector2 screenSize;
+
+    private char[] questionLetters = ['A', 'B', 'C', 'D'];
 
     int Coins;
     float Xp;
     int MaxXp;
     const int MaxHeartsPerRow = 5;
     protected List<Effect> Effects = new List<Effect>();
-	protected EnemyBoss Boss;
+    protected EnemyBoss Boss;
+
+    /// <summary>
+    /// used only for the question, answers ignored
+    /// </summary>
+    protected Question activeQuestion;
+    protected double questionFadeElapsed = 0;
+    protected int questionFadeMax = 1000;
+    // abych te videl, musim te spatrit
+    // abych se rozdal, musim si spatrit!
+    protected float questionAlpha = 1f;
+
+    public Viewport viewport { get; set; }
+
     public UI()
     {
         hearts = new List<Heart>();
@@ -31,8 +50,15 @@ class UI : IDraw
         MaxXp = 10;
     }
 
-    public void Update(Player player, List<Enemy> enemies, GraphicsDeviceManager graphics)
+    public void Update(Player player, List<Enemy> enemies, GraphicsDeviceManager graphics, double dt)
     {
+        Coins = player.Coins;
+        Xp = (int)player.Xp;
+        MaxXp = player.XpForLevel();
+        Effects = player.Inventory.Effects;
+        screenSize = new Vector2(graphics.GraphicsDevice.Viewport.Width, graphics.GraphicsDevice.Viewport.Height);
+        viewport = graphics.GraphicsDevice.Viewport;
+
         if (player.MaxHp != hearts.Count)
         {
             hearts.Clear();
@@ -48,23 +74,42 @@ class UI : IDraw
             int col = i % MaxHeartsPerRow;
             hearts[i].Position = screenOffset + new Vector2((Heart.Size.X + 5) * col, (Heart.Size.Y + 3) * row);
         }
-		bool isboss = false;
-		foreach (var e in enemies)
-		{
-			if(e is EnemyBoss)
-			{
-				isboss = true;
-				Boss = (EnemyBoss)e;
-			}
-		}
-		if (!isboss)
-			Boss = null;
+        bool isboss = false;
+        foreach (var e in enemies)
+        {
+            if (e is EnemyBoss)
+            {
+                isboss = true;
+                Boss = (EnemyBoss)e;
+            }
+        }
+        if (!isboss)
+            Boss = null;
 
-        Coins = player.Coins;
-        Xp = (int)player.Xp;
-        MaxXp = player.XpForLevel();
-        Effects = player.Inventory.Effects;
-        screenSize = new Vector2(graphics.GraphicsDevice.Viewport.Width, graphics.GraphicsDevice.Viewport.Height);
+        if (player.activeQuestion != null)
+            activeQuestion = player.activeQuestion;
+
+        if (player.questionUpdated)
+        {
+            questionFadeElapsed = 0;
+            player.questionUpdated = false;
+        }
+        if (activeQuestion != null)
+        {
+            questionFadeElapsed += dt;
+            float progress = MathHelper.Clamp((float)questionFadeElapsed / questionFadeMax, 0f, 1f);
+            if (progress == 1f)
+            {
+                player.SetQuestion(null);
+                activeQuestion = null;
+                questionFadeElapsed = 0;
+                return;
+            }
+
+            questionAlpha = 1f - progress;
+        }
+
+
     }
 
     public void Draw(SpriteBatch spriteBatch)
@@ -148,9 +193,35 @@ class UI : IDraw
         spriteBatch.DrawString(MiddleFont, failedTimesText, new Vector2(30, screenSize.Y - MiddleFont.MeasureString(failedTimesText).Y - 30), Color.White);
         spriteBatch.DrawString(MiddleFont, yearText, new Vector2(30, screenSize.Y - MiddleFont.MeasureString(yearText).Y - MiddleFont.MeasureString(failedTimesText).Y - 30), Color.White);
         spriteBatch.DrawString(MiddleFont, pololetiText, new Vector2(30, screenSize.Y - MiddleFont.MeasureString(yearText).Y - MiddleFont.MeasureString(pololetiText).Y - MiddleFont.MeasureString(failedTimesText).Y - 30), Color.White);
-		if(Boss != null)
-		{
-			Boss.DrawHealthBar(spriteBatch, screenSize);
-		}
-	}
+        if (Boss != null)
+        {
+            Boss.DrawHealthBar(spriteBatch, screenSize);
+        }
+        if (activeQuestion != null)
+        {
+            string question = activeQuestion.QuestionText;
+            List<string> answers = activeQuestion.Answers;
+
+            int x0 = (int)((screenSize.X - LargestFont.MeasureString(question).X) / 2);
+            int y0 = (int)(35 * screenSize.Y / 100);
+
+            int w = (int)Math.Max(
+                LargestFont.MeasureString(question).X,
+                LargeFont.MeasureString(answers.MaxBy(x => x.Length)).X
+            );
+
+            int h = (10 + 5 * answers.Count) * viewport.Height / 100;
+
+            spriteBatch.Draw(InGameMenu.SpriteBackground,
+                new Rectangle(x0 - 20, y0 - 20, w + 40, h + 40),
+                new Color(0, 0, 0, (int)(255 * 0.25)) * questionAlpha);
+
+            spriteBatch.DrawString(LargestFont, question, new Vector2(x0, y0), Color.White * questionAlpha);
+            for (int i = 0; i < answers.Count; i++)
+            {
+                string ans = questionLetters[i] + ") " + answers[i];
+                spriteBatch.DrawString(LargeFont, ans, new Vector2((screenSize.X - LargeFont.MeasureString(ans).X) / 2, (45 + 5 * i) * viewport.Height / 100), Color.White * questionAlpha);
+            }
+        }
+    }
 }

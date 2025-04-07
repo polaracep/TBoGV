@@ -26,10 +26,8 @@ public class Player : Entity, IRecieveDmg, IDealDmg
     public int ProjectileCount { get; set; }
     public int Coins { get; set; }
     public bool TutorialCompleted = false;
-    /// <summary>
-    /// Maturita books
-    /// </summary>
-    public int bookCount { get; set; } = 0;
+    public Question activeQuestion { get; protected set; } = null;
+    public bool questionUpdated { get; set; } = false;
     public Dictionary<StatTypes, float> BaseStats { get; set; }
     public Dictionary<StatTypes, float> LevelUpStats { get; set; }
     public double LastAttackElapsed { get; set; }
@@ -428,6 +426,11 @@ public class Player : Entity, IRecieveDmg, IDealDmg
 
     }
 
+    public void SetQuestion(Question q)
+    {
+        activeQuestion = q;
+        questionUpdated = true;
+    }
 
     public void Save(SaveType saveType)
     {

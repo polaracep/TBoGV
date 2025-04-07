@@ -8,21 +8,16 @@ public class Question
     public string QuestionText { get; protected set; }
     protected List<string> WrongAnswers;
     protected List<string> CorrectAnswers;
+    public List<string> Answers { get; protected set; } = [];
 
     public Question(JsonElement json)
     {
         QuestionText = json.GetProperty("q").GetString();
         WrongAnswers = json.GetProperty("0").EnumerateArray().ToList().Select(x => x.ToString()).ToList();
         CorrectAnswers = json.GetProperty("1").EnumerateArray().ToList().Select(x => x.ToString()).ToList();
-    }
-
-    public List<string> GetAnswers()
-    {
-        var list = new List<string>();
-        list.AddRange(CorrectAnswers);
-        list.AddRange(WrongAnswers);
-        list.Shuffle();
-        return list;
+        Answers.AddRange(CorrectAnswers);
+        Answers.AddRange(WrongAnswers);
+        Answers.Shuffle();
     }
 
     public bool CheckAnswer(string ans)

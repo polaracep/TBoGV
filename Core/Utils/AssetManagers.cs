@@ -108,6 +108,7 @@ public static class TextureManager
             "pub_table_bottles2",
             "pub_table_bottles3",
             "pub_table_bottles4",
+            "test",
 
             // Entities
             "korenovy_vezen",
@@ -400,7 +401,8 @@ public static class QuestionManager
     /// <returns></returns>
     public static Question GetRandomQuestion(string subjectName)
     {
-        var q = subjects[subjectName][Random.Shared.Next(subjects.Count)];
+        var subject = subjects[subjectName];
+        var q = subject[Random.Shared.Next(subject.Count)];
         availableQuestions[subjectName].Remove(q);
         return q;
     }

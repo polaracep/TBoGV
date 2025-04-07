@@ -131,7 +131,7 @@ public class ScreenGame : Screen
         {
             player.Update(keyboardState, mouseState, _camera.Transform, activePlace, _viewport, dt);
             activePlace.Update(dt);
-            UI.Update(player, activePlace.Enemies, graphics);
+            UI.Update(player, activePlace.Enemies, graphics, dt);
             if ((bool)Settings.FixedCamera.Value)
                 _camera.SetCenter(_viewport, player.Position);
             else
@@ -150,7 +150,7 @@ public class ScreenGame : Screen
         else
         {
             activeMenu.Update(_viewport, player, mouseState, keyboardState, dt);
-            UI.Update(player, activePlace.Enemies, graphics);
+            UI.Update(player, activePlace.Enemies, graphics, dt);
             if (MediaPlayer.State == MediaState.Playing)
             {
                 MediaPlayer.Pause();
