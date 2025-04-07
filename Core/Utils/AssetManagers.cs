@@ -109,6 +109,11 @@ public static class TextureManager
             "pub_table_bottles3",
             "pub_table_bottles4",
             "test",
+            "ansA",
+            "ansB",
+            "ansC",
+            "ansD",
+            "ansDefault",
 
             // Entities
             "korenovy_vezen",

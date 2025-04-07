@@ -384,17 +384,46 @@ public class TileLocker : Tile, IInteractable
 
 public class TileTest : Tile, IInteractable
 {
-    public TileTest(float rotation, SpriteEffects fx) : base(true, rotation, fx)
+    public Question Question { get; private set; }
+    public TileTest(float rotation, SpriteEffects fx, Question q) : base(true, rotation, fx)
     {
+        Question = q;
         Sprite = TextureManager.GetTexture("test");
     }
-    public TileTest(float rotation) : this(rotation, SpriteEffects.None) { }
-    public TileTest() : this(0f) { }
+    public TileTest(float rotation, Question q) : this(rotation, SpriteEffects.None, q) { }
+    public TileTest(Question q) : this(0f, SpriteEffects.None, q) { }
     public void Interact(Entity e, Place _)
     {
         if (e is not Player p)
             return;
 
-        p.SetQuestion(QuestionManager.GetRandomQuestion("cestina"));
+        p.SetQuestion(Question);
+    }
+}
+
+public class TileAnswer : Tile, IInteractable
+{
+    int index = 0;
+    public TileAnswer(float rotation, SpriteEffects effects, int questionIndex) : base(false, rotation, effects)
+    {
+        index = questionIndex;
+        Sprite = questionIndex switch
+        {
+            0 => TextureManager.GetTexture("ansA"),
+            1 => TextureManager.GetTexture("ansB"),
+            2 => TextureManager.GetTexture("ansC"),
+            3 => TextureManager.GetTexture("ansD"),
+            _ => TextureManager.GetTexture("ansDefault"),
+        };
+    }
+
+    public TileAnswer(float rotation, int questionIndex) : this(rotation, SpriteEffects.None, questionIndex) { }
+    public TileAnswer(int questionIndex) : this(0f, SpriteEffects.None, questionIndex) { }
+    public void Interact(Entity _, Place p)
+    {
+        if (p is not RoomBossMaturita r)
+            throw new Exception("spatny room bramboraku");
+
+        r.Answer(index);
     }
 }
