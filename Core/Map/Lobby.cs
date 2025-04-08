@@ -7,6 +7,7 @@ public class Lobby : Place
 {
     protected bool tutorialPlayed = false;
     protected bool IsFyjala = false;
+    protected bool playedMaturitaIntro = false;
     protected EntityGambler gambler = null;
 
     public Lobby(Player p)
@@ -140,6 +141,7 @@ public class Lobby : Place
     }
     public override void OnEntry()
     {
+        DialogueIntro reference = new();
         if (player.TutorialCompleted)
         {
             tutorialPlayed = true;
@@ -153,9 +155,14 @@ public class Lobby : Place
         }
         if (Storyline.CurrentLevelNumber == 1)
         {
-            DialogueIntro reference = new();
             ScreenManager.ScreenGame.OpenDialogue(new DialogueBasic(DialogueManager.GetDialogue("machineGuide").RootElement, reference.NpcName, reference.NpcSprite));
             player.TutorialCompleted = true;
+        }
+        // kvinta entry
+        if (Storyline.CurrentLevelNumber == 8 && playedMaturitaIntro)
+        {
+            ScreenManager.ScreenGame.OpenDialogue(new DialogueBasic(DialogueManager.GetDialogue("maturitaIntro").RootElement, reference.NpcName, reference.NpcSprite));
+            playedMaturitaIntro = true;
         }
     }
 }

@@ -361,6 +361,7 @@ public static class DialogueManager
             "machineGuide",
             "levelUp",
             "coinCollected",
+            "maturitaIntro",
         };
 
         foreach (string name in names)

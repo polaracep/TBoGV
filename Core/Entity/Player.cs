@@ -40,6 +40,8 @@ public class Player : Entity, IRecieveDmg, IDealDmg
     private MouseState previousMouseState;
     private KeyboardState prevKeyboardState;
     private string dataPath = "tbogv_player.json";
+    public int BookCount = 0;
+    public bool ShouldSpawnBooks { get { return Storyline.CurrentLevelNumber >= 8 && BookCount < 20; } }
 
     private Rectangle BBox = new Rectangle(67, 39, 150, 240); //is scaled in constructor
     public Player(Vector2 position)
