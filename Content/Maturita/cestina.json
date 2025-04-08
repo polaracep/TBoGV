@@ -1,24 +1,115 @@
 [
   {
-    "q": "Jak se jmenuje dílo Erbenovo nejznámější dílo?",
-    "1": [
-      "Kytice"
-    ],
+    "q": "Jak se jmenuje Erbenovo nejznámější dílo?",
+    "1": ["Kytice"],
+    "0": ["Babička", "Bible", "Píseň o Rollandovi"]
+  },
+  {
+    "q": "Které dílo nenapsal Karel Čapek?",
+    "1": ["Osudy dobrého vojáka Švejka"],
+    "0": ["R.U.R.", "Válka s mloky", "Bílá nemoc"]
+  },
+  {
+    "q": "Co označuje termín „epizeuxis“?",
+    "1": ["Opakování stejného slova těsně za sebou"],
+    "0": ["Záměna slovního pořadí", "Protiklad", "Nadsázka"]
+  },
+  {
+    "q": "Ve kterém období vznikla Dalimilova kronika?",
+    "1": ["Ve středověku"],
+    "0": ["V renesanci", "V baroku", "Ve starověku"]
+  },
+  {
+    "q": "Kdo je autorem básnické sbírky „Má vlast“?",
+    "1": ["Neexistuje"],
+    "0": ["Karel Hynek Mácha", "Josef Václav Sládek", "Jaroslav Vrchlický"]
+  },
+  {
+    "q": "Která z těchto postav vystupuje v dramatu „Maryša“?",
+    "1": ["Lízal"],
+    "0": ["Lakomec", "Švanda dudák", "Ignác"]
+  },
+  {
+    "q": "Kdo je představitelem tzv. „ztracené generace“?",
+    "1": ["Ernest Hemingway"],
+    "0": ["Karel Poláček", "Božena Němcová", "František Hrubín"]
+  },
+  {
+    "q": "Co je to apostrofa v literatuře?",
+    "1": ["Oslovení nepřítomné osoby nebo věci"],
     "0": [
-      "Babička",
-      "Bible",
-      "Píseň o Rollandovi"
+      "Vynechání části textu",
+      "Ironická poznámka",
+      "Otázka bez očekávané odpovědi"
     ]
   },
   {
-    "q": "otazka dva",
-    "1": [
-      "spravna odpoved"
-    ],
+    "q": "Kdo napsal román „Pýcha a předsudek“?",
+    "1": ["Jane Austenová"],
+    "0": ["Charlotte Brontëová", "Mary Shelleyová", "Emily Dickinsonová"]
+  },
+  {
+    "q": "Jaký typ rýmu je ve dvojici slov „láska – páska“?",
+    "1": ["Sdružený rým"],
+    "0": ["Střídavý rým", "Přerývaný rým", "Obkročný rým"]
+  },
+  {
+    "q": "Co je to anafora?",
+    "1": ["Opakování slov na začátku veršů nebo vět"],
     "0": [
-      "spatna odpoved",
-      "spatna odpoved",
-      "spatna odpoved"
+      "Opakování slov na konci veršů",
+      "Přeházené slovosledy",
+      "Obrazné pojmenování"
     ]
+  },
+  {
+    "q": "Do kterého literárního směru patří Jan Neruda?",
+    "1": ["Realismus"],
+    "0": ["Romantismus", "Klasicismus", "Surrealismus"]
+  },
+  {
+    "q": "Které z těchto slov je vyjmenované slovo po „B“?",
+    "1": ["Bydžov"],
+    "0": ["Bidlo", "Bída", "Bílit"]
+  },
+  {
+    "q": "Ve kterém díle vystupuje postava babičky od Boženy Němcové?",
+    "1": ["Babička"],
+    "0": ["Divá Bára", "V zámku a podzámčí", "Karla"]
+  },
+  {
+    "q": "Která literární postava patří do Shakespearova díla „Romeo a Julie“?",
+    "1": ["Merkucio"],
+    "0": ["Hamlet", "Othello", "Macbeth"]
+  },
+  {
+    "q": "Kdo je autorem románu „Stařec a moře“?",
+    "1": ["Ernest Hemingway"],
+    "0": ["Jack London", "John Steinbeck", "Francis Scott Fitzgerald"]
+  },
+  {
+    "q": "Co znamená termín alegorie?",
+    "1": ["Jinotaj, text se skrytým významem"],
+    "0": ["Přirovnání", "Nadsázka", "Záměrná záměna slov"]
+  },
+  {
+    "q": "Kdo je autorem české hymny \"Kde domov můj\"?",
+    "1": ["Josef Kajetán Tyl"],
+    "0": ["Bedřich Smetana", "Karel Havlíček Borovský", "Karel Hynek Mácha"]
+  },
+  {
+    "q": "Který z těchto pojmů označuje literární nadsázku?",
+    "1": ["Hyperbola"],
+    "0": ["Metafora", "Personifikace", "Ironie"]
+  },
+  {
+    "q": "Kdo napsal dílo „Lakomec“?",
+    "1": ["Molière"],
+    "0": ["William Shakespeare", "Johann Wolfgang Goethe", "Carlo Goldoni"]
+  },
+  {
+    "q": "Které dílo není epická báseň?",
+    "1": ["Kytice"],
+    "0": ["Máj", "Odyssea", "Beowulf"]
   }
 ]

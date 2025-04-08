@@ -36,7 +36,7 @@ public class RoomBossMaturita : RoomBoss
 	}
 	protected override void GenerateDecor()
 	{
-		currentQuestion = QuestionManager.GetRandomQuestion("cestina");
+		currentQuestion = QuestionManager.GetNewQuestion("cestina");
 		AddDecoTile(dimensions / 2, new TileTest(currentQuestion));
 
 		while (!AddDecoTile(new Vector2(Random.Shared.Next(1, (int)dimensions.X - 1), Random.Shared.Next(1, (int)dimensions.Y - 1)), new TileAnswer(0))) ;
