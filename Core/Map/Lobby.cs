@@ -5,7 +5,6 @@ using TBoGV;
 
 public class Lobby : Place
 {
-    protected bool tutorialPlayed = false;
     protected bool IsFyjala = false;
     protected EntityGambler gambler = null;
 
@@ -142,14 +141,14 @@ public class Lobby : Place
     {
         if (player.TutorialCompleted)
         {
-            tutorialPlayed = true;
+            player.TutorialCompleted = true;
             return;
         }
 
-        if (!tutorialPlayed)
+        if (!player.TutorialPlayed)
         {
             ScreenManager.ScreenGame.OpenDialogue(new DialogueIntro());
-            tutorialPlayed = true;
+            player.TutorialPlayed = true;
         }
         if (Storyline.CurrentLevelNumber == 1)
         {

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -19,7 +20,7 @@ class UI : IDraw
     int MaxXp;
     const int MaxHeartsPerRow = 5;
     protected List<Effect> Effects = new List<Effect>();
-	protected EnemyBoss Boss;
+    protected EnemyBoss Boss;
     public UI()
     {
         hearts = new List<Heart>();
@@ -48,17 +49,17 @@ class UI : IDraw
             int col = i % MaxHeartsPerRow;
             hearts[i].Position = screenOffset + new Vector2((Heart.Size.X + 5) * col, (Heart.Size.Y + 3) * row);
         }
-		bool isboss = false;
-		foreach (var e in enemies)
-		{
-			if(e is EnemyBoss)
-			{
-				isboss = true;
-				Boss = (EnemyBoss)e;
-			}
-		}
-		if (!isboss)
-			Boss = null;
+        bool isboss = false;
+        foreach (var e in enemies)
+        {
+            if (e is EnemyBoss)
+            {
+                isboss = true;
+                Boss = (EnemyBoss)e;
+            }
+        }
+        if (!isboss)
+            Boss = null;
 
         Coins = player.Coins;
         Xp = (int)player.Xp;
@@ -145,12 +146,18 @@ class UI : IDraw
             yearText = "";
             failedTimesText = "";
         }
-        spriteBatch.DrawString(MiddleFont, failedTimesText, new Vector2(30, screenSize.Y - MiddleFont.MeasureString(failedTimesText).Y - 30), Color.White);
-        spriteBatch.DrawString(MiddleFont, yearText, new Vector2(30, screenSize.Y - MiddleFont.MeasureString(yearText).Y - MiddleFont.MeasureString(failedTimesText).Y - 30), Color.White);
-        spriteBatch.DrawString(MiddleFont, pololetiText, new Vector2(30, screenSize.Y - MiddleFont.MeasureString(yearText).Y - MiddleFont.MeasureString(pololetiText).Y - MiddleFont.MeasureString(failedTimesText).Y - 30), Color.White);
-		if(Boss != null)
-		{
-			Boss.DrawHealthBar(spriteBatch, screenSize);
-		}
-	}
+
+        string timeElapsedText = GameManager.GetPlaytime().ToString("HH:mm:ss.fff");
+
+        string hotbarText = pololetiText + '\n' + yearText + '\n' + failedTimesText + '\n' + timeElapsedText;
+
+        spriteBatch.DrawString(MiddleFont, hotbarText, new Vector2(30, screenSize.Y - MiddleFont.MeasureString(hotbarText).Y - 30), Color.White);
+        // spriteBatch.DrawString(MiddleFont, failedTimesText, new Vector2(30, screenSize.Y - MiddleFont.MeasureString(failedTimesText).Y - 30), Color.White);
+        // spriteBatch.DrawString(MiddleFont, yearText, new Vector2(30, screenSize.Y - MiddleFont.MeasureString(yearText).Y - MiddleFont.MeasureString(failedTimesText).Y - 30), Color.White);
+        // spriteBatch.DrawString(MiddleFont, pololetiText, new Vector2(30, screenSize.Y - MiddleFont.MeasureString(yearText).Y - MiddleFont.MeasureString(pololetiText).Y - MiddleFont.MeasureString(failedTimesText).Y - 30), Color.White);
+        if (Boss != null)
+        {
+            Boss.DrawHealthBar(spriteBatch, screenSize);
+        }
+    }
 }
