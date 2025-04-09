@@ -11,6 +11,18 @@ using Newtonsoft.Json.Linq;
 
 namespace TBoGV;
 
+public enum SpeedrunGoals
+{
+    PRIMA_DONE,
+    SEKUNDA_DONE,
+    TERCIE_DONE,
+    KVARTA_DONE,
+    KVINTA_DONE,
+    SEXTA_DONE,
+    SEPTIMA_DONE,
+    MATURITA_DONE
+}
+
 public class Player : Entity, IRecieveDmg, IDealDmg
 {
     static Texture2D Sprite;
@@ -40,6 +52,7 @@ public class Player : Entity, IRecieveDmg, IDealDmg
     public static readonly string DataPath = "tbogv_player.json";
     public bool TutorialPlayed { get; set; } = false;
     public TimeOnly Playtime = TimeOnly.MinValue;
+    public Dictionary<SpeedrunGoals, TimeOnly> SpeedrunTimes = [];
 
     private Rectangle BBox = new Rectangle(67, 39, 150, 240); //is scaled in constructor
     public Player(Vector2 position)

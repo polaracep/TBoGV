@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -105,6 +106,11 @@ class UI : IDraw
                 Effects[i].SpriteSize.X + 5
             );
         }
+        if (Boss != null)
+        {
+            Boss.DrawHealthBar(spriteBatch, screenSize);
+        }
+
         string failedTimesText = Storyline.FailedTimes.ToString() + "/3 Propadnutí";
         string pololetiText = Storyline.CurrentLevelNumber % 2 == 1 ? "1. " : "2. ";
         pololetiText += "Pololetí";
@@ -140,6 +146,7 @@ class UI : IDraw
                 yearText = (Storyline.CurrentLevelNumber - 1) / 2 + 1 + ". Ročník";
                 break;
         }
+
         if (Storyline.CurrentLevelNumber == 0)
         {
             pololetiText = "";
@@ -148,16 +155,36 @@ class UI : IDraw
         }
 
         string timeElapsedText = GameManager.GetPlaytime().ToString("HH:mm:ss.fff");
-
         string hotbarText = pololetiText + '\n' + yearText + '\n' + failedTimesText + '\n' + timeElapsedText;
 
         spriteBatch.DrawString(MiddleFont, hotbarText, new Vector2(30, screenSize.Y - MiddleFont.MeasureString(hotbarText).Y - 30), Color.White);
-        // spriteBatch.DrawString(MiddleFont, failedTimesText, new Vector2(30, screenSize.Y - MiddleFont.MeasureString(failedTimesText).Y - 30), Color.White);
-        // spriteBatch.DrawString(MiddleFont, yearText, new Vector2(30, screenSize.Y - MiddleFont.MeasureString(yearText).Y - MiddleFont.MeasureString(failedTimesText).Y - 30), Color.White);
-        // spriteBatch.DrawString(MiddleFont, pololetiText, new Vector2(30, screenSize.Y - MiddleFont.MeasureString(yearText).Y - MiddleFont.MeasureString(pololetiText).Y - MiddleFont.MeasureString(failedTimesText).Y - 30), Color.White);
-        if (Boss != null)
+
+
+        if ((bool)Settings.SpeedrunMode.Value == true)
         {
-            Boss.DrawHealthBar(spriteBatch, screenSize);
+            KeyValuePair<SpeedrunGoals, TimeOnly>[] obtainedGoals = GameManager.Player.SpeedrunTimes.Reverse().ToArray();
+
+            for (int i = 0; i < obtainedGoals.Length; i++)
+            {
+                string goal = obtainedGoals[i].Key switch
+                {
+                    SpeedrunGoals.PRIMA_DONE => "Prima done: ",
+                    SpeedrunGoals.SEKUNDA_DONE => "Sekunda done: ",
+                    SpeedrunGoals.TERCIE_DONE => "Tercie done: ",
+                    SpeedrunGoals.KVARTA_DONE => "Kvarta done: ",
+                    SpeedrunGoals.KVINTA_DONE => "Kvinta done: ",
+                    SpeedrunGoals.SEXTA_DONE => "Sexta done: ",
+                    SpeedrunGoals.SEPTIMA_DONE => "Septima done:",
+                    SpeedrunGoals.MATURITA_DONE => "Maturita done:",
+                    _ => "",
+                };
+
+                string write = goal + obtainedGoals[i].Value.ToString("HH:mm:ss.fff");
+                Vector2 measure = MiddleFont.MeasureString(write);
+                spriteBatch.DrawString(MiddleFont, write, new Vector2(screenSize.X - 30 - measure.X, screenSize.Y - 30 - (i * measure.Y)), Color.White);
+
+            }
         }
+
     }
 }

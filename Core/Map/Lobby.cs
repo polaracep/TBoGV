@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using TBoGV;
@@ -139,9 +140,25 @@ public class Lobby : Place
     }
     public override void OnEntry()
     {
+        SpeedrunGoals? goal = Storyline.CurrentLevelNumber switch
+        {
+            2 => SpeedrunGoals.PRIMA_DONE,
+            4 => SpeedrunGoals.SEKUNDA_DONE,
+            6 => SpeedrunGoals.TERCIE_DONE,
+            8 => SpeedrunGoals.KVARTA_DONE,
+            10 => SpeedrunGoals.KVINTA_DONE,
+            12 => SpeedrunGoals.SEXTA_DONE,
+            14 => SpeedrunGoals.SEPTIMA_DONE,
+            16 => SpeedrunGoals.MATURITA_DONE,
+            _ => null,
+        };
+
+        if (goal != null)
+            GameManager.Player.SpeedrunTimes.TryAdd((SpeedrunGoals)goal, GameManager.GetPlaytime());
+
         if (player.TutorialCompleted)
         {
-            player.TutorialCompleted = true;
+            player.TutorialPlayed = true;
             return;
         }
 
@@ -150,11 +167,13 @@ public class Lobby : Place
             ScreenManager.ScreenGame.OpenDialogue(new DialogueIntro());
             player.TutorialPlayed = true;
         }
+
         if (Storyline.CurrentLevelNumber == 1)
         {
             DialogueIntro reference = new();
             ScreenManager.ScreenGame.OpenDialogue(new DialogueBasic(DialogueManager.GetDialogue("machineGuide").RootElement, reference.NpcName, reference.NpcSprite));
             player.TutorialCompleted = true;
         }
+
     }
 }
