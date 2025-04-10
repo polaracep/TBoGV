@@ -60,7 +60,15 @@ public class ScreenSettings : Screen
         skibidiElement = new Checkbox(Settings.Skibidi.Name,
             Vector2.Zero,
             (bool)Settings.Skibidi.Value,
-            x => Settings.Skibidi.Value = x);
+            x =>
+            {
+                Settings.Skibidi.Value = x;
+                if (x)
+                    GameManager.Player.ActivateEasyMode();
+                else
+                    GameManager.Player.DeactivateEasyMode();
+
+            });
 
     }
 
@@ -118,16 +126,12 @@ public class ScreenSettings : Screen
         foreach (var key in pressedNow)
         {
             if (!lastPressedKeys.Contains(key))
-                switch (key)
-                {
-                    case Keys.Back:
-                        if (text.Length != 0)
-                            text = text.Remove(text.Length - 1);
-                        break;
-                    default:
-                        text += key;
-                        break;
-                }
+            {
+                if (key == Keys.Back && text.Length != 0)
+                    text = text.Remove(text.Length - 1);
+                else
+                    text += key;
+            }
         }
 
         MouseState mouseState = Mouse.GetState();

@@ -142,26 +142,39 @@ public class Player : Entity, IRecieveDmg, IDealDmg
         XpGain = finalStats[StatTypes.XP_GAIN];
         ProjectileCount = (int)Math.Max(finalStats[StatTypes.PROJECTILE_COUNT], 1);
     }
-	public void ActivateEasyMode()
-	{
-		if(!Skibidi)
-			Level += 3;
-		BaseStats = new Dictionary<StatTypes, float>()
-		{
-			{ StatTypes.MAX_HP, 3 },
-			{ StatTypes.DAMAGE, 1 },
-			{ StatTypes.PROJECTILE_COUNT, 1 },
-			{ StatTypes.XP_GAIN, 1.1f },
-			{ StatTypes.ATTACK_SPEED, 1500 },
-			{ StatTypes.MOVEMENT_SPEED, 3.75f }
-		};
-		InvulnerabilityFrame = 1500;
-		Skibidi = true;
-	}
-	public bool IsEasyMode()
-	{
-		return Skibidi;
-	}
+    public void DeactivateEasyMode()
+    {
+        BaseStats = new Dictionary<StatTypes, float>()
+        {
+            { StatTypes.MAX_HP, 3 },
+            { StatTypes.DAMAGE, 1 },
+            { StatTypes.PROJECTILE_COUNT, 1 },
+            { StatTypes.XP_GAIN, 1 },
+            { StatTypes.ATTACK_SPEED, 1500 },
+            { StatTypes.MOVEMENT_SPEED, 3.5f }
+        };
+        InvulnerabilityFrame = 1000;
+    }
+    public void ActivateEasyMode()
+    {
+        if (!Skibidi)
+            Level += 3;
+        BaseStats = new Dictionary<StatTypes, float>()
+        {
+            { StatTypes.MAX_HP, 3 },
+            { StatTypes.DAMAGE, 1 },
+            { StatTypes.PROJECTILE_COUNT, 1 },
+            { StatTypes.XP_GAIN, 1.1f },
+            { StatTypes.ATTACK_SPEED, 1500 },
+            { StatTypes.MOVEMENT_SPEED, 3.75f }
+        };
+        InvulnerabilityFrame = 1500;
+        Skibidi = true;
+    }
+    public bool IsEasyMode()
+    {
+        return Skibidi;
+    }
     public void Update(KeyboardState keyboardState, MouseState mouseState, Matrix transform, Place place, Viewport viewport, double dt)
     {
         LastRecievedDmgElapsed += dt;
