@@ -50,6 +50,8 @@ public abstract class ItemContainerable : Item
 	public virtual int GetCost()
 	{
 		int rarityValue = GetRarityValue();
+		if (Storyline.Player.IsEasyMode())
+			rarityValue = (int) (rarityValue * 0.75f);
 		return new Random().Next((int)(rarityValue * 0.6f), (int)(rarityValue * 1.3));
 	}
 	public virtual int GetRarityValue()
