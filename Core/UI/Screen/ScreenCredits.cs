@@ -11,6 +11,7 @@ public class ScreenCredits : Screen
     private SpriteFont MiddleFont = FontManager.GetFont("Arial12");
     private Button escapeButton;
     public Screen LastScreen;
+    private Texture2D SpriteQr = TextureManager.GetTexture("qr");
     private KeyboardState previousKeyboardState;
     private List<string> credits = [
         "Developeři / Textury",
@@ -18,6 +19,8 @@ public class ScreenCredits : Screen
         "Adam Beyer",
         "",
         "Dále děkujeme Anežce, Vítkovi a Kosťovi za pomoc s texturami <3",
+        "",
+        "Pozvěte nás na pivo!"
     ];
 
     private int maxCreditsWidth;
@@ -49,7 +52,7 @@ public class ScreenCredits : Screen
             new Rectangle(0, 0, graphics.GraphicsDevice.Viewport.Width, graphics.GraphicsDevice.Viewport.Height), Color.White);
         Rectangle backgroundRect = new Rectangle(
             ((viewport.Width - maxCreditsWidth) / 2) - 10, creditsStartY - 10,
-            maxCreditsWidth + 20, 10 + viewport.Height / 100 * 5 * credits.Count());
+            maxCreditsWidth + 20, 10 + viewport.Height / 100 * 5 * credits.Count() + SpriteQr.Height + 20);
 
         _spriteBatch.Draw(TextureManager.GetTexture("blackSquare"), backgroundRect, Color.Black * 0.5f);
 
@@ -64,7 +67,7 @@ public class ScreenCredits : Screen
             _spriteBatch.DrawString(MiddleFont, str, new Vector2((viewport.Width - MiddleFont.MeasureString(str).X) / 2, creditsStartY + viewport.Height / 100 * 5 * i), Color.White);
         }
 
-
+        _spriteBatch.Draw(SpriteQr, new Vector2((viewport.Width - SpriteQr.Width) / 2, creditsStartY + viewport.Height / 100 * 5 * credits.Count), Color.White);
 
         // esc
         escapeButton.Position = new Vector2(viewport.Width / 10, viewport.Height / 10);
