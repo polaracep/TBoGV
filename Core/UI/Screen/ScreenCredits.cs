@@ -18,7 +18,6 @@ public class ScreenCredits : Screen
         "Adam Beyer",
         "",
         "Dále děkujeme Anežce, Vítkovi a Kosťovi za pomoc s texturami <3",
-        "oprcam ti dite",
     ];
 
     private int maxCreditsWidth;
