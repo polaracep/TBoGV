@@ -158,6 +158,8 @@ public class BossAles : EnemyBoss
 		Hp = 70;
 		MovementSpeed = 4;
 		AttackSpeed = 350;
+		if (Storyline.Player.IsEasyMode())
+			AttackSpeed = AttackSpeed * 1.1f;
 		AttackDmg = 1;
 		base.InitStats(difficulty);
 	}

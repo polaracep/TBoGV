@@ -54,6 +54,9 @@ public abstract class EnemyBoss : Enemy
 	}
     public override void InitStats(int difficulty)
     {
+		if (Storyline.Player.IsEasyMode())
+			Hp = Hp * 0.9f;
+
         if (difficulty >= 9)
         {
 			Hp = 200 + ((difficulty - 9) * 25);
