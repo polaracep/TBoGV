@@ -157,8 +157,6 @@ public class Player : Entity, IRecieveDmg, IDealDmg
     }
     public void ActivateEasyMode()
     {
-        if (!Skibidi)
-            Level += 3;
         BaseStats = new Dictionary<StatTypes, float>()
         {
             { StatTypes.MAX_HP, 3 },
