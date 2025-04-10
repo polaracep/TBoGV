@@ -53,7 +53,7 @@ public class Player : Entity, IRecieveDmg, IDealDmg
     public bool TutorialPlayed { get; set; } = false;
     public TimeOnly Playtime = TimeOnly.MinValue;
     public Dictionary<SpeedrunGoals, TimeOnly> SpeedrunTimes = [];
-
+    public bool Skibidi = false;
     private Rectangle BBox = new Rectangle(67, 39, 150, 240); //is scaled in constructor
     public Player(Vector2 position)
     {
