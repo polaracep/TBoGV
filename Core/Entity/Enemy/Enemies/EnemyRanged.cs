@@ -13,7 +13,6 @@ abstract class EnemyRanged : Enemy
     public override List<Projectile> Attack()
     {
         List<Projectile> projectiles = base.Attack();
-        projectiles.Add(new ProjectilePee(Position + Size / 2, Direction, AttackDmg));
         LastAttackElapsed = 0;
         return projectiles;
     }

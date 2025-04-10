@@ -204,7 +204,11 @@ public class ScreenGame : Screen
                 nextMenu = new InGameMenuMinimap(_viewport, player);
         }
 #if DEBUG
-        if (keyboardState.IsKeyDown(Keys.P) && previousKeyboardState.IsKeyUp(Keys.P))
+		if (keyboardState.IsKeyDown(Keys.H) && previousKeyboardState.IsKeyUp(Keys.H))
+		{
+			player.ActivateEasyMode();
+		}
+		if (keyboardState.IsKeyDown(Keys.P) && previousKeyboardState.IsKeyUp(Keys.P))
         {
             if (activePlace is Lobby)
                 SendPlayerToLevel();
