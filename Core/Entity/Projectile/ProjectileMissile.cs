@@ -14,7 +14,7 @@ class ProjectileMissile : Projectile
 		Size = new Vector2(25, 25);
 		Position = position - Size / 2;
 		Direction = direction;
-		MovementSpeed = 11;
+		MovementSpeed = Player.IsEasyMode() ? 13 : 11;
 		Damage = damage;
 
 	}

@@ -14,7 +14,7 @@ namespace TBoGV;
 public class Player : Entity, IRecieveDmg, IDealDmg
 {
     static Texture2D Sprite;
-    public int Level { get; set; }
+    public static int Level { get; set; }
     public bool IsPlaying = false;
     public float Xp { get; set; }
     public float AttackSpeed { get; set; }
@@ -26,11 +26,11 @@ public class Player : Entity, IRecieveDmg, IDealDmg
     public int ProjectileCount { get; set; }
     public int Coins { get; set; }
     public bool TutorialCompleted = false;
-    public Dictionary<StatTypes, float> BaseStats { get; set; }
+    public static Dictionary<StatTypes, float> BaseStats { get; set; }
     public Dictionary<StatTypes, float> LevelUpStats { get; set; }
     public double LastAttackElapsed { get; set; }
     public double LastRecievedDmgElapsed { get; set; }
-    public int InvulnerabilityFrame = 1000;
+    public static int InvulnerabilityFrame = 1000;
     public List<Projectile> Projectiles { get; set; }
     List<Projectile> projectilesRecieved = new List<Projectile>();
     public Inventory Inventory { get; set; }
@@ -40,6 +40,8 @@ public class Player : Entity, IRecieveDmg, IDealDmg
     private string dataPath = "tbogv_player.json";
 
 	private Rectangle BBox = new Rectangle(67,39,150,240); //is scaled in constructor
+
+	private static bool EasyMode = false;
     public Player(Vector2 position)
     {
         BaseStats = new Dictionary<StatTypes, float>()
@@ -123,7 +125,26 @@ public class Player : Entity, IRecieveDmg, IDealDmg
         XpGain = finalStats[StatTypes.XP_GAIN];
         ProjectileCount = (int)Math.Max(finalStats[StatTypes.PROJECTILE_COUNT], 1);
     }
-
+	public static void ActivateEasyMode()
+	{
+		if(!EasyMode)
+			Level += 3;
+		BaseStats = new Dictionary<StatTypes, float>()
+		{
+			{ StatTypes.MAX_HP, 3 },
+			{ StatTypes.DAMAGE, 1 },
+			{ StatTypes.PROJECTILE_COUNT, 1 },
+			{ StatTypes.XP_GAIN, 1.1f },
+			{ StatTypes.ATTACK_SPEED, 1500 },
+			{ StatTypes.MOVEMENT_SPEED, 3.75f }
+		};
+		InvulnerabilityFrame = 1500;
+		EasyMode = true;
+	}
+	public static bool IsEasyMode()
+	{
+		return EasyMode;
+	}
     public void Update(KeyboardState keyboardState, MouseState mouseState, Matrix transform, Place place, Viewport viewport, double dt)
     {
         LastRecievedDmgElapsed += dt;
@@ -152,7 +173,6 @@ public class Player : Entity, IRecieveDmg, IDealDmg
                 dy = Math.Sign(dy);
         }
         // --- Begin Movement ---
-        int tolerance = 4;
 
         // Move horizontally in small increments
         if (dx != 0)
