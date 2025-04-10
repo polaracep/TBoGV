@@ -11,13 +11,19 @@ public class ScreenSettings : Screen
     private SpriteFont LargerFont = FontManager.GetFont("Arial16");
     private Button escapeButton;
     private List<UIElement> settingElements = new List<UIElement>();
+    private UIElement skibidiElement;
     public Screen LastScreen;
     private KeyboardState previousKeyboardState;
+    private string text = "";
+    private Keys[] lastPressedKeys;
+    private bool WOWskibidi = false;
+
     public ScreenSettings(GraphicsDeviceManager graphics) : base(graphics)
     {
         Viewport v = graphics.GraphicsDevice.Viewport;
         escapeButton = new Button("Zpět", LargerFont, () =>
         {
+            text = "";
             Settings.Save();
             TBoGVGame.screenCurrent = LastScreen;
         });
@@ -49,8 +55,13 @@ public class ScreenSettings : Screen
                     LargerFont,
                     x => setting.Value = x));
             }
-
         }
+
+        skibidiElement = new Checkbox(Settings.Skibidi.Name,
+            Vector2.Zero,
+            (bool)Settings.Skibidi.Value,
+            x => Settings.Skibidi.Value = x);
+
     }
 
     public override void Draw(SpriteBatch _spriteBatch, GraphicsDeviceManager graphics)
@@ -78,10 +89,18 @@ public class ScreenSettings : Screen
 
         // settings
 
+        int lastIndex = 0;
         foreach (var (el, index) in settingElements.Select((el, index) => (el, index)))
         {
             el.Position = new Vector2(menuX - el.GetRect().Width / 2, (index * hp) + 100);
             ((IDraw)el).Draw(_spriteBatch);
+            lastIndex = index;
+        }
+
+        if (WOWskibidi)
+        {
+            skibidiElement.Position = new Vector2(menuX - skibidiElement.GetRect().Width / 2, ((lastIndex + 1) * hp) + 100);
+            ((IDraw)skibidiElement).Draw(_spriteBatch);
         }
 
         _spriteBatch.End();
@@ -95,11 +114,37 @@ public class ScreenSettings : Screen
             escapeButton.OnClick();
         }
 
+        var pressedNow = keyboardState.GetPressedKeys();
+        foreach (var key in pressedNow)
+        {
+            if (!lastPressedKeys.Contains(key))
+                switch (key)
+                {
+                    case Keys.Back:
+                        if (text.Length != 0)
+                            text = text.Remove(text.Length - 1);
+                        break;
+                    default:
+                        text += key;
+                        break;
+                }
+        }
+
         MouseState mouseState = Mouse.GetState();
+
+        if (text == "SKIBIDI")
+        {
+            skibidiElement.Update(mouseState);
+            WOWskibidi = true;
+        }
+        else
+            WOWskibidi = false;
+
         escapeButton.Update(mouseState);
         foreach (var s in settingElements)
             s.Update(mouseState);
 
         previousKeyboardState = keyboardState;
+        lastPressedKeys = pressedNow;
     }
 }
