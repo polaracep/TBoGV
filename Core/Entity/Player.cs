@@ -53,8 +53,9 @@ public class Player : Entity, IRecieveDmg, IDealDmg
     public bool TutorialPlayed { get; set; } = false;
     public TimeOnly Playtime = TimeOnly.MinValue;
     public Dictionary<SpeedrunGoals, TimeOnly> SpeedrunTimes = [];
-    public bool Skibidi = false;
+    private bool Skibidi = false;
     private Rectangle BBox = new Rectangle(67, 39, 150, 240); //is scaled in constructor
+
     public Player(Vector2 position)
     {
         BaseStats = new Dictionary<StatTypes, float>()
@@ -141,7 +142,26 @@ public class Player : Entity, IRecieveDmg, IDealDmg
         XpGain = finalStats[StatTypes.XP_GAIN];
         ProjectileCount = (int)Math.Max(finalStats[StatTypes.PROJECTILE_COUNT], 1);
     }
-
+	public void ActivateEasyMode()
+	{
+		if(!Skibidi)
+			Level += 3;
+		BaseStats = new Dictionary<StatTypes, float>()
+		{
+			{ StatTypes.MAX_HP, 3 },
+			{ StatTypes.DAMAGE, 1 },
+			{ StatTypes.PROJECTILE_COUNT, 1 },
+			{ StatTypes.XP_GAIN, 1.1f },
+			{ StatTypes.ATTACK_SPEED, 1500 },
+			{ StatTypes.MOVEMENT_SPEED, 3.75f }
+		};
+		InvulnerabilityFrame = 1500;
+		Skibidi = true;
+	}
+	public bool IsEasyMode()
+	{
+		return Skibidi;
+	}
     public void Update(KeyboardState keyboardState, MouseState mouseState, Matrix transform, Place place, Viewport viewport, double dt)
     {
         LastRecievedDmgElapsed += dt;
@@ -169,6 +189,8 @@ public class Player : Entity, IRecieveDmg, IDealDmg
             if (_dy == 0)
                 dy = Math.Sign(dy);
         }
+        // --- Begin Movement ---
+
 
         // Move horizontally in small increments
         if (dx != 0)
