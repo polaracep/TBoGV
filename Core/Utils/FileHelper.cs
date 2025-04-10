@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
@@ -23,6 +25,17 @@ public static class FileHelper
 	{
 		try
 		{
+			string json = JsonConvert.SerializeObject(data, settings);
+			if (saveType == SaveType.AUTO)
+			{
+				foreach (var file in Directory.EnumerateFiles(folderPath[saveType]))
+				{
+					File.Delete(file);
+				}
+				string hash = json.Hash();
+				filePath = "tbogv_" + hash + ".json";
+			}
+
 			string fullPath = folderPath[saveType] + filePath;
 			string directory = Path.GetDirectoryName(fullPath);
 
@@ -31,8 +44,6 @@ public static class FileHelper
 				Directory.CreateDirectory(directory);
 			}
 
-
-			string json = JsonConvert.SerializeObject(data, settings);
 			File.WriteAllText(fullPath, json, Encoding.UTF8);
 		}
 		catch (Exception e)
@@ -41,12 +52,43 @@ public static class FileHelper
 		}
 	}
 
-
+	static string Hash(this string input)
+		=> Convert.ToHexString(SHA1.HashData(Encoding.UTF8.GetBytes(input)));
 
 	public static T Load<T>(string filePath, SaveType saveType)
 	{
 		try
 		{
+			if (saveType == SaveType.AUTO)
+			{
+				foreach (string fileName in Directory.EnumerateFiles(folderPath[saveType]))
+				{
+					if (!fileName.Contains("tbogv_"))
+						File.Delete(fileName);
+
+					// we found a file that could be a save
+					string nameChecksum = fileName.Split('/').Last().Substring(6);
+					nameChecksum = nameChecksum.Remove(nameChecksum.Length - 5);
+
+					string json = File.ReadAllText(fileName, Encoding.UTF8);
+
+					if (!((bool?)Settings.SpeedrunMode.Value ?? false) || nameChecksum == json.Trim().Hash())
+					{
+						JsonSerializerSettings settings = new JsonSerializerSettings
+						{
+							Formatting = Formatting.Indented,
+							Converters = { new StringEnumConverter() }
+						};
+
+						return JsonConvert.DeserializeObject<T>(json, settings);
+					}
+					else
+						File.Delete(fileName);
+
+
+				}
+			}
+
 			if (File.Exists(folderPath[saveType] + filePath))
 			{
 				string json = File.ReadAllText(folderPath[saveType] + filePath, Encoding.UTF8);

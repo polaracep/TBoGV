@@ -1,8 +1,11 @@
+using System;
+using System.Security.Cryptography;
+using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 // gipiti hihi
-public static class Texture2DHelper
+public static class ExtensionHelpers
 {
     /// <summary>
     /// Flips the pixel data of the given Texture2D horizontally in place.
@@ -33,4 +36,5 @@ public static class Texture2DHelper
         // 4. Copy the flipped data back into the texture
         texture.SetData(flippedData);
     }
+
 }

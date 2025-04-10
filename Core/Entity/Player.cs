@@ -49,7 +49,7 @@ public class Player : Entity, IRecieveDmg, IDealDmg
     protected List<Item> ItemsToDrop = new List<Item>();
     private MouseState previousMouseState;
     private KeyboardState prevKeyboardState;
-    public static readonly string DataPath = "tbogv_player.json";
+    public static readonly string DataPath = "tbogv_";
     public bool TutorialPlayed { get; set; } = false;
     public TimeOnly Playtime = TimeOnly.MinValue;
     public Dictionary<SpeedrunGoals, TimeOnly> SpeedrunTimes = [];

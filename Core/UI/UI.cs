@@ -160,7 +160,7 @@ class UI : IDraw
         spriteBatch.DrawString(MiddleFont, hotbarText, new Vector2(30, screenSize.Y - MiddleFont.MeasureString(hotbarText).Y - 30), Color.White);
 
 
-        if ((bool)Settings.SpeedrunMode.Value == true)
+        if (Settings.SpeedrunMode.Value != null && (bool)Settings.SpeedrunMode.Value == true)
         {
             KeyValuePair<SpeedrunGoals, TimeOnly>[] obtainedGoals = GameManager.Player.SpeedrunTimes.Reverse().ToArray();
 
