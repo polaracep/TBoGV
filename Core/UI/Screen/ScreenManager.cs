@@ -17,4 +17,5 @@ public static class ScreenManager
         ScreenEnd = new ScreenEnd(graphics);
         ScreenDeath = new ScreenDeath(graphics);
     }
+
 }

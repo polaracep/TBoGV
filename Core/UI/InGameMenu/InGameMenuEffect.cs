@@ -36,10 +36,7 @@ public class InGameMenuEffect : InGameMenu
 
 		saveButton = new Button("Vymazat postup", LargerFont, () =>
 		{
-			FileHelper.ResetSaves();
-			Storyline.FailedTimes = 3;
-			Storyline.Endless = false;
-			InGameMenuDeath.ResetLevel();
+			GameManager.ResetPlaythrough();
 		});
 	}
 	public override void Update(Viewport viewport, Player player, MouseState mouseState, KeyboardState keyboardState, double dt)

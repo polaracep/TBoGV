@@ -11,10 +11,22 @@ using Newtonsoft.Json.Linq;
 
 namespace TBoGV;
 
+public enum SpeedrunGoals
+{
+    PRIMA_DONE,
+    SEKUNDA_DONE,
+    TERCIE_DONE,
+    KVARTA_DONE,
+    KVINTA_DONE,
+    SEXTA_DONE,
+    SEPTIMA_DONE,
+    MATURITA_DONE
+}
+
 public class Player : Entity, IRecieveDmg, IDealDmg
 {
     static Texture2D Sprite;
-    public static int Level { get; set; }
+    public int Level { get; set; }
     public bool IsPlaying = false;
     public float Xp { get; set; }
     public float AttackSpeed { get; set; }
@@ -26,22 +38,24 @@ public class Player : Entity, IRecieveDmg, IDealDmg
     public int ProjectileCount { get; set; }
     public int Coins { get; set; }
     public bool TutorialCompleted = false;
-    public static Dictionary<StatTypes, float> BaseStats { get; set; }
+    public Dictionary<StatTypes, float> BaseStats { get; set; }
     public Dictionary<StatTypes, float> LevelUpStats { get; set; }
     public double LastAttackElapsed { get; set; }
     public double LastRecievedDmgElapsed { get; set; }
-    public static int InvulnerabilityFrame = 1000;
+    public int InvulnerabilityFrame = 1000;
     public List<Projectile> Projectiles { get; set; }
     List<Projectile> projectilesRecieved = new List<Projectile>();
     public Inventory Inventory { get; set; }
     protected List<Item> ItemsToDrop = new List<Item>();
     private MouseState previousMouseState;
     private KeyboardState prevKeyboardState;
-    private string dataPath = "tbogv_player.json";
+    public static readonly string DataPath = "tbogv_player.json";
+    public bool TutorialPlayed { get; set; } = false;
+    public TimeOnly Playtime = TimeOnly.MinValue;
+    public Dictionary<SpeedrunGoals, TimeOnly> SpeedrunTimes = [];
+    public bool Skibidi = false;
+    private Rectangle BBox = new Rectangle(67, 39, 150, 240); //is scaled in constructor
 
-	private Rectangle BBox = new Rectangle(67,39,150,240); //is scaled in constructor
-
-	private static bool EasyMode = false;
     public Player(Vector2 position)
     {
         BaseStats = new Dictionary<StatTypes, float>()
@@ -62,11 +76,11 @@ public class Player : Entity, IRecieveDmg, IDealDmg
             { StatTypes.ATTACK_SPEED, 0 },
             { StatTypes.MOVEMENT_SPEED, 0 }
         };
-		Sprite = TextureManager.GetTexture("vitekElegan");
-		Position = position;
+        Sprite = TextureManager.GetTexture("vitekElegan");
+        Position = position;
         Size = new Vector2(50, 50);
-		//scale the bbox
-		BBox = new Rectangle((int)(BBox.X * (Size.X / Sprite.Width)), (int)(BBox.Y * (Size.X/Sprite.Width)), (int)(BBox.Width * (Size.X/Sprite.Width)), (int)(BBox.Height * (Size.X/Sprite.Width)));
+        //scale the bbox
+        BBox = new Rectangle((int)(BBox.X * (Size.X / Sprite.Width)), (int)(BBox.Y * (Size.X / Sprite.Width)), (int)(BBox.Width * (Size.X / Sprite.Width)), (int)(BBox.Height * (Size.X / Sprite.Width)));
         Projectiles = new List<Projectile>();
 
         Coins = 1;
@@ -75,6 +89,9 @@ public class Player : Entity, IRecieveDmg, IDealDmg
         SetStats();
         Hp = MaxHp;
         LastRecievedDmgElapsed = InvulnerabilityFrame;
+
+        Load(SaveType.GENERIC);
+        Load(SaveType.AUTO);
     }
 
     public Player() : this(Vector2.One) { }
@@ -125,9 +142,9 @@ public class Player : Entity, IRecieveDmg, IDealDmg
         XpGain = finalStats[StatTypes.XP_GAIN];
         ProjectileCount = (int)Math.Max(finalStats[StatTypes.PROJECTILE_COUNT], 1);
     }
-	public static void ActivateEasyMode()
+	public void ActivateEasyMode()
 	{
-		if(!EasyMode)
+		if(!Skibidi)
 			Level += 3;
 		BaseStats = new Dictionary<StatTypes, float>()
 		{
@@ -139,11 +156,11 @@ public class Player : Entity, IRecieveDmg, IDealDmg
 			{ StatTypes.MOVEMENT_SPEED, 3.75f }
 		};
 		InvulnerabilityFrame = 1500;
-		EasyMode = true;
+		Skibidi = true;
 	}
-	public static bool IsEasyMode()
+	public bool IsEasyMode()
 	{
-		return EasyMode;
+		return Skibidi;
 	}
     public void Update(KeyboardState keyboardState, MouseState mouseState, Matrix transform, Place place, Viewport viewport, double dt)
     {
@@ -174,6 +191,7 @@ public class Player : Entity, IRecieveDmg, IDealDmg
         }
         // --- Begin Movement ---
 
+
         // Move horizontally in small increments
         if (dx != 0)
         {
@@ -183,7 +201,7 @@ public class Player : Entity, IRecieveDmg, IDealDmg
             {
                 Vector2 testPosition = new Vector2(Position.X + stepX, Position.Y);
                 if (!place.ShouldCollideAt(
-					new Rectangle((int)testPosition.X + BBox.X, (int)testPosition.Y + BBox.Y, BBox.Width, BBox.Height)))
+                    new Rectangle((int)testPosition.X + BBox.X, (int)testPosition.Y + BBox.Y, BBox.Width, BBox.Height)))
                 {
                     Position.X += stepX;
                 }
@@ -205,9 +223,9 @@ public class Player : Entity, IRecieveDmg, IDealDmg
                 Vector2 testPosition = new Vector2(Position.X, Position.Y + stepY);
 
                 if (!place.ShouldCollideAt(
-					new Rectangle((int)testPosition.X + BBox.X, (int)testPosition.Y + BBox.Y, BBox.Width, BBox.Height)))
-				{
-					Position.Y += stepY;
+                    new Rectangle((int)testPosition.X + BBox.X, (int)testPosition.Y + BBox.Y, BBox.Width, BBox.Height)))
+                {
+                    Position.Y += stepY;
                 }
                 else
                 {
@@ -308,15 +326,15 @@ public class Player : Entity, IRecieveDmg, IDealDmg
     {
         ItemsToDrop.Add(item);
     }
-	protected static Texture2D SpriteSelect = TextureManager.GetTexture("logo");
+    protected static Texture2D SpriteSelect = TextureManager.GetTexture("logo");
 
-	public override void Draw(SpriteBatch spriteBatch)
+    public override void Draw(SpriteBatch spriteBatch)
     {
         spriteBatch.Draw(Sprite,
             new Rectangle(Convert.ToInt32(Position.X), Convert.ToInt32(Position.Y), Convert.ToInt32(Size.X), Convert.ToInt32(Size.Y)),
             LastRecievedDmgElapsed >= InvulnerabilityFrame ? Color.White : Color.DarkRed);
-		float scale = 10f / Math.Max(SpriteSelect.Width, SpriteSelect.Height);
-		spriteBatch.Draw(SpriteSelect, new Rectangle(InteractionPoint.ToPoint(), new Point((int)(SpriteSelect.Width * scale), (int)(SpriteSelect.Height * scale))), Color.White);
+        float scale = 10f / Math.Max(SpriteSelect.Width, SpriteSelect.Height);
+        spriteBatch.Draw(SpriteSelect, new Rectangle(InteractionPoint.ToPoint(), new Point((int)(SpriteSelect.Width * scale), (int)(SpriteSelect.Height * scale))), Color.White);
     }
     public bool ReadyToAttack()
     {
@@ -473,14 +491,15 @@ public class Player : Entity, IRecieveDmg, IDealDmg
             Effects = EffectsData,
             CurrentLevelNumber = Storyline.CurrentLevelNumber,
             FailedTimes = Storyline.FailedTimes,
-            CompletedTutorial = TutorialCompleted,
+            TutorialCompleted = TutorialCompleted,
+            playtime = GameManager.GetPlaytime(),
         };
-        FileHelper.Save(dataPath, data.GetDict(), saveType);
+        FileHelper.Save(DataPath, data.GetDict(), saveType);
     }
     public void Load(SaveType saveType)
     {
         PlayerData data = new();
-        data.SetDict(FileHelper.Load<Dictionary<string, object>>(dataPath, saveType));
+        data.SetDict(FileHelper.Load<Dictionary<string, object>>(DataPath, saveType));
         if (data.Position.X != 0 && data.Position.Y != 0)
         {
             Position = data.Position;
@@ -491,10 +510,11 @@ public class Player : Entity, IRecieveDmg, IDealDmg
             LevelUpStats = data.LevelUpStats;
             LastAttackElapsed = data.LastAttackElapsed;
             LastRecievedDmgElapsed = data.LastRecievedDmgElapsed;
-            TutorialCompleted = data.CompletedTutorial;
+            TutorialCompleted = data.TutorialCompleted;
             Storyline.CurrentLevelNumber = data.CurrentLevelNumber;
             Storyline.FailedTimes = data.FailedTimes;
             Storyline.Endless = data.Endless;
+            Playtime = data.playtime;
             // Restore Item Containers
             Inventory.ItemContainers.Clear();
             foreach (var itemData in data.ItemContainers)
@@ -538,7 +558,8 @@ public class PlayerData
     public Vector2 Position { get; set; }
     public List<ItemContainerData> ItemContainers { get; set; }
     public List<EffectData> Effects { get; set; }
-    public bool CompletedTutorial { get; set; }
+    public bool TutorialCompleted { get; set; }
+    public TimeOnly playtime = TimeOnly.MinValue;
     public PlayerData() { }
 
     public Dictionary<string, object> GetDict()
@@ -553,20 +574,21 @@ public class PlayerData
 
         Dictionary<string, object> dict = new()
         {
-            { "cln", this.CurrentLevelNumber },
-            { "ft", this.FailedTimes },
-            { "endless", this.Endless },
-            { "l", this.Level },
-            { "x", this.Xp },
-            { "h", this.Hp },
-            { "coin", this.Coins },
-            { "lus", this.LevelUpStats },
-            { "lae", this.LastAttackElapsed },
-            { "lrde", this.LastRecievedDmgElapsed },
-            { "p", this.Position },
-            { "tut", this.CompletedTutorial},
+            { "cln", CurrentLevelNumber },
+            { "ft", FailedTimes },
+            { "endless", Endless },
+            { "l", Level },
+            { "x", Xp },
+            { "h", Hp },
+            { "coin", Coins },
+            { "lus", LevelUpStats },
+            { "lae", LastAttackElapsed },
+            { "lrde", LastRecievedDmgElapsed },
+            { "p", Position },
+            { "tut", TutorialCompleted},
             { "con", con},
             { "ef", eff},
+            { "te", playtime},
         };
 
         return dict;
@@ -598,6 +620,9 @@ public class PlayerData
 
         if (dict.TryGetValue("coin", out object coinObj))
             this.Coins = Convert.ToInt32(coinObj);
+
+        if (dict.TryGetValue("te", out object epObj))
+            this.playtime = TimeOnly.Parse((string)epObj);
 
         if (dict.TryGetValue("lus", out object lusObj))
         {
@@ -647,7 +672,7 @@ public class PlayerData
             this.LastRecievedDmgElapsed = Convert.ToDouble(lrdeObj);
 
         if (dict.TryGetValue("tut", out object tutObj))
-            this.CompletedTutorial = Convert.ToBoolean(tutObj);
+            this.TutorialCompleted = Convert.ToBoolean(tutObj);
 
         if (dict.TryGetValue("p", out object pObj))
         {
@@ -822,25 +847,26 @@ public class EffectData
             Level = 0; // Default to 0 if missing or invalid
         }
 
-		if (dict.TryGetValue("stats", out object statsObj) && statsObj is Newtonsoft.Json.Linq.JObject jObject)
-		{
-			var rawStats = jObject.ToObject<Dictionary<string, float>>();
-			if (rawStats != null)
-			{
-				Stats = new Dictionary<StatTypes, float>();
-				foreach (var kvp in rawStats)
-				{
-					if (Enum.TryParse(kvp.Key, out StatTypes key))
-					{
-						Stats[key] = kvp.Value;
-					}
-				}
-			}
-		}
-		else
-		{
-			Stats = new Dictionary<StatTypes, float>();
-		}
+        if (dict.TryGetValue("stats", out object statsObj) && statsObj is Newtonsoft.Json.Linq.JObject jObject)
+        {
+            var rawStats = jObject.ToObject<Dictionary<string, float>>();
+            if (rawStats != null)
+            {
+                Stats = new Dictionary<StatTypes, float>();
+                foreach (var kvp in rawStats)
+                {
+                    if (Enum.TryParse(kvp.Key, out StatTypes key))
+                    {
+                        Stats[key] = kvp.Value;
+                    }
+                }
+            }
+        }
+        else
+        {
+            Stats = new Dictionary<StatTypes, float>();
+        }
 
-	}
+    }
 }
+

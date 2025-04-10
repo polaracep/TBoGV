@@ -14,7 +14,7 @@ class ProjectileRoot : Projectile
 		Size = new Vector2(Sprite.Width, Sprite.Height);
 		Position = position - Size / 2;
 		Direction = direction;
-		MovementSpeed = Player.IsEasyMode() ? 4 : 5;
+		MovementSpeed = Storyline.Player.IsEasyMode() ? 4 : 5;
 		Damage = damage;
 
 	}

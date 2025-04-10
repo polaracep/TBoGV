@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 namespace TBoGV;
 
 public class ScreenGame : Screen
@@ -59,6 +60,7 @@ public class ScreenGame : Screen
         player.Load(SaveType.GENERIC);
         player.Load(SaveType.AUTO);
         player.Save(SaveType.AUTO);
+
     }
 
     public override void Draw(SpriteBatch _spriteBatch, GraphicsDeviceManager graphics)
@@ -238,7 +240,7 @@ public class ScreenGame : Screen
     {
         return previousKeyboardState.IsKeyDown(key) && keyboardState.IsKeyUp(key);
     }
-    void Reset()
+    public void Reset()
     {
         activeMenu = null;
         player.Heal((uint)player.MaxHp);
