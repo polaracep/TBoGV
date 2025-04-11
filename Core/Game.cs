@@ -12,7 +12,7 @@ public class TBoGVGame : Game
     private GraphicsDeviceManager _graphics;
     private SpriteBatch _spriteBatch;
     public static Screen screenCurrent;
-    private bool _isFullScreen = false;
+    public static bool _isFullScreen = false;
 
     public TBoGVGame()
     {
@@ -62,8 +62,8 @@ public class TBoGVGame : Game
         GameManager.Player.Playtime = TimeOnly.FromTimeSpan(GameManager.playtimeStopwatch.Elapsed);
 
         KeyboardState keyboardState = Keyboard.GetState();
-        if (keyboardState.IsKeyDown(Keys.F11))
-        {
+        if (_isFullScreen != (bool)Settings.Fullscreen.Value)
+		{
             ToggleFullScreen();
         }
         // exit coded
@@ -83,7 +83,9 @@ public class TBoGVGame : Game
     private void ToggleFullScreen()
     {
         _isFullScreen = !_isFullScreen;
-        _graphics.IsFullScreen = _isFullScreen;
+		Settings.Fullscreen.Value = _isFullScreen;
+		Settings.Save();
+		_graphics.IsFullScreen = _isFullScreen;
         _graphics.ApplyChanges();
     }
 
