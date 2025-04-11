@@ -159,15 +159,15 @@ public class RoomLocker : Room
     }
     public override void Update(double dt)
     {
-        base.Update(dt);
-        foreach (var e in Entities)
-        {
-            if (e is EntitySkolnik skolnik)
-            {
-                skolnik.Move(this);
-                skolnik.Update(dt);
-            }
-        }
+		foreach (var e in Entities)
+		{
+			if (e is EntitySkolnik skolnik)
+			{
+				skolnik.Move(this);
+				skolnik.Update(dt);
+			}
+		}
+		base.Update(dt);
     }
     protected static Texture2D SpriteIcon = TextureManager.GetTexture("lockerIcon");
 	public override void DrawMinimapIcon(SpriteBatch spriteBatch, Vector2 position, float scale = 2, bool active = false)
