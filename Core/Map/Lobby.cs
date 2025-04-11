@@ -8,7 +8,7 @@ public class Lobby : Place
 {
     protected bool IsFyjala = false;
     protected EntityGambler gambler = null;
-
+	private static uint FyjalaInRow = 0;
     public Lobby(Player p)
     {
         player = p;
@@ -69,9 +69,13 @@ public class Lobby : Place
     private void GenerateFyjala()
     {
         // 1/4 chance
-        if (new Random().Next(4) != 1)
-            return;
+        if (new Random().Next((int)(4 + FyjalaInRow*2)) != 0)
+		{
+			FyjalaInRow = 0;
+			return;
+		}
 
+		FyjalaInRow++;
         IsFyjala = true;
         Entities.Add(new EntityFyjala(GetTileWorldPos(new Vector2(9, 4))));
         player.Inventory.AddEffect(new EffectFyjalovaDrahota());
