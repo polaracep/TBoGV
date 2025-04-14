@@ -97,6 +97,8 @@ public enum EffectTypes : int
 	ROOTED = 7,
 	RICKROLL = 8,
 	EXPENSIVE = 9,
+	MAGNET = 10,
+	JUMP = 11,
 }
 public enum ItemTypes : int
 {
@@ -153,6 +155,8 @@ public static class ItemDatabase
 			new ItemVysvedceni(),
 			new ItemAtlas(),
 			new ItemZuvak(),
+			new ItemRunnerCrocs(),
+			new ItemMagnet(),
 		};
 
 		foreach (var item in itemsList)

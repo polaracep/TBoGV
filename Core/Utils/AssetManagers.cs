@@ -215,6 +215,8 @@ public static class TextureManager
             "sharpener",
             "atlas",
             "zuvak",
+			"crocsMc",
+			"magnet",
 
             // Misc
             "gymvod",

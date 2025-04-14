@@ -57,7 +57,7 @@ public abstract class Item : Entity, IInteractable
 		if (MovementSpeed <= 0)
 			IsMoving = false;
 	}
-	private bool CollidesWithWall(Vector2 testPosition, Place place)
+	protected bool CollidesWithWall(Vector2 testPosition, Place place)
 	{
 		return place.ShouldCollideAt(testPosition+Size/2);
 	}
