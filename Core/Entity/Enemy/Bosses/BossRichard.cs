@@ -33,7 +33,7 @@ class BossRichard : EnemyBoss
 		InitStats(Storyline.Difficulty);
 		Position = position;
 		phaseChangeElapsed = 0;
-		Scale = 100f / Math.Max(frameWidth, frameHeight);
+		Scale = (0.1f + 0.3f * (Hp / MaxHp));
 		Size = new Vector2(frameWidth * Scale, frameHeight * Scale);
 		PickNewDirection();
 		AttackDelay();
@@ -59,7 +59,11 @@ class BossRichard : EnemyBoss
 	}
 	private void UpdateScale()
 	{
-		Scale = (0.1f + 0.3f * (Hp / 60f));
+		double dScale = Scale;
+		Scale = (0.1f + 0.3f * (Hp / MaxHp));
+		dScale -= Scale;
+		if (dScale != 0)
+			Position += new Vector2((float)(frameWidth * dScale / 2f), (float)(frameHeight * dScale / 2f));
 		Size = new Vector2(frameWidth * Scale, frameHeight * Scale);
 	}
 
