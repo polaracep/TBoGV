@@ -61,7 +61,7 @@ public static class Storyline
         Random rand = new Random();
         int roomCount = rand.Next(minR, maxR + 1);
         int classroomCount = rand.Next(roomCount / 2, roomCount - 1);
-        int specialRoomCount = rand.Next(1, 3);
+        int specialRoomCount = rand.Next(0, 2) + roomCount/5;
         int hallwayCount = roomCount - classroomCount - specialRoomCount;
 
 
