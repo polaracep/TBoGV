@@ -98,7 +98,7 @@ internal class EnemyLol : EnemyRanged
     {
         Hp = difficulty * 1.25f + 0.75f;
         MovementSpeed = 2;
-        AttackSpeed = 700 - (40 * difficulty);
+        AttackSpeed = 700 - Math.Min(40 * difficulty, 40 * 8);
         AttackDmg = 1;
         XpValue = 1 + difficulty / 2;
         Weight = EnemyWeight.HARD;
