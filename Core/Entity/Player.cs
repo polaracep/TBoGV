@@ -90,7 +90,6 @@ public class Player : Entity, IRecieveDmg, IDealDmg
         Hp = MaxHp;
         LastRecievedDmgElapsed = InvulnerabilityFrame;
 
-        Load(SaveType.GENERIC);
         Load(SaveType.AUTO);
     }
 
@@ -637,9 +636,6 @@ public class PlayerData
 
         if (dict.TryGetValue("lus", out object lusObj))
         {
-#if DEBUG
-            Console.WriteLine($"Raw lusObj type: {lusObj?.GetType()}");
-#endif
 
             if (lusObj is JObject lusJObject)  // If stored as JObject, convert to dictionary
             {
@@ -647,10 +643,6 @@ public class PlayerData
 
                 foreach (var kvp in lusJObject)
                 {
-#if DEBUG
-                    Console.WriteLine($"Key: {kvp.Key} (Type: {kvp.Key.GetType()}), Value: {kvp.Value} (Type: {kvp.Value?.Type})");
-#endif
-
                     if (Enum.TryParse(kvp.Key, out StatTypes statType))
                     {
                         if (kvp.Value.Type == JTokenType.Float)
@@ -666,15 +658,9 @@ public class PlayerData
             }
             else
             {
-                Console.WriteLine("lusObj is not a JObject.");
                 LevelUpStats = new Dictionary<StatTypes, float>();  // Default empty dictionary
             }
         }
-        else
-        {
-            Console.WriteLine("Key 'lus' not found in dictionary.");
-        }
-
 
         if (dict.TryGetValue("lae", out object laeObj))
             this.LastAttackElapsed = Convert.ToDouble(laeObj);
@@ -687,9 +673,6 @@ public class PlayerData
 
         if (dict.TryGetValue("p", out object pObj))
         {
-#if DEBUG
-            Console.WriteLine($"Raw pObj type: {pObj?.GetType()}");
-#endif
 
             if (pObj is string pStr)
             {
@@ -702,13 +685,11 @@ public class PlayerData
                 }
                 else
                 {
-                    Console.WriteLine("Failed to parse position string.");
                     this.Position = Vector2.Zero; // Default to (0,0) if invalid
                 }
             }
             else
             {
-                Console.WriteLine("pObj is not a valid string.");
                 this.Position = Vector2.Zero;
             }
         }

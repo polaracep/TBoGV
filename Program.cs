@@ -19,6 +19,7 @@ public static class Program
         using var game = new TBoGV.TBoGVGame();
         game.Run();
     }
+
 #if RELEASE
     public static void LogCrash(Exception e)
     {

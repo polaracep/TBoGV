@@ -141,13 +141,14 @@ public static class GameManager
 
     internal static void ResetPlaythrough()
     {
-        Storyline.FailedTimes = 3;
-        Storyline.Endless = false;
+        Storyline.ResetStoryline();
         FileHelper.ResetSaves();
-        InGameMenuDeath.ResetLevel();
-        playtimeStopwatch = new();
+
+        ScreenManager.Init(graphics);
+
         startPlaytime = TimeOnly.MinValue;
         Player = new Player();
-        ScreenManager.Init(graphics);
+        playtimeStopwatch = new();
+        Player.Save(SaveType.AUTO);
     }
 }

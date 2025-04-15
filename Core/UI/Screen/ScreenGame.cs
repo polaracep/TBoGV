@@ -57,10 +57,6 @@ public class ScreenGame : Screen
 
         SendPlayerToLobby();
 
-        player.Load(SaveType.GENERIC);
-        player.Load(SaveType.AUTO);
-        player.Save(SaveType.AUTO);
-
     }
 
     public override void Draw(SpriteBatch _spriteBatch, GraphicsDeviceManager graphics)
@@ -204,11 +200,11 @@ public class ScreenGame : Screen
                 nextMenu = new InGameMenuMinimap(_viewport, player);
         }
 #if DEBUG
-		if (keyboardState.IsKeyDown(Keys.H) && previousKeyboardState.IsKeyUp(Keys.H))
-		{
-			player.ActivateEasyMode();
-		}
-		if (keyboardState.IsKeyDown(Keys.P) && previousKeyboardState.IsKeyUp(Keys.P))
+        if (keyboardState.IsKeyDown(Keys.H) && previousKeyboardState.IsKeyUp(Keys.H))
+        {
+            player.ActivateEasyMode();
+        }
+        if (keyboardState.IsKeyDown(Keys.P) && previousKeyboardState.IsKeyUp(Keys.P))
         {
             if (activePlace is Lobby)
                 SendPlayerToLevel();
@@ -232,9 +228,9 @@ public class ScreenGame : Screen
         {
             SendPlayerToTutorial();
         }
-        if (keyboardState.IsKeyDown(Keys.H) && previousKeyboardState.IsKeyUp(Keys.H) && activeMenu == null)
+        if (keyboardState.IsKeyDown(Keys.U) && previousKeyboardState.IsKeyUp(Keys.U) && activeMenu == null)
         {
-            FileHelper.ResetSaves();
+            player.Hp = 0;
         }
 #endif
 
@@ -260,12 +256,8 @@ public class ScreenGame : Screen
         if (Storyline.FailedTimes >= 3)
         {
             SendPlayerToLobby();
-            FileHelper.ResetSaves();
-            Storyline.ResetStoryline();
-            Storyline.CurrentLevelNumber = 0;
-            player.Reset();
-            lobby.Reset();
             TBoGVGame.screenCurrent = ScreenManager.ScreenDeath;
+            GameManager.ResetPlaythrough();
         }
     }
     void Revive()

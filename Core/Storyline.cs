@@ -90,7 +90,7 @@ public static class Storyline
         List<Room> bossRooms = [new RoomBossAles(p), new RoomBossToilet(p), new RoomBossSvarta(p), new RoomBossCat(p), new RoomBossRichard(p), new RoomBossZeman(p), new RoomBossAmogus(p)];
         if (CurrentLevelNumber % 2 == 0)
             bossRooms = [new RoomClassroom(p)];
-        Level level = new Level(p, rooms, new RoomStart(p), bossRooms[Random.Shared.Next(bossRooms.Count)], (uint)Math.Max(6, (int)Math.Sqrt(CurrentLevelNumber-2)+1));
+        Level level = new Level(p, rooms, new RoomStart(p), bossRooms[Random.Shared.Next(bossRooms.Count)], (uint)Math.Max(6, (int)Math.Sqrt(CurrentLevelNumber - 2) + 1));
         return level;
     }
 
@@ -102,9 +102,8 @@ public static class Storyline
             NextLevelEndless();
             return;
         }
-		Player.Save(SaveType.AUTO);
-		// wrap na zacatek
-		if (CurrentLevelNumber == LevelList.Count)
+        // wrap na zacatek
+        if (CurrentLevelNumber == LevelList.Count)
             CurrentLevelNumber = 0;
 
         // reset failed times
@@ -112,20 +111,19 @@ public static class Storyline
         {
             FailedTimes = 0;
             promoted = true;
-			Player.Save(SaveType.AUTO);
-		}
-		if (CurrentLevelNumber % 2 == 1)
+        }
+        if (CurrentLevelNumber % 2 == 1)
             promoted = false;
 
         CurrentLevel = LevelList[CurrentLevelNumber];
         CurrentLevelNumber++;
         Difficulty = (int)Math.Floor((CurrentLevelNumber - 1) / (float)2) + 1;
 
+        Player.Save(SaveType.AUTO);
     }
     public static void NextLevelEndless()
     {
 
-        Player.Save(SaveType.AUTO);
         // reset failed times
         if (CurrentLevelNumber % 2 == 0 && !promoted)
         {
@@ -138,6 +136,7 @@ public static class Storyline
         CurrentLevel = GenerateEndlessLevel();
         CurrentLevelNumber++;
         Difficulty = (int)Math.Floor((CurrentLevelNumber - 1) / (float)2) + 1;
+        Player.Save(SaveType.AUTO);
     }
     public static void ResetLevel()
     {
@@ -160,8 +159,8 @@ public static class Storyline
         CurrentLevel = GenerateEndlessLevel();
         CurrentLevel.Reset();
         FailedTimes = f;
-		Player.Inventory.AddEffect(new EffectEndless());
-	}
+        Player.Inventory.AddEffect(new EffectEndless());
+    }
     public static void ResetStoryline()
     {
         GenerateStoryline();
@@ -170,6 +169,7 @@ public static class Storyline
         CurrentLevelNumber = 0;
         Difficulty = 0;
         FailedTimes = 0;
+        Endless = false;
     }
     public static void End()
     {

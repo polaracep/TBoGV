@@ -13,7 +13,7 @@ public static class FileHelper
 	{
 		{SaveType.USER, "userSave/" },
 		{SaveType.AUTO, "autoSave/" },
-		{SaveType.GENERIC, "" },
+		{SaveType.GENERIC, "./" },
 	};
 
 	private static JsonSerializerSettings settings = new JsonSerializerSettings
@@ -23,33 +23,36 @@ public static class FileHelper
 	};
 	public static void Save<T>(string filePath, T data, SaveType saveType)
 	{
-		try
-		{
-			string json = JsonConvert.SerializeObject(data, settings);
-			if (saveType == SaveType.AUTO)
-			{
-				foreach (var file in Directory.EnumerateFiles(folderPath[saveType]))
+		/*
+				try
 				{
-					File.Delete(file);
-				}
-				string hash = json.Hash();
-				filePath = "tbogv_" + hash + ".json";
-			}
-
-			string fullPath = folderPath[saveType] + filePath;
-			string directory = Path.GetDirectoryName(fullPath);
-
-			if (!Directory.Exists(directory))
-			{
-				Directory.CreateDirectory(directory);
-			}
-
-			File.WriteAllText(fullPath, json, Encoding.UTF8);
-		}
-		catch (Exception e)
+				*/
+		if (!Directory.Exists(folderPath[saveType]))
 		{
-			Console.WriteLine($"Error saving file {filePath}: {e.Message}");
+			Directory.CreateDirectory(folderPath[saveType]);
 		}
+
+		string json = JsonConvert.SerializeObject(data, settings);
+		if (saveType == SaveType.AUTO)
+		{
+			foreach (var file in Directory.EnumerateFiles(folderPath[saveType]))
+			{
+				File.Delete(file);
+			}
+			string hash = json.Hash();
+			filePath = "tbogv_" + hash + ".json";
+		}
+
+		string fullPath = folderPath[saveType] + filePath;
+
+		File.WriteAllText(fullPath, json, Encoding.UTF8);
+		/*
+	}
+	catch (Exception e)
+	{
+		Console.WriteLine($"Error saving file {filePath}: {e.Message}");
+	}
+	*/
 	}
 
 	static string Hash(this string input)
@@ -114,7 +117,7 @@ public static class FileHelper
 		{
 			foreach (var path in folderPath.Values)
 			{
-				if (!string.IsNullOrEmpty(path) && Directory.Exists(path) && path != "")
+				if (!string.IsNullOrEmpty(path) && Directory.Exists(path) && path != folderPath[SaveType.GENERIC])
 				{
 					DirectoryInfo directory = new DirectoryInfo(path);
 					foreach (FileInfo file in directory.GetFiles())

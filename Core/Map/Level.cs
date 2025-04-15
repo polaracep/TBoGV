@@ -38,7 +38,7 @@ public class Level
         ActiveRoomCoords = startRoomPos;
 
         TileDoor.TileInteract += OnRoomChanged;
-        LevelCreator.PrintMap(RoomMap);
+        //LevelCreator.PrintMap(RoomMap);
     }
 
     public Level(Player player, List<Room> roomList, RoomStart roomStart, Room roomBoss, uint maxSize) : this(player, roomList, roomStart, roomBoss, maxSize, new Vector2(maxSize) / 2) { }
