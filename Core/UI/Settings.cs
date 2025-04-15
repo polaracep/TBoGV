@@ -22,14 +22,14 @@ public static class Settings
     public static Setting FixedCamera = new Setting("fixedCamera", "Kamera na hráči", false);
     public static Setting SpeedrunMode = new Setting("speedrun", "Speedrun mód", false);
     public static Setting Skibidi = new Setting("skibidi", "Skibidi mód!", false);
-	public static Setting Fullscreen = new Setting("fullscreen", "Fullscreen", false);
+    public static Setting Fullscreen = new Setting("fullscreen", "Fullscreen", false);
 
     public static List<Setting> SettingsList = [
         MusicVolume,
         SfxVolume,
         FixedCamera,
         SpeedrunMode,
-		Fullscreen
+        Fullscreen
     ];
 
     private static Dictionary<string, object> Serialize()
@@ -65,18 +65,17 @@ public static class Settings
 
     public static void Load()
     {
+        MusicVolume.Value = 0.1f;
+        SfxVolume.Value = 0.5f;
+        FixedCamera.Value = false;
+        SpeedrunMode.Value = false;
+        Fullscreen.Value = false;
+
         var data = FileHelper.Load<Dictionary<string, object>>(settingsPath, SaveType.GENERIC);
         if (data == null)
-        {
-            MusicVolume.Value = 0.1f;
-            SfxVolume.Value = 0.5f;
-            FixedCamera.Value = false;
-            SpeedrunMode.Value = false;
-			Fullscreen.Value = false;
             Save();
-            data = FileHelper.Load<Dictionary<string, object>>(settingsPath, SaveType.GENERIC);
-        }
         Deserialize(data);
+
         Skibidi.Value = false;
     }
 }
