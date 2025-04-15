@@ -50,15 +50,11 @@ public class TBoGVGame : Game
         GameManager.Start(this, _graphics);
         ScreenManager.Init(_graphics);
         screenCurrent = ScreenManager.ScreenStart;
+        GameManager.playtimeStopwatch.Start();
     }
 
     protected override void Update(GameTime gameTime)
     {
-        if (screenCurrent is ScreenGame && !GameManager.playtimeStopwatch.IsRunning)
-            GameManager.playtimeStopwatch.Start();
-        if (screenCurrent is not ScreenGame && GameManager.playtimeStopwatch.IsRunning)
-            GameManager.playtimeStopwatch.Stop();
-
         GameManager.Player.Playtime = TimeOnly.FromTimeSpan(GameManager.playtimeStopwatch.Elapsed);
 
         if (_isFullScreen != (bool)Settings.Fullscreen.Value)

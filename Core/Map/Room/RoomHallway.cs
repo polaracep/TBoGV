@@ -37,6 +37,7 @@ public class RoomHallway : Room
         DecorationTypes.PAINTING16,
         DecorationTypes.PAINTING17,
         DecorationTypes.PAINTING18,
+        DecorationTypes.WINDOW,
     ];
 
     public RoomHallway(Vector2 dimensions, Player p) : base(dimensions, p) { }

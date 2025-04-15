@@ -96,6 +96,7 @@ public class ScreenGame : Screen
         if (Storyline.CurrentLevel?.ActiveRoom != activePlace && player.IsPlaying && inTutorial)
             activePlace = tutorial.ActiveRoom;
 
+
         // ingamemenu update
         if (nextMenu != null && activeMenu == null)
         {
@@ -181,13 +182,19 @@ public class ScreenGame : Screen
         if (keyboardState.IsKeyDown(Keys.Escape) && previousKeyboardState.IsKeyUp(Keys.Escape))
         {
             if (activeMenu == null)
+            {
                 activeMenu = new InGameMenuEffect(player);
+                GameManager.playtimeStopwatch.Stop();
+            }
 #if DEBUG
             else if (activeMenu is InGameMenuDialogue)
                 activeMenu = null;
 #endif
             else if (activeMenu is not InGameMenuDialogue && activeMenu is not InGameMenuDeath && activeMenu is not InGameMenuLevelUp)
+            {
+                GameManager.playtimeStopwatch.Start();
                 activeMenu = null;
+            }
         }
         if (KeyReleased(Keys.J) && MinigameRooted.State != MinigameState.ONGOING)
         {

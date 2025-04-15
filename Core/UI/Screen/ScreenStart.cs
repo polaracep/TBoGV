@@ -18,6 +18,7 @@ public class ScreenStart : Screen
         startButton = new Button("Jedeeem!", LargerFont, () =>
         {
             TBoGVGame.screenCurrent = ScreenManager.ScreenGame;
+            GameManager.playtimeStopwatch.Start();
         });
         settingsButton = new Button("Šteluj", LargerFont, () =>
         {
