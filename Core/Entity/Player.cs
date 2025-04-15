@@ -26,17 +26,17 @@ public enum SpeedrunGoals
 public class Player : Entity, IRecieveDmg, IDealDmg
 {
     static Texture2D Sprite;
-    public int Level { get; set; }
+    public int Level { get; set; } = 0;
     public bool IsPlaying = false;
-    public float Xp { get; set; }
-    public float AttackSpeed { get; set; }
-    public float AttackDmg { get; set; }
-    public int ItemCapacity { get; set; }
-    public float Hp { get; set; }
-    public int MaxHp { get; set; }
-    public float XpGain { get; set; }
-    public int ProjectileCount { get; set; }
-    public int Coins { get; set; }
+    public float Xp { get; set; } = 0;
+    public float AttackSpeed { get; set; } = 0;
+    public float AttackDmg { get; set; } = 0;
+    public int ItemCapacity { get; set; } = 0;
+    public float Hp { get; set; } = 1;
+    public int MaxHp { get; set; } = 1;
+    public float XpGain { get; set; } = 0;
+    public int ProjectileCount { get; set; } = 0;
+    public int Coins { get; set; } = 0;
     public bool TutorialCompleted = false;
     public Dictionary<StatTypes, float> BaseStats { get; set; }
     public Dictionary<StatTypes, float> LevelUpStats { get; set; }

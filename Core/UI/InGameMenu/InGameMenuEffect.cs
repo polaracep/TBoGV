@@ -37,6 +37,7 @@ public class InGameMenuEffect : InGameMenu
 		saveButton = new Button("Vymazat postup", LargerFont, () =>
 		{
 			GameManager.ResetPlaythrough();
+			TBoGVGame.screenCurrent = ScreenManager.ScreenDeath;
 		});
 	}
 	public override void Update(Viewport viewport, Player player, MouseState mouseState, KeyboardState keyboardState, double dt)

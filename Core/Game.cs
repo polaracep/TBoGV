@@ -61,9 +61,8 @@ public class TBoGVGame : Game
 
         GameManager.Player.Playtime = TimeOnly.FromTimeSpan(GameManager.playtimeStopwatch.Elapsed);
 
-        KeyboardState keyboardState = Keyboard.GetState();
         if (_isFullScreen != (bool)Settings.Fullscreen.Value)
-		{
+        {
             ToggleFullScreen();
         }
         // exit coded
@@ -83,9 +82,9 @@ public class TBoGVGame : Game
     private void ToggleFullScreen()
     {
         _isFullScreen = !_isFullScreen;
-		Settings.Fullscreen.Value = _isFullScreen;
-		Settings.Save();
-		_graphics.IsFullScreen = _isFullScreen;
+        Settings.Fullscreen.Value = _isFullScreen;
+        Settings.Save();
+        _graphics.IsFullScreen = _isFullScreen;
         _graphics.ApplyChanges();
     }
 
@@ -139,16 +138,15 @@ public static class GameManager
         Game.Exit();
     }
 
-    internal static void ResetPlaythrough()
+    public static void ResetPlaythrough()
     {
         Storyline.ResetStoryline();
         FileHelper.ResetSaves();
-
-        ScreenManager.Init(graphics);
 
         startPlaytime = TimeOnly.MinValue;
         Player = new Player();
         playtimeStopwatch = new();
         Player.Save(SaveType.AUTO);
+        ScreenManager.Init(graphics);
     }
 }

@@ -117,10 +117,10 @@ public class ScreenGame : Screen
         }
         if (player.Hp < 1 && activeMenu is not InGameMenuDeath)
         {
-            activeMenu = new InGameMenuDeath(_viewport);
             MinigameRick.State = MinigameState.SUCCESS;
             MinigameRooted.State = MinigameState.SUCCESS;
             miniGames.Clear();
+            activeMenu = new InGameMenuDeath(_viewport);
         }
 
         UpdateKeyboard();
@@ -230,7 +230,7 @@ public class ScreenGame : Screen
         }
         if (keyboardState.IsKeyDown(Keys.U) && previousKeyboardState.IsKeyUp(Keys.U) && activeMenu == null)
         {
-            player.Hp = 0;
+            Reset();
         }
 #endif
 
