@@ -1,11 +1,12 @@
 {
-    "story": {
-        "0": [
-        "Tady v bufetu je paní Šárka, ta ti prodá věci, co se ti budou hodit.",
-        "Pokud se vracíš vyčerpán a potřebuješ si doplnit životy,\nmůžeš použít kávovar, který ti doplní 2 životy za 1 coin.",
-        "A v případě, že si schytal nějaký brainrot, vem si v lednici\nněco k pití. Za coin dostaneš život a zbavíš trochy brainrotu. ",
-        "Občas se tu objeví i nějací lidé... "
-        ]
-    },
-    "choices": { }
+  "story": {
+    "0": [
+      "Tady v bufetu je paní Šárka, ta ti prodá věci, co se ti budou hodit.",
+      "S plným inventářem si poradíš pomocí Q. Tím vyhodíš zvolený item.\nShift+Q vyhodí všechny itemy. Itemy volíš pomocí 1, 2, 3",
+      "Pokud se vracíš vyčerpán a potřebuješ si doplnit životy,\nmůžeš použít kávovar, který ti doplní 2 životy za 1 coin.",
+      "A v případě, že si schytal nějaký brainrot, vem si v lednici\nněco k pití. Za coin dostaneš život a zbavíš trochy brainrotu. ",
+      "Občas se tu objeví i nějací lidé... "
+    ]
+  },
+  "choices": {}
 }

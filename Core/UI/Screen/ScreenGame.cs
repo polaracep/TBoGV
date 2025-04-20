@@ -4,7 +4,6 @@ using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 namespace TBoGV;
 
 public class ScreenGame : Screen
@@ -121,7 +120,14 @@ public class ScreenGame : Screen
             MinigameRick.State = MinigameState.SUCCESS;
             MinigameRooted.State = MinigameState.SUCCESS;
             miniGames.Clear();
-            activeMenu = new InGameMenuDeath(_viewport);
+            if (inTutorial)
+            {
+                var d = new DialogueIntro();
+                OpenDialogue(new DialogueBasic(DialogueManager.GetDialogue("tutorialDie").RootElement, d.NpcName, d.NpcSprite));
+                Reset();
+            }
+            else
+                activeMenu = new InGameMenuDeath(_viewport);
         }
 
         UpdateKeyboard();
@@ -249,6 +255,14 @@ public class ScreenGame : Screen
     }
     public void Reset()
     {
+        if (inTutorial)
+        {
+            player.Heal((uint)player.MaxHp);
+            activeMenu = null;
+            player.LastRecievedDmgElapsed = 0;
+            return;
+        }
+
         activeMenu = null;
         player.Heal((uint)player.MaxHp);
         player.LastRecievedDmgElapsed = 0;

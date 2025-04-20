@@ -1,27 +1,23 @@
 {
-    "story": {
-        "0": {
-            "question": "Brácho mám tady úplnou tutovku na betanku tyvole, nechceš si vsadit?",
-            "yes": "Pome nato",
-            "hint": "A jak to funguje?",
-            "no": "Ne, díky."
-        }
-    },
-    "choices": {
-        "yes": [
-            1
-        ],
-        "no": [
-            "soft tyvole"
-        ],
-        "hint": [
-            "No, dáš mi prachy a pokud jsem ten ticket poskládal správně,\ntak dostaneš dvojnásobek.",
-            "A když budem mít smůlu, tak to příště zkusíš znova, žejo.",
-            {
-                "question": "Tak jdeš do toho?",
-                "yes": "Pome nato",
-                "no": "Dneska to nevidim."
-            }
-        ]
+  "story": {
+    "0": {
+      "question": "Brácho mám tady úplnou tutovku na betanku tyvole, nechceš si vsadit?",
+      "yes": "Pome nato",
+      "hint": "A jak to funguje?",
+      "no": "Ne, díky."
     }
+  },
+  "choices": {
+    "yes": [1],
+    "no": ["soft tyvole"],
+    "hint": [
+      "No, dáš mi prachy a pokud jsem ten ticket poskládal správně,\ntak dostaneš víc, než si vložil.",
+      "A když budem mít smůlu, tak to příště zkusíš znova, žejo.",
+      {
+        "question": "Tak jdeš do toho?",
+        "yes": "Pome nato",
+        "no": "Dneska to nevidim."
+      }
+    ]
+  }
 }

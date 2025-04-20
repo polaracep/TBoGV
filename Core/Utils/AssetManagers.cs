@@ -215,8 +215,8 @@ public static class TextureManager
             "sharpener",
             "atlas",
             "zuvak",
-			"crocsMc",
-			"magnet",
+            "crocsMc",
+            "magnet",
 
             // Misc
             "gymvod",
@@ -352,6 +352,7 @@ public static class DialogueManager
             "tutorial2",
             "tutorial3",
             "tutorial4",
+            "tutorialDie",
             "skolnik",
             "gambler",
             "gamblerPlaced",

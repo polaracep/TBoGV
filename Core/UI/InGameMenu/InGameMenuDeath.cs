@@ -25,16 +25,16 @@ class InGameMenuDeath : InGameMenu
 
 	private readonly List<string> deathMessages = new List<string>
 	{
-"Zapnul jsi YouTube Shorts",
-"Neměl jsi se dívat na poslední Skibidi Toilet epizodu",
-"Zoned out - možná zkus spát víc než 2h",
-"Nepozdravil jsi vrátnou",
-"Nezavřel jsi dveře před školníkem",
-"Nepípl jsi si u výdeje",
-"Mikeš tě viděl s mobilem",
-"Potkal jsi Procházkovou",
-"Nepřišel jsi na hodinu Predescu",
-"O přestávce jsi poslal pivko a nabils",
+		"Zapnul jsi YouTube Shorts",
+		"Neměl jsi se dívat na poslední Skibidi Toilet epizodu",
+		"Zoned out - možná zkus spát víc než 2h",
+		"Nepozdravil jsi vrátnou",
+		"Nezavřel jsi dveře před školníkem",
+		"Nepípl jsi si u výdeje",
+		"Mikeš tě viděl s mobilem",
+		"Potkal jsi Procházkovou",
+		"Nepřišel jsi na hodinu Predescu",
+		"O přestávce jsi poslal pivko a nabils",
 	};
 
 	public InGameMenuDeath(Viewport viewport)

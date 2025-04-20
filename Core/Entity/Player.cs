@@ -470,9 +470,7 @@ public class Player : Entity, IRecieveDmg, IDealDmg
         LastRecievedDmgElapsed = InvulnerabilityFrame;
         // fuj
         Position = new Lobby(this).SpawnPos * 50;
-
     }
-
 
     public void Save(SaveType saveType)
     {
