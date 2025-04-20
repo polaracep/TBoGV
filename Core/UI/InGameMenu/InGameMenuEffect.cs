@@ -19,6 +19,7 @@ public class InGameMenuEffect : InGameMenu
 
 	private Button settingsButton;
 	private Button saveButton;
+	private Button exitButton;
 
 	public InGameMenuEffect(Player player)
 	{
@@ -39,6 +40,10 @@ public class InGameMenuEffect : InGameMenu
 			GameManager.ResetPlaythrough();
 			TBoGVGame.screenCurrent = ScreenManager.ScreenDeath;
 		});
+		exitButton = new Button("Vypadni!!", LargerFont, () =>
+		{
+			GameManager.Exit();
+		});
 	}
 	public override void Update(Viewport viewport, Player player, MouseState mouseState, KeyboardState keyboardState, double dt)
 	{
@@ -50,6 +55,7 @@ public class InGameMenuEffect : InGameMenu
 
 		settingsButton.Update(mouseState);
 		saveButton.Update(mouseState);
+		exitButton.Update(mouseState);
 	}
 	public override void Draw(SpriteBatch spriteBatch)
 	{
@@ -100,11 +106,14 @@ public class InGameMenuEffect : InGameMenu
 			spriteBatch.DrawString(MiddleFont, effect, effectPosition, Color.LightCyan);
 		}
 
-		settingsButton.Position = new Vector2((Viewport.Width - settingsButton.GetRect().Width) / 2, startY + ((3 + statEntries.Count) * MiddleFont.LineSpacing));
+		settingsButton.Position = new Vector2((Viewport.Width - settingsButton.GetRect().Width) / 2, prcY(64));
 		settingsButton.Draw(spriteBatch);
 
-		saveButton.Position = new Vector2((Viewport.Width - saveButton.GetRect().Width) / 2, startY + ((3 + statEntries.Count) * MiddleFont.LineSpacing) + settingsButton.GetRect().Height + 10);
+		saveButton.Position = new Vector2((Viewport.Width - saveButton.GetRect().Width) / 2, prcY(71));
 		saveButton.Draw(spriteBatch);
+
+		exitButton.Position = new Vector2((Viewport.Width - exitButton.GetRect().Width) / 2, prcY(78));
+		exitButton.Draw(spriteBatch);
 
 		DrawEffects(spriteBatch);
 

@@ -61,7 +61,7 @@ public static class Storyline
         Random rand = new Random();
         int roomCount = rand.Next(minR, maxR + 1);
         int classroomCount = rand.Next(roomCount / 2, roomCount - 1);
-        int specialRoomCount = rand.Next(0, 2) + roomCount/5;
+        int specialRoomCount = rand.Next(0, 2) + roomCount / 5;
         int hallwayCount = roomCount - classroomCount - specialRoomCount;
 
 
@@ -97,6 +97,7 @@ public static class Storyline
     private static bool promoted = false;
     public static void NextLevel()
     {
+        Player.Save(SaveType.AUTO);
         if (Endless)
         {
             NextLevelEndless();
@@ -119,7 +120,6 @@ public static class Storyline
         CurrentLevelNumber++;
         Difficulty = (int)Math.Floor((CurrentLevelNumber - 1) / (float)2) + 1;
 
-        Player.Save(SaveType.AUTO);
     }
     public static void NextLevelEndless()
     {

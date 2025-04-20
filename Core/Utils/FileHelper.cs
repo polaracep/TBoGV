@@ -23,36 +23,32 @@ public static class FileHelper
 	};
 	public static void Save<T>(string filePath, T data, SaveType saveType)
 	{
-		/*
-				try
-				{
-				*/
-		if (!Directory.Exists(folderPath[saveType]))
+		try
 		{
-			Directory.CreateDirectory(folderPath[saveType]);
-		}
-
-		string json = JsonConvert.SerializeObject(data, settings);
-		if (saveType == SaveType.AUTO)
-		{
-			foreach (var file in Directory.EnumerateFiles(folderPath[saveType]))
+			if (!Directory.Exists(folderPath[saveType]))
 			{
-				File.Delete(file);
+				Directory.CreateDirectory(folderPath[saveType]);
 			}
-			string hash = json.Hash();
-			filePath = "tbogv_" + hash + ".json";
+
+			string json = JsonConvert.SerializeObject(data, settings);
+			if (saveType == SaveType.AUTO)
+			{
+				foreach (var file in Directory.EnumerateFiles(folderPath[saveType]))
+				{
+					File.Delete(file);
+				}
+				string hash = json.Hash();
+				filePath = "tbogv_" + hash + ".json";
+			}
+
+			string fullPath = folderPath[saveType] + filePath;
+
+			File.WriteAllText(fullPath, json, Encoding.UTF8);
 		}
-
-		string fullPath = folderPath[saveType] + filePath;
-
-		File.WriteAllText(fullPath, json, Encoding.UTF8);
-		/*
-	}
-	catch (Exception e)
-	{
-		Console.WriteLine($"Error saving file {filePath}: {e.Message}");
-	}
-	*/
+		catch (Exception e)
+		{
+			Console.WriteLine($"Error saving file {filePath}: {e.Message}");
+		}
 	}
 
 	static string Hash(this string input)
@@ -64,6 +60,9 @@ public static class FileHelper
 		{
 			if (saveType == SaveType.AUTO)
 			{
+				if (!Directory.Exists(folderPath[saveType]))
+					return default;
+
 				foreach (string fileName in Directory.EnumerateFiles(folderPath[saveType]))
 				{
 					if (!fileName.Contains("tbogv_"))
@@ -87,8 +86,6 @@ public static class FileHelper
 					}
 					else
 						File.Delete(fileName);
-
-
 				}
 			}
 

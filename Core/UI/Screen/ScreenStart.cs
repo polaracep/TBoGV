@@ -10,6 +10,7 @@ public class ScreenStart : Screen
     private Button startButton;
     private Button settingsButton;
     private Button creditsButton;
+    private Button exitButton;
 
     private Texture2D logo = TextureManager.GetTexture("tbogv");
 
@@ -28,6 +29,10 @@ public class ScreenStart : Screen
         creditsButton = new Button("Tvořiči", LargerFont, () =>
         {
             TBoGVGame.screenCurrent = new ScreenCredits(graphics, this);
+        });
+        exitButton = new Button("Vypadni!!", LargerFont, () =>
+        {
+            GameManager.Exit();
         });
     }
 
@@ -66,6 +71,9 @@ public class ScreenStart : Screen
         creditsButton.Position = new Vector2(menuX - (creditsButton.GetRect().Width / 2), viewport.Height * 80 / 100);
         creditsButton.Draw(_spriteBatch);
 
+        exitButton.Position = new Vector2(menuX - (exitButton.GetRect().Width / 2), viewport.Height * 90 / 100);
+        exitButton.Draw(_spriteBatch);
+
         _spriteBatch.End();
 
     }
@@ -76,5 +84,6 @@ public class ScreenStart : Screen
         startButton.Update(mouseState);
         settingsButton.Update(mouseState);
         creditsButton.Update(mouseState);
+        exitButton.Update(mouseState);
     }
 }

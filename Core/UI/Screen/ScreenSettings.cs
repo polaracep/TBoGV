@@ -29,7 +29,6 @@ public class ScreenSettings : Screen
         });
         var list = Settings.SettingsList;
 
-        // MemberInfo[] a = ;
         int hp = v.Height / (list.Count + 4); // Pad 2 top and 2 bottom
 
         foreach (var (setting, index) in list.Select((setting, index) => (setting, index)))
@@ -47,7 +46,7 @@ public class ScreenSettings : Screen
                     (bool)setting.Value,
                     x => setting.Value = x));
             }
-            else if (t == typeof(double))
+            else if (t == typeof(double) || t == typeof(float))
             {
                 settingElements.Add(new Slider(0f, 1f,
                     Convert.ToSingle(setting.Value), v.Width / 10, 10,

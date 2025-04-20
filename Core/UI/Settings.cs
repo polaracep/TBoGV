@@ -74,7 +74,8 @@ public static class Settings
         var data = FileHelper.Load<Dictionary<string, object>>(settingsPath, SaveType.GENERIC);
         if (data == null)
             Save();
-        Deserialize(data);
+        else
+            Deserialize(data);
 
         Skibidi.Value = false;
     }
