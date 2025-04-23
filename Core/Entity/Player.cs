@@ -211,8 +211,10 @@ public class Player : Entity, IRecieveDmg, IDealDmg
             {
                 Vector2 testPosition = new Vector2(Position.X + stepX, Position.Y);
                 if (!place.ShouldCollideAt(
-                    new Rectangle((int)testPosition.X + BBox.X, (int)testPosition.Y + BBox.Y, BBox.Width, BBox.Height)))
-                {
+                    new Rectangle((int)testPosition.X + BBox.X, (int)testPosition.Y + BBox.Y, BBox.Width, BBox.Height),
+					Inventory.GetEffect().Contains(EffectTypes.JUMP)))
+                
+				{
                     Position.X += stepX;
                 }
                 else
@@ -233,7 +235,8 @@ public class Player : Entity, IRecieveDmg, IDealDmg
                 Vector2 testPosition = new Vector2(Position.X, Position.Y + stepY);
 
                 if (!place.ShouldCollideAt(
-                    new Rectangle((int)testPosition.X + BBox.X, (int)testPosition.Y + BBox.Y, BBox.Width, BBox.Height)))
+                    new Rectangle((int)testPosition.X + BBox.X, (int)testPosition.Y + BBox.Y, BBox.Width, BBox.Height),
+					Inventory.GetEffect().Contains(EffectTypes.JUMP)))
                 {
                     Position.Y += stepY;
                 }

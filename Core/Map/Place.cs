@@ -132,13 +132,13 @@ public abstract class Place : IDraw
         else
             return (t.Item1?.DoCollision ?? false) || (t.Item2?.DoCollision ?? false);
     }
-    public bool ShouldCollideAtGrid(Vector2 Coords)
+    public bool ShouldCollideAtGrid(Vector2 Coords, bool ignoreDecoration = false)
     {
         Tile tf = Floor[(int)Coords.X, (int)Coords.Y];
         Tile td = Decorations[(int)Coords.X, (int)Coords.Y];
-        return (tf?.DoCollision ?? false) || (td?.DoCollision ?? false);
+		return (tf?.DoCollision ?? false) || (td?.DoCollision == true && !ignoreDecoration);
     }
-    public bool ShouldCollideAt(Rectangle rect)
+    public bool ShouldCollideAt(Rectangle rect, bool ignoreDecoration = false)
     {
         //experimental
         Vector2 tileSize = Tile.GetSize();
@@ -155,7 +155,7 @@ public abstract class Place : IDraw
             for (int y = startY; y <= endY; y++)
             {
                 Vector2 tileCoords = new Vector2(x, y);
-                if (ShouldCollideAtGrid(tileCoords))
+                if (ShouldCollideAtGrid(tileCoords, ignoreDecoration))
                     return true; // If any tile collides, return true
             }
         }
