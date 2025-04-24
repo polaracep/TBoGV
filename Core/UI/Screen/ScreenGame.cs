@@ -245,6 +245,11 @@ public class ScreenGame : Screen
         {
             Reset();
         }
+        if (keyboardState.IsKeyDown(Keys.I) && previousKeyboardState.IsKeyUp(Keys.I) && activeMenu == null)
+        {
+            if (activeMenu == null)
+                nextMenu = new InGameMenuPauseNoOverlay(_viewport);
+        }
 #endif
 
     }
