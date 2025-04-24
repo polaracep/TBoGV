@@ -8,7 +8,7 @@ Epická úžasná nepřekonatelná hra odehrávající se na gymvodu[^1] (takhle
 
 [Tady](https://github.com/polaracep/TBoGV/releases/latest) najdeš vždy nejnovější zkompilovaný release.
 
-Windows ti možná napíše error, ale buď v klidu, žádný vir tam není. Spustíš to když zmáčkneš `více informací`.
+Windows ti možná napíše error, ale buď v klidu, žádný vir tam není. Spustíš to když zmáčkneš `Další informace`.
 Pokud jsi paranoidní, koukni na [Building](#building)
 
 ## Building
